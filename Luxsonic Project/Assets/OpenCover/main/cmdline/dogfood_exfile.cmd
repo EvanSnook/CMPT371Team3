@@ -1,1 +1,0 @@
-OpenCover.Console.exe -register:user -hideskipped:all -target:..\..\..\main\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe -targetargs:"OpenCover.Test.dll --where:cat!=AdminOnly --x86" -excludebyfile:*\ProfilerRegistration.* -filter:"+[Open*]* -[OpenCover.T*]*" -output:opencovertests.xml

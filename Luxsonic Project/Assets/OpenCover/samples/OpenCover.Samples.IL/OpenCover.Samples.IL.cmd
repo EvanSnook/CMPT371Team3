@@ -1,1 +1,0 @@
-ilasm /OUTPUT=..\bin\OpenCover.Samples.IL.dll /DLL /DEBUG /PDB /RES=OpenCover.Samples.IL.res /KEY=..\..\build\version\opencover.test.snk OpenCover.Samples.IL.il
