@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+/// <summary>
+/// Stops an image from leaving the boundary of the parent object
+/// </summary>
 public class Display2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 
@@ -41,6 +44,7 @@ public class Display2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void Update()
     {
+        // If the mouse has been depressed
         if (mouseDown)
         {
             Vector3 currentPos = Input.mousePosition;
@@ -48,16 +52,18 @@ public class Display2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Vector3 pos = startPos + diff;
             transform.position = pos;
 
+            // Check the boundaries and see if the object is still in them
             if (transform.localPosition.x < 0 - ((ParentRT.rect.width / 2) - myWidth) || transform.localPosition.x > ((ParentRT.rect.width / 2) - myWidth))
-                restrictX = true;
+                restrictX = true;   // The object has left the boundaries
             else
-                restrictX = false;
+                restrictX = false;  
 
             if (transform.localPosition.y < 0 - ((ParentRT.rect.height / 2) - myHeight) || transform.localPosition.y > ((ParentRT.rect.height / 2) - myHeight))
                 restrictY = true;
             else
                 restrictY = false;
 
+            // If we need to stop the object from leaving the boundaries, do so
             if (restrictX)
             {
                 if (transform.localPosition.x < 0)
