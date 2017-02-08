@@ -7,7 +7,7 @@ using UnityEngine;
 namespace UnityTest
 {
     [TestFixture]
-    [Category("Unit Tests")]
+    [Category("Sample Tests")]
     internal class SampleTests
     {
         [Test]
@@ -15,11 +15,5 @@ namespace UnityTest
         {
             Assert.Pass();
         }
-
-		[Test]
-		public void FailingTest()
-		{
-			Assert.Fail();
-		}
     }
 }
