@@ -10,15 +10,6 @@ namespace UnityTest
     [Category("Sample Tests")]
     internal class SampleTests
     {
-        /*
-        [Test]
-        [Category("Failing Tests")]
-        public void FailingTest()
-        {
-            Assert.Fail();
-        }
-        */
-
         [Test]
         public void PassingTest()
         {
