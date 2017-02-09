@@ -10,12 +10,11 @@ using UnityEngine;
 /// </summary>
 public class Display : MonoBehaviour {
 
-    private const float BUTTON_WIDTH = 150;
-    private const float BUTTON_HEIGHT = 100;
+    private const float BUTTON_WIDTH = 100;
+    private const float BUTTON_HEIGHT = 50;
     
-    private Transform position;     // The position of the display object in world space
-    private SpriteRenderer imageRenderer;   // The image to render on the display object 
-
+    public Transform myTransform;     // The transform of the display object in world space
+    public SpriteRenderer imageRenderer;   // The image to render on the display object 
     public bool isCurrentImage;     // Determines if this instance of a display object is currently selected
     public float imageBrightness;   // The brigtness of the display
     public float imageContrast;     // The contrast of the display
@@ -24,12 +23,15 @@ public class Display : MonoBehaviour {
 
 
     /// <summary>
-    /// Constructor for the display class
+    /// Constructor for the display class.
+    /// Creates a new display object with the Texture2D converted to a sprite stored
+    /// in the imageRenderer component.
     /// </summary>
     /// <param name="image"> A Texture2D to use as the image to display </param>
     public Display(Texture2D image)
     {
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        this.myTransform = this.GetComponent<Transform>();
     } 
 
     // TODO: Add touch controller interactibitliy
@@ -40,38 +42,49 @@ public class Display : MonoBehaviour {
     /// </summary>
     public void OnGUI()
     {
+        // Convert the world point of the display to a screen point
+        Vector3 displayScreenPoint = Camera.main.WorldToScreenPoint(myTransform.position);
+
+        // The positions of the buttons, relative to the calculated screen point of the display.
+        Vector3 contrastButtonPosition = displayScreenPoint + new Vector3(0, 0, 0);
+        Vector3 rotateButtonPosition = displayScreenPoint + new Vector3(100, 0, 0);
+        Vector3 zoomButtonPosition = displayScreenPoint + new Vector3(200, 0, 0);
+        Vector3 brightnessButtonPosition = displayScreenPoint + new Vector3(200, 50, 0);
+        Vector3 resizeButtonPosition = displayScreenPoint + new Vector3(0, 50, 0);
+        Vector3 filterButtonPosition = displayScreenPoint + new Vector3(100, 50, 0);
+
         // The contrast button
-        if(GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Contrast"))
+        if (GUI.Button(new Rect(contrastButtonPosition.x, Screen.height - contrastButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Contrast"))
         {
             // Instantiate(ContrastBar)
         }
 
         // The rotate button
-        if (GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Rotate"))
+        if (GUI.Button(new Rect(rotateButtonPosition.x, Screen.height - rotateButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Rotate"))
         {
             // Instantiate(RotateBar)
         }
 
         // The zoom button
-        if (GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Zoom"))
+        if (GUI.Button(new Rect(zoomButtonPosition.x, Screen.height - zoomButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Zoom"))
         {
             // Instantiate(ZoomBar)
         }
 
         // The brightness button
-        if (GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Brightness"))
+        if (GUI.Button(new Rect(brightnessButtonPosition.x, Screen.height - brightnessButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Brightness"))
         {
             // Instantiate(BrightnessBar)
         }
 
         // The resize button
-        if (GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Resize"))
+        if (GUI.Button(new Rect(resizeButtonPosition.x, Screen.height - resizeButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Resize"))
         {
             // Instantiate(ResizeBar)
         }
 
         // The filter button
-        if (GUI.Button(new Rect(10, 10, BUTTON_WIDTH, BUTTON_HEIGHT), "Filter"))
+        if (GUI.Button(new Rect(filterButtonPosition.x, Screen.height - filterButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Filter"))
         {
             // Instantiate(FilterBar)
         }
