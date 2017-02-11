@@ -11,7 +11,7 @@ using UnityEngine;
         [Test]
         public void PassingTest()
         {
-            BrightnessSlider bs = new BrightnessSlider();
+            //BrightnessSlider bs = new BrightnessSlider();
             Assert.Pass();
         }
     }
