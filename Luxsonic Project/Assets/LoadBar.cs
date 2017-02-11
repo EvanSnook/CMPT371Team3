@@ -2,98 +2,72 @@
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Security.Permissions;
 using UnityEngine;
+using UnityEditor;
 
 public class LoadBar : MonoBehaviour
 {
-
-    //True while pictures are still being loaded
+    //Is the file browser displayed?
     bool loading;
 
-    //List of file paths
-    List<string> files;
+    //skins and textures
+    public GUISkin[] skins;
+    public Texture2D file, folder, back, drive;
 
+    string[] layoutTypes = { "Type 0", "Type 1" };
+    //initialize file browser
+    FileBrowser fb = new FileBrowser();
+    string output = "no file";
     // Use this for initialization
     void Start()
     {
         loading = true;
-        files = new List<string>();
+        //set the various textures
+        fb.fileTexture = file;
+        fb.directoryTexture = folder;
+        fb.backTexture = back;
+        fb.driveTexture = drive;
+        //show the search bar, flase since we will not have keyboard implementation
+        fb.showSearch = false;
+        //search recursively (setting recursive search may cause a long delay)
+        fb.searchRecursively = false;
     }
 
-    void OnGUI()
-    {
-        if (loading)
-        {
-            GUI.Box(new Rect(0, 0, 200, 200), "Loading Images");
-            loadImages();
-        }
-    }
+    void OnGUI() {
+        GUILayout.BeginHorizontal();
+		GUILayout.BeginVertical();
+		GUILayout.Label("Layout Type");
+		fb.setLayout(GUILayout.SelectionGrid(fb.layoutType,layoutTypes,1));
+		GUILayout.Space(10);
+		//select from available gui skins
+		GUILayout.Label("GUISkin");
+		foreach(GUISkin s in skins){
+			if(GUILayout.Button(s.name)){
+				fb.guiSkin = s;
+			}
+		}
+		GUILayout.Space(10);
 
-    void DirSearch(string sDir)
-    {
-        //try
-        //{
-        string[] direct = Directory.GetDirectories(sDir);
-        for (int d = 0; d < direct.Length; d++)
-        {
-            try
+		GUILayout.EndVertical();
+		GUILayout.Space(10);
+		GUILayout.Label("Selected File: "+output);
+		GUILayout.EndHorizontal();
+		//draw and display output
+		if(fb.draw()){
+            //If the user selects 'cancel', the browser should quit
+            //If the user selects an image, then the destination is saved and sent
+            if (fb.outputFile == null)
             {
-                foreach (string f in Directory.GetFiles(direct[d], "*.dcm"))
-                {
-                    files.Add(f);
-                }
+                output = "Cancel Hit";
+                this.enabled = false;
             }
-            catch (UnauthorizedAccessException)
+            else
             {
-                Debug.Log("caught the exception");
-            }
-            try
-            {
-                DirSearch(direct[d]);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Debug.Log("Caught another exception");
-            }
-            // }
-            //catch (UnauthorizedAccessException)
-            //{
-            //  Debug.Log("Restricted file found, must ignore");
-            //  Debug.Log(sDir);
-            //  Debug.Log("Restricted file above, must ignore");
-            //}
-        }
-    }
+                fb.outputFile.ToString();
 
-    void loadImages()
-    {
-        while (loading)
-        {
-            Debug.Log("About to load images");
-            DirSearch(@"c:\");
-            Debug.Log(files.Count);
-            loading = false;
-
-            //string dicomDirectory = Path.GetFullPath(@"DICOMImages");
-            /*
-            try
-            {
-                string[] dicomDirectory = Directory.GetDirectories(@"c:\", "DICOMImages", SearchOption.AllDirectories);
-                Debug.Log(dicomDirectory.Length);
             }
-            catch(UnauthorizedAccessException)
-            {
-                Debug.Log("Restricted File found, will not search it.");
-            }
-            finally { }
-           // DirectoryInfo directory = new DirectoryInfo(dicomDirectory);
-            //FileInfo[] info = directory.GetFiles();
-            //Debug.Log(info.Length);
-            loading = false;
-                }
-    }*/
-        }
-    }
+		}
+	}
 
 }
-
