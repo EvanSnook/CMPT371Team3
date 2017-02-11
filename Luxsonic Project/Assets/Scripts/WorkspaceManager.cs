@@ -9,6 +9,8 @@ public class WorkspaceManager : MonoBehaviour {
     [SerializeField]
     private float buttonHeight = 50;
 
+    public GameObject loadBar;
+
     public Transform myTransform;
 
     public void Start()
@@ -27,7 +29,7 @@ public class WorkspaceManager : MonoBehaviour {
         // The loadbutton
         if (GUI.Button(new Rect(loadButtonPosition.x, Screen.height - loadButtonPosition.y, buttonWidth, buttonHeight), "Load Image"))
         {
-            // Bring up the load screen
+            Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
         }
     }
 }

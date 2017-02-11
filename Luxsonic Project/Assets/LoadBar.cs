@@ -91,7 +91,7 @@ public class LoadBar : MonoBehaviour
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(10, 10);
         image.LoadImage(dicomImage);
-        //SendMessage("AddImage", image);// Kyle and Heramb, this is the function to add an image to the List
+        SendMessage("AddImage", image);
         this.enabled = false;
     }
 
