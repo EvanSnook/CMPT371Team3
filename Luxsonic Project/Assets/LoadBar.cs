@@ -82,6 +82,11 @@ public class LoadBar : MonoBehaviour
             return;
         }
         byte[] dicomImage = File.ReadAllBytes(file.ToString());
+        //We also can't do anything with an empty file
+        if(dicomImage.Length < 1)
+        {
+            return;
+        }
         Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(10, 10);
