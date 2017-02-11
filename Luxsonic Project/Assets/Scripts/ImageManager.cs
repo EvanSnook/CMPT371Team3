@@ -19,7 +19,7 @@ public class ImageManager : MonoBehaviour {
     public float trayIncrementor;   // The distance between each thumbnail
 
     List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
-    List<Display> displays = new List<Display>();   // The list of displays currently in view
+    List<GameObject> displays = new List<GameObject>();   // The list of displays currently in view
     List<GameObject> thumbnails = new List<GameObject>();   // The list of thumbnails being displayed in the tray
 
     public GameObject thumbnail;    // The object to use as a thumbnail
@@ -33,6 +33,7 @@ public class ImageManager : MonoBehaviour {
     {
         Assert.IsNotNull(image, "Image passed into ImageManager is null");
         images.Add(image);
+        CreateTray();
     }
 
     /// <summary>
@@ -67,10 +68,12 @@ public class ImageManager : MonoBehaviour {
     /// Instantiate a new display in the space at the center of the user's view
     /// </summary>
     public void CreateDisplay(Texture2D image) {
-        //Display newDisp = Instantiate(displayObj, Camera.main.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane)));
-        //newDisp.CreateDisplay(image);
-        //displays.Add(newDisp);
-        //FirePoint.transform.position = Camera.main.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+        Assert.IsNotNull(image, "Creating new display from ImageManager image was null");
+        Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+        GameObject newDisp = Instantiate(displayObj, trans, new Quaternion(0,0,0,0));
+        Display disp = newDisp.GetComponent<Display>();
+        disp.NewDisplay(image);
+        displays.Add(newDisp);  
     }
 
 }

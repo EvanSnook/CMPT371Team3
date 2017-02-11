@@ -24,12 +24,11 @@ public class Display : MonoBehaviour {
     public float currentSize;       // The current size of the display
 
     /// <summary>
-    /// Constructor for the display class.
     /// Creates a new display object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
     /// </summary>
     /// <param name="image"> A Texture2D to use as the image to display </param>
-    public Display(Texture2D image)
+    public void NewDisplay(Texture2D image)
     {
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         this.myTransform = this.GetComponent<Transform>();
