@@ -14,7 +14,7 @@ public class Display : MonoBehaviour {
     private float buttonWidth = 100;
     [SerializeField]
     private float buttonHeight = 50;
-    
+
     public Transform myTransform;     // The transform of the display object in world space
     public SpriteRenderer imageRenderer;   // The image to render on the display object 
     public bool isCurrentImage;     // Determines if this instance of a display object is currently selected
@@ -48,12 +48,13 @@ public class Display : MonoBehaviour {
             Vector3 displayScreenPoint = Camera.main.WorldToScreenPoint(myTransform.position);
 
             // The positions of the buttons, relative to the calculated screen point of the display.
-            Vector3 contrastButtonPosition = displayScreenPoint + new Vector3(0, 0, 0);
-            Vector3 rotateButtonPosition = displayScreenPoint + new Vector3(100, 0, 0);
-            Vector3 zoomButtonPosition = displayScreenPoint + new Vector3(200, 0, 0);
-            Vector3 brightnessButtonPosition = displayScreenPoint + new Vector3(200, 50, 0);
-            Vector3 resizeButtonPosition = displayScreenPoint + new Vector3(0, 50, 0);
-            Vector3 filterButtonPosition = displayScreenPoint + new Vector3(100, 50, 0);
+            Vector3 contrastButtonPosition = displayScreenPoint - new Vector3(0, 0, 0);
+            Vector3 rotateButtonPosition = displayScreenPoint - new Vector3(buttonWidth, 0, 0);
+            Vector3 zoomButtonPosition = displayScreenPoint - new Vector3(buttonWidth*2, 0, 0);
+            Vector3 brightnessButtonPosition = displayScreenPoint - new Vector3(buttonWidth*2, buttonHeight, 0);
+            Vector3 resizeButtonPosition = displayScreenPoint - new Vector3(0, buttonHeight, 0);
+            Vector3 filterButtonPosition = displayScreenPoint - new Vector3(buttonWidth, buttonHeight, 0);
+            Vector3 closeButtonPosition = displayScreenPoint - new Vector3(buttonWidth, buttonHeight*2, 0);
 
             // The contrast button
             if (GUI.Button(new Rect(contrastButtonPosition.x, Screen.height - contrastButtonPosition.y, buttonWidth, buttonHeight), "Contrast"))
@@ -89,6 +90,12 @@ public class Display : MonoBehaviour {
             if (GUI.Button(new Rect(filterButtonPosition.x, Screen.height - filterButtonPosition.y, buttonWidth, buttonHeight), "Filter"))
             {
                 // Instantiate(FilterBar)
+            }
+
+            // The close button
+            if (GUI.Button(new Rect(closeButtonPosition.x, Screen.height - closeButtonPosition.y, buttonWidth, buttonHeight), "Close"))
+            {
+                Destroy(this.gameObject);
             }
         }
     }

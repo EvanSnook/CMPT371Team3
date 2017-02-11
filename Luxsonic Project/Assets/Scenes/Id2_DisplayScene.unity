@@ -224,11 +224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf90ab90e6048a4187dda10c428fc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonWidth: 0
-  buttonHeight: 0
+  buttonWidth: 100
+  buttonHeight: 50
   myTransform: {fileID: 211457436}
   imageRenderer: {fileID: 0}
-  isCurrentImage: 0
+  isCurrentImage: 1
   imageBrightness: 0
   imageContrast: 0
   imageRotation: {x: 0, y: 0, z: 0}
