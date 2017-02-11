@@ -4,8 +4,6 @@ using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace UnityTest
-{
     [TestFixture]
     [Category("Sample Tests")]
     internal class SampleTests
@@ -13,7 +11,7 @@ namespace UnityTest
         [Test]
         public void PassingTest()
         {
+            //BrightnessSlider bs = new BrightnessSlider();
             Assert.Pass();
         }
     }
-}
