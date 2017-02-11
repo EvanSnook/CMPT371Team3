@@ -17,6 +17,7 @@ public class ImageManager : MonoBehaviour {
     public int trayNumColumns;      // The number of columns for the tray to display
     public int trayNumRows;         // The number of rows for the tray to display
     public float trayIncrementor;   // The distance between each thumbnail
+    public float trayThumbnailScale;
 
     List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
     List<GameObject> displays = new List<GameObject>();   // The list of displays currently in view
@@ -58,8 +59,9 @@ public class ImageManager : MonoBehaviour {
             {
                 break;
             }
-            GameObject newThumb = Instantiate(thumbnail, new Vector3(x, trayDepth, z), new Quaternion(0, 0, 0, 0));
+            GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
             newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+            newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
             thumbnails.Add(newThumb);
         }
     }
