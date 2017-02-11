@@ -23,6 +23,7 @@ public class ImageManager : MonoBehaviour {
     List<GameObject> thumbnails = new List<GameObject>();   // The list of thumbnails being displayed in the tray
 
     public GameObject thumbnail;    // The object to use as a thumbnail
+    public GameObject displayObj;   // The object to use as a display
 
     /// <summary>
     /// Add an image to the list of loaded images
@@ -56,17 +57,19 @@ public class ImageManager : MonoBehaviour {
             {
                 break;
             }
-            Instantiate(thumbnail, new Vector3(x, trayDepth, z), new Quaternion(0, 0, 0, 0));
-            thumbnail.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-            thumbnails.Add(thumbnail);
+            GameObject newThumb = Instantiate(thumbnail, new Vector3(x, trayDepth, z), new Quaternion(0, 0, 0, 0));
+            newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+            thumbnails.Add(newThumb);
         }
     }
 
     /// <summary>
     /// Instantiate a new display in the space at the center of the user's view
     /// </summary>
-    public void CreateDisplay() {
-        //Display currentDisplay = new Display(Texture2D);
+    public void CreateDisplay(Texture2D image) {
+        //Display newDisp = Instantiate(displayObj, Camera.main.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane)));
+        //newDisp.CreateDisplay(image);
+        //displays.Add(newDisp);
         //FirePoint.transform.position = Camera.main.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
     }
 
