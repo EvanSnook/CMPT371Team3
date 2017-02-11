@@ -10,8 +10,10 @@ using UnityEngine;
 /// </summary>
 public class Display : MonoBehaviour {
 
-    private const float BUTTON_WIDTH = 100;
-    private const float BUTTON_HEIGHT = 50;
+    [SerializeField]
+    private float buttonWidth = 100;
+    [SerializeField]
+    private float buttonHeight = 50;
     
     public Transform myTransform;     // The transform of the display object in world space
     public SpriteRenderer imageRenderer;   // The image to render on the display object 
@@ -55,37 +57,37 @@ public class Display : MonoBehaviour {
             Vector3 filterButtonPosition = displayScreenPoint + new Vector3(100, 50, 0);
 
             // The contrast button
-            if (GUI.Button(new Rect(contrastButtonPosition.x, Screen.height - contrastButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Contrast"))
+            if (GUI.Button(new Rect(contrastButtonPosition.x, Screen.height - contrastButtonPosition.y, buttonWidth, buttonHeight), "Contrast"))
             {
                 // Instantiate(ContrastBar)
             }
 
             // The rotate button
-            if (GUI.Button(new Rect(rotateButtonPosition.x, Screen.height - rotateButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Rotate"))
+            if (GUI.Button(new Rect(rotateButtonPosition.x, Screen.height - rotateButtonPosition.y, buttonWidth, buttonHeight), "Rotate"))
             {
                 // Instantiate(RotateBar)
             }
 
             // The zoom button
-            if (GUI.Button(new Rect(zoomButtonPosition.x, Screen.height - zoomButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Zoom"))
+            if (GUI.Button(new Rect(zoomButtonPosition.x, Screen.height - zoomButtonPosition.y, buttonWidth, buttonHeight), "Zoom"))
             {
                 // Instantiate(ZoomBar)
             }
 
             // The brightness button
-            if (GUI.Button(new Rect(brightnessButtonPosition.x, Screen.height - brightnessButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Brightness"))
+            if (GUI.Button(new Rect(brightnessButtonPosition.x, Screen.height - brightnessButtonPosition.y, buttonWidth, buttonHeight), "Brightness"))
             {
                 // Instantiate(BrightnessBar)
             }
 
             // The resize button
-            if (GUI.Button(new Rect(resizeButtonPosition.x, Screen.height - resizeButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Resize"))
+            if (GUI.Button(new Rect(resizeButtonPosition.x, Screen.height - resizeButtonPosition.y, buttonWidth, buttonHeight), "Resize"))
             {
                 // Instantiate(ResizeBar)
             }
 
             // The filter button
-            if (GUI.Button(new Rect(filterButtonPosition.x, Screen.height - filterButtonPosition.y, BUTTON_WIDTH, BUTTON_HEIGHT), "Filter"))
+            if (GUI.Button(new Rect(filterButtonPosition.x, Screen.height - filterButtonPosition.y, buttonWidth, buttonHeight), "Filter"))
             {
                 // Instantiate(FilterBar)
             }
