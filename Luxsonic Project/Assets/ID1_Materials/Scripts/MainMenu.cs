@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         displayGUI = true;
-        testing1 = GetComponentInChildren<SpriteRenderer>();//For testing DELETE
+        //testing1 = GetComponentInChildren<SpriteRenderer>();//For testing DELETE
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
 
             //Start button should download the DICOM files from the specified directory
             if (GUI.Button(new Rect(12.5f, buttonPosY1, buttonWidth, buttonLength), "Start"))
-            {
+            {/*
                 //Working on searching all files for a universal DICOM file with pngs
                 //string[] paths = Directory.GetDirectories(@"C:\", "D*");
                 //print(paths.Length);
@@ -58,7 +58,7 @@ public class MainMenu : MonoBehaviour
                 
                 //print(info.Length);
                 //testing1.sprite = Sprite.Create(testpic, new Rect(0, 0, testpic.width, testpic.height), new Vector2(0.5f, 0.5f));
-                displayGUI = false;
+                displayGUI = false;*/
             }
             //Quit button should simply exit the application
             if (GUI.Button(new Rect(12.5f, buttonPosY2, buttonWidth, buttonLength), "Quit"))

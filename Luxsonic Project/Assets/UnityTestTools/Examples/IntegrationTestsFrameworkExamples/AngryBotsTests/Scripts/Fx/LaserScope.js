@@ -1,4 +1,4 @@
-#pragma strict 
+/*#pragma strict
 
 @script RequireComponent (PerFrameRaycast)
 
@@ -43,6 +43,8 @@ function Update () {
 
 	var aniFactor : float = Mathf.PingPong (Time.time * pulseSpeed, 1.0);
 	aniFactor = Mathf.Max (minWidth, aniFactor) * maxWidth;
+	lRenderer.startWidth(aniFactor);
+	lRenderer.endWidth(aniFactor);
 	lRenderer.SetWidth (aniFactor, aniFactor);
 	
 	// Cast a ray to find out the end point of the laser
@@ -68,4 +70,4 @@ function Update () {
 		GetComponent.<Renderer>().material.mainTextureScale.x = 0.1 * (maxDist);		
 		GetComponent.<Renderer>().material.SetTextureScale ("_NoiseTex", Vector2 (0.1 * (maxDist) * noiseSize, noiseSize));		
 	}
-}
+}*/
