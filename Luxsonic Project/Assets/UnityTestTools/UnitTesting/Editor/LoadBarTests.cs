@@ -5,9 +5,7 @@ using NUnit.Framework;
 using System.IO;
 //using class LoadBar;
 
-
-
-    [TestFixture]
+[TestFixture]
     [Category("LoadBar test")]
     internal class LoadBarTest
     {
