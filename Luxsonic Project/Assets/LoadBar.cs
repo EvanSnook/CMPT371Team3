@@ -74,8 +74,13 @@ public class LoadBar : MonoBehaviour
     //Preconditions: FileInfo file, the file to be converted
     //Postconditions: updated ImageManager list and disabling the file-browser GUI
     //Return: Nothing
-    private void ConvertAndSendImage(FileInfo file)
+    public void ConvertAndSendImage(FileInfo file)
     {
+        //We can't do anything with a null file
+        if(file == null)
+        {
+            return;
+        }
         byte[] dicomImage = File.ReadAllBytes(file.ToString());
         Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
         //From bytes, this is where we will call and write the code to decipher DICOMs
@@ -84,5 +89,7 @@ public class LoadBar : MonoBehaviour
         //SendMessage("AddImage", image);// Kyle and Heramb, this is the function to add an image to the List
         this.enabled = false;
     }
+
+    
 
 }

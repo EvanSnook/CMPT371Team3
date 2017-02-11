@@ -6,7 +6,6 @@ using System.IO;
 //using class LoadBar;
 
 
-namespace UnityTest{
 
     [TestFixture]
     [Category("LoadBar test")]
@@ -15,8 +14,9 @@ namespace UnityTest{
         [Test]
         public void TestForNull()
         {
-            FileInfo file = new FileInfo("Test");
-           // ConvertAndSendImage(file);
+        LoadBar load = new LoadBar();
+        FileInfo file = new FileInfo("Test");
+        load.ConvertAndSendImage(file);
+
         }
     }
-}
