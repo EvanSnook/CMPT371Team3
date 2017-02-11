@@ -5,43 +5,40 @@ using System;
 using System.Security.Permissions;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Assertions;
 
 public class LoadBar : MonoBehaviour
 {
-    //Is the file browser displayed?
-    bool loading;
-
     //skins and textures
     public GUISkin[] skins;
     public Texture2D file, folder, back, drive;
 
-    string[] layoutTypes = { "Type 0", "Type 1" };
     //initialize file browser
     FileBrowser fb = new FileBrowser();
     string output = "no file";
+
     // Use this for initialization
     void Start()
     {
-        loading = true;
         //set the various textures
         fb.fileTexture = file;
         fb.directoryTexture = folder;
         fb.backTexture = back;
         fb.driveTexture = drive;
+
         //show the search bar, flase since we will not have keyboard implementation
         fb.showSearch = false;
+
         //search recursively (setting recursive search may cause a long delay)
         fb.searchRecursively = false;
     }
 
+
+    //Function OnGUI() is built into Unity and will display the desired Filebrowser for us
     void OnGUI() {
         GUILayout.BeginHorizontal();
 		GUILayout.BeginVertical();
-		GUILayout.Label("Layout Type");
-		fb.setLayout(GUILayout.SelectionGrid(fb.layoutType,layoutTypes,1));
 		GUILayout.Space(10);
-		//select from available gui skins
-		GUILayout.Label("GUISkin");
 		foreach(GUISkin s in skins){
 			if(GUILayout.Button(s.name)){
 				fb.guiSkin = s;
@@ -56,7 +53,7 @@ public class LoadBar : MonoBehaviour
 		//draw and display output
 		if(fb.draw()){
             //If the user selects 'cancel', the browser should quit
-            //If the user selects an image, then the destination is saved and sent
+            //If the user selects an image, then it will be sent to the ImageManager
             if (fb.outputFile == null)
             {
                 output = "Cancel Hit";
@@ -64,10 +61,28 @@ public class LoadBar : MonoBehaviour
             }
             else
             {
-                fb.outputFile.ToString();
-
+                Assert.IsNotNull(fb.outputFile, "The file slected by the user should not be null");
+                ConvertAndSendImage(fb.outputFile);
+                Assert.IsFalse(this.enabled);
             }
 		}
 	}
+
+    //Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
+    //to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
+    //from it.
+    //Preconditions: FileInfo file, the file to be converted
+    //Postconditions: updated ImageManager list and disabling the file-browser GUI
+    //Return: Nothing
+    private void ConvertAndSendImage(FileInfo file)
+    {
+        byte[] dicomImage = File.ReadAllBytes(file.ToString());
+        Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
+        //From bytes, this is where we will call and write the code to decipher DICOMs
+        Texture2D image = new Texture2D(10, 10);
+        image.LoadImage(dicomImage);
+        //SendMessage("AddImage", image);// Kyle and Heramb, this is the function to add an image to the List
+        this.enabled = false;
+    }
 
 }
