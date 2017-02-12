@@ -171,6 +171,15 @@ public class Display : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Returns the list of buttons for this display
+    /// </summary>
+    /// <returns></returns>
+    public List<Button> GetButtons()
+    {
+        return this.buttons;
+    }
+
     ///// <summary>
     ///// Used to show the image option buttons
     ///// </summary>

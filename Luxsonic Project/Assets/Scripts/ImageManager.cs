@@ -79,4 +79,31 @@ public class ImageManager : MonoBehaviour {
         displays.Add(newDisp);  
     }
 
+    /// <summary>
+    /// Return the list of images in the manager
+    /// </summary>
+    /// <returns>A list of Texture2D elements</returns>
+    public List<Texture2D> GetImages()
+    {
+        return this.images;
+    }
+
+    /// <summary>
+    /// Return the list of thumbnails in the manager
+    /// </summary>
+    /// <returns>A list of Thumbnail objects</returns>
+    public List<GameObject> GetThumbnails()
+    {
+        return this.thumbnails;
+    }
+
+    /// <summary>
+    /// Returnt the list of displays in the manager
+    /// </summary>
+    /// <returns>A list of Display ojects</returns>
+    public List<GameObject> GetDisplays()
+    {
+        return this.displays;
+    }
+
 }
