@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A script to control the Workspace Manager menu system. 
+/// This script creates and defines the funcionality for the menu buttons.
+/// </summary>
 public class WorkspaceManager : MonoBehaviour {
 
     [SerializeField]
@@ -9,10 +13,10 @@ public class WorkspaceManager : MonoBehaviour {
     [SerializeField]
     private float buttonHeight = 50;
 
-    public GameObject loadBar;
+    public GameObject loadBar;  // The file system to load images with
 
-    public Transform myTransform;
-    public Button button;
+    public Transform myTransform;   
+    public Button button;       // The button object to use as a button
 
     public void Start()
     {
@@ -20,17 +24,30 @@ public class WorkspaceManager : MonoBehaviour {
         DisplayMenu();
     }
 
+    /// <summary>
+    /// Creates the buttons for the menu
+    /// </summary>
     public void DisplayMenu(){
+
+        // Create the load button to access the filesystem
         Button loadButton = Instantiate(button, new Vector3(0,0,0), new Quaternion(0, 0, 0, 0));
         loadButton.name = "load";
+        loadButton.manager = this.gameObject;
     }
+
+    /// <summary>
+    /// Called by a button object when it is interacted with.
+    /// </summary>
+    /// <param name="name">The name of the button</param>
     public void ButtonClicked(string name)
     {
+        // If the load button was clicked...
         if(name == "load")
         {
             Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
         }
     } 
+
     //public void OnGUI()
     //{
     //    // Convert the world point of the display to a screen point
