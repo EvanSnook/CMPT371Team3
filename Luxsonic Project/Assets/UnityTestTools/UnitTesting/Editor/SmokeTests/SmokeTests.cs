@@ -9,13 +9,12 @@ using NUnit.Framework;
 public class SmokeTests {
 
 	[Test]
-	public void OVRCheck()
-	{
-
+	[Category("Dependencies")]
+	public void OVRCheck(){
 		String addPath = "Assets/OVR";
-		String OVRPath = Path.Combine (getAssetPath(), addPath);
-		Console.WriteLine (OVRPath);
-		if (Directory.Exists (OVRPath)) {
+		String targetPath = Path.Combine (getAssetPath(), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
 			Assert.Pass ();
 		} else {
 			Assert.Fail ();
@@ -24,26 +23,75 @@ public class SmokeTests {
 
 
 	[Test]
-	public void OVRAvatarCheck()
-	{
-
+	[Category("Dependencies")]
+	public void OVRAvatarCheck(){
 		String addPath = "Assets/OvrAvatar";
-		String OVRPath = Path.Combine (getAssetPath(), addPath);
-		Console.WriteLine (OVRPath);
-		if (Directory.Exists (OVRPath)) {
+		String targetPath = Path.Combine (getAssetPath (), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
 			Assert.Pass ();
 		} else {
 			Assert.Fail ();
 		}
 	}
 
-
-	private String getAssetPath(){
-		String absPath = Directory.GetCurrentDirectory();
-		String relPath = "../../../";
-		String newString = Path.Combine (absPath, relPath);
-		String myNewString = Path.GetFullPath(newString);
-		return myNewString;
+	[Test]
+	[Category("Dependencies")]
+	public void gamePadBundleCheck(){
+		String addPath = "Assets/Plugins/OVRGamepad.bundle/Contents";
+		String targetPath = Path.Combine (getAssetPath (), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
+			Assert.Pass ();
+		} else {
+			Assert.Fail ();
+		}
 	}
 
+	[Test]
+	[Category("Dependencies")]
+	public void OVRAvatarSettingsCheck(){
+		String addPath = "Assets/Resources";
+		String targetPath = Path.Combine (getAssetPath (), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetFiles(targetPath).Length > 0)){
+			Assert.Pass ();
+		} else {
+			Assert.Fail ();
+		}
+	}
+
+	[Test]
+	[Category("Dependencies")]
+	public void imageEffectsCheck(){
+		String addPath = "Assets/Standard Assets/Editor/ImageEffects";
+		String targetPath = Path.Combine (getAssetPath (), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetFiles(targetPath).Length > 0)){
+			Assert.Pass ();
+		} else {
+			Assert.Fail ();
+		}
+	}
+
+	[Test]
+	[Category("Dependencies")]
+	public void EffectsCheck(){
+		String addPath = "Assets/Standard Assets/Effects";
+		String targetPath = Path.Combine (getAssetPath (), addPath);
+		Console.WriteLine (targetPath);
+		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
+			Assert.Pass ();
+		} else {
+			Assert.Fail ();
+		}
+	}
+		
+	private String getAssetPath(){
+		String absPath = Directory.GetCurrentDirectory ();
+		String newString = Directory.GetParent(absPath).FullName;
+		newString = Directory.GetParent(newString).FullName;
+		newString = Directory.GetParent(newString).FullName;
+		return newString;
+	}
 }
