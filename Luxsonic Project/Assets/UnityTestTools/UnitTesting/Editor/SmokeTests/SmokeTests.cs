@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using NUnit.Framework;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 
 [TestFixture]
 public class SmokeTests {
@@ -94,4 +97,15 @@ public class SmokeTests {
 		newString = Directory.GetParent(newString).FullName;
 		return newString;
 	}
+
+	[Test]
+	[Category("Scenes")]
+	public void defaultSceneCheck(){
+		if(EditorSceneManager.GetSceneByBuildIndex(0).IsValid()) {
+			Assert.Pass ();
+		} else {
+			Assert.Fail ();
+		}
+	}
+	 
 }
