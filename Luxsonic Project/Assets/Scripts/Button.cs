@@ -22,4 +22,9 @@ public class Button : MonoBehaviour {
         textObject = gameObject.GetComponentInChildren<TextMesh>();
         textObject.text = name;
 	}
+
+    void OnMouseDown()
+    {
+        manager.SendMessage("ButtonClicked", name);
+    }
 }

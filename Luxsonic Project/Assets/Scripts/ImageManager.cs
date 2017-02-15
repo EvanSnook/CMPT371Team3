@@ -17,7 +17,9 @@ public class ImageManager : MonoBehaviour {
     public int trayNumColumns;      // The number of columns for the tray to display
     public int trayNumRows;         // The number of rows for the tray to display
     public float trayIncrementor;   // The distance between each thumbnail
-    public float trayThumbnailScale;
+    public float trayThumbnailScale;// The scale for the images in the tray
+
+    public float displayDepth;
 
     List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
     List<GameObject> displays = new List<GameObject>();   // The list of displays currently in view
@@ -42,6 +44,12 @@ public class ImageManager : MonoBehaviour {
     /// </summary>
     public void CreateTray()
     {
+        // Destroy the current tray  TODO: Make more efficient
+        foreach (GameObject t in thumbnails)
+        {
+            Destroy(t);
+        }
+
         thumbnails.Clear(); // Clear the list so we can recalculate the thumbnails
         float x = trayStartX;
         float z = trayStartZ;
@@ -49,13 +57,13 @@ public class ImageManager : MonoBehaviour {
         // For each image in the list, create a thumbnail and display it in the tray
         foreach (Texture2D image in images)
         {
-            if(x>= trayNumColumns * trayIncrementor)
+            if(Mathf.Abs(x - trayStartX)>= trayNumColumns * trayIncrementor)
             {
                 x = trayStartX;
-                z += trayIncrementor;
+                z -= trayIncrementor;
             }
             x += trayIncrementor;
-            if( z >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
+            if( Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
             {
                 break;
             }
@@ -63,6 +71,7 @@ public class ImageManager : MonoBehaviour {
             newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
             newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
             newThumb.GetComponent<Thumbnail>().manager = this.gameObject;
+            newThumb.GetComponent<Thumbnail>().image = image;
             thumbnails.Add(newThumb);
         }
     }
@@ -73,6 +82,7 @@ public class ImageManager : MonoBehaviour {
     public void CreateDisplay(Texture2D image) {
         Assert.IsNotNull(image, "Creating new display from ImageManager image was null");
         Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+        trans.z = displayDepth;
         GameObject newDisp = Instantiate(displayObj, trans, new Quaternion(0,0,0,0));
         Display disp = newDisp.GetComponent<Display>();
         disp.NewDisplay(image);

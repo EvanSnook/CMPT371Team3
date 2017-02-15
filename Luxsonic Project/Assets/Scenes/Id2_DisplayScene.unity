@@ -181,13 +181,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42b176b16bfd8a4b89a31d7e1071e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trayStartX: 0
-  trayStartZ: 0
+  trayStartX: 880
+  trayStartZ: -150
   trayDepth: 0
   trayNumColumns: 3
   trayNumRows: 3
-  trayIncrementor: 150
-  trayThumbnailScale: 50
+  trayIncrementor: 120
+  trayThumbnailScale: 5
+  displayDepth: 50
   thumbnail: {fileID: 1328449969215324, guid: ec64dadee99018142abfe2909a5180f0, type: 2}
   displayObj: {fileID: 1930037738419080, guid: 92f5b414e4a249f43a08dea3aee0736c, type: 2}
 --- !u!4 &483316348
@@ -197,7 +198,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 483316346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 284.2, y: 130.73914, z: -601.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -322,6 +323,13 @@ MonoBehaviour:
   loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
   myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
+  loadButtonPositionX: 880
+  loadButtonPositionY: 10
+  loadButtonPositionZ: -250
+  loadButtonRotationX: 0
+  loadButtonRotationY: 28
+  loadButtonRotationZ: 0
+  dummyImage: {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
 --- !u!4 &1205193364
 Transform:
   m_ObjectHideFlags: 0
@@ -329,7 +337,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1205193362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 422, y: 98, z: -521}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -18,11 +18,23 @@ public class WorkspaceManager : MonoBehaviour {
     public Transform myTransform;   
     public Button button;       // The button object to use as a button
 
+    // Define where to instantiate the Load button
+    public float loadButtonPositionX;
+    public float loadButtonPositionY;
+    public float loadButtonPositionZ;
+    public float loadButtonRotationX;
+    public float loadButtonRotationY;
+    public float loadButtonRotationZ;
+
+    public Texture2D dummyImage;
+
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
         DisplayMenu();
     }
+
+    
 
     /// <summary>
     /// Creates the buttons for the menu
@@ -30,8 +42,10 @@ public class WorkspaceManager : MonoBehaviour {
     public void DisplayMenu(){
 
         // Create the load button to access the filesystem
-        Button loadButton = Instantiate(button, new Vector3(0,0,0), new Quaternion(0, 0, 0, 0));
-        loadButton.name = "load";
+        Button loadButton = Instantiate(button, new Vector3(loadButtonPositionX,loadButtonPositionY,loadButtonPositionZ), 
+            Quaternion.Euler(new Vector3(loadButtonRotationX, loadButtonRotationY, loadButtonRotationZ)));
+
+        loadButton.name = "Load";
         loadButton.manager = this.gameObject;
     }
 
@@ -42,9 +56,12 @@ public class WorkspaceManager : MonoBehaviour {
     public void ButtonClicked(string name)
     {
         // If the load button was clicked...
-        if(name == "load")
+        if(name == "Load")
         {
-            Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            Debug.Log("Load button pressed!");
+            ImageManager imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<ImageManager>();
+            imageMan.AddImage(dummyImage);
+            //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
         }
     } 
 

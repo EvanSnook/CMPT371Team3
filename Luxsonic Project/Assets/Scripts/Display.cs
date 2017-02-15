@@ -16,6 +16,12 @@ public class Display : MonoBehaviour {
     [SerializeField]
     private float buttonHeight = 50;
 
+    public float buttonDepth;   // The spawning depth of the buttons
+                                // TODO: Figure out the actual scale for this matematically
+
+    private float buttonStartX;
+    private float buttonStartY;
+
     public Transform myTransform;     // The transform of the display object in world space
     public SpriteRenderer imageRenderer;   // The image to render on the display object 
     public bool isCurrentImage;     // Determines if this instance of a display object is currently selected
@@ -27,6 +33,7 @@ public class Display : MonoBehaviour {
 
     private List<Button> buttons = new List<Button>();
     public Button button;
+    
 
     /// <summary>
     /// Creates a new display object with the Texture2D converted to a sprite stored
@@ -35,9 +42,17 @@ public class Display : MonoBehaviour {
     /// <param name="image"> A Texture2D to use as the image to display </param>
     public void NewDisplay(Texture2D image)
     {
+        Assert.IsNotNull(image);
+        this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         this.myTransform = this.GetComponent<Transform>();
         this.buttonsVisible = false;
+
+        // Get the size of the image sprite and use it to form the bounding box
+        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
+        this.GetComponent<BoxCollider>().size = bbSize;
+        this.buttonStartX = bbSize.x;
+        this.buttonStartY = bbSize.y;
     }
 
 
@@ -48,6 +63,8 @@ public class Display : MonoBehaviour {
 
     void Update()
     {
+        Debug.Log("Current: " + this.isCurrentImage);
+        Debug.Log("Visible: " + this.buttonsVisible);
         // Check if we should create the buttons
         if (this.isCurrentImage && !this.buttonsVisible)
         {
@@ -68,13 +85,13 @@ public class Display : MonoBehaviour {
     /// </summary>
     public void DisplayButtons()
     {
-        Vector3 contrastButtonPosition = myTransform.position - new Vector3(0, 0, 0);
-        Vector3 rotateButtonPosition = myTransform.position - new Vector3(buttonWidth, 0, 0);
-        Vector3 zoomButtonPosition = myTransform.position - new Vector3(buttonWidth*2, 0, 0);
-        Vector3 brightnessButtonPosition = myTransform.position - new Vector3(buttonWidth*2, buttonHeight, 0);
-        Vector3 resizeButtonPosition = myTransform.position - new Vector3(0, buttonHeight, 0);
-        Vector3 filterButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight, 0);
-        Vector3 closeButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight*2, 0);
+        Vector3 contrastButtonPosition = myTransform.position - new Vector3(buttonStartX, buttonStartY, buttonDepth);
+        Vector3 rotateButtonPosition = myTransform.position - new Vector3(buttonWidth, 0, buttonDepth);
+        Vector3 zoomButtonPosition = myTransform.position - new Vector3(buttonWidth*2, 0, buttonDepth);
+        Vector3 brightnessButtonPosition = myTransform.position - new Vector3(buttonWidth*2, buttonHeight, buttonDepth);
+        Vector3 resizeButtonPosition = myTransform.position - new Vector3(0, buttonHeight, buttonDepth);
+        Vector3 filterButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight, buttonDepth);
+        Vector3 closeButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight*2, buttonDepth);
 
         // Create the buttons
         Button contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
@@ -103,7 +120,7 @@ public class Display : MonoBehaviour {
 
         Button closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
         closeButton.name = "Close";
-        contrastButton.manager = this.gameObject;
+        closeButton.manager = this.gameObject;
 
         // Add the buttons to the list of buttons
         buttons.Add(contrastButton);
@@ -161,7 +178,8 @@ public class Display : MonoBehaviour {
                 break;
 
             case "Close":    // Close button clicked
-                // TODO: Implement Close code
+                this.HideButtons();
+                Destroy(this.gameObject);
                 break;
 
             default:        // This should never happen
@@ -178,6 +196,14 @@ public class Display : MonoBehaviour {
     public List<Button> GetButtons()
     {
         return this.buttons;
+    }
+
+    /// <summary>
+    /// Used mainly for testing with a mouse
+    /// </summary>
+    private void OnMouseDown()
+    {
+        this.isCurrentImage = true;
     }
 
     ///// <summary>
