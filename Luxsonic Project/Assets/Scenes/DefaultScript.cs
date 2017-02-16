@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//This is a simple script for ID2 purposes only.  The user will be able choose between
+//selecting from a windowsscene with mouse click abilities and a VR scene where they can 
+//Interact with and grab an x-ray in VR.
+
 public class DefaultScript : MonoBehaviour {
 
 	// Use this for initialization
