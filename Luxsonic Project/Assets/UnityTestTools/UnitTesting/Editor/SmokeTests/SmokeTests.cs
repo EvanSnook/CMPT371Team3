@@ -76,11 +76,10 @@ public class SmokeTests {
 		return newString;
 	}
 
-    // this test cannot pass because of priviledges in unity editor
-	//[Test]
-	//[Category("Scenes")]
-	//public void defaultSceneCheck(){
-    //    Assert.IsTrue(EditorSceneManager.GetSceneByBuildIndex(0).IsValid()) ;
-	//}
+	[Test]
+	[Category("Scenes")]
+	public void defaultSceneCheck(){
+        Assert.IsTrue(EditorSceneManager.GetSceneByBuildIndex(0).IsValid()) ;
+	}
 	 
 }
