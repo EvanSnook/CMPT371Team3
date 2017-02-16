@@ -11,8 +11,19 @@ public class ImageManagerTests{
     [Test]
     public void TestAddImage()
     {
+        GameObject mannyObj = new GameObject();
+        mannyObj.AddComponent<ImageManager>();
+        ImageManager manny = mannyObj.GetComponent<ImageManager>();
         Texture2D tex = new Texture2D(100, 100);
-        ImageManager manny = new ImageManager();
+
+        GameObject thumbObject = new GameObject();
+        Thumbnail thumb = Substitute.For<Thumbnail>();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+
+        manny.thumbnail = thumbObject;
+
         manny.AddImage(tex);
 
         // The manager should have a non-empty list and should contain the texture we created.
@@ -56,9 +67,27 @@ public class ImageManagerTests{
         GameObject mannyObj = new GameObject();
         mannyObj.AddComponent<ImageManager>();
         ImageManager manny = mannyObj.GetComponent<ImageManager>();
-       
+
+
+        GameObject thumbObject = new GameObject();
+        Thumbnail thumb = Substitute.For<Thumbnail>();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+        GameObject dispObject = new GameObject();
+        Display disp = Substitute.For<Display>();
+        dispObject.AddComponent<Display>();
+        dispObject.AddComponent<SpriteRenderer>();
+        dispObject.AddComponent<BoxCollider>();
+        // 
+        //GameObject thumbObject = Substitute.For<GameObject>();
+        //thumbObject.AddComponent<Thumbnail>();
+
         Texture2D tex = new Texture2D(100, 100);
-        
+
+        manny.thumbnail = thumbObject;
+        manny.displayObj = dispObject;
+
         manny.CreateDisplay(tex);
 
         // The list of displays should not be empty
