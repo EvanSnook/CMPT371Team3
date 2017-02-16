@@ -5,9 +5,10 @@ using UnityEngine;
 using System.Threading;
 using NUnit.Framework;
 using System.IO;
+using UnityEditor;
 //using class LoadBar;
 
-namespace UnityTest
+namespace LoadBarTests
 {
     [TestFixture]
     [Category("Unit Tests")]
@@ -16,21 +17,18 @@ namespace UnityTest
         [Test]
         public void TestForNull()
         {
-            LoadBar load = new LoadBar();//Until NUnit error is figured out, these will be commented out
+            LoadBar load = new LoadBar();
             FileInfo file = null;
-            ImageManager testImage = new ImageManager();
             load.ConvertAndSendImage(file);
-            //Assert.Pass();
         }
 
         [Test]
         public void TestForCompleteImage()
         {
             LoadBar load = new LoadBar();
-            //FileInfo file = new FileInfo();
-            ImageManager testImage = new ImageManager();
-            //load.ConvertAndSendImage(file);
-            Assert.Pass();
+            FileInfo file = new FileInfo (@"Assets\Resources\Test.png");
+            load.imageManager = new GameObject();
+            load.ConvertAndSendImage(file);
         }
 
     }

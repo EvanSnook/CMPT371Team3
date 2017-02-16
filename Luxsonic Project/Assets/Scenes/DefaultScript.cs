@@ -29,7 +29,7 @@ public class DefaultScript : MonoBehaviour {
 
         if (GUI.Button(new Rect(12.5f, buttonPosY1, buttonWidth, buttonLength), "VR Scene"))
         {
-           // SceneManager.LoadScene(7);
+            SceneManager.LoadScene(2);
         }
         if(GUI.Button(new Rect(12.5f, buttonPosY2, buttonWidth, buttonLength), "Windows Scene"))
         {

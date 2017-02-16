@@ -14,9 +14,9 @@ public class ImageManager : MonoBehaviour {
     public float trayStartX;        // The top left x coordinate for the tray to display
     public float trayStartZ;        // The top left z coordinate for the tray to display
     public float trayDepth;         // The depth of the tray
-    public int trayNumColumns;      // The number of columns for the tray to display
-    public int trayNumRows;         // The number of rows for the tray to display
-    public float trayIncrementor;   // The distance between each thumbnail
+    public int trayNumColumns = 1;      // The number of columns for the tray to display, default 1
+    public int trayNumRows = 1;         // The number of rows for the tray to display, default 1
+    public float trayIncrementor = 1;   // The distance between each thumbnail
     public float trayThumbnailScale;// The scale for the images in the tray
 
     public float displayDepth;
@@ -53,7 +53,6 @@ public class ImageManager : MonoBehaviour {
         thumbnails.Clear(); // Clear the list so we can recalculate the thumbnails
         float x = trayStartX;
         float z = trayStartZ;
-
         // For each image in the list, create a thumbnail and display it in the tray
         foreach (Texture2D image in images)
         {
@@ -63,11 +62,14 @@ public class ImageManager : MonoBehaviour {
                 z -= trayIncrementor;
             }
             x += trayIncrementor;
+
             if( Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
             {
                 break;
             }
+            Debug.Log("Going to instantiate thumb");
             GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
+            Debug.Log("Instantiated new thumb");
             newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
             newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
             newThumb.GetComponent<Thumbnail>().manager = this.gameObject;
