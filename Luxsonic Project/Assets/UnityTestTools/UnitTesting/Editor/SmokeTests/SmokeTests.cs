@@ -11,17 +11,15 @@ using UnityEditor.SceneManagement;
 [TestFixture]
 public class SmokeTests {
 
-	[Test]
+    private TestContext testContextInstance;
+
+    [Test]
 	[Category("Dependencies")]
 	public void OVRCheck(){
 		String addPath = "Assets/OVR";
 		String targetPath = Path.Combine (getAssetPath(), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0));
 	}
 
 
@@ -31,11 +29,7 @@ public class SmokeTests {
 		String addPath = "Assets/OvrAvatar";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)) ;
 	}
 
 	[Test]
@@ -44,11 +38,7 @@ public class SmokeTests {
 		String addPath = "Assets/Plugins/OVRGamepad.bundle/Contents";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)) ;
 	}
 
 	[Test]
@@ -57,11 +47,7 @@ public class SmokeTests {
 		String addPath = "Assets/Resources";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetFiles(targetPath).Length > 0)) ;
 	}
 
 	[Test]
@@ -70,11 +56,7 @@ public class SmokeTests {
 		String addPath = "Assets/Standard Assets/Editor/ImageEffects";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetFiles(targetPath).Length > 0));
 	}
 
 	[Test]
@@ -83,11 +65,7 @@ public class SmokeTests {
 		String addPath = "Assets/Standard Assets/Effects";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
 		Console.WriteLine (targetPath);
-		if (Directory.Exists (targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)){
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)) ;
 	}
 		
 	private String getAssetPath(){
@@ -101,11 +79,7 @@ public class SmokeTests {
 	[Test]
 	[Category("Scenes")]
 	public void defaultSceneCheck(){
-		if(EditorSceneManager.GetSceneByBuildIndex(0).IsValid()) {
-			Assert.Pass ();
-		} else {
-			Assert.Fail ();
-		}
+        Assert.IsTrue(EditorSceneManager.GetSceneByBuildIndex(0).IsValid()) ;
 	}
 	 
 }
