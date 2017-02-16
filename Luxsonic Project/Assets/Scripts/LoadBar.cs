@@ -89,6 +89,7 @@ public class LoadBar : MonoBehaviour
         //We also can't do anything with an empty file
         if(dicomImage.Length < 1)
         {
+            Debug.Log("No information was obtained from the file");
             return;
         }
         Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");

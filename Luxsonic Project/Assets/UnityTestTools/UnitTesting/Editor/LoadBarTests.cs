@@ -10,24 +10,26 @@ using System.IO;
 namespace UnityTest
 {
     [TestFixture]
-    [Category("LoadBar test")]
+    [Category("Unit Tests")]
     internal class LoadBarTests
     {
         [Test]
         public void TestForNull()
-        {/*
+        {
             LoadBar load = new LoadBar();//Until NUnit error is figured out, these will be commented out
-            FileInfo file = new FileInfo("Test");
-            load.ConvertAndSendImage(file);*/
+            FileInfo file = null;
+            ImageManager testImage = new ImageManager();
+            load.ConvertAndSendImage(file);
             Assert.Pass();
         }
 
         [Test]
-        public void TestForIncompleteImage()
-        {/*
+        public void TestForCompleteImage()
+        {
             LoadBar load = new LoadBar();
-            FileInfo file = new FileInfo("Test");
-            load.ConvertAndSendImage(file);*/
+            FileInfo file = new FileInfo();
+            ImageManager testImage = new ImageManager();
+            load.ConvertAndSendImage(file);
             Assert.Pass();
         }
 
