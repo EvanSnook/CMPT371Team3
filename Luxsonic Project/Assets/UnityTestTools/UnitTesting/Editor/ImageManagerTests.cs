@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
+using NSubstitute;
 
 [TestFixture]
 [Category("Unit Tests")]
@@ -22,7 +23,27 @@ public class ImageManagerTests{
     [Test]
     public void TestCreateTray()
     {
-        ImageManager manny = new ImageManager();
+        GameObject mannyObj = new GameObject();
+        mannyObj.AddComponent<ImageManager>();
+        ImageManager manny = mannyObj.GetComponent<ImageManager>();
+        
+
+        GameObject thumbObject = new GameObject();
+        Thumbnail thumb = Substitute.For<Thumbnail>();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+        // 
+        //GameObject thumbObject = Substitute.For<GameObject>();
+        //thumbObject.AddComponent<Thumbnail>();
+
+        Texture2D tex = new Texture2D(100, 100);
+
+        manny.thumbnail = thumbObject;
+
+        Assert.IsNotNull(manny.GetComponent<ImageManager>().thumbnail, "The thumbnail object for the image manager is NULL");
+        manny.AddImage(tex);
+        Assert.Greater(manny.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
+
         manny.CreateTray();
 
         // The list of thumbnails should not be empty.
@@ -32,8 +53,12 @@ public class ImageManagerTests{
     [Test]
     public void TestCreateDisplay()
     {
-        ImageManager manny = new ImageManager();
+        GameObject mannyObj = new GameObject();
+        mannyObj.AddComponent<ImageManager>();
+        ImageManager manny = mannyObj.GetComponent<ImageManager>();
+       
         Texture2D tex = new Texture2D(100, 100);
+        
         manny.CreateDisplay(tex);
 
         // The list of displays should not be empty
