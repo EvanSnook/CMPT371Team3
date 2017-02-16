@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/ID2_Default.unity
   - enabled: 1
     path: Assets/Scenes/Id2_DisplayScene.unity
+  - enabled: 1
+    path: Assets/Scenes/ID2_Grab.unity

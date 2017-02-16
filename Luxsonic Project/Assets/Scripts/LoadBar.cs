@@ -17,7 +17,7 @@ public class LoadBar : MonoBehaviour
     FileBrowser fb = new FileBrowser();
     string output = "no file";
 
-    GameObject imageManager;
+    public GameObject imageManager;
 
     // Use this for initialization
     void Start()
@@ -67,6 +67,7 @@ public class LoadBar : MonoBehaviour
             {
                 Assert.IsNotNull(fb.outputFile, "The file slected by the user should not be null");
                 ConvertAndSendImage(fb.outputFile);
+                this.enabled = false;
                 Assert.IsFalse(this.enabled);
             }
 		}
@@ -96,8 +97,14 @@ public class LoadBar : MonoBehaviour
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(1000, 1000);
         image.LoadImage(dicomImage);
-        imageManager.SendMessage("AddImage", image);
-        this.enabled = false;
+        try
+        {
+            imageManager.SendMessage("AddImage", image);
+        }
+        catch
+        {
+            Debug.Log("An image was sent to an Image manager, but there was none to recieve the call.");
+        }
     }    
 
 }
