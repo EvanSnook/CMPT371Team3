@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
+using NSubstitute;
 
 [TestFixture]
 [Category("Unit Tests")]
@@ -12,8 +13,13 @@ public class DisplayTests
     // Test the new display function by creating a new display with a simple texture.
     public void TestNewDisplay()
     {
-        Display newDisp = new Display();
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        dispObj.AddComponent<SpriteRenderer>();
+        dispObj.AddComponent<BoxCollider>();
+        Display newDisp = dispObj.GetComponent<Display>();
         Texture2D tex = new Texture2D(100, 100);
+
 
         newDisp.NewDisplay(tex);
 
@@ -27,7 +33,18 @@ public class DisplayTests
     // the size of the display's button list.
     public void TestDisplayAndHideButtons()
     {
-        Display newDisp = new Display();
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        dispObj.AddComponent<SpriteRenderer>();
+        dispObj.AddComponent<BoxCollider>();
+        Display newDisp = dispObj.GetComponent<Display>();
+        Texture2D tex = new Texture2D(100, 100);
+
+        GameObject buttonObj = new GameObject();
+        buttonObj.AddComponent<Button>();
+        newDisp.button = buttonObj.GetComponent<Button>();
+
+        newDisp.NewDisplay(tex);
 
         newDisp.DisplayButtons();
 
