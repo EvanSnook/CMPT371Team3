@@ -78,7 +78,8 @@ public class ImageManagerTests{
 
         manny.thumbnail = thumbObject;
         manny.displayObj = dispObject;
-
+        Camera cam = new Camera();
+        cam = Camera.main;
         manny.CreateDisplay(tex);
 
         // The list of displays should not be empty
