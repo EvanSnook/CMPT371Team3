@@ -7,11 +7,11 @@ using UnityEngine;
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
 public class WorkspaceManager : MonoBehaviour {
-
-    [SerializeField]
-    private float buttonWidth = 100;
-    [SerializeField]
-    private float buttonHeight = 50;
+    
+    //[SerializeField]
+    //private float buttonWidth = 100; //commented out due to not being used
+    //[SerializeField]
+    //private float buttonHeight = 50;
 
     public GameObject loadBar;  // The file system to load images with
 

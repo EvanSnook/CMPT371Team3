@@ -17,7 +17,6 @@ public class ImageManagerTests{
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject thumbObject = new GameObject();
-        Thumbnail thumb = Substitute.For<Thumbnail>();
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
@@ -40,12 +39,8 @@ public class ImageManagerTests{
         
 
         GameObject thumbObject = new GameObject();
-        Thumbnail thumb = Substitute.For<Thumbnail>();
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
-        // 
-        //GameObject thumbObject = Substitute.For<GameObject>();
-        //thumbObject.AddComponent<Thumbnail>();
 
         Texture2D tex = new Texture2D(100, 100);
 
@@ -70,18 +65,13 @@ public class ImageManagerTests{
 
 
         GameObject thumbObject = new GameObject();
-        Thumbnail thumb = Substitute.For<Thumbnail>();
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
         GameObject dispObject = new GameObject();
-        Display disp = Substitute.For<Display>();
         dispObject.AddComponent<Display>();
         dispObject.AddComponent<SpriteRenderer>();
         dispObject.AddComponent<BoxCollider>();
-        // 
-        //GameObject thumbObject = Substitute.For<GameObject>();
-        //thumbObject.AddComponent<Thumbnail>();
 
         Texture2D tex = new Texture2D(100, 100);
 
