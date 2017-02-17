@@ -1,0 +1,33 @@
+HOW TO RUN UNIT TESTS IN THE JANK THAT IS UNITY/VISUALSTUDIO/NUNIT
+
+1. to run the tests in Visual Studio click Test -> All Tests
+
+2. if your console freezes, then end process and make sure that you use Build -> clean Solution then try again
+
+3. yay you ran tests! if your message in the Tests output is:
+	========== Run test finished: 0 run (0:00:00.00) ==========
+	then you have the lovely priveledge of solving this problem with the following steps:
+
+		a. open a your script in visual studio (community 2015)
+			NOTE** all scripts in Assets/UnityTestTools/UnitTests/Editor/* will be executed for unit tests. tests in any other directory will not be run.
+
+		b. make sure that 
+			test -> test settings -> default processor architecture
+			is set to x64 not x86
+
+		c. in tools -> NuGet package manager -> manage Nuget packages for solution
+			- go to the installed tab
+			- make sure that NUnit and NUnit3TestAdapter and NUnitTestAdapter ar all installed
+				- if they are not then install them (step 4-6)
+				- if the are installed, then uninstall NUnitTestAdapter and then reinstall it
+					- to uninstall it, click on the package, check the box beside "project" so that all modules are checked off and click uninstall ( you may have to resize the window/scroll down to find the button).
+
+		d. swith the NuGet-Solution tab to "Browse" and search "NUnit"
+
+		e. click on the package you are looking for
+					to install it, click on the package, check the box beside "project" so that all modules are checked off and click install ( you may have to resize the window/scroll down to find the button).
+
+		f. run tests.
+
+	
+	4/g. if broke. ask Evan. He will fix.
