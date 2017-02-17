@@ -105,7 +105,8 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 2.0
+			#pragma target 3.0
+			#pragma exclude_renderers gles3 metal d3d11_9x xbox360 xboxone ps3 ps4 psp2
 			#include "UnityCG.cginc"
 
 			struct v2f {
