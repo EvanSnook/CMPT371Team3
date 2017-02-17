@@ -47,7 +47,7 @@ public class ImageManager : MonoBehaviour {
         // Destroy the current tray  TODO: Make more efficient
         foreach (GameObject t in thumbnails)
         {
-            Destroy(t);
+            DestroyImmediate(t);
         }
 
         thumbnails.Clear(); // Clear the list so we can recalculate the thumbnails

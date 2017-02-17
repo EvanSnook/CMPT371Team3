@@ -17,7 +17,7 @@ public class LoadBar : MonoBehaviour
     FileBrowser fb = new FileBrowser();
     string output = "no file";
 
-    public GameObject imageManager;
+    public ImageManager imageManager;
 
     // Use this for initialization
     void Start()
@@ -34,7 +34,7 @@ public class LoadBar : MonoBehaviour
         //search recursively (setting recursive search may cause a long delay)
         fb.searchRecursively = false;
 
-        imageManager = GameObject.FindGameObjectWithTag("ImageManager");
+        imageManager = FindObjectOfType<ImageManager>();
     }
 
 
@@ -97,14 +97,8 @@ public class LoadBar : MonoBehaviour
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(1000, 1000);
         image.LoadImage(dicomImage);
-        try
-        {
-            imageManager.SendMessage("AddImage", image);
-        }
-        catch
-        {
-            Debug.Log("An image was sent to an Image manager, but there was none to recieve the call.");
-        }
+        //imageManager.SendMessage("AddImage", image);//Since Unit Tests dont like this
+        imageManager.AddImage(image);
     }    
 
 }

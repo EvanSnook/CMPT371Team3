@@ -139,7 +139,7 @@ public class Display : MonoBehaviour {
     {
         foreach(Button button in buttons)
         {
-            Destroy(button.gameObject);
+            DestroyImmediate(button.gameObject);
         }
 
         buttons.Clear();
@@ -179,7 +179,7 @@ public class Display : MonoBehaviour {
 
             case "Close":    // Close button clicked
                 this.HideButtons();
-                Destroy(this.gameObject);
+                DestroyImmediate(this.gameObject);
                 break;
 
             default:        // This should never happen

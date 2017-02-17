@@ -6,6 +6,7 @@ using System.Threading;
 using NUnit.Framework;
 using System.IO;
 using UnityEditor;
+using NSubstitute;
 //using class LoadBar;
 
 namespace LoadBarTests
@@ -25,10 +26,23 @@ namespace LoadBarTests
         [Test]
         public void TestForCompleteImage()
         {
+            GameObject mannyObj = new GameObject();
+            mannyObj.AddComponent<ImageManager>();
+            ImageManager manny = mannyObj.GetComponent<ImageManager>();
+            Texture2D tex = new Texture2D(100, 100);
+
+            GameObject thumbObject = new GameObject();
+            Thumbnail thumb = Substitute.For<Thumbnail>();
+            thumbObject.AddComponent<Thumbnail>();
+            thumbObject.AddComponent<SpriteRenderer>();
+
+
+            manny.thumbnail = thumbObject;
+
             LoadBar load = new LoadBar();
             
             FileInfo file = new FileInfo (@"Assets/resources/Test.png");
-            load.imageManager = new GameObject();
+            load.imageManager = manny;
             load.ConvertAndSendImage(file);
         }
 
