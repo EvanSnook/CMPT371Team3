@@ -67,9 +67,9 @@ public class ImageManager : MonoBehaviour {
             {
                 break;
             }
-            Debug.Log("Going to instantiate thumb");
+            //Debug.Log("Going to instantiate thumb");
             GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
-            Debug.Log("Instantiated new thumb");
+            //Debug.Log("Instantiated new thumb");
             newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
             newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
             newThumb.GetComponent<Thumbnail>().manager = this.gameObject;

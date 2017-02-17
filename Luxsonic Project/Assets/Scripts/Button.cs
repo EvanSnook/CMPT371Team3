@@ -8,23 +8,23 @@ using UnityEngine;
 /// </summary>
 public class Button : MonoBehaviour {
 
-    public string name;
+    public string buttonName;
     public GameObject manager;  // The object that creates and contains the functionality for this button.
     public TextMesh textObject; 
 
     public void OnCollisionEnter(Collision collision)
     {
-        manager.SendMessage("ButtonClicked", name);
+        manager.SendMessage("ButtonClicked", buttonName);
         textObject.color = Color.black;
     }
     // Use this for initialization
     void Start () {
         textObject = gameObject.GetComponentInChildren<TextMesh>();
-        textObject.text = name;
+        textObject.text = buttonName;
 	}
 
     void OnMouseDown()
     {
-        manager.SendMessage("ButtonClicked", name);
+        manager.SendMessage("ButtonClicked", buttonName);
     }
 }
