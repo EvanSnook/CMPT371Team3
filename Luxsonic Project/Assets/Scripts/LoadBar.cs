@@ -4,7 +4,6 @@ using System.IO;
 using System;
 using System.Security.Permissions;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Assertions;
 
 public class LoadBar : MonoBehaviour
