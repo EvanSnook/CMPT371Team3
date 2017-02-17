@@ -56,6 +56,7 @@ public class ImageManagerTests{
         Assert.Greater(manny.GetThumbnails().Count, 0, "The list of thumbnails in the Image Manager is empty.");
     }
 
+    /*
     [Test]
     public void TestCreateDisplay()
     {
@@ -83,4 +84,5 @@ public class ImageManagerTests{
         // The list of displays should not be empty
         Assert.Greater(manny.GetDisplays().Count, 0, "The list of displays in the Image Manager is empty.");
     }
+    */
 }
