@@ -27,7 +27,7 @@ namespace LoadBarTests
         {
             LoadBar load = new LoadBar();
             
-            FileInfo file = new FileInfo (@"Assets/esources/Test.png");
+            FileInfo file = new FileInfo (@"Assets/resources/Test.png");
             load.imageManager = new GameObject();
             load.ConvertAndSendImage(file);
         }
