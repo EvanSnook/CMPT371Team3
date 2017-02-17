@@ -1,16 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System;
-using System.IO;
-using NUnit.Framework;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 
-[TestFixture]
-public class SmokeTests {
-
+public class SmokeTests : MonoBehaviour {
+  
     private TestContext testContextInstance;
 
     [Test]
@@ -59,9 +52,9 @@ public class SmokeTests {
 	public void EffectsCheck(){
 		String addPath = "Assets/Standard Assets/Effects";
 		String targetPath = Path.Combine (getAssetPath (), addPath);
-        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)) ;
-	}
-		
+        Assert.IsTrue(Directory.Exists(targetPath) && (Directory.GetDirectories(targetPath).Length > 0) && (Directory.GetFiles(targetPath).Length > 0)) 
+  }
+  
 	private String getAssetPath(){
 		String absPath = Directory.GetCurrentDirectory ();
 		return absPath;
