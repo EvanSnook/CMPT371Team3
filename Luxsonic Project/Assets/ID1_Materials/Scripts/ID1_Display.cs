@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// Class to manage display objects
 /// </summary>
-public class Display : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class ID1_Display : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
     Vector3 screenPoint;
