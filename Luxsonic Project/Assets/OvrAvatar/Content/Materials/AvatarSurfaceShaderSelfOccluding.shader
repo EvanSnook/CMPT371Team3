@@ -105,7 +105,7 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 2.0
+			
 			#include "UnityCG.cginc"
 
 			struct v2f {
@@ -133,6 +133,9 @@
 #pragma multi_compile PARALLAX_OFF PARALLAX_ON
 #pragma multi_compile ROUGHNESS_OFF ROUGHNESS_ON
 #pragma multi_compile LAYERS_1 LAYERS_2 LAYERS_3 LAYERS_4 LAYERS_5 LAYERS_6 LAYERS_7 LAYERS_8
+#pragma target 3.0
+#pragma exclude_renderers gles3 metal d3d11_9x xbox360 xboxone ps3 ps4 psp2
+
 
 #include "Assets/OvrAvatar/Content/Materials/AvatarMaterialStateShader.cginc"
 
