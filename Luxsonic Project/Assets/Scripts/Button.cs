@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// This class defines an interactable 3D button for use with VR
-/// A class using this button must have a 'ButtonClicked(string name)' function
+/// A class using this button must implement the IVRButton interface
 /// </summary>
 public class Button : MonoBehaviour {
 
@@ -14,7 +14,7 @@ public class Button : MonoBehaviour {
 
     public void OnCollisionEnter(Collision collision)
     {
-        manager.SendMessage("ButtonClicked", name);
+        manager.SendMessage("VRButtonClicked", name);
         textObject.color = Color.black;
     }
     // Use this for initialization
@@ -25,6 +25,6 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        manager.SendMessage("ButtonClicked", name);
+        manager.SendMessage("VRButtonClicked", name);
     }
 }

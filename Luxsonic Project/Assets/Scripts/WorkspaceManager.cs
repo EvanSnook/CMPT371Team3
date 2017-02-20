@@ -6,7 +6,7 @@ using UnityEngine;
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
-public class WorkspaceManager : MonoBehaviour {
+public class WorkspaceManager : MonoBehaviour, IVRButton {
     
     //[SerializeField]
     //private float buttonWidth = 100; //commented out due to not being used
@@ -52,11 +52,11 @@ public class WorkspaceManager : MonoBehaviour {
     /// <summary>
     /// Called by a button object when it is interacted with.
     /// </summary>
-    /// <param name="name">The name of the button</param>
-    public void ButtonClicked(string name)
+    /// <param name="button">The name of the button</param>
+    public void VRButtonClicked(string button)
     {
         // If the load button was clicked...
-        if(name == "Load")
+        if(button == "Load")
         {
             Debug.Log("Load button pressed!");
             ImageManager imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<ImageManager>();

@@ -9,7 +9,7 @@ using UnityEngine.Assertions;
 /// and will contain options to control properties of the image through related scripts, as well as being able to
 /// control the position and size of the display.
 /// </summary>
-public class Display : MonoBehaviour {
+public class Display : MonoBehaviour, IVRButton {
 
     [SerializeField]
     private float buttonWidth = 100;
@@ -148,10 +148,10 @@ public class Display : MonoBehaviour {
     /// <summary>
     /// When a button is clicked, execute the code associated with that button
     /// </summary>
-    /// <param name="name">The name of the button clicked</param>
-    public void ButtonClicked(string name)
+    /// <param name="button">The name of the button clicked</param>
+    public void VRButtonClicked(string button)
     {
-        switch (name)
+        switch (button)
         {
             case "Contrast":    // Contrast button clicked
                 // TODO: Implement contrast code
