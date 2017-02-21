@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 [TestFixture]
 [Category("Unit Tests")]
-public class WorkspaceManagerTests {
+public class DashboardTests {
 
     [Test]
     public void DisplayMenu()

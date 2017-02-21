@@ -6,7 +6,7 @@ using UnityEngine;
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
-public class WorkspaceManager : MonoBehaviour, IVRButton {
+public class Dashboard : MonoBehaviour, IVRButton {
     
     //[SerializeField]
     //private float buttonWidth = 100; //commented out due to not being used
@@ -16,7 +16,7 @@ public class WorkspaceManager : MonoBehaviour, IVRButton {
     public GameObject loadBar;  // The file system to load images with
 
     public Transform myTransform;   
-    public Button button;       // The button object to use as a button
+    public VRButton button;       // The button object to use as a button
 
     // Define where to instantiate the Load button
     public float loadButtonPositionX;
@@ -42,7 +42,7 @@ public class WorkspaceManager : MonoBehaviour, IVRButton {
     public void DisplayMenu(){
 
         // Create the load button to access the filesystem
-        Button loadButton = Instantiate(button, new Vector3(loadButtonPositionX,loadButtonPositionY,loadButtonPositionZ), 
+        VRButton loadButton = Instantiate(button, new Vector3(loadButtonPositionX,loadButtonPositionY,loadButtonPositionZ), 
             Quaternion.Euler(new Vector3(loadButtonRotationX, loadButtonRotationY, loadButtonRotationZ)));
 
         loadButton.name = "Load";

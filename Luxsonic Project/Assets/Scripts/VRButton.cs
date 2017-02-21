@@ -6,7 +6,7 @@ using UnityEngine;
 /// This class defines an interactable 3D button for use with VR
 /// A class using this button must implement the IVRButton interface
 /// </summary>
-public class Button : MonoBehaviour {
+public class VRButton : MonoBehaviour {
 
     public string name;
     public GameObject manager;  // The object that creates and contains the functionality for this button.

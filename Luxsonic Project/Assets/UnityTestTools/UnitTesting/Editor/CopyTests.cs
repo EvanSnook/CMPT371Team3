@@ -41,8 +41,8 @@ public class CopyTests
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject buttonObj = new GameObject();
-        buttonObj.AddComponent<Button>();
-        newCopy.button = buttonObj.GetComponent<Button>();
+        buttonObj.AddComponent<VRButton>();
+        newCopy.button = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 

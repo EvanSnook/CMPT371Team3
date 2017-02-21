@@ -31,8 +31,8 @@ public class Copy : MonoBehaviour, IVRButton {
     public float currentSize;       // The current size of the display
     private bool buttonsVisible;
 
-    private List<Button> buttons = new List<Button>();
-    public Button button;
+    private List<VRButton> buttons = new List<VRButton>();
+    public VRButton button;
     
 
     /// <summary>
@@ -94,31 +94,31 @@ public class Copy : MonoBehaviour, IVRButton {
         Vector3 closeButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight*2, buttonDepth);
 
         // Create the buttons
-        Button contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
         contrastButton.name = "Contrast";
         contrastButton.manager = this.gameObject;
 
-        Button rotateButton = Instantiate(button, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton rotateButton = Instantiate(button, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
         rotateButton.name = "Rotate";
         rotateButton.manager = this.gameObject;
 
-        Button zoomButton = Instantiate(button, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton zoomButton = Instantiate(button, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
         zoomButton.name = "Zoom";
         zoomButton.manager = this.gameObject;
 
-        Button brightnessButton = Instantiate(button, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton brightnessButton = Instantiate(button, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
         brightnessButton.name = "Brightness";
         brightnessButton.manager = this.gameObject;
 
-        Button resizeButton = Instantiate(button, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton resizeButton = Instantiate(button, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
         resizeButton.name = "Resize";
         resizeButton.manager = this.gameObject;
 
-        Button filterButton = Instantiate(button, filterButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton filterButton = Instantiate(button, filterButtonPosition, new Quaternion(0, 0, 0, 0));
         filterButton.name = "Filter";
         filterButton.manager = this.gameObject;
 
-        Button closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
         closeButton.name = "Close";
         closeButton.manager = this.gameObject;
 
@@ -137,7 +137,7 @@ public class Copy : MonoBehaviour, IVRButton {
     /// </summary>
     public void HideButtons()
     {
-        foreach(Button button in buttons)
+        foreach(VRButton button in buttons)
         {
             DestroyImmediate(button.gameObject);
         }
@@ -193,7 +193,7 @@ public class Copy : MonoBehaviour, IVRButton {
     /// Returns the list of buttons for this display
     /// </summary>
     /// <returns></returns>
-    public List<Button> GetButtons()
+    public List<VRButton> GetButtons()
     {
         return this.buttons;
     }
