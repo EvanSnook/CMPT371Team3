@@ -16,7 +16,7 @@ public class LoadBar : MonoBehaviour
     FileBrowser fb = new FileBrowser();
     string output = "no file";
 
-    public ImageManager imageManager;
+    public Display display;
 
     // Use this for initialization
     void Start()
@@ -33,7 +33,7 @@ public class LoadBar : MonoBehaviour
         //search recursively (setting recursive search may cause a long delay)
         fb.searchRecursively = false;
 
-        imageManager = FindObjectOfType<ImageManager>();
+        display = FindObjectOfType<Display>();
     }
 
 
@@ -97,7 +97,7 @@ public class LoadBar : MonoBehaviour
         Texture2D image = new Texture2D(1000, 1000);
         image.LoadImage(dicomImage);
         //imageManager.SendMessage("AddImage", image);//Since Unit Tests dont like this
-        imageManager.AddImage(image);
+        display.AddImage(image);
     }    
 
 }

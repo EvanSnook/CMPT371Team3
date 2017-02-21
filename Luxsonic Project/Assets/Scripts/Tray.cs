@@ -17,7 +17,7 @@ public class Tray : MonoBehaviour {
     public float trayThumbnailScale = 1;// The scale for the images in the tray
 
     public GameObject thumbnail;    // The object to use as a thumbnail
-    public ImageManager manager;
+    public Display manager;
 
     List<GameObject> thumbnails = new List<GameObject>();   // The list of thumbnails being displayed in the tray
 

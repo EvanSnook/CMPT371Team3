@@ -37,24 +37,24 @@ public class CopyTests
         copyObj.AddComponent<Copy>();
         copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
-        Copy newDisp = copyObj.GetComponent<Copy>();
+        Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<Button>();
-        newDisp.button = buttonObj.GetComponent<Button>();
+        newCopy.button = buttonObj.GetComponent<Button>();
 
-        newDisp.NewCopy(tex);
+        newCopy.NewCopy(tex);
 
-        newDisp.DisplayButtons();
+        newCopy.DisplayButtons();
 
         // The size of the button list should be greater than 0
-        Assert.Greater(newDisp.GetButtons().Count, 0, "The list of buttons for the display was empty");
+        Assert.Greater(newCopy.GetButtons().Count, 0, "The list of buttons for the display was empty");
 
-        newDisp.HideButtons();
+        newCopy.HideButtons();
 
         // The size of the button list should be 0
-        Assert.AreEqual(newDisp.GetButtons().Count, 0, "The list of buttons was not cleared properly");
+        Assert.AreEqual(newCopy.GetButtons().Count, 0, "The list of buttons was not cleared properly");
     }
 
 }

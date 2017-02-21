@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// The Image Manager class manages images for the system.
+/// The Display class manages images for the system.
 /// This class contains a list of Texture2D elements that can be used with the Copy class.
 /// It contains functions to add textures to the texture list, and create Copies.
 /// This class also displays an 'image tray' of images to select from.
 /// </summary>
-public class ImageManager : MonoBehaviour {
+public class Display : MonoBehaviour {
 
     public float displayDepth;
 
@@ -57,7 +57,7 @@ public class ImageManager : MonoBehaviour {
     /// Instantiate a new display in the space at the center of the user's view
     /// </summary>
     public void CreateCopy(Texture2D image) {
-        Assert.IsNotNull(image, "Creating new Copy from ImageManager image was null");
+        Assert.IsNotNull(image, "Creating new Copy from Display image was null");
         Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
         trans.z = displayDepth;
         GameObject newCop = Instantiate(copyObj, trans, new Quaternion(0,0,0,0));

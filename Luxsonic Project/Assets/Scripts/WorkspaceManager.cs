@@ -59,7 +59,7 @@ public class WorkspaceManager : MonoBehaviour, IVRButton {
         if(button == "Load")
         {
             Debug.Log("Load button pressed!");
-            ImageManager imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<ImageManager>();
+            Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
             imageMan.AddImage(dummyImage);
             //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
         }

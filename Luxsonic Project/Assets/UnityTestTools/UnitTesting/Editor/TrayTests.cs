@@ -11,7 +11,7 @@ public class TrayTests : MonoBehaviour {
     public void TestUpdateTray()
     {
         GameObject trayManager = new GameObject();
-        trayManager.AddComponent<ImageManager>();
+        trayManager.AddComponent<Display>();
 
         GameObject trayObject = new GameObject();
         trayObject.AddComponent<Tray>();
@@ -21,7 +21,7 @@ public class TrayTests : MonoBehaviour {
         thumbObject.AddComponent<SpriteRenderer>();
 
         trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-        trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<ImageManager>();
+        trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
         trayObject.GetComponent<Tray>().trayNumColumns = 3;
 
         Texture2D tex1 = new Texture2D(100, 100);

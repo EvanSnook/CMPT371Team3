@@ -19,17 +19,17 @@ namespace LoadBarTests
         public void TestForNull()
         {
             //Creating Mock
-            GameObject mannyObj = new GameObject();
-            mannyObj.AddComponent<ImageManager>();
-            ImageManager manny = mannyObj.GetComponent<ImageManager>();
+            GameObject dispObj = new GameObject();
+            dispObj.AddComponent<Display>();
+            Display disp = dispObj.GetComponent<Display>();
             GameObject trayObject = new GameObject();
             trayObject.AddComponent<Tray>();
             trayObject.AddComponent<SpriteRenderer>();
-            manny.trayObj = trayObject;
-            mannyObj.AddComponent<LoadBar>();
+            disp.trayObj = trayObject;
+            dispObj.AddComponent<LoadBar>();
 
             //LoadBar load = new LoadBar();
-            LoadBar load = mannyObj.GetComponent<LoadBar>();
+            LoadBar load = dispObj.GetComponent<LoadBar>();
             FileInfo file = null;
             load.ConvertAndSendImage(file);
         }
@@ -38,9 +38,9 @@ namespace LoadBarTests
         public void TestForCompleteImage()
         {
             //Creating Mock
-            GameObject mannyObj = new GameObject();
-            mannyObj.AddComponent<ImageManager>();
-            ImageManager manny = mannyObj.GetComponent<ImageManager>();
+            GameObject dispObj = new GameObject();
+            dispObj.AddComponent<Display>();
+            Display disp = dispObj.GetComponent<Display>();
             Texture2D tex = new Texture2D(100, 100);
 
             GameObject trayObject = new GameObject();
@@ -53,14 +53,14 @@ namespace LoadBarTests
             thumbObject.AddComponent<SpriteRenderer>();
 
             trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-            manny.trayObj = trayObject;
-            mannyObj.AddComponent<LoadBar>();
+            disp.trayObj = trayObject;
+            dispObj.AddComponent<LoadBar>();
 
             //LoadBar load = new LoadBar();
-            LoadBar load = mannyObj.GetComponent<LoadBar>();
+            LoadBar load = dispObj.GetComponent<LoadBar>();
 
             FileInfo file = new FileInfo(@"Assets/resources/Test.png");
-            load.imageManager = manny;
+            load.display = disp;
             load.ConvertAndSendImage(file);
         }
 

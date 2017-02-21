@@ -6,14 +6,14 @@ using NSubstitute;
 
 [TestFixture]
 [Category("Unit Tests")]
-public class ImageManagerTests{
+public class DisplayTests{
 
     [Test]
     public void TestAddImage()
     {
         GameObject mannyObj = new GameObject();
-        mannyObj.AddComponent<ImageManager>();
-        ImageManager manny = mannyObj.GetComponent<ImageManager>();
+        mannyObj.AddComponent<Display>();
+        Display disp = mannyObj.GetComponent<Display>();
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject trayObject = new GameObject();
@@ -26,21 +26,21 @@ public class ImageManagerTests{
         thumbObject.AddComponent<SpriteRenderer>();
 
         trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-        manny.trayObj = trayObject;
+        disp.trayObj = trayObject;
 
-        manny.AddImage(tex);
+        disp.AddImage(tex);
 
         // The manager should have a non-empty list and should contain the texture we created.
-        Assert.Greater(manny.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
-        Assert.True(manny.GetImages().Contains(tex), "The list of images in the Image Manager does not contain the requested texture.");
+        Assert.Greater(disp.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
+        Assert.True(disp.GetImages().Contains(tex), "The list of images in the Image Manager does not contain the requested texture.");
     }
 
     [Test]
     public void TestCreateTray()
     {
-        GameObject mannyObj = new GameObject();
-        mannyObj.AddComponent<ImageManager>();
-        ImageManager manny = mannyObj.GetComponent<ImageManager>();
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject trayObject = new GameObject();
@@ -53,10 +53,10 @@ public class ImageManagerTests{
         thumbObject.AddComponent<SpriteRenderer>();
 
         trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-        manny.trayObj = trayObject;
+        disp.trayObj = trayObject;
 
-        manny.CreateTray();
-        Assert.IsTrue(manny.GetComponent<ImageManager>().trayCreated, "The tray was not created.");
+        disp.CreateTray();
+        Assert.IsTrue(disp.GetComponent<Display>().trayCreated, "The tray was not created.");
         
     }
 
