@@ -11,22 +11,18 @@ using UnityEngine.Assertions;
 /// </summary>
 public class ImageManager : MonoBehaviour {
 
-    public float trayStartX;        // The top left x coordinate for the tray to display
-    public float trayStartZ;        // The top left z coordinate for the tray to display
-    public float trayDepth;         // The depth of the tray
-    public int trayNumColumns = 1;      // The number of columns for the tray to display, default 1
-    public int trayNumRows = 1;         // The number of rows for the tray to display, default 1
-    public float trayIncrementor = 1;   // The distance between each thumbnail
-    public float trayThumbnailScale;// The scale for the images in the tray
-
     public float displayDepth;
 
     List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
     List<GameObject> displays = new List<GameObject>();   // The list of displays currently in view
-    List<GameObject> thumbnails = new List<GameObject>();   // The list of thumbnails being displayed in the tray
-
-    public GameObject thumbnail;    // The object to use as a thumbnail
+    
     public GameObject displayObj;   // The object to use as a display
+    public GameObject trayObj;      // The object to use as the tray
+    public bool trayCreated = false;
+    private Tray tray;
+
+    public Vector3 trayPosition;    // The position to create the tray object
+    public Vector3 trayRotation;    // The rotation to spawn the tray at
 
     /// <summary>
     /// Add an image to the list of loaded images
@@ -44,37 +40,16 @@ public class ImageManager : MonoBehaviour {
     /// </summary>
     public void CreateTray()
     {
-        // Destroy the current tray  TODO: Make more efficient
-        foreach (GameObject t in thumbnails)
+        if(!trayCreated)
         {
-            DestroyImmediate(t);
-        }
-
-        thumbnails.Clear(); // Clear the list so we can recalculate the thumbnails
-        float x = trayStartX;
-        float z = trayStartZ;
-        // For each image in the list, create a thumbnail and display it in the tray
-        foreach (Texture2D image in images)
+            GameObject newTray = Instantiate(trayObj, trayPosition, Quaternion.Euler(trayRotation));
+            this.tray = newTray.GetComponent<Tray>();
+            this.tray.manager = this;
+            this.tray.UpdateTray(this.images);
+            this.trayCreated = true;
+        }else
         {
-            if(Mathf.Abs(x - trayStartX)>= trayNumColumns * trayIncrementor)
-            {
-                x = trayStartX;
-                z -= trayIncrementor;
-            }
-            x += trayIncrementor;
-
-            if( Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
-            {
-                break;
-            }
-            //Debug.Log("Going to instantiate thumb");
-            GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
-            //Debug.Log("Instantiated new thumb");
-            newThumb.GetComponent < SpriteRenderer >().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-            newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
-            newThumb.GetComponent<Thumbnail>().manager = this.gameObject;
-            newThumb.GetComponent<Thumbnail>().image = image;
-            thumbnails.Add(newThumb);
+            this.tray.UpdateTray(this.images);
         }
     }
 
@@ -100,14 +75,7 @@ public class ImageManager : MonoBehaviour {
         return this.images;
     }
 
-    /// <summary>
-    /// Return the list of thumbnails in the manager
-    /// </summary>
-    /// <returns>A list of Thumbnail objects</returns>
-    public List<GameObject> GetThumbnails()
-    {
-        return this.thumbnails;
-    }
+    
 
     /// <summary>
     /// Returnt the list of displays in the manager

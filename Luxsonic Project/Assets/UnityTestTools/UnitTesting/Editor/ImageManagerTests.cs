@@ -16,12 +16,17 @@ public class ImageManagerTests{
         ImageManager manny = mannyObj.GetComponent<ImageManager>();
         Texture2D tex = new Texture2D(100, 100);
 
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
+        
+
+
         GameObject thumbObject = new GameObject();
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
-
-        manny.thumbnail = thumbObject;
+        trayObject.GetComponent<Tray>().thumbnail = thumbObject;
+        manny.trayObj = trayObject;
 
         manny.AddImage(tex);
 
@@ -36,24 +41,23 @@ public class ImageManagerTests{
         GameObject mannyObj = new GameObject();
         mannyObj.AddComponent<ImageManager>();
         ImageManager manny = mannyObj.GetComponent<ImageManager>();
-        
+        Texture2D tex = new Texture2D(100, 100);
+
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
+
+
 
         GameObject thumbObject = new GameObject();
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
-        Texture2D tex = new Texture2D(100, 100);
-
-        manny.thumbnail = thumbObject;
-
-        Assert.IsNotNull(manny.GetComponent<ImageManager>().thumbnail, "The thumbnail object for the image manager is NULL");
-        manny.AddImage(tex);
-        Assert.Greater(manny.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
+        trayObject.GetComponent<Tray>().thumbnail = thumbObject;
+        manny.trayObj = trayObject;
 
         manny.CreateTray();
-
-        // The list of thumbnails should not be empty.
-        Assert.Greater(manny.GetThumbnails().Count, 0, "The list of thumbnails in the Image Manager is empty.");
+        Assert.IsTrue(manny.GetComponent<ImageManager>().trayCreated, "The tray was not created.");
+        
     }
 
     /*
