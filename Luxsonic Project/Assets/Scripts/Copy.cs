@@ -9,7 +9,7 @@ using UnityEngine.Assertions;
 /// and will contain options to control properties of the image through related scripts, as well as being able to
 /// control the position and size of the display.
 /// </summary>
-public class Display : MonoBehaviour, IVRButton {
+public class Copy : MonoBehaviour, IVRButton {
 
     [SerializeField]
     private float buttonWidth = 100;
@@ -36,11 +36,11 @@ public class Display : MonoBehaviour, IVRButton {
     
 
     /// <summary>
-    /// Creates a new display object with the Texture2D converted to a sprite stored
+    /// Creates a new Copy object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
     /// </summary>
-    /// <param name="image"> A Texture2D to use as the image to display </param>
-    public void NewDisplay(Texture2D image)
+    /// <param name="image"> A Texture2D to use as the image to display to the user </param>
+    public void NewCopy(Texture2D image)
     {
         Assert.IsNotNull(image);
         this.imageRenderer = this.GetComponent<SpriteRenderer>();

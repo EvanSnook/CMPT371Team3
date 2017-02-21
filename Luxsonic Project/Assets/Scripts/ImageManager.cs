@@ -5,8 +5,8 @@ using UnityEngine.Assertions;
 
 /// <summary>
 /// The Image Manager class manages images for the system.
-/// This class contains a list of Texture2D elements that can be used with the display class.
-/// It contains functions to add textures to the texture list, and create displays.
+/// This class contains a list of Texture2D elements that can be used with the Copy class.
+/// It contains functions to add textures to the texture list, and create Copies.
 /// This class also displays an 'image tray' of images to select from.
 /// </summary>
 public class ImageManager : MonoBehaviour {
@@ -14,9 +14,9 @@ public class ImageManager : MonoBehaviour {
     public float displayDepth;
 
     List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
-    List<GameObject> displays = new List<GameObject>();   // The list of displays currently in view
+    List<GameObject> copies = new List<GameObject>();   // The list of displays currently in view
     
-    public GameObject displayObj;   // The object to use as a display
+    public GameObject copyObj;   // The object to use as a display
     public GameObject trayObj;      // The object to use as the tray
     public bool trayCreated = false;
     private Tray tray;
@@ -56,14 +56,14 @@ public class ImageManager : MonoBehaviour {
     /// <summary>
     /// Instantiate a new display in the space at the center of the user's view
     /// </summary>
-    public void CreateDisplay(Texture2D image) {
-        Assert.IsNotNull(image, "Creating new display from ImageManager image was null");
+    public void CreateCopy(Texture2D image) {
+        Assert.IsNotNull(image, "Creating new Copy from ImageManager image was null");
         Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
         trans.z = displayDepth;
-        GameObject newDisp = Instantiate(displayObj, trans, new Quaternion(0,0,0,0));
-        Display disp = newDisp.GetComponent<Display>();
-        disp.NewDisplay(image);
-        displays.Add(newDisp);  
+        GameObject newCop = Instantiate(copyObj, trans, new Quaternion(0,0,0,0));
+        Copy cop = newCop.GetComponent<Copy>();
+        cop.NewCopy(image);
+        copies.Add(newCop);  
     }
 
     /// <summary>
@@ -81,9 +81,9 @@ public class ImageManager : MonoBehaviour {
     /// Returnt the list of displays in the manager
     /// </summary>
     /// <returns>A list of Display ojects</returns>
-    public List<GameObject> GetDisplays()
+    public List<GameObject> GetCopies()
     {
-        return this.displays;
+        return this.copies;
     }
 
 }

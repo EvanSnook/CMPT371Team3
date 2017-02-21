@@ -7,25 +7,25 @@ using NSubstitute;
 [TestFixture]
 [Category("Unit Tests")]
 // Testing for the Display Class
-public class DisplayTests
+public class CopyTests
 {
     [Test]
     // Test the new display function by creating a new display with a simple texture.
-    public void TestNewDisplay()
+    public void TestNewCopy()
     {
-        GameObject dispObj = new GameObject();
-        dispObj.AddComponent<Display>();
-        dispObj.AddComponent<SpriteRenderer>();
-        dispObj.AddComponent<BoxCollider>();
-        Display newDisp = dispObj.GetComponent<Display>();
+        GameObject copyObj = new GameObject();
+        copyObj.AddComponent<Copy>();
+        copyObj.AddComponent<SpriteRenderer>();
+        copyObj.AddComponent<BoxCollider>();
+        Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
 
-        newDisp.NewDisplay(tex);
+        newCopy.NewCopy(tex);
 
         // The properties of the display should not be null
-        Assert.IsNotNull(newDisp.imageRenderer.sprite, "The sprite on the new display was null.");
-        Assert.IsNotNull(newDisp.myTransform, "The transform on the new display is Null");
+        Assert.IsNotNull(newCopy.imageRenderer.sprite, "The sprite on the new display was null.");
+        Assert.IsNotNull(newCopy.myTransform, "The transform on the new display is Null");
     }
 
     [Test]
@@ -33,18 +33,18 @@ public class DisplayTests
     // the size of the display's button list.
     public void TestDisplayAndHideButtons()
     {
-        GameObject dispObj = new GameObject();
-        dispObj.AddComponent<Display>();
-        dispObj.AddComponent<SpriteRenderer>();
-        dispObj.AddComponent<BoxCollider>();
-        Display newDisp = dispObj.GetComponent<Display>();
+        GameObject copyObj = new GameObject();
+        copyObj.AddComponent<Copy>();
+        copyObj.AddComponent<SpriteRenderer>();
+        copyObj.AddComponent<BoxCollider>();
+        Copy newDisp = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<Button>();
         newDisp.button = buttonObj.GetComponent<Button>();
 
-        newDisp.NewDisplay(tex);
+        newDisp.NewCopy(tex);
 
         newDisp.DisplayButtons();
 
