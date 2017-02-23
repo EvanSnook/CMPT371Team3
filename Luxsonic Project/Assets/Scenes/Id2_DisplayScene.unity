@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 483316348}
   - component: {fileID: 483316347}
   m_Layer: 0
-  m_Name: ImageManager
+  m_Name: Display
   m_TagString: ImageManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,9 +184,20 @@ MonoBehaviour:
   displayDepth: 50
   copyObj: {fileID: 1930037738419080, guid: 92f5b414e4a249f43a08dea3aee0736c, type: 2}
   trayObj: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1, type: 2}
+  displayImageObj: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
+    type: 2}
   trayCreated: 0
   trayPosition: {x: 880, y: -30, z: -250}
   trayRotation: {x: 0, y: 0, z: 0}
+  displayImagePositions:
+  - {x: 200, y: 150, z: -100}
+  - {x: 450, y: 150, z: -100}
+  - {x: 700, y: 150, z: -100}
+  button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
+  leftScrollPosition: {x: 350, y: 50, z: -250}
+  leftScrollRotation: {x: 0, y: 0, z: 0}
+  rightScrollPosition: {x: 550, y: 50, z: -250}
+  rightScrollRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &483316348
 Transform:
   m_ObjectHideFlags: 0
@@ -297,7 +308,7 @@ GameObject:
   - component: {fileID: 1205193364}
   - component: {fileID: 1205193363}
   m_Layer: 0
-  m_Name: WorkspaceManager
+  m_Name: Dashboard
   m_TagString: WorkspaceManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -315,15 +326,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
+  display: {fileID: 114128562486853902, guid: 65b68a79e4683cf43b7282b0497acb72, type: 2}
   myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  loadButtonPositionX: 880
-  loadButtonPositionY: 10
-  loadButtonPositionZ: -250
-  loadButtonRotationX: 0
-  loadButtonRotationY: 28
-  loadButtonRotationZ: 0
-  dummyImage: {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
+  loadButtonPosition: {x: 880, y: 10, z: -250}
+  loadButtonRotation: {x: 0, y: 28, z: 0}
+  quitButtonPosition: {x: 880, y: 80, z: -250}
+  quitButtonRotation: {x: 0, y: 28, z: 0}
+  minimizeButtonPosition: {x: 880, y: 150, z: -250}
+  minimizeButtonRotation: {x: 0, y: 28, z: 0}
+  dummyImages:
+  - {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
+  - {fileID: 2800000, guid: 89ed09b34f6cbcf4087020ea44a4fa96, type: 3}
+  - {fileID: 2800000, guid: ac27c99b0a793cb4899d31cfaf8a2299, type: 3}
 --- !u!4 &1205193364
 Transform:
   m_ObjectHideFlags: 0

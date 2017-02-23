@@ -25,6 +25,11 @@ public class DisplayTests{
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
+
+        disp.displayImageObj = dispImgObj;
+
         trayObject.GetComponent<Tray>().thumbnail = thumbObject;
         disp.trayObj = trayObject;
 

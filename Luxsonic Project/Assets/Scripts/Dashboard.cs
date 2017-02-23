@@ -14,19 +14,30 @@ public class Dashboard : MonoBehaviour, IVRButton {
     //private float buttonHeight = 50;
 
     public GameObject loadBar;  // The file system to load images with
+    public Display display;
 
     public Transform myTransform;   
     public VRButton button;       // The button object to use as a button
 
-    // Define where to instantiate the Load button
-    public float loadButtonPositionX;
-    public float loadButtonPositionY;
-    public float loadButtonPositionZ;
-    public float loadButtonRotationX;
-    public float loadButtonRotationY;
-    public float loadButtonRotationZ;
+    // Define where to instantiate the buttons
+    public Vector3 loadButtonPosition;
+    public Vector3 loadButtonRotation;
 
-    public Texture2D dummyImage;
+    public Vector3 quitButtonPosition;
+    public Vector3 quitButtonRotation;
+
+    public Vector3 minimizeButtonPosition;
+    public Vector3 minimizeButtonRotation;
+
+
+    public Texture2D[] dummyImages;
+
+    // Reference to the buttons
+    private VRButton loadButton;
+    private VRButton quitButton;
+    private VRButton minimizeButton;
+
+    private bool minimized = false;
 
     public void Start()
     {
@@ -42,11 +53,26 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void DisplayMenu(){
 
         // Create the load button to access the filesystem
-        VRButton loadButton = Instantiate(button, new Vector3(loadButtonPositionX,loadButtonPositionY,loadButtonPositionZ), 
-            Quaternion.Euler(new Vector3(loadButtonRotationX, loadButtonRotationY, loadButtonRotationZ)));
+        this.loadButton = Instantiate(button, loadButtonPosition, 
+            Quaternion.Euler(loadButtonRotation));
 
-        loadButton.name = "Load";
-        loadButton.manager = this.gameObject;
+        this.loadButton.name = "Load";
+        this.loadButton.manager = this.gameObject;
+
+
+        // Create the Quit button 
+        this.quitButton = Instantiate(button, quitButtonPosition,
+            Quaternion.Euler(quitButtonRotation));
+
+        this.quitButton.name = "Quit";
+        this.quitButton.manager = this.gameObject;
+
+        // Create the Minimize button 
+        this.minimizeButton = Instantiate(button, minimizeButtonPosition,
+            Quaternion.Euler(minimizeButtonRotation));
+
+        this.minimizeButton.name = "Minimize";
+        this.minimizeButton.manager = this.gameObject;
     }
 
     /// <summary>
@@ -55,15 +81,67 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// <param name="button">The name of the button</param>
     public void VRButtonClicked(string button)
     {
-        // If the load button was clicked...
-        if(button == "Load")
+        switch (button)
         {
-            Debug.Log("Load button pressed!");
-            Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
-            imageMan.AddImage(dummyImage);
-            //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            case "Load":
+                // If the load button was clicked
+                load();
+                break;
+            case "Quit":
+                // If the quit button was clicked
+                quit();
+                break;
+            case "Minimize":
+                // If the minimize button was clicked
+                minimize();
+                break;
         }
+       
     } 
+
+    /// <summary>
+    /// Functionality for the quit button
+    /// </summary>
+    private void quit()
+    {
+        print("Quit Button clicked");
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Functionality for when the load button is clicked
+    /// </summary>
+    private void load()
+    {
+        Debug.Log("Load button pressed!");
+        Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        imageMan.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
+        //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+    }
+
+    /// <summary>
+    /// Functionality for the minimize button
+    /// </summary>
+    private void minimize()
+    {
+        if (this.minimized) {
+            
+            this.loadButton.gameObject.SetActive(true);
+            this.quitButton.gameObject.SetActive(true);
+            this.display.gameObject.SetActive(true);
+
+            this.minimized = false;
+            
+
+        } else {
+
+            this.loadButton.gameObject.SetActive(false);
+            this.quitButton.gameObject.SetActive(false);
+            this.display.gameObject.SetActive(false);
+
+            this.minimized = true;
+        }
+    }
 
     //public void OnGUI()
     //{
