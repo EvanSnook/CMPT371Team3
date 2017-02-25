@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4307485221446028
 Transform:
   m_ObjectHideFlags: 1
@@ -59,3 +59,8 @@ MonoBehaviour:
   trayPosition: {x: 0, y: 0, z: 0}
   trayRotation: {x: 0, y: 0, z: 0}
   displayImagePositions: []
+  button: {fileID: 0}
+  leftScrollPosition: {x: 0, y: 0, z: 0}
+  leftScrollRotation: {x: 0, y: 0, z: 0}
+  rightScrollPosition: {x: 0, y: 0, z: 0}
+  rightScrollRotation: {x: 0, y: 0, z: 0}
