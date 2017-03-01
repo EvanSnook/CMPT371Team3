@@ -37,6 +37,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     private VRButton quitButton;
     private VRButton minimizeButton;
 
+    //Are the Buttons visable to the user?
     private bool minimized = false;
 
     public void Start()
@@ -48,7 +49,9 @@ public class Dashboard : MonoBehaviour, IVRButton {
     
 
     /// <summary>
-    /// Creates the buttons for the menu
+    /// Function DisplayMenu() Creates the load, quit and minimize buttons for the menu
+    /// Pre:: nothing
+    /// Post:: Creation of the load, quit and minimize buttons
     /// </summary>
     public void DisplayMenu(){
 
@@ -76,7 +79,10 @@ public class Dashboard : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Called by a button object when it is interacted with.
+    /// Function VRButtonClicked is called by a button object when it is interacted with.
+    /// Pre:: string representing the name of the button selected
+    /// Post:: Execution of funcion associated with string given
+    /// Return:: nothing
     /// </summary>
     /// <param name="button">The name of the button</param>
     public void VRButtonClicked(string button)
@@ -85,33 +91,41 @@ public class Dashboard : MonoBehaviour, IVRButton {
         {
             case "Load":
                 // If the load button was clicked
-                load();
+                Load();
                 break;
             case "Quit":
                 // If the quit button was clicked
-                quit();
+                Quit();
                 break;
             case "Minimize":
                 // If the minimize button was clicked
-                minimize();
+                Minimize();
                 break;
         }
        
     } 
 
     /// <summary>
-    /// Functionality for the quit button
+    /// Function Quit() adds functionality for the quit button. When called, the program
+    /// will terminate
+    /// Pre:: nothing
+    /// Post:: program termination
+    /// Return:: nothing
     /// </summary>
-    private void quit()
+    private void Quit()
     {
         print("Quit Button clicked");
         Application.Quit();
     }
 
     /// <summary>
-    /// Functionality for when the load button is clicked
+    /// Function Load() adds functionality for when the load button is clicked.  Currently
+    /// it will select a random image stored in the Assets and add it to the Display
+    /// Pre:: nothing
+    /// Post:: New Texture2D given and added to the Display class
+    /// Return:: nothing
     /// </summary>
-    private void load()
+    private void Load()
     {
         Debug.Log("Load button pressed!");
         Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
@@ -120,9 +134,14 @@ public class Dashboard : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Functionality for the minimize button
+    /// Function Minimize() adds functionality for the minimize button.  It will minimize disable
+    /// the other buttons if they are currently visable or make them enabled if they are currently 
+    /// disabled
+    /// Pre:: nothing
+    /// Post:: Buttons set to either Active or Not Active, minimized attribute changed
+    /// Return:: nothing
     /// </summary>
-    private void minimize()
+    private void Minimize()
     {
         if (this.minimized) {
             
