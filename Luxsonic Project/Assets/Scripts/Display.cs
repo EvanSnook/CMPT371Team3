@@ -42,7 +42,13 @@ public class Display : MonoBehaviour, IVRButton {
     private bool scrollButtonsVisible = false;
 
     /// <summary>
-    /// Add an image to the list of loaded images
+    /// AddImage() will add an image to the list of loaded images.  It will also create a new
+    /// displayImage and add it to the list.  It will create the Tray if it does not already exist
+    /// and create the scroll bar if it is not currently present
+    /// Pre:: image Texture2D to add
+    /// Post:: creation of Tray, adds Texture2D to images list and adds new GameObject to displayImages
+    /// list.
+    /// Return:: nothing
     /// </summary>
     /// <param name="image">The texture for the image to add</param>
     public void AddImage(Texture2D image)
@@ -52,6 +58,7 @@ public class Display : MonoBehaviour, IVRButton {
 
         // Create a game object to display the new image on
         GameObject displayImage = Instantiate(displayImageObj, Vector3.zero, Quaternion.Euler(Vector3.zero));
+        displayImage.transform.parent = gameObject.transform;
         displayImage.SetActive(false);
         displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         
@@ -74,11 +81,20 @@ public class Display : MonoBehaviour, IVRButton {
         CreateTray();
     }
 
+
+    /// <summary>
+    /// Function displayScrollButtons() will create the left and right scroll buttons to
+    /// browse through all images in the Display
+    /// Pre:: nothing
+    /// Post:: creation of left and rigfht scrol buttons
+    /// Return: nothing
+    /// </summary>
     private void displayScrollButtons()
     {
         // Create the left scroll button
         VRButton leftScrollButton = Instantiate(button, leftScrollPosition,
             Quaternion.Euler(leftScrollRotation));
+        leftScrollButton.transform.parent = gameObject.transform;
 
         leftScrollButton.name = "Left";
         leftScrollButton.manager = this.gameObject;
@@ -86,19 +102,26 @@ public class Display : MonoBehaviour, IVRButton {
         // Create the right scroll button
         VRButton rightScrollButton = Instantiate(button, rightScrollPosition,
             Quaternion.Euler(rightScrollRotation));
+        rightScrollButton.transform.parent = gameObject.transform;
 
         rightScrollButton.name = "Right";
         rightScrollButton.manager = this.gameObject;
+
+        
     }
     
     /// <summary>
-    /// Create and display the tray of thumbnail images
+    /// Function CreateTray() creates and displays the tray of thumbnail images
+    /// Pre:: nothing
+    /// Post: creation of new Tray
+    /// Return:: nothing
     /// </summary>
     public void CreateTray()
     {
         if(!trayCreated)
         {
             GameObject newTray = Instantiate(trayObj, trayPosition, Quaternion.Euler(trayRotation));
+            newTray.transform.parent = gameObject.transform;
             this.tray = newTray.GetComponent<Tray>();
             this.tray.manager = this;
             this.tray.UpdateTray(this.images);
@@ -110,11 +133,15 @@ public class Display : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Instantiate a new display in the space at the center of the user's view
+    /// Function CreateCopy will instantiate a new Copy in the space at the center of the user's view
+    /// Pre:: Texture2D image
+    /// Post:: creation of a new copy
+    /// Return:: nothing
     /// </summary>
     public void CreateCopy(Texture2D image) {
         Assert.IsNotNull(image, "Creating new Copy from Display image was null");
-        Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+        Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 
+            Camera.main.nearClipPlane));
         trans.z = displayDepth;
         GameObject newCop = Instantiate(copyObj, trans, new Quaternion(0,0,0,0));
         Copy cop = newCop.GetComponent<Copy>();
@@ -123,7 +150,10 @@ public class Display : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Return the list of images in the manager
+    /// GetImages() will return the list of images in the manager
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of Texture2D
     /// </summary>
     /// <returns>A list of Texture2D elements</returns>
     public List<Texture2D> GetImages()
@@ -134,7 +164,9 @@ public class Display : MonoBehaviour, IVRButton {
     
 
     /// <summary>
-    /// Returnt the list of displays in the manager
+    /// GetCopies() will return the list of Copies in the manager
+    /// Pre:: nothing
+    /// Post: nothing
     /// </summary>
     /// <returns>A list of Display ojects</returns>
     public List<GameObject> GetCopies()
@@ -142,24 +174,32 @@ public class Display : MonoBehaviour, IVRButton {
         return this.copies;
     }
 
-
+    /// <summary>
+    /// Function VRButtonClicked() will take in a string and perform and action
+    /// based on the string given to it.
+    /// </summary>
+    /// <param name="button"></param>
     public void VRButtonClicked(string button)
     {
         switch (button)
         {
             case "Left":
-                scrollLeft();
+                ScrollLeft();
                 break;
             case "Right":
-                scrollRight();
+                ScrollRight();
                 break;
         }
     }
 
     /// <summary>
-    /// Scroll the display left
+    /// ScrollLeft() will shift the images displayed to the user in the displayImages
+    /// list to the left.
+    /// Pre:: nothing
+    /// Post:: positions and activation of GameObjects in displayImages is changed.
+    /// Return:: nothing
     /// </summary>
-    private void scrollLeft()
+    private void ScrollLeft()
     {
         GameObject temp = displayImages.First.Value;
         temp.SetActive(false);
@@ -169,9 +209,13 @@ public class Display : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Scroll the display Right
+    /// ScrollRightt() will shift the images displayed to the user in the displayImages
+    /// list to the right.
+    /// Pre:: nothing
+    /// Post:: positions and activation of GameObjects in displayImages is changed.
+    /// Return:: nothing
     /// </summary>
-    private void scrollRight()
+    private void ScrollRight()
     {
         GameObject temp = displayImages.Last.Value;
         LinkedListNode<GameObject> t2 = displayImages.First;
