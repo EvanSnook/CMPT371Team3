@@ -5,7 +5,7 @@ using UnityEngine;
 public class SliderBar : MonoBehaviour {
 
     public GameObject sliderBase;
-    public GameObject cube;
+    public GameObject sliderKnob;
     public GameObject manager;
 
     Vector3 maxPosition;
@@ -28,17 +28,20 @@ public class SliderBar : MonoBehaviour {
 
         convertedMaxPosition = maxPosition.x - minPosition.x;
 
+        Setup(sliderKnob.transform.position.x);
 	}
 
     /// <summary>
     /// Called by the manager
     /// </summary>
     /// <param name="currentVal"></param>
-    void Setup(float currentVal)
+    public void Setup(float currentVal)
     {
         convertedCurrentPosition = currentVal;
-        cube.transform.position.Set(convertFromScale(currentVal), cube.transform.position.y, cube.transform.position.z);
-        currentPosition = cube.transform.position;
+        sliderKnob.transform.position.Set(convertFromScale(currentVal), sliderKnob.transform.position.y, sliderKnob.transform.position.z);
+        currentPosition = sliderKnob.transform.position;
+        sliderKnob.GetComponent<SliderKnob>().SetLeftBoundary(this.minPosition);
+        sliderKnob.GetComponent<SliderKnob>().SetRightBoundary(this.maxPosition);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -60,13 +63,19 @@ public class SliderBar : MonoBehaviour {
     {
         return value * convertedMaxPosition + minPosition.x;
     }
+
+    public void setUpdate(bool update)
+    {
+        this.update = update;
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
         if (update)
         {
-            currentPosition = cube.transform.position;
+            Debug.Log("Updating");
+            currentPosition = sliderKnob.transform.position;
             manager.SendMessage("SliderUpdate", convertToScale(currentPosition.x));
         }
 	}

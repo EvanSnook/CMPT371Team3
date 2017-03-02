@@ -92,6 +92,8 @@ MonoBehaviour:
   imageRotation: {x: 0, y: 0, z: 0}
   currentSize: 0
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
+  slider: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8, type: 2}
+  sliderPosition: {x: 0, y: -10, z: 0}
 --- !u!212 &212840685330987510
 SpriteRenderer:
   m_ObjectHideFlags: 1

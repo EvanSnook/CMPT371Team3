@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,7 +10,7 @@ using UnityEngine.Assertions;
 /// and will contain options to control properties of the image through related scripts, as well as being able to
 /// control the position and size of the display.
 /// </summary>
-public class Copy : MonoBehaviour, IVRButton {
+public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     [SerializeField]
     private float buttonWidth = 100;
@@ -33,6 +34,12 @@ public class Copy : MonoBehaviour, IVRButton {
 
     private List<VRButton> buttons = new List<VRButton>();
     public VRButton button;
+    public SliderBar slider;
+
+    public Vector3 sliderPosition;
+
+    private bool brightnessOn = false;
+    private SliderBar brightnessSlider;
     
 
     /// <summary>
@@ -166,7 +173,7 @@ public class Copy : MonoBehaviour, IVRButton {
                 break;
 
             case "Brightness":    // Brightness button clicked
-                // TODO: Implement Brightness code
+                this.brightness();
                 break;
 
             case "Resize":    // Resize button clicked
@@ -206,5 +213,31 @@ public class Copy : MonoBehaviour, IVRButton {
         this.isCurrentImage = true;
     }
 
-    
+    private void brightness()
+    {
+        if (!this.brightnessOn)
+        {
+            this.brightnessSlider = Instantiate(slider, sliderPosition, new Quaternion(0, 0, 0, 0));
+            this.brightnessSlider.manager = this.gameObject;
+            this.brightnessOn = true;
+            this.brightnessSlider.Setup(0);
+        }
+        else
+        {
+            DestroyImmediate(this.brightnessSlider);
+            this.brightnessOn = false;
+
+        }
+
+    }
+
+    public void SliderUpdate(float value)
+    {
+        throw new NotImplementedException();
+        if (this.brightnessOn)
+        {
+            //update brightness
+        }//else if ()
+        
+    }
 }
