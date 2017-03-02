@@ -58,6 +58,7 @@ public class Tray : MonoBehaviour {
             }
             //Debug.Log("Going to instantiate thumb");
             GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
+            newThumb.transform.parent = gameObject.transform;
             //Debug.Log("Instantiated new thumb");
             newThumb.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
             newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);

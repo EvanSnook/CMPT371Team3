@@ -58,6 +58,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the load button to access the filesystem
         this.loadButton = Instantiate(button, loadButtonPosition, 
             Quaternion.Euler(loadButtonRotation));
+        loadButton.transform.parent = gameObject.transform;
 
         this.loadButton.name = "Load";
         this.loadButton.manager = this.gameObject;
@@ -66,6 +67,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Quit button 
         this.quitButton = Instantiate(button, quitButtonPosition,
             Quaternion.Euler(quitButtonRotation));
+        quitButton.transform.parent = gameObject.transform;
 
         this.quitButton.name = "Quit";
         this.quitButton.manager = this.gameObject;
@@ -73,6 +75,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Minimize button 
         this.minimizeButton = Instantiate(button, minimizeButtonPosition,
             Quaternion.Euler(minimizeButtonRotation));
+        minimizeButton.transform.parent = gameObject.transform;
 
         this.minimizeButton.name = "Minimize";
         this.minimizeButton.manager = this.gameObject;
