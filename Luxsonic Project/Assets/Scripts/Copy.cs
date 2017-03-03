@@ -70,8 +70,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     void Update()
     {
-        Debug.Log("Current: " + this.isCurrentImage);
-        Debug.Log("Visible: " + this.buttonsVisible);
+//        Debug.Log("Current: " + this.isCurrentImage);
+//        Debug.Log("Visible: " + this.buttonsVisible);
         // Check if we should create the buttons
         if (this.isCurrentImage && !this.buttonsVisible)
         {
@@ -215,28 +215,32 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     private void brightness()
     {
+		// If the brightness is not on, rreate a slider and display it in the scene
         if (!this.brightnessOn)
         {
             this.brightnessSlider = Instantiate(slider, sliderPosition, new Quaternion(0, 0, 0, 0));
             this.brightnessSlider.manager = this.gameObject;
+			Light light = this.brightnessSlider.manager.GetComponent<Light> ();
+			this.brightnessSlider.Setup(light.color.r);
             this.brightnessOn = true;
-            this.brightnessSlider.Setup(0);
         }
         else
         {
-            DestroyImmediate(this.brightnessSlider);
+			// If the brightness button is pressed again, hide the slider
+			DestroyImmediate(this.brightnessSlider.gameObject);
             this.brightnessOn = false;
-
+			Debug.Log ("Brightness Close");
         }
 
     }
 
     public void SliderUpdate(float value)
     {
-        throw new NotImplementedException();
+		// If the brightness is on, update the value of the image according to the slider
         if (this.brightnessOn)
         {
-            //update brightness
+			Light light = this.GetComponent<Light> ();
+			light.color = new Color(value, value, value);
         }//else if ()
         
     }

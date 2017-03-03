@@ -10,10 +10,10 @@ public class SliderBar : MonoBehaviour {
 
     Vector3 maxPosition;
     Vector3 minPosition;
-    Vector3 currentPosition;
+    Vector3 knobPosition;
 
     private float convertedMaxPosition;
-    private float convertedCurrentPosition;
+	private float convertedKnobPosition;
 
     float maxVal = 1;
     float minVal = 0;
@@ -22,28 +22,47 @@ public class SliderBar : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Renderer rend = sliderBase.GetComponent<Renderer>();
-        maxPosition = rend.bounds.max;
-        minPosition = rend.bounds.min;
+//        Renderer rend = sliderBase.GetComponent<Renderer>();
+//        maxPosition = rend.bounds.max;
+//        minPosition = rend.bounds.min;
+//		Debug.Log ("minPos: " + minPosition);
+//
+//        convertedMaxPosition = maxPosition.x - minPosition.x;
 
-        convertedMaxPosition = maxPosition.x - minPosition.x;
-
-        Setup(sliderKnob.transform.position.x);
+//        Setup(sliderKnob.transform.position.x);
 	}
 
     /// <summary>
-    /// Called by the manager
+    /// Called by the manager to set up the slider
     /// </summary>
-    /// <param name="currentVal"></param>
+    /// <param name="currentVal">Current Value of the image we are updating</param>
     public void Setup(float currentVal)
     {
-        convertedCurrentPosition = currentVal;
-        sliderKnob.transform.position.Set(convertFromScale(currentVal), sliderKnob.transform.position.y, sliderKnob.transform.position.z);
-        currentPosition = sliderKnob.transform.position;
+		// Getting bounds of the slider in the world space
+		Renderer rend = sliderBase.GetComponent<Renderer>();
+		maxPosition = rend.bounds.max;
+		minPosition = rend.bounds.min;
+		Debug.Log ("max position: " + maxPosition);
+		Debug.Log ("min position: " + minPosition);
+
+		// Converting world space max to scaled max
+		convertedMaxPosition = maxPosition.x - minPosition.x;
+
+		// Converting the value retrieved from image
+		convertedKnobPosition = ConvertFromPercentOfSliderToScale(currentVal);
+
+		// Moving slider knob to position of image value
+		sliderKnob.transform.position = new Vector3(ConvertFromScaleToCoord(ConvertFromPercentOfSliderToScale(currentVal)), sliderKnob.transform.position.y, sliderKnob.transform.position.z);
+
+		// Updating the current position to the value of the slider knob
+        knobPosition = sliderKnob.transform.position;
+		Debug.Log ("knob: " + knobPosition);
+
+		// Setting the boundaries of the knob to the slider boundaries
         sliderKnob.GetComponent<SliderKnob>().SetLeftBoundary(this.minPosition);
         sliderKnob.GetComponent<SliderKnob>().SetRightBoundary(this.maxPosition);
     }
-
+		
     void OnCollisionEnter(Collision collision)
     {
         this.update = true;
@@ -54,15 +73,65 @@ public class SliderBar : MonoBehaviour {
         this.update = false;
     }
 
-    float convertToScale(float point)
+	/// <summary>
+	/// Converts the coordinate to the scale of the slider
+	/// </summary>
+	/// <returns>The scaled version of the coordinate.</returns>
+	/// <param name="value">Value.</param>
+    float ConvertFromCoordToScale(float value)
     {
-        return currentPosition.x - minPosition.x / convertedMaxPosition;
+        return value - minPosition.x;
     }
 
-    float convertFromScale(float value)
+	/// <summary>
+	/// Convert the scale of the slider to the coordinate
+	/// </summary>
+	/// <returns>The coordinate of the scale.</returns>
+	/// <param name="value">Value.</param>
+    float ConvertFromScaleToCoord(float value)
     {
-        return value * convertedMaxPosition + minPosition.x;
+        return value + minPosition.x;
     }
+
+	/// <summary>
+	/// Convert coordinate to percent scale
+	/// </summary>
+	/// <returns>The percent of slider.</returns>
+	/// <param name="value">Value.</param>
+	float ConvertFromCoordToPercentOfSlider(float value)
+	{
+		return (value - minPosition.x) / convertedMaxPosition;
+	}
+
+	/// <summary>
+	/// Convert the percent of slider to the coordinate
+	/// </summary>
+	/// <returns>The coordinate of the value.</returns>
+	/// <param name="value">Value.</param>
+	float ConvertFromPercentOfSliderToCoord(float value)
+	{
+		return ConvertFromScaleToCoord (ConvertFromPercentOfSliderToScale (value));
+	}
+
+	/// <summary>
+	/// Converts percent scale to scale
+	/// </summary>
+	/// <returns>The scaled value.</returns>
+	/// <param name="value">Value.</param>
+	float ConvertFromPercentOfSliderToScale(float value)
+	{
+		return value * convertedMaxPosition;
+	}
+
+	/// <summary>
+	/// Converts the scale to the percent of slider
+	/// </summary>
+	/// <returns>The percent of slider.</returns>
+	/// <param name="value">Value.</param>
+	float ConvertFromScaleToPercentOfSlider(float value)
+	{
+		return value / convertedMaxPosition;
+	}
 
     public void setUpdate(bool update)
     {
@@ -74,9 +143,10 @@ public class SliderBar : MonoBehaviour {
     {
         if (update)
         {
-            Debug.Log("Updating");
-            currentPosition = sliderKnob.transform.position;
-            manager.SendMessage("SliderUpdate", convertToScale(currentPosition.x));
+//            Debug.Log("Updating");
+            knobPosition = sliderKnob.transform.position;
+			Debug.Log ("Converted: " + ConvertFromCoordToPercentOfSlider (knobPosition.x));
+			manager.SendMessage("SliderUpdate", ConvertFromCoordToPercentOfSlider(knobPosition.x));
         }
 	}
 }
