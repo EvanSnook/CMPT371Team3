@@ -154,63 +154,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &483316346
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 483316348}
-  - component: {fileID: 483316347}
-  m_Layer: 0
-  m_Name: Display
-  m_TagString: ImageManager
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &483316347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 483316346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f42b176b16bfd8a4b89a31d7e1071e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayDepth: -100
-  copyObj: {fileID: 1930037738419080, guid: 92f5b414e4a249f43a08dea3aee0736c, type: 2}
-  trayObj: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1, type: 2}
-  displayImageObj: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
-    type: 2}
-  trayCreated: 0
-  trayPosition: {x: 880, y: -30, z: -250}
-  trayRotation: {x: 0, y: 0, z: 0}
-  displayImagePositions:
-  - {x: 200, y: 150, z: -100}
-  - {x: 450, y: 150, z: -100}
-  - {x: 700, y: 150, z: -100}
-  button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  leftScrollPosition: {x: 350, y: 50, z: -250}
-  leftScrollRotation: {x: 0, y: 0, z: 0}
-  rightScrollPosition: {x: 550, y: 50, z: -250}
-  rightScrollRotation: {x: 0, y: 0, z: 0}
---- !u!4 &483316348
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 483316346}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1083756546
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +241,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1171978323
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1205193362
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +294,7 @@ GameObject:
   - component: {fileID: 1205193363}
   m_Layer: 0
   m_Name: Dashboard
-  m_TagString: WorkspaceManager
+  m_TagString: Dashboard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -326,7 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
-  display: {fileID: 114128562486853902, guid: 65b68a79e4683cf43b7282b0497acb72, type: 2}
+  display: {fileID: 0}
   myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
   loadButtonPosition: {x: 880, y: 10, z: -250}
