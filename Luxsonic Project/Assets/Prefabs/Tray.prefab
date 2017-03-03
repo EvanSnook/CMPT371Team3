@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d103b545e47d6e4083b5f18614dd385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trayStartX: 880
-  trayStartZ: -250
+  trayStartX: 0.5
+  trayStartZ: 0.5
   trayDepth: 0
   trayNumColumns: 3
   trayNumRows: 3
