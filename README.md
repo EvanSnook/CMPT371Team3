@@ -71,9 +71,10 @@ For our project, we are using a [Confluence](https://wiki.usask.ca/display/C371T
 The coding style that will be employed for this project will be the style referenced and uploaded to ‘Code Project’ by Tony Manjaly.  For reference, the style guide can be found [here](https://www.codeproject.com/Articles/8971/C-Coding-Standards-and-Best-Programming-Practices).
 
 Due to personal preferences of the team, we will deviate from the style guide on the following criteria:
-```1. All indented tabs will be four spaces in length, as opposed to the specified notation of 2 spaces.  Two space indents will only be used in instances of line-wrapping.
 
-2. While Class declarations will still use Pascal casing, Camel case will be used for function names.```
+> 1. All indented tabs will be four spaces in length, as opposed to the specified notation of 2 spaces.  Two space indents will only be used in instances of line-wrapping.
+
+> 2. While Class declarations will still use Pascal casing, Camel case will be used for function names.
 
 #### Continuous Integration
 Because the project is done in the Unity 5 engine, some continuous integration methods may experience issues when attempting to create builds for the project. Unity Cloud Build is a service offered for free by the Unity team, and gives a seamless interface with unity project repositories. More information on this service can be found [here](https://unity3d.com/learn/tutorials/topics/cloud-build/introduction-unity-cloud-build).
