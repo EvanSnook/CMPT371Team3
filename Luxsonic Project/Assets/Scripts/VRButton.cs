@@ -10,7 +10,9 @@ public class VRButton : MonoBehaviour {
 
     public string name;
     public GameObject manager;  // The object that creates and contains the functionality for this button.
-    public TextMesh textObject; 
+    public TextMesh textObject;
+    bool pressed = false;
+    int timer;
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -21,6 +23,7 @@ public class VRButton : MonoBehaviour {
     void Start () {
         textObject = gameObject.GetComponentInChildren<TextMesh>();
         textObject.text = name;
+        timer = 0;
 	}
 
     void OnMouseDown()
