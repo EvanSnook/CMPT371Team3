@@ -18,12 +18,20 @@ public class SliderKnob : MonoBehaviour {
 		zCoord = this.transform.position.z;
 	}
 
+    /// <summary>
+    /// Set the left boundary for the slider knob's position
+    /// </summary>
+    /// <param name="bound">The posiiton of the boundary</param>
     public void SetLeftBoundary(Vector3 bound)
     {
         this.leftBoundary = bound;
        
     }
 
+    /// <summary>
+    /// Set the right boundary for the slider knob's position
+    /// </summary>
+    /// <param name="bound">The position of the boundary</param>
     public void SetRightBoundary(Vector3 bound)
     {
         this.rightBoundary = bound;
@@ -47,6 +55,7 @@ public class SliderKnob : MonoBehaviour {
         return this.rightBoundary;
     }
 
+    
 	public void FixedUpdate() {
 		knob.transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, leftBoundary.x, rightBoundary.x), yCoord, zCoord);
 		sliderBase.GetComponent<SliderBar>().setUpdate(true);

@@ -20,17 +20,6 @@ public class SliderBar : MonoBehaviour {
 
     private bool update = false;
 
-	// Use this for initialization
-	void Start () {
-//        Renderer rend = sliderBase.GetComponent<Renderer>();
-//        maxPosition = rend.bounds.max;
-//        minPosition = rend.bounds.min;
-//		Debug.Log ("minPos: " + minPosition);
-//
-//        convertedMaxPosition = maxPosition.x - minPosition.x;
-
-//        Setup(sliderKnob.transform.position.x);
-	}
 
     /// <summary>
     /// Called by the manager to set up the slider
