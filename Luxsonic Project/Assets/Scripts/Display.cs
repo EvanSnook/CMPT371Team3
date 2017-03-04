@@ -33,6 +33,10 @@ public class Display : MonoBehaviour, IVRButton {
 
     public VRButton button;
 
+    //Left and right buttons to scroll through the images in Display
+    private VRButton left;
+    private VRButton right;
+
     // Define positions for the scroll buttons
     public Vector3 leftScrollPosition;
     public Vector3 leftScrollRotation;
@@ -96,6 +100,8 @@ public class Display : MonoBehaviour, IVRButton {
             Quaternion.Euler(leftScrollRotation));
         leftScrollButton.transform.parent = gameObject.transform;
 
+        left = leftScrollButton;
+
         leftScrollButton.name = "Left";
         leftScrollButton.manager = this.gameObject;
 
@@ -103,6 +109,8 @@ public class Display : MonoBehaviour, IVRButton {
         VRButton rightScrollButton = Instantiate(button, rightScrollPosition,
             Quaternion.Euler(rightScrollRotation));
         rightScrollButton.transform.parent = gameObject.transform;
+
+        right = rightScrollButton;
 
         rightScrollButton.name = "Right";
         rightScrollButton.manager = this.gameObject;
