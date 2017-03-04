@@ -43,7 +43,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
-        display = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         DisplayMenu();
     }
 
@@ -131,7 +131,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// </summary>
     private void Load()
     {
-        Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        Display imageMan = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
         //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
