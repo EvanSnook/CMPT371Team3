@@ -3,48 +3,59 @@ Repository for Luxsonic Project
 
 ## Team Members
 
-#### Brady
+### Brady
 **Developer/Tester**
+
 _Insert Bio Here_
 
-#### Brianne
+### Brianne
 **Developer/Tester**
+
 _Insert Bio Here_
 
-#### Evan
+### Evan
 **Lead Tester**
+
 _Insert Bio Here_
 
-#### Heramb
+### Heramb
 **Developer/Tester**
+
 _Insert Bio Here_
 
-#### Ix
+### Ix
 **Build Manager/Tester**
+
 _Insert Bio Here_
 
-#### Jack
+### Jack
 **Risk Officer/Developer**
+
 _Insert Bio Here_
 
-#### Janelle
+### Janelle
 **Project Manager**
+
 _Insert Bio Here_
 
-#### Kevin
+### Kevin
 **Developer**
+
 _Insert Bio Here_
 
-#### Kyle
+### Kyle
 **Developer**
+
 _Insert Bio Here_
 
-#### Mackenzie
+### Mackenzie
 **Lead Developer**
+
 _Insert Bio Here_
 
-#### Nhi
+### Nhi
 **Developer/Tester**
+
 _Insert Bio Here_
 
 
