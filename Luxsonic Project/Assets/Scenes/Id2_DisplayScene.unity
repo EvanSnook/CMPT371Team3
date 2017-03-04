@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -466,6 +466,96 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayDepth
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: trayPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: trayPosition.y
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: trayPosition.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: trayRotation.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[0].x
+      value: -2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[0].y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[0].z
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[1].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[1].y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[1].z
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[2].x
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[2].y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePositions.Array.data[2].z
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: leftScrollPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: leftScrollPosition.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: rightScrollPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: rightScrollPosition.z
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
   m_IsPrefabParent: 0
@@ -500,12 +590,12 @@ MonoBehaviour:
   display: {fileID: 0}
   myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  loadButtonPosition: {x: 880, y: 10, z: -250}
-  loadButtonRotation: {x: 0, y: 28, z: 0}
-  quitButtonPosition: {x: 880, y: 80, z: -250}
-  quitButtonRotation: {x: 0, y: 28, z: 0}
-  minimizeButtonPosition: {x: 880, y: 150, z: -250}
-  minimizeButtonRotation: {x: 0, y: 28, z: 0}
+  loadButtonPosition: {x: 0.5, y: 0.265, z: 0}
+  loadButtonRotation: {x: 0, y: 30, z: 0}
+  quitButtonPosition: {x: 0.5, y: 0.39, z: 0}
+  quitButtonRotation: {x: 0, y: 30, z: 0}
+  minimizeButtonPosition: {x: 0.5, y: 0.15, z: 0}
+  minimizeButtonRotation: {x: 0, y: 30, z: 0}
   dummyImages:
   - {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
   - {fileID: 2800000, guid: 89ed09b34f6cbcf4087020ea44a4fa96, type: 3}
