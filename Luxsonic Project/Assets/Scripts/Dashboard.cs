@@ -45,7 +45,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
-        display = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         DisplayMenu();
     }
 
