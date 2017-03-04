@@ -24,7 +24,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     private float buttonStartY;
 
     public Transform myTransform;     // The transform of the display object in world space
-    public SpriteRenderer imageRenderer;   // The image to render on the display object 
+    public MeshRenderer imageRenderer;   // The image to render on the display object 
     public bool isCurrentImage;     // Determines if this instance of a display object is currently selected
     public float imageBrightness;   // The brigtness of the display
     public float imageContrast;     // The contrast of the display
@@ -40,6 +40,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     private bool brightnessOn = false;
     private SliderBar brightnessSlider;
+	public float copyScale = 1;
     
 
     /// <summary>
@@ -50,16 +51,20 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     public void NewCopy(Texture2D image)
     {
         Assert.IsNotNull(image);
-        this.imageRenderer = this.GetComponent<SpriteRenderer>();
-        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+//        this.imageRenderer = this.GetComponent<SpriteRenderer>();
+//        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+//		renderer.material.SetTexture("_MyTexture", myTexture);
+		this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
+		this.imageRenderer = this.GetComponent<MeshRenderer>();
+		this.imageRenderer.material.SetTexture ("_MainTex", image);
         this.myTransform = this.GetComponent<Transform>();
         this.buttonsVisible = false;
 
         // Get the size of the image sprite and use it to form the bounding box
-        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
-        this.GetComponent<BoxCollider>().size = bbSize;
-        this.buttonStartX = bbSize.x;
-        this.buttonStartY = bbSize.y;
+//        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
+//        this.GetComponent<BoxCollider>().size = bbSize;
+//        this.buttonStartX = bbSize.x;
+//        this.buttonStartY = bbSize.y;
     }
 
 
