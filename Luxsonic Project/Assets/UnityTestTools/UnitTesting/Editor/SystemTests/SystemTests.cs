@@ -14,10 +14,10 @@ public class SystemTests : MonoBehaviour {
 		Display display = new Display ();
 		dashboard.display = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
 		dashboard.VRButtonClicked ("Load");
-		Copy[] copies = GameObject.FindGameObjectsWithTag("Copy");
-			
-
-		display.AddImage(
+		//do sprite comparison with display.images
+		Thumbnail thumbnail = (display.getThumbnails ())[0];
+		Display.createCopy (((Tray.getThumbnails ()) [0]).image);
+		Copy[] afterCopies = GameObject.FindGameObjectsWithTag("Copy");
 	}
 
 
