@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4808385075304406}
   - component: {fileID: 23208273623493734}
   - component: {fileID: 102128343087647346}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Button Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,9 +41,9 @@ GameObject:
   - component: {fileID: 23750761716645212}
   - component: {fileID: 114479172734115492}
   - component: {fileID: 54712896265217204}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VRButton
-  m_TagString: Untagged
+  m_TagString: MenuButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &65766321410543524
 BoxCollider:

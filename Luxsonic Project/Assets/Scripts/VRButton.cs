@@ -10,18 +10,39 @@ public class VRButton : MonoBehaviour {
 
     public string name;
     public GameObject manager;  // The object that creates and contains the functionality for this button.
-    public TextMesh textObject; 
+    public TextMesh textObject;
+    bool pressed = false;
+    int timer;
 
     public void OnCollisionEnter(Collision collision)
     {
-        manager.SendMessage("VRButtonClicked", name);
-        textObject.color = Color.black;
+        if ((timer == 0) && (pressed == false) && (collision.gameObject.tag == "Hand"))
+        {
+            manager.SendMessage("VRButtonClicked", name);
+            textObject.color = Color.black;
+            timer = 200;
+            pressed = true;
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        pressed = false;
     }
     // Use this for initialization
     void Start () {
         textObject = gameObject.GetComponentInChildren<TextMesh>();
         textObject.text = name;
+        timer = 0;
 	}
+
+    private void Update()
+    {
+        if(timer > 0)
+        {
+            timer = timer - 1;
+        }
+    }
 
     void OnMouseDown()
     {

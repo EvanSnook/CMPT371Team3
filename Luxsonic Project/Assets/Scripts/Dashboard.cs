@@ -43,6 +43,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
+        display = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
         DisplayMenu();
     }
 
@@ -58,6 +59,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the load button to access the filesystem
         this.loadButton = Instantiate(button, loadButtonPosition, 
             Quaternion.Euler(loadButtonRotation));
+        loadButton.transform.parent = gameObject.transform;
 
         this.loadButton.name = "Load";
         this.loadButton.manager = this.gameObject;
@@ -66,6 +68,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Quit button 
         this.quitButton = Instantiate(button, quitButtonPosition,
             Quaternion.Euler(quitButtonRotation));
+        quitButton.transform.parent = gameObject.transform;
 
         this.quitButton.name = "Quit";
         this.quitButton.manager = this.gameObject;
@@ -73,6 +76,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Minimize button 
         this.minimizeButton = Instantiate(button, minimizeButtonPosition,
             Quaternion.Euler(minimizeButtonRotation));
+        minimizeButton.transform.parent = gameObject.transform;
 
         this.minimizeButton.name = "Minimize";
         this.minimizeButton.manager = this.gameObject;
@@ -127,9 +131,8 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// </summary>
     private void Load()
     {
-        Debug.Log("Load button pressed!");
         Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
-        imageMan.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
+        display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
         //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
 
@@ -147,7 +150,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
             
             this.loadButton.gameObject.SetActive(true);
             this.quitButton.gameObject.SetActive(true);
-            this.display.gameObject.SetActive(true);
+            //this.display.gameObject.SetActive(true);
 
             this.minimized = false;
             
@@ -156,7 +159,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
             this.loadButton.gameObject.SetActive(false);
             this.quitButton.gameObject.SetActive(false);
-            this.display.gameObject.SetActive(false);
+            //this.display.gameObject.SetActive(false);
 
             this.minimized = true;
         }
