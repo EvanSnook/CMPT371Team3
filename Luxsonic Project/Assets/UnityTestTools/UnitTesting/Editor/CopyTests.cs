@@ -15,7 +15,7 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<SpriteRenderer>();
+        copyObj.AddComponent<MeshRenderer>();
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
@@ -24,7 +24,6 @@ public class CopyTests
         newCopy.NewCopy(tex);
 
         // The properties of the display should not be null
-//        Assert.IsNotNull(newCopy.imageRenderer.sprite, "The sprite on the new display was null.");
         Assert.IsNotNull(newCopy.myTransform, "The transform on the new display is Null");
     }
 
@@ -35,7 +34,7 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<SpriteRenderer>();
+        copyObj.AddComponent<MeshRenderer>();
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
