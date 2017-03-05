@@ -268,6 +268,29 @@ Prefab:
       value: 
       objectReference: {fileID: 1982698054416626, guid: 7403dba5e26664be3b92e3ade9248a9f,
         type: 2}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: copyPrefab
+      value: 
+      objectReference: {fileID: 1982698054416626, guid: 7403dba5e26664be3b92e3ade9248a9f,
+        type: 2}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: trayPrefab
+      value: 
+      objectReference: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1,
+        type: 2}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: displayImagePrefab
+      value: 
+      objectReference: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
+        type: 2}
+    - target: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379,
+        type: 2}
+      propertyPath: copyDepth
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
   m_IsPrefabParent: 0

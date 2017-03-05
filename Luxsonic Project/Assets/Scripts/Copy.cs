@@ -62,6 +62,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     /// <summary>
     /// Creates a new Copy object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
+	/// Pre:: Texture2D image to add
+	/// Post:: A new Copy is created for the user to manipulate
+	/// Return:: nothing
     /// </summary>
     /// <param name="image"> A Texture2D to use as the image to display to the user </param>
     public void NewCopy(Texture2D image)
@@ -83,12 +86,18 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 //        this.buttonStartY = bbSize.y;
     }
 
-
+	/// <summary>
+	/// Raises the trigger enter event when the user has selected the Copy
+	/// </summary>
+	/// <param name="other">Other.</param>
     public void OnTriggerEnter(Collider other)
     {
         this.isCurrentImage = true;
     }
 
+	/// <summary>
+	/// Update this instance with visibile manipulation buttons if it is the current image.
+	/// </summary>
     void Update()
     {
 //        Debug.Log("Current: " + this.isCurrentImage);
@@ -110,6 +119,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// Instantiate the buttons for this display
+	/// Pre:: A Copy exists to select
+	/// Post:: Buttons to manipulate the current Copy is visible
     /// </summary>
     public void DisplayButtons()
     {
@@ -162,6 +173,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// Hide the buttons from the display by destroying them
+	/// Pre:: buttons are visible
+	/// Post:: buttons are no longer visible
+	/// Return:: nothing
     /// </summary>
     public void HideButtons()
     {
@@ -175,6 +189,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// When a button is clicked, execute the code associated with that button
+	/// Pre:: the button exists
+	/// Post:: An action is executed depending on the button
+	/// Return:: nothing
     /// </summary>
     /// <param name="button">The name of the button clicked</param>
     public void VRButtonClicked(string button)
@@ -220,7 +237,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     /// <summary>
     /// Returns the list of buttons for this display
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The list of buttons</returns>
     public List<VRButton> GetButtons()
     {
         return this.buttons;
@@ -234,6 +251,12 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         this.isCurrentImage = true;
     }
 
+	/// <summary>
+	/// A slider to adjust the brightness is instantiated
+	/// Pre:: The brightness button was clicked
+	/// Post:: A slider has been instantiated
+	/// Return:: nothing
+	/// </summary>
     private void Brightness()
     {
 		// If the brightness is not on, rreate a slider and display it in the scene
@@ -255,6 +278,14 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     }
 
+	/// <summary>
+	/// The Slider updates the image depending on the value being modified
+	/// Pre:: The Slider has been instantiated and returns a value
+	/// Post:: The image is updated according to the Slider value
+	/// Return:: nothing
+	/// </summary>
+	/// <returns>The update.</returns>
+	/// <param name="value">Value.</param>
     public void SliderUpdate(float value)
     {
 		// If the brightness is on, update the value of the image according to the slider
