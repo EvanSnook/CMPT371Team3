@@ -47,7 +47,7 @@ public class SystemTests : MonoBehaviour {
 	}
 
 	[Test]
-	public void copyDifferentThanTray(){
+	public void copyDifferentThanTray(){ 
 
 	}
 }
