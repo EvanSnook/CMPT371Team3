@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 108004381839638286}
   m_Layer: 9
   m_Name: Copy2
-  m_TagString: Untagged
+  m_TagString: Copy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

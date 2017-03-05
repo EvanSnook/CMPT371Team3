@@ -10,6 +10,7 @@ TagManager:
   - DisplayImage
   - Copy
   - Hand
+  - Thumbnail
   layers:
   - Default
   - TransparentFX
