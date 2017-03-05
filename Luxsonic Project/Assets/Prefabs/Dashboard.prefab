@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1222781642652328}
+  m_RootGameObject: {fileID: 1045513445904380}
   m_IsPrefabParent: 1
---- !u!1 &1222781642652328
+--- !u!1 &1045513445904380
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4307485221446028}
-  - component: {fileID: 114128562486853902}
+  - component: {fileID: 4039893335024954}
+  - component: {fileID: 114811804582969356}
   m_Layer: 0
-  m_Name: Display
-  m_TagString: Display
+  m_Name: Dashboard
+  m_TagString: Dashboard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4307485221446028
+--- !u!4 &4039893335024954
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1222781642652328}
+  m_GameObject: {fileID: 1045513445904380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,31 +40,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114128562486853902
+--- !u!114 &114811804582969356
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1222781642652328}
+  m_GameObject: {fileID: 1045513445904380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f42b176b16bfd8a4b89a31d7e1071e55, type: 3}
+  m_Script: {fileID: 11500000, guid: c01512cc8c361584e9608db3850da30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayDepth: 50
-  copyObj: {fileID: 1982698054416626, guid: 7403dba5e26664be3b92e3ade9248a9f, type: 2}
-  trayObj: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1, type: 2}
-  displayImageObj: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
-    type: 2}
-  trayCreated: 0
-  trayPosition: {x: 800, y: -30, z: -250}
-  trayRotation: {x: 0, y: 0, z: 0}
-  displayImagePositions:
-  - {x: 200, y: 150, z: -100}
-  - {x: 450, y: 150, z: -100}
-  - {x: 700, y: 150, z: -100}
+  loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
+  display: {fileID: 0}
+  myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  leftScrollPosition: {x: 350, y: 50, z: -250}
-  leftScrollRotation: {x: 0, y: 0, z: 0}
-  rightScrollPosition: {x: 550, y: 50, z: -250}
-  rightScrollRotation: {x: 0, y: 0, z: 0}
+  loadButtonPosition: {x: 880, y: 10, z: -250}
+  loadButtonRotation: {x: 0, y: 30, z: 0}
+  quitButtonPosition: {x: 880, y: 80, z: -250}
+  quitButtonRotation: {x: 0, y: 30, z: 0}
+  minimizeButtonPosition: {x: 880, y: 150, z: -250}
+  minimizeButtonRotation: {x: 0, y: 30, z: 0}
+  dummyImages:
+  - {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
+  - {fileID: 2800000, guid: 89ed09b34f6cbcf4087020ea44a4fa96, type: 3}
+  - {fileID: 2800000, guid: ac27c99b0a793cb4899d31cfaf8a2299, type: 3}

@@ -218,6 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a31f6b1e630eff44b192972aaa8dd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderBase: {fileID: 1544930291349284}
-  sliderKnob: {fileID: 1250570518163122}
+  sliderBasePrefab: {fileID: 1544930291349284}
+  sliderKnobPrefab: {fileID: 1250570518163122}
   manager: {fileID: 0}

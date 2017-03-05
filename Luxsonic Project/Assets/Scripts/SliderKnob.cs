@@ -10,8 +10,8 @@ public class SliderKnob : MonoBehaviour {
 	private float yCoord;
 	private float zCoord;
 
-    public GameObject knob;
-    public GameObject sliderBase;
+    public GameObject knobPrefab;
+    public GameObject sliderBasePrefab;
 
 	void Start() {
 		yCoord = this.transform.position.y;
@@ -41,7 +41,7 @@ public class SliderKnob : MonoBehaviour {
 	/// Gets the left boundary.
 	/// </summary>
 	/// <returns>The left boundary.</returns>
-    public Vector3 getLeftBoundary()
+    public Vector3 GetLeftBoundary()
     {
         return this.leftBoundary;
     }
@@ -50,26 +50,28 @@ public class SliderKnob : MonoBehaviour {
 	/// Gets the right boundary.
 	/// </summary>
 	/// <returns>The right boundary.</returns>
-    public Vector3 getRightBoundary()
+    public Vector3 GetRightBoundary()
     {
         return this.rightBoundary;
     }
 
     
 	public void FixedUpdate() {
-		knob.transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, leftBoundary.x, rightBoundary.x), yCoord, zCoord);
-		sliderBase.GetComponent<SliderBar>().setUpdate(true);
+		knobPrefab.transform.position = new Vector3 (Mathf.Clamp(this.transform.position.x, leftBoundary.x, rightBoundary.x), yCoord, zCoord);
+		sliderBasePrefab.GetComponent<SliderBar>().setUpdate(true);
 	}
 
     void OnMouseDrag()
     {
-		knob.transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x, leftBoundary.x, rightBoundary.x), knob.transform.position.y, knob.transform.position.z);
-        sliderBase.GetComponent<SliderBar>().setUpdate(true);
+		knobPrefab.transform.position = new Vector3(Mathf.Clamp(Input.mousePosition.x, leftBoundary.x, rightBoundary.x), knobPrefab.transform.position.y, knobPrefab.transform.position.z);
+        sliderBasePrefab.GetComponent<SliderBar>().setUpdate(true);
     }
 
     private void OnMouseUp()
     {
-        sliderBase.GetComponent<SliderBar>().setUpdate(false);
+        sliderBasePrefab.GetComponent<SliderBar>().setUpdate(false);
     }
+
+   
 
 }

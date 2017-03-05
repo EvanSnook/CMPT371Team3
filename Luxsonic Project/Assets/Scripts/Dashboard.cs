@@ -128,7 +128,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     private void Load()
     {
         Debug.Log("Load button pressed!");
-        Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        Display imageMan = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         imageMan.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
         //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
