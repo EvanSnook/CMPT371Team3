@@ -18,10 +18,10 @@ public class Thumbnail : MonoBehaviour {
         
     }
 
-    public void OnCollisionEnter(Collision collision)
+    /*public void OnCollisionEnter(Collision collision)
     {
         manager.SendMessage("CreateCopy", image);
-    }
+    }*/
 
     void OnMouseDown()
     {

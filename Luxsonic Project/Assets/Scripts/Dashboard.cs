@@ -14,12 +14,14 @@ public class Dashboard : MonoBehaviour, IVRButton {
     //private float buttonHeight = 50;
 
     public GameObject loadBar;  // The file system to load images with
-    public Display display;
+    public Display display; // Creates a display object in dashboard
 
     public Transform myTransform;   
     public VRButton button;       // The button object to use as a button
 
     // Define where to instantiate the buttons
+    //First vector for each button contains position (x,y,z) and second contains rotation (x,y,z)
+    // These are the load, quit and minimize buttons seen on runtime
     public Vector3 loadButtonPosition;
     public Vector3 loadButtonRotation;
 
@@ -29,7 +31,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public Vector3 minimizeButtonPosition;
     public Vector3 minimizeButtonRotation;
 
-
+    //Images used to test load functionality
     public Texture2D[] dummyImages;
 
     // Reference to the buttons
@@ -43,7 +45,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
-        display = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
+        display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         DisplayMenu();
     }
 
@@ -131,7 +133,6 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// </summary>
     private void Load()
     {
-        Display imageMan = GameObject.FindGameObjectWithTag("ImageManager").GetComponent<Display>();
         display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
         //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
@@ -164,18 +165,4 @@ public class Dashboard : MonoBehaviour, IVRButton {
             this.minimized = true;
         }
     }
-
-    //public void OnGUI()
-    //{
-    //    // Convert the world point of the display to a screen point
-    //    Vector3 displayScreenPoint = Camera.main.WorldToScreenPoint(myTransform.position);
-
-    //    // The positions of the buttons, relative to the calculated screen point of the display.
-    //    Vector3 loadButtonPosition = displayScreenPoint - new Vector3(0, 0, 0);
-
-    //    // The loadbutton
-    //    if (GUI.Button(new Rect(loadButtonPosition.x, Screen.height - loadButtonPosition.y, buttonWidth, buttonHeight), "Load Image"))
-    //    {
-    //    }
-    //}
 }
