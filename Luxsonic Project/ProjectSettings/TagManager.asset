@@ -8,6 +8,7 @@ TagManager:
   - Dashboard
   - MenuButton
   - DisplayImage
+  - Copy
   layers:
   - Default
   - TransparentFX
