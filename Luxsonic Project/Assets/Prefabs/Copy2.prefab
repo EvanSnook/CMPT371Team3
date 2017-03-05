@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23059483453950826}
   - component: {fileID: 114756268186695970}
   - component: {fileID: 108004381839638286}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Copy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -154,3 +154,4 @@ MonoBehaviour:
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
   slider: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8, type: 2}
   sliderPosition: {x: 0, y: -30, z: 0}
+  copyScale: 1

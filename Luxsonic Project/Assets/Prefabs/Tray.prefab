@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d103b545e47d6e4083b5f18614dd385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trayStartX: 0
-  trayStartZ: 0
-  trayDepth: -0.5
+  trayStartX: 880
+  trayStartZ: -250
+  trayDepth: 0
   trayNumColumns: 3
   trayNumRows: 3
-  trayIncrementor: 1
-  trayThumbnailScale: 1
+  trayIncrementor: 150
+  trayThumbnailScale: 5
   thumbnail: {fileID: 1328449969215324, guid: ec64dadee99018142abfe2909a5180f0, type: 2}
   manager: {fileID: 0}
