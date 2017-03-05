@@ -9,6 +9,7 @@ TagManager:
   - MenuButton
   - DisplayImage
   - Copy
+  - Hand
   layers:
   - Default
   - TransparentFX
