@@ -41,7 +41,7 @@ public class CopyTests
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<VRButton>();
-        newCopy.button = buttonObj.GetComponent<VRButton>();
+        newCopy.buttonPrefab = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 
