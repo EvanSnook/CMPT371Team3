@@ -8,18 +8,28 @@ using UnityEngine;
 /// </summary>
 public class Tray : MonoBehaviour {
 
-    public float trayStartX;        // The top left x coordinate for the tray to display
-    public float trayStartZ;        // The top left z coordinate for the tray to display
-    public float trayDepth;         // The depth of the tray
-    public int trayNumColumns = 1;      // The number of columns for the tray to display, default 1
-    public int trayNumRows = 1;         // The number of rows for the tray to display, default 1
-    public float trayIncrementor = 1;   // The distance between each thumbnail
-    public float trayThumbnailScale = 1;// The scale for the images in the tray
+    // The top left x coordinate for the tray to display
+    public float trayStartX;
+    // The top left z coordinate for the tray to display
+    public float trayStartZ;
+    // The depth of the tray
+    public float trayDepth;
+    // The number of columns for the tray to display, default 1
+    public int trayNumColumns = 1;
+    // The number of rows for the tray to display, default 1
+    public int trayNumRows = 1;
+    // The distance between each thumbnail
+    public float trayIncrementor = 1;
+    // The scale for the images in the tray
+    public float trayThumbnailScale = 1;
 
-    public GameObject thumbnail;    // The object to use as a thumbnail
+    // The prefab to use as a thumbnail
+    public GameObject thumbnailPrefab;
+    // Manages everything in dashboard
     public Display manager;
 
-    List<GameObject> thumbnails = new List<GameObject>();   // The list of thumbnails being displayed in the tray
+    // The list of thumbnails being displayed in the tray
+    List<GameObject> thumbnails = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
@@ -39,7 +49,8 @@ public class Tray : MonoBehaviour {
             DestroyImmediate(t);
         }
 
-        thumbnails.Clear(); // Clear the list so we can recalculate the thumbnails
+        // Clear the list so we can recalculate the thumbnails
+        thumbnails.Clear(); 
         float x = trayStartX;
         float z = trayStartZ;
         // For each image in the list, create a thumbnail and display it in the tray
@@ -57,7 +68,8 @@ public class Tray : MonoBehaviour {
                 break;
             }
             //Debug.Log("Going to instantiate thumb");
-            GameObject newThumb = Instantiate(thumbnail, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
+            GameObject newThumb = Instantiate(thumbnailPrefab, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
+            newThumb.transform.parent = gameObject.transform;
             //Debug.Log("Instantiated new thumb");
             newThumb.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
             newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);

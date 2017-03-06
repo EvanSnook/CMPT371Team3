@@ -16,9 +16,12 @@ public class LoadBar : MonoBehaviour
     FileBrowser fb = new FileBrowser();
     string output = "no file";
 
+	// The display that will be exhibited in the scene
     public Display display;
 
-    // Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
     void Start()
     {
         //set the various textures
@@ -37,7 +40,8 @@ public class LoadBar : MonoBehaviour
     }
 
 
-    //Function OnGUI() is built into Unity and will display the desired Filebrowser for us
+    // OnGUI Will no longer be used since it does not work in VR, this will be recreated
+	// to work in VR in coming iterations.
     void OnGUI() {
         GUILayout.BeginHorizontal();
 		GUILayout.BeginVertical();
@@ -71,13 +75,16 @@ public class LoadBar : MonoBehaviour
             }
 		}
 	}
-
-    //Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
-    //to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
-    //from it.
-    //Preconditions: FileInfo file, the file to be converted
-    //Postconditions: updated ImageManager list and disabling the file-browser GUI
-    //Return: Nothing
+		
+	/// <summary>
+	/// Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
+	/// to the Display.  This is done by converting the file into an array of bytes and creating a new Texture
+	/// from it.
+	/// Pre:: FileInfo file, the file to be converted
+	/// Post:: updated Display list and disabling the file-browser GUI
+	/// Return:: nothin
+	/// </summary>
+	/// <param name="file">File.</param>
     public void ConvertAndSendImage(FileInfo file)
     {
         //We can't do anything with a null file

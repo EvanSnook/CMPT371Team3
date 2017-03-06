@@ -14,12 +14,14 @@ public class Dashboard : MonoBehaviour, IVRButton {
     //private float buttonHeight = 50;
 
     public GameObject loadBar;  // The file system to load images with
-    public Display display;
+    public Display display; // Creates a display object in dashboard
 
     public Transform myTransform;   
     public VRButton button;       // The button object to use as a button
 
     // Define where to instantiate the buttons
+    //First vector for each button contains position (x,y,z) and second contains rotation (x,y,z)
+    // These are the load, quit and minimize buttons seen on runtime
     public Vector3 loadButtonPosition;
     public Vector3 loadButtonRotation;
 
@@ -29,7 +31,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public Vector3 minimizeButtonPosition;
     public Vector3 minimizeButtonRotation;
 
-
+    //Images used to test load functionality
     public Texture2D[] dummyImages;
 
     // Reference to the buttons
@@ -43,6 +45,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
+        display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         DisplayMenu();
     }
 
@@ -58,6 +61,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the load button to access the filesystem
         this.loadButton = Instantiate(button, loadButtonPosition, 
             Quaternion.Euler(loadButtonRotation));
+        loadButton.transform.parent = gameObject.transform;
 
         this.loadButton.name = "Load";
         this.loadButton.manager = this.gameObject;
@@ -66,6 +70,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Quit button 
         this.quitButton = Instantiate(button, quitButtonPosition,
             Quaternion.Euler(quitButtonRotation));
+        quitButton.transform.parent = gameObject.transform;
 
         this.quitButton.name = "Quit";
         this.quitButton.manager = this.gameObject;
@@ -73,6 +78,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Minimize button 
         this.minimizeButton = Instantiate(button, minimizeButtonPosition,
             Quaternion.Euler(minimizeButtonRotation));
+        minimizeButton.transform.parent = gameObject.transform;
 
         this.minimizeButton.name = "Minimize";
         this.minimizeButton.manager = this.gameObject;
@@ -127,9 +133,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// </summary>
     private void Load()
     {
-        Debug.Log("Load button pressed!");
-        Display imageMan = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
-        imageMan.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
+        display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
         //Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
 
@@ -147,7 +151,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
             
             this.loadButton.gameObject.SetActive(true);
             this.quitButton.gameObject.SetActive(true);
-            this.display.gameObject.SetActive(true);
+            //this.display.gameObject.SetActive(true);
 
             this.minimized = false;
             
@@ -156,23 +160,9 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
             this.loadButton.gameObject.SetActive(false);
             this.quitButton.gameObject.SetActive(false);
-            this.display.gameObject.SetActive(false);
+            //this.display.gameObject.SetActive(false);
 
             this.minimized = true;
         }
     }
-
-    //public void OnGUI()
-    //{
-    //    // Convert the world point of the display to a screen point
-    //    Vector3 displayScreenPoint = Camera.main.WorldToScreenPoint(myTransform.position);
-
-    //    // The positions of the buttons, relative to the calculated screen point of the display.
-    //    Vector3 loadButtonPosition = displayScreenPoint - new Vector3(0, 0, 0);
-
-    //    // The loadbutton
-    //    if (GUI.Button(new Rect(loadButtonPosition.x, Screen.height - loadButtonPosition.y, buttonWidth, buttonHeight), "Load Image"))
-    //    {
-    //    }
-    //}
 }

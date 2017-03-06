@@ -20,12 +20,11 @@ public class CopyTests
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
-
         newCopy.NewCopy(tex);
 
         // The properties of the display should not be null
         Assert.IsNotNull(newCopy.myTransform, "The transform on the new display is Null");
-        Assert.AreEqual(tex, newCopy.GetComponent<MeshRenderer>().material.GetTexture("_MainTex"),
+        Assert.AreEqual(tex, newCopy.GetComponent<MeshRenderer>().sharedMaterial.GetTexture("_MainTex"),
                             "Image in copy does not match image assigned");
     }
 
@@ -43,7 +42,7 @@ public class CopyTests
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<VRButton>();
-        newCopy.button = buttonObj.GetComponent<VRButton>();
+        newCopy.buttonPrefab = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 
@@ -72,7 +71,7 @@ public class CopyTests
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<VRButton>();
-        newCopy.button = buttonObj.GetComponent<VRButton>();
+        newCopy.buttonPrefab = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 

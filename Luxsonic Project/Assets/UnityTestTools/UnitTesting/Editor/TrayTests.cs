@@ -20,7 +20,7 @@ public class TrayTests : MonoBehaviour {
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
-        trayObject.GetComponent<Tray>().thumbnail = thumbObject;
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
         trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
         trayObject.GetComponent<Tray>().trayNumColumns = 3;
 

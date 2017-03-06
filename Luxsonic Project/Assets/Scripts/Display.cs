@@ -12,26 +12,44 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Display : MonoBehaviour, IVRButton {
 
-    public float displayDepth;
+	// The depth at which the copy will be placed in front of the user
+    public float copyDepth; 
 
-    List<Texture2D> images = new List<Texture2D>(); // The list of images that have been loaded 
-    LinkedList<GameObject> displayImages = new LinkedList<GameObject>();
+	// The list of images that have been loaded 
+    List<Texture2D> images = new List<Texture2D>(); 
+	// The list of display images that the user will be able to scroll through
+    LinkedList<GameObject> displayImages = new LinkedList<GameObject>(); 
 
-    List<GameObject> copies = new List<GameObject>();   // The list of displays currently in view
+	// The list of copies currently in view
+    List<GameObject> copies = new List<GameObject>();  
     
-    public GameObject copyObj;   // The object to use as a display
-    public GameObject trayObj;      // The object to use as the tray
-    public GameObject displayImageObj; // The object to display display images with
+	// The object prefab to use as a copy
+    public GameObject copyPrefab; 
+	// The object prefab to use as the tray
+    public GameObject trayPrefab;     
+	// The object prefab to use as the display images 
+    public GameObject displayImagePrefab; 
 
-    public bool trayCreated = false;
-    private Tray tray;
+	// Indicates whether a tray has already been created in the scene
+    public bool trayCreated = false; 
+	// The tray that will be exhibited in the scene
+    private Tray tray; 
 
-    public Vector3 trayPosition;    // The position to create the tray object
-    public Vector3 trayRotation;    // The rotation to spawn the tray at
+	// The position to create the tray object
+    public Vector3 trayPosition;  
+	// The rotation to spawn the tray at
+    public Vector3 trayRotation;    
 
-    public Vector3[] displayImagePositions = new Vector3[1];
+	// An array containing the positions of the display images
+	// currently set to the minimal value, real value is set within Unity editor
+    public Vector3[] displayImagePositions = new Vector3[1]; 
 
-    public VRButton button;
+	// The button prefab that will be used for all buttons
+    public VRButton buttonPrefab; 
+
+    //Left and right buttons to scroll through the images in Display
+    private VRButton leftScrollButton;
+    private VRButton rightScrollButton;
 
     // Define positions for the scroll buttons
     public Vector3 leftScrollPosition;
@@ -39,6 +57,7 @@ public class Display : MonoBehaviour, IVRButton {
     public Vector3 rightScrollPosition;
     public Vector3 rightScrollRotation;
 
+	// Indicates whether the scroll buttons are visible to the user	
     private bool scrollButtonsVisible = false;
 
     /// <summary>
@@ -53,18 +72,20 @@ public class Display : MonoBehaviour, IVRButton {
     /// <param name="image">The texture for the image to add</param>
     public void AddImage(Texture2D image)
     {
-        Assert.IsNotNull(image, "Image passed into ImageManager is null");
+        Assert.IsNotNull(image, "Image passed into Display is null");
         images.Add(image);
 
         // Create a game object to display the new image on
-        GameObject displayImage = Instantiate(displayImageObj, Vector3.zero, Quaternion.Euler(Vector3.zero));
+        GameObject displayImage = Instantiate(displayImagePrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
         displayImage.transform.parent = gameObject.transform;
         displayImage.SetActive(false);
-        displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), 
+			new Vector2(0.5f, 0.5f));
         
         displayImages.AddLast(displayImage);
 
-        
+        // If the number of display images is less or equal to the length of the display image positions array
+		// redraw the display iamges, else create the scroll bar buttons
         if (displayImages.Count <= displayImagePositions.Length)
         {
             redrawDisplayImages();
@@ -73,7 +94,7 @@ public class Display : MonoBehaviour, IVRButton {
         {
             if (!this.scrollButtonsVisible)
             {
-                displayScrollButtons();
+                createScrollButtons();
                 this.scrollButtonsVisible = true;
             }
         }
@@ -83,44 +104,50 @@ public class Display : MonoBehaviour, IVRButton {
 
 
     /// <summary>
-    /// Function displayScrollButtons() will create the left and right scroll buttons to
+    /// Function createScrollButtons() will create the left and right scroll buttons to
     /// browse through all images in the Display
-    /// Pre:: nothing
-    /// Post:: creation of left and rigfht scrol buttons
+    /// Pre:: there are more display images than the length of the display image positions array
+    /// Post:: instantiation of left and right scroll buttons and added to the hierarchy
     /// Return: nothing
     /// </summary>
-    private void displayScrollButtons()
+    private void createScrollButtons()
     {
         // Create the left scroll button
-        VRButton leftScrollButton = Instantiate(button, leftScrollPosition,
+        VRButton leftScrollButton = Instantiate(buttonPrefab, leftScrollPosition,
             Quaternion.Euler(leftScrollRotation));
         leftScrollButton.transform.parent = gameObject.transform;
 
-        leftScrollButton.name = "Left";
-        leftScrollButton.manager = this.gameObject;
+        this.leftScrollButton = leftScrollButton;
+
+        this.leftScrollButton.name = "Left";
+        this.leftScrollButton.manager = this.gameObject;
 
         // Create the right scroll button
-        VRButton rightScrollButton = Instantiate(button, rightScrollPosition,
+        VRButton rightScrollButton = Instantiate(buttonPrefab, rightScrollPosition,
             Quaternion.Euler(rightScrollRotation));
         rightScrollButton.transform.parent = gameObject.transform;
 
-        rightScrollButton.name = "Right";
-        rightScrollButton.manager = this.gameObject;
+        this.rightScrollButton = rightScrollButton;
+
+        this.rightScrollButton.name = "Right";
+        this.rightScrollButton.manager = this.gameObject;
 
         
     }
     
     /// <summary>
-    /// Function CreateTray() creates and displays the tray of thumbnail images
+    /// Function CreateTray() creates and displays the tray of thumbnails
+	/// The tray exhibits all images that are available to the user to cycle through in the display
     /// Pre:: nothing
-    /// Post: creation of new Tray
+    /// Post: a new Tray instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
     public void CreateTray()
     {
+		// If a Tray does not exist already, create a Tray
         if(!trayCreated)
         {
-            GameObject newTray = Instantiate(trayObj, trayPosition, Quaternion.Euler(trayRotation));
+            GameObject newTray = Instantiate(trayPrefab, trayPosition, Quaternion.Euler(trayRotation));
             newTray.transform.parent = gameObject.transform;
             this.tray = newTray.GetComponent<Tray>();
             this.tray.manager = this;
@@ -134,16 +161,20 @@ public class Display : MonoBehaviour, IVRButton {
 
     /// <summary>
     /// Function CreateCopy will instantiate a new Copy in the space at the center of the user's view
+	/// A Copy is the object that a user can manipulate and move within the workspace
     /// Pre:: Texture2D image
-    /// Post:: creation of a new copy
+    /// Post:: a new Copy is instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
-    public void CreateCopy(Texture2D image) {
+    public void CreateCopy(Texture2D image) 
+	{
         Assert.IsNotNull(image, "Creating new Copy from Display image was null");
+
+		// Retrieve the center point of the camera view and instantiate a Copy on that location
         Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 
             Camera.main.nearClipPlane));
-        trans.z = displayDepth;
-        GameObject newCop = Instantiate(copyObj, trans, new Quaternion(0,0,0,0));
+        trans.z = copyDepth;
+        GameObject newCop = Instantiate(copyPrefab, trans, new Quaternion(0,0,0,0));
         Copy cop = newCop.GetComponent<Copy>();
         cop.NewCopy(image);
         copies.Add(newCop);  
@@ -195,7 +226,7 @@ public class Display : MonoBehaviour, IVRButton {
     /// <summary>
     /// ScrollLeft() will shift the images displayed to the user in the displayImages
     /// list to the left.
-    /// Pre:: nothing
+    /// Pre:: there are more display images than the length of display iamges positions array
     /// Post:: positions and activation of GameObjects in displayImages is changed.
     /// Return:: nothing
     /// </summary>
@@ -211,7 +242,7 @@ public class Display : MonoBehaviour, IVRButton {
     /// <summary>
     /// ScrollRightt() will shift the images displayed to the user in the displayImages
     /// list to the right.
-    /// Pre:: nothing
+	/// Pre:: there are more display images than the length of display iamges positions array
     /// Post:: positions and activation of GameObjects in displayImages is changed.
     /// Return:: nothing
     /// </summary>
@@ -219,6 +250,7 @@ public class Display : MonoBehaviour, IVRButton {
     {
         GameObject temp = displayImages.Last.Value;
         LinkedListNode<GameObject> t2 = displayImages.First;
+		// Start from the first image and find the last image being displayed
         for(int i = 1; i < displayImagePositions.Length; i++)
         {
             t2 = t2.Next;
@@ -230,11 +262,18 @@ public class Display : MonoBehaviour, IVRButton {
     }
 
     /// <summary>
-    /// Draw the scrolling display images
+    /// Draw the scrolling display images from the list of display images
+	/// The number of display images drawn is determined by the length of the display
+	/// image positions array
+	/// Pre:: there are display images to be drawn
+	/// Post:: display images are drawn in the workspace
+	/// Return:: Nothing
     /// </summary>
     private void redrawDisplayImages()
     {
         int i = 0;
+		// for each display image, if there are less than the display image positions array length
+		// draw the image in the specified position and set it active
         foreach (GameObject img in displayImages)
         {
             if (i < displayImagePositions.Length)

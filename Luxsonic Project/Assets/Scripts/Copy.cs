@@ -12,40 +12,59 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
+	// The width and ehgith of each button
     [SerializeField]
     private float buttonWidth = 100;
     [SerializeField]
     private float buttonHeight = 50;
 
-    public float buttonDepth;   // The spawning depth of the buttons
-                                // TODO: Figure out the actual scale for this matematically
+	// The spawning depth of the buttons
+	// TODO: Figure out the actual scale for this matematically
+    public float buttonDepth;   
 
+	// The starting position to place the buttons
     private float buttonStartX;
     private float buttonStartY;
 
-    public Transform myTransform;     // The transform of the display object in world space
-    public MeshRenderer imageRenderer;   // The image to render on the display object 
-    public bool isCurrentImage;     // Determines if this instance of a display object is currently selected
-    public float imageBrightness;   // The brigtness of the display
-    public float imageContrast;     // The contrast of the display
-    public Vector3 imageRotation;   // The current rotation of the display
-    public float currentSize;       // The current size of the display
+	// The transform of the display object in world space
+    public Transform myTransform;     
+	// The image to render on the display object 
+    public MeshRenderer imageRenderer;  
+	// Determines if this instance of a display object is currently selected
+    public bool isCurrentImage;  
+	// The brigtness of the copy
+    public float imageBrightness; 
+	// The contrast of the copy
+    public float imageContrast;  
+	// The current rotation of the copy
+    public Vector3 imageRotation;  
+	// The current size of the copy
     private bool buttonsVisible;
 
+	// The buttons for the copy, the buttons are used to allow 
+	// modification on the copy (brightness, contrast, etc.)
     private List<VRButton> buttons = new List<VRButton>();
-    public VRButton button;
-    public SliderBar slider;
-
+	// The object prefab to use for the buttons
+    public VRButton buttonPrefab;
+	// the object prefab to use for the slider
+    public SliderBar sliderPrefab;
+	// The sliders position
     public Vector3 sliderPosition;
 
+	// Indicates whether the brightness slider should be shown
     private bool brightnessOn = false;
-    private SliderBar brightnessSlider;
+	// The created generic slider
+	private SliderBar slider;
+	// the scale of the copy
 	public float copyScale = 1;
     
 
     /// <summary>
     /// Creates a new Copy object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
+	/// Pre:: Texture2D image to add
+	/// Post:: A new Copy is created for the user to manipulate
+	/// Return:: nothing
     /// </summary>
     /// <param name="image"> A Texture2D to use as the image to display to the user </param>
     public void NewCopy(Texture2D image)
@@ -56,7 +75,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 //		renderer.material.SetTexture("_MyTexture", myTexture);
 		this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
 		this.imageRenderer = this.GetComponent<MeshRenderer>();
-		this.imageRenderer.material.SetTexture ("_MainTex", image);
+        this.imageRenderer.sharedMaterial = new Material(Shader.Find("Specular"));
+		this.imageRenderer.sharedMaterial.SetTexture ("_MainTex", image);
+        
         this.myTransform = this.GetComponent<Transform>();
         this.buttonsVisible = false;
 
@@ -67,12 +88,18 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 //        this.buttonStartY = bbSize.y;
     }
 
-
+	/// <summary>
+	/// Raises the trigger enter event when the user has selected the Copy
+	/// </summary>
+	/// <param name="other">Other.</param>
     public void OnTriggerEnter(Collider other)
     {
         this.isCurrentImage = true;
     }
 
+	/// <summary>
+	/// Update this instance with visibile manipulation buttons if it is the current image.
+	/// </summary>
     void Update()
     {
 //        Debug.Log("Current: " + this.isCurrentImage);
@@ -94,6 +121,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// Instantiate the buttons for this display
+	/// Pre:: A Copy exists to select
+	/// Post:: Buttons to manipulate the current Copy is visible
     /// </summary>
     public void DisplayButtons()
     {
@@ -106,31 +135,31 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         Vector3 closeButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight*2, buttonDepth);
 
         // Create the buttons
-        VRButton contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton contrastButton = Instantiate(buttonPrefab, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
         contrastButton.name = "Contrast";
         contrastButton.manager = this.gameObject;
 
-        VRButton rotateButton = Instantiate(button, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton rotateButton = Instantiate(buttonPrefab, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
         rotateButton.name = "Rotate";
         rotateButton.manager = this.gameObject;
 
-        VRButton zoomButton = Instantiate(button, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton zoomButton = Instantiate(buttonPrefab, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
         zoomButton.name = "Zoom";
         zoomButton.manager = this.gameObject;
 
-        VRButton brightnessButton = Instantiate(button, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton brightnessButton = Instantiate(buttonPrefab, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
         brightnessButton.name = "Brightness";
         brightnessButton.manager = this.gameObject;
 
-        VRButton resizeButton = Instantiate(button, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton resizeButton = Instantiate(buttonPrefab, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
         resizeButton.name = "Resize";
         resizeButton.manager = this.gameObject;
 
-        VRButton filterButton = Instantiate(button, filterButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton filterButton = Instantiate(buttonPrefab, filterButtonPosition, new Quaternion(0, 0, 0, 0));
         filterButton.name = "Filter";
         filterButton.manager = this.gameObject;
 
-        VRButton closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton closeButton = Instantiate(buttonPrefab, closeButtonPosition, new Quaternion(0, 0, 0, 0));
         closeButton.name = "Close";
         closeButton.manager = this.gameObject;
 
@@ -146,6 +175,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// Hide the buttons from the display by destroying them
+	/// Pre:: buttons are visible
+	/// Post:: buttons are no longer visible
+	/// Return:: nothing
     /// </summary>
     public void HideButtons()
     {
@@ -159,6 +191,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     /// <summary>
     /// When a button is clicked, execute the code associated with that button
+	/// Pre:: the button exists
+	/// Post:: An action is executed depending on the button
+	/// Return:: nothing
     /// </summary>
     /// <param name="button">The name of the button clicked</param>
     public void VRButtonClicked(string button)
@@ -178,7 +213,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
                 break;
 
             case "Brightness":    // Brightness button clicked
-                this.brightness();
+                this.Brightness();
                 break;
 
             case "Resize":    // Resize button clicked
@@ -204,7 +239,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     /// <summary>
     /// Returns the list of buttons for this display
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The list of buttons</returns>
     public List<VRButton> GetButtons()
     {
         return this.buttons;
@@ -218,27 +253,41 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         this.isCurrentImage = true;
     }
 
-    private void brightness()
+	/// <summary>
+	/// A slider to adjust the brightness is instantiated
+	/// Pre:: The brightness button was clicked
+	/// Post:: A slider has been instantiated
+	/// Return:: nothing
+	/// </summary>
+    private void Brightness()
     {
 		// If the brightness is not on, rreate a slider and display it in the scene
         if (!this.brightnessOn)
         {
-            this.brightnessSlider = Instantiate(slider, sliderPosition, new Quaternion(0, 0, 0, 0));
-            this.brightnessSlider.manager = this.gameObject;
-			Light light = this.brightnessSlider.manager.GetComponent<Light> ();
-			this.brightnessSlider.Setup(light.color.r);
+            this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
+            this.slider.manager = this.gameObject;
+			Light light = this.slider.manager.GetComponent<Light> ();
+			this.slider.Setup(light.color.r);
             this.brightnessOn = true;
         }
         else
         {
 			// If the brightness button is pressed again, hide the slider
-			DestroyImmediate(this.brightnessSlider.gameObject);
+			DestroyImmediate(this.slider.gameObject);
             this.brightnessOn = false;
 			Debug.Log ("Brightness Close");
         }
 
     }
 
+	/// <summary>
+	/// The Slider updates the image depending on the value being modified
+	/// Pre:: The Slider has been instantiated and returns a value
+	/// Post:: The image is updated according to the Slider value
+	/// Return:: nothing
+	/// </summary>
+	/// <returns>The update.</returns>
+	/// <param name="value">Value.</param>
     public void SliderUpdate(float value)
     {
 		// If the brightness is on, update the value of the image according to the slider

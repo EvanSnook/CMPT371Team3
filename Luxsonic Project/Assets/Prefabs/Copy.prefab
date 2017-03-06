@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 108533896492613874}
   m_Layer: 0
   m_Name: Copy
-  m_TagString: Untagged
+  m_TagString: Copy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,10 +125,12 @@ MonoBehaviour:
   imageBrightness: 0
   imageContrast: 0
   imageRotation: {x: 0, y: 0, z: 0}
-  currentSize: 0
-  button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  slider: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8, type: 2}
+  buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+    type: 2}
+  sliderPrefab: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8,
+    type: 2}
   sliderPosition: {x: 0, y: -30, z: 0}
+  copyScale: 1
 --- !u!212 &212840685330987510
 SpriteRenderer:
   m_ObjectHideFlags: 1

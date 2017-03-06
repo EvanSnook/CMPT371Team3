@@ -25,7 +25,7 @@ namespace LoadBarTests
             GameObject trayObject = new GameObject();
             trayObject.AddComponent<Tray>();
             trayObject.AddComponent<SpriteRenderer>();
-            disp.trayObj = trayObject;
+            disp.trayPrefab = trayObject;
             dispObj.AddComponent<LoadBar>();
 
             //LoadBar load = new LoadBar();
@@ -41,7 +41,6 @@ namespace LoadBarTests
             GameObject dispObj = new GameObject();
             dispObj.AddComponent<Display>();
             Display disp = dispObj.GetComponent<Display>();
-            Texture2D tex = new Texture2D(100, 100);
 
             GameObject trayObject = new GameObject();
             trayObject.AddComponent<Tray>();
@@ -55,10 +54,10 @@ namespace LoadBarTests
             GameObject dispImgObj = new GameObject();
             dispImgObj.AddComponent<SpriteRenderer>();
 
-            disp.displayImageObj = dispImgObj;
+            disp.displayImagePrefab = dispImgObj;
 
-            trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-            disp.trayObj = trayObject;
+            trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+            disp.trayPrefab = trayObject;
             dispObj.AddComponent<LoadBar>();
 
             //LoadBar load = new LoadBar();

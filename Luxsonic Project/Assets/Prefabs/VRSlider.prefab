@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1544930291349284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 127.33, y: 0, z: 0}
+  m_LocalPosition: {x: 738.7961, y: 2355.2073, z: -3252.674}
   m_LocalScale: {x: 603.5, y: 50, z: 1}
   m_Children:
   - {fileID: 4234818643962694}
@@ -90,7 +90,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1ddae8f5e087fec4b9b414f16441f23b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -205,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e0a6219350d474ab76b2c915d7ddf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knob: {fileID: 1250570518163122}
-  sliderBase: {fileID: 1544930291349284}
+  knobPrefab: {fileID: 1250570518163122}
+  sliderBasePrefab: {fileID: 1544930291349284}
 --- !u!114 &114809436250956828
 MonoBehaviour:
   m_ObjectHideFlags: 1

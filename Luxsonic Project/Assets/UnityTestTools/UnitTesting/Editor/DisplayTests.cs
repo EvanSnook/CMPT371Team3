@@ -28,10 +28,10 @@ public class DisplayTests{
         GameObject dispImgObj = new GameObject();
         dispImgObj.AddComponent<SpriteRenderer>();
 
-        disp.displayImageObj = dispImgObj;
+        disp.displayImagePrefab = dispImgObj;
 
-        trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-        disp.trayObj = trayObject;
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
 
         disp.AddImage(tex);
 
@@ -46,7 +46,6 @@ public class DisplayTests{
         GameObject dispObj = new GameObject();
         dispObj.AddComponent<Display>();
         Display disp = dispObj.GetComponent<Display>();
-        Texture2D tex = new Texture2D(100, 100);
 
         GameObject trayObject = new GameObject();
         trayObject.AddComponent<Tray>();
@@ -57,8 +56,8 @@ public class DisplayTests{
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
-        trayObject.GetComponent<Tray>().thumbnail = thumbObject;
-        disp.trayObj = trayObject;
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
 
         disp.CreateTray();
         Assert.IsTrue(disp.GetComponent<Display>().trayCreated, "The tray was not created.");
