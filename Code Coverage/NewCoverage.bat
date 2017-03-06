@@ -1,0 +1,4 @@
+
+"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" collect /output:"T:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Code Coverage\VisualStudio.coverage" "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" "T:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\Library\ScriptAssemblies\Assembly-CSharp-Editor.dll" /UseVsixExtensions:true
+
+"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:"T:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Code Coverage\VisualStudio.coveragexml" "T:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Code Coverage\VisualStudio.coverage"

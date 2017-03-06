@@ -1,0 +1,15 @@
+# These are the options used
+# to compile code.dll
+
+# Output target and name.
+/t:library 
+/out:tmp\code.dll 
+/debug
+
+# links
+/lib:tmp\
+/r:nunit.framework.dll;nunit.core.dll;nunit.core.interfaces.dll;Mono.Cecil.dll;Mono.Cecil.Mdb.dll;UnityEngine.dll;NSubstitute.dll
+
+# Location of code 
+/recurse:"..\Luxsonic Project\Assets\Scripts\*.cs" 
+/recurse:"..\Luxsonic Project\Assets\UnityTestTools\UnitTesting\Editor\UnitTests\*.cs"
