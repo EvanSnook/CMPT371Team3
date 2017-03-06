@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using NUnit.Framework;
 using NSubstitute;
 
@@ -17,7 +18,11 @@ public class CopyTests
         copyObj.AddComponent<Copy>();
         copyObj.AddComponent<MeshRenderer>();
         copyObj.AddComponent<BoxCollider>();
+
         Copy newCopy = copyObj.GetComponent<Copy>();
+        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        newCopy.SetCopyMaterial(mat);
         Texture2D tex = new Texture2D(100, 100);
 
         newCopy.NewCopy(tex);
@@ -39,6 +44,10 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
+
+        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        newCopy.SetCopyMaterial(mat);
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<VRButton>();
@@ -68,6 +77,10 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
+
+        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        newCopy.SetCopyMaterial(mat);
 
         GameObject buttonObj = new GameObject();
         buttonObj.AddComponent<VRButton>();

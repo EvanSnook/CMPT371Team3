@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonWidth: 100
   buttonHeight: 50
+  copyMaterial: {fileID: 2100000, guid: cf6374f8000857c458d4902e2cfa34b3, type: 2}
   buttonDepth: 50
   myTransform: {fileID: 0}
   imageRenderer: {fileID: 0}
@@ -129,7 +130,7 @@ MonoBehaviour:
     type: 2}
   sliderPrefab: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8,
     type: 2}
-  sliderPosition: {x: 0, y: -30, z: 0}
+  sliderPosition: {x: 250, y: 50, z: -253}
   copyScale: 1
 --- !u!212 &212840685330987510
 SpriteRenderer:

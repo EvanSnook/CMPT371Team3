@@ -2,7 +2,7 @@ README
 
 Running the most recent approved build:
 
--Download Build #40 from the Unity Cloud Build interface for the project.
+-Download Build #59 from the Unity Cloud Build interface for the project.
 -Extract it to a directory on your local machine.
 -Double click the application and select the "Play!" button.
 -If not running from an Oculus workstation, run the Windows Scene only.
@@ -18,9 +18,12 @@ When the program runs, a user interface will be displayed showing two different 
 
 The top button says “VR Scene”, which when pressed will bring up a virtual reality scene that can be interacted with.(Note: the Oculus Rift hardware must be set up in order for this scene to function properly.)  
 
-If set up, the user will be able to see an x-ray image and a green cube.  The user must equip the Oculus headset and both controllers in order to interact with the scene.  Using the back triggers on the Oculus Rift controllers, both the cube and the image can be grabbed at their center and manipulated.  The user can rotate their wrists to rotate the image and pull it towards themselves to zoom on the image.  Letting go of the triggers lets the image stay in the exact position the user had it in while holding the triggers.  
-The scene can be exited at any time when the user removes the headset and clicks the Play button in the Unity editor.
+If set up, the user will be able to see three buttons in the workspace: Minimize, Quit and Load. The user must equip the Oculus headset and both controllers in order to interact with the scene.  The user can interact with any of the buttons.  The minimize button will minimize the other two buttons, the quit button will exit the application, and the Load button will load a random pre-loaded image into the Display, as well as into the Tray in the lower right corner.  When the load button has been pressed three times, a left scrolling button and a right scrolling button will appear to allow the user to scroll through the images in the Display.  The user may select an image Thumbnail from the tray.  This will create a Copy of that image in the workspace that the user can view.    
+
+The scene can be exited at any time when the user removes the headset and clicks the Play button in the Unity editor, or via the quit button if the application is being run from the executable.
 
 The other scene that can be accessed is called the “Windows Scene”.  Clicking this scene with the mouse will bring the user to a simulated VR scene that allows the user to interact and make changes with mouse clicks. 
-Initially there will be a single ‘Load’ button, which will import an image into the scene.  The image will appear as a thumbnail in the lower right corner.  The user can select load again to load more of the same image into the tray.  Once loaded, the thumbnail can be selected from the tray by clicking it.  This will bring up the enlarged image into the workspace.  The user can select this enlarge image to bring up a series of buttons: zoom, rotate, contrast, brightness, flip, resize and close.  The only button that is functional without being in VR is the close button, which will close the button display and collapse the image. 
- The scene can be exited through the Play button on the Unity browser.  
+
+This scene will be similar to the VR scene, but it will be more condensed to allow it to fit in the window.  The user will be presented with the Minimize, Quit, and Load buttons.  These buttons will have the same functionality as in the VR scene.  When the user selects a thumbnail, a Copy of it is presented in the workspace.   The user can select this enlarged image to bring up a series of buttons: zoom, rotate, contrast, brightness, flip, resize and close.  The only buttons that are functional without being in VR are the close button, which will close the button display and collapse the image, and the Brightness button, which will bring up a Slider Bar.  The slider bar can be used to adjust the brightness of the Copy image by dragging the handle left or right.  To close the Slider Bar, select the Brightness button again.
+
+The scene can be exited through the Play button on the Unity browser, or via the Quit button if being run from the executable.  

@@ -18,6 +18,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     [SerializeField]
     private float buttonHeight = 50;
 
+    [SerializeField]
+    private Material copyMaterial;
+
 	// The spawning depth of the buttons
 	// TODO: Figure out the actual scale for this matematically
     public float buttonDepth;   
@@ -70,15 +73,17 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     public void NewCopy(Texture2D image)
     {
         Assert.IsNotNull(image);
-//        this.imageRenderer = this.GetComponent<SpriteRenderer>();
-//        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-//		renderer.material.SetTexture("_MyTexture", myTexture);
-		this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
-		this.imageRenderer = this.GetComponent<MeshRenderer>();
-        this.imageRenderer.sharedMaterial = new Material(Shader.Find("Specular"));
-		this.imageRenderer.sharedMaterial.SetTexture ("_MainTex", image);
-        
         this.myTransform = this.GetComponent<Transform>();
+        //        this.imageRenderer = this.GetComponent<SpriteRenderer>();
+        //        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        //		renderer.material.SetTexture("_MyTexture", myTexture);
+        this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
+		this.imageRenderer = this.GetComponent<MeshRenderer>();
+        this.copyMaterial.mainTexture = image;
+        this.imageRenderer.sharedMaterial = copyMaterial;
+		//this.imageRenderer.sharedMaterial.SetTexture ("_MainTex", image);
+        
+        
         this.buttonsVisible = false;
 
         // Get the size of the image sprite and use it to form the bounding box
@@ -297,5 +302,14 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 			light.color = new Color(value, value, value);
         }//else if ()
         
+    }
+
+    /// <summary>
+    /// Set the material for the copy
+    /// </summary>
+    /// <param name="mat">The material to set for the copy.</param>
+    public void SetCopyMaterial(Material mat)
+    {
+        this.copyMaterial = mat; ;
     }
 }
