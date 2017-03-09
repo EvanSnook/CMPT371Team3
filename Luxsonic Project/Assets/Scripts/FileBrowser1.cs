@@ -36,6 +36,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryRotation;
     // VRButton back to move back to the previous directory
     private VRButton back;
+    // Back button position
+    public Vector3 backPosition;
+    // Back rotation
+    public Vector3 backRotation;
 
 
     // Use this for initialization
@@ -76,7 +80,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string i in listOfCurrentDirectories)
         {
             Vector3 newDirectoryPosition = directoryPosition;
-            newDirectoryPosition.y = newDirectoryPosition.y - (count * 0.1f);
+            newDirectoryPosition.y = newDirectoryPosition.y - (count * 10.0f);
             CreateDirectoryButton(i, newDirectoryPosition);
             count++;
         }
@@ -85,10 +89,11 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string j in listOfCurrentFiles)
         {
             Vector3 newFilePosition = filePosition;
-            newFilePosition.y = newFilePosition.y - (count * 0.1f);
+            newFilePosition.y = newFilePosition.y - (count * 10.0f);
             CreateFileButton(j, newFilePosition);
             count++;
         }
+        CreateBackButton(currentDirectory);
     }
 
 
@@ -187,10 +192,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         //Setting all the atributes of the new Directory button
         newDirectory.name = "Directory";
         newDirectory.manager = this.gameObject;
-        newDirectory.textObject = gameObject.GetComponentInChildren<TextMesh>();
-        newDirectory.textObject.text = GetLocalName(directoryPath);
-        Debug.Log(newDirectory.textObject.text);
         newDirectory.path = directoryPath;
+        newDirectory.textObject = newDirectory.GetComponentInChildren<TextMesh>();
+        newDirectory.textObject.text = GetLocalName(directoryPath);
         listOfCurrentDirectoryButtons.Add(newDirectory);
     }
 
@@ -209,9 +213,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         // Set the name to 
         newFile.name = "File";
         newFile.manager = this.gameObject;
-        newFile.textObject = gameObject.GetComponentInChildren<TextMesh>();
-        newFile.textObject.text = GetLocalName(filePath);
         newFile.path = filePath;
+
+        newFile.textObject = newFile.GetComponentInChildren<TextMesh>();
+        newFile.textObject.text = GetLocalName(filePath);
         listOfCurrentFileButtons.Add(newFile);
     }
 
@@ -221,13 +226,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// <param name="path"></param>
     void CreateBackButton(string path)
     {
-        VRButton back = Instantiate(VRButtonPrefab, filePosition,
-            Quaternion.Euler(fileRotation));
+        VRButton back = Instantiate(VRButtonPrefab, backPosition,
+            Quaternion.Euler(backRotation));
         back.transform.parent = gameObject.transform;
 
         back.name = "Back";
-        //back.manager = this.gameObject;
+        back.manager = this.gameObject;
         back.path = GetPreviousPath(path);
+        back.GetComponentInChildren<TextMesh>().text = "Back";
     }
 
 
@@ -240,9 +246,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// </summary>
     /// <param name="path"></param>
     /// <returns> string local name </returns>
-    string GetLocalName(string path)
+   public string GetLocalName(string path)
     {
-        int index = path.LastIndexOf("/");
+        Assert.IsNotNull(path);
+        int index = path.LastIndexOf("\\");
         if (index > 0)
         {
             path = path.Substring(index + 1);
@@ -261,7 +268,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// <returns></returns>
     string GetPreviousPath(string path)
     {
-        int index = path.LastIndexOf("/");
+        int index = path.LastIndexOf("\\");
         if(index > 0)
         {
             path = path.Substring(0, index);

@@ -55,10 +55,7 @@ public class VRButton : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        textObject = gameObject.GetComponentInChildren<TextMesh>();
-        textObject.text = name;
         timer = 0;
-        path = null;
 	}
 
     // Update constantly updates the timer
