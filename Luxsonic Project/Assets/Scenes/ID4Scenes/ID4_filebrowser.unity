@@ -185,7 +185,7 @@ MonoBehaviour:
     type: 2}
   filePosition: {x: 0, y: 0, z: 0}
   fileRotation: {x: 0, y: 0, z: 0}
-  directoryPosition: {x: 0, y: 0, z: 0}
+  directoryPosition: {x: -50, y: 0, z: 0}
   directoryRotation: {x: 0, y: 0, z: 0}
   backPosition: {x: -10, y: 0, z: 0}
   backRotation: {x: 0, y: 0, z: 0}
