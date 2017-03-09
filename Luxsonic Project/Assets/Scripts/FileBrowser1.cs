@@ -7,18 +7,35 @@ using System;
 
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
-
+    // Position of the Camera
     Transform cameraPosition;
+
+    // Storage of the path name to the file we want to open
     string selectedFile;
+    // Path name of the current directory
     string currentDirectory;
-    List<string> listOfCurrentDirectories;
-    List<string> listOfCurrentFiles;
+    // List of all directories within the current directory
+    List<string> listOfCurrentDirectories = new List<string>();
+    // List of all files in the current directory
+    List<string> listOfCurrentFiles = new List<string>();
 
-    //VRButton prefab to create the Buttons
+    // List of all Directory Buttons within the current directory
+    List<VRButton> listOfCurrentDirectoryButtons = new List<VRButton>();
+    // List of all File Buttons within the current directory
+    List<VRButton> listOfCurrentFileButtons = new List<VRButton>();
+
+    // VRButton prefab to create the Buttons
     public VRButton VRButtonPrefab;
-
+    // Inital Position of the file Buttons
     public Vector3 filePosition;
+    // Inital Rotation of the file Buttons
     public Vector3 fileRotation;
+    // Inital Position of the file Buttons
+    public Vector3 directoryPosition;
+    // Inital Rotation of the file Buttons
+    public Vector3 directoryRotation;
+    // VRButton back to move back to the previous directory
+    private VRButton back;
 
 
     // Use this for initialization
@@ -26,16 +43,22 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     {
         cameraPosition = GameObject.FindGameObjectWithTag("MainCamera").transform;
         selectedFile = "Nothing Selected";
+        // Get the current Directory
         currentDirectory = Directory.GetCurrentDirectory().ToString();
+
+        // Get all directories in the current directory and put them into a list
         string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
         foreach (string i in arrayOfCurrentDirectories){
             listOfCurrentDirectories.Add(i);
         }
+
+        // Get all files in the current directory and put them into a list
         string[] arrayOfCurrentFiles = Directory.GetFiles(currentDirectory);
-        foreach (string i in arrayOfCurrentFiles)
-        {
+        foreach (string i in arrayOfCurrentFiles) {
             listOfCurrentFiles.Add(i);
         }
+        //Create all directory and file buttons
+        CreateButtons();
     }
 
     //Function CreateButtons() will generate the list of all buttons and set up for the current
@@ -45,24 +68,24 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     //Return: noting
     void CreateButtons()
     {
-
+        int count = 0;
         foreach (string i in listOfCurrentDirectories)
         {
-            CreateDirectoryButton(i);
+            Vector3 newDirectoryPosition = directoryPosition;
+            newDirectoryPosition.y = newDirectoryPosition.y - (count * 0.1f);
+            CreateDirectoryButton(i, newDirectoryPosition);
+            count++;
         }
 
+        count = 0;
         foreach (string j in listOfCurrentFiles)
         {
-            CreateFileButton(j);
+            Vector3 newFilePosition = filePosition;
+            newFilePosition.y = newFilePosition.y - (count * 0.1f);
+            CreateFileButton(j, newFilePosition);
+            count++;
+
         }
-
-        // Create a Submit button
-        VRButton submit = Instantiate(VRButtonPrefab, filePosition,
-            Quaternion.Euler(fileRotation));
-        submit.transform.parent = gameObject.transform;
-
-        submit.name = "File";
-        submit.manager = this.gameObject;
         
     }
 
@@ -74,7 +97,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     {
         this.enabled = false;
     }
-
+    
     //Function EnableLoadBar() will enable the LoadBar so that it can be seen
     //Preconditions: User selected the load button
     //Postconditions: LoadBar enabled
@@ -90,7 +113,21 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     {
         currentDirectory = newDirectory;
 
+        listOfCurrentDirectories.Clear();
+        listOfCurrentFiles.Clear();
 
+        string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
+        foreach (string i in arrayOfCurrentDirectories)
+        {
+            listOfCurrentDirectories.Add(i);
+        }
+        string[] arrayOfCurrentFiles = Directory.GetFiles(currentDirectory);
+        foreach (string i in arrayOfCurrentFiles)
+        {
+            listOfCurrentFiles.Add(i);
+        }
+
+        CreateButtons();
     }
 
     //Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
@@ -125,33 +162,82 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     //Preconditions: none
     //Postconditions: creation of a new directory button
     //returns: nothing
-    void CreateDirectoryButton(string directoryPath)
+    void CreateDirectoryButton(string directoryPath, Vector3 position)
     {
+        Assert.IsNotNull(VRButtonPrefab);
+        Assert.IsNotNull(directoryPath);
         // Create a Directory button to access the directory
-        VRButton newDirectory = Instantiate(VRButtonPrefab, filePosition,
+        VRButton newDirectory = Instantiate(VRButtonPrefab, position,
             Quaternion.Euler(fileRotation));
         newDirectory.transform.parent = gameObject.transform;
 
         newDirectory.name = "Directory";
-        newDirectory.textObject.text = directoryPath;
-        newDirectory.manager = this.gameObject;
+        //newDirectory.manager = this.gameObject;
+        //newDirectory.textObject.text = null; // GetLocalName(directoryPath);
+        newDirectory.path = directoryPath;
+        listOfCurrentDirectoryButtons.Add(newDirectory);
     }
 
     //Function create file Button will create a new button that will represent the path of
     //a file which the user can select to open
-    //Preconditions: none
+    //Preconditions: string filePath
     //Postconditions: creation of file button
     //Return: nothing
-    void CreateFileButton(string filePath)
+    void CreateFileButton(string filePath, Vector3 position)
     {
         // Create a File button to access the file
-        VRButton newFile = Instantiate(VRButtonPrefab, filePosition,
-            Quaternion.Euler(fileRotation));
+        VRButton newFile = Instantiate(VRButtonPrefab, position,
+            Quaternion.Euler(directoryRotation));
         newFile.transform.parent = gameObject.transform;
 
+        // Set the name to 
         newFile.name = "File";
-        newFile.textObject.text = filePath;
-        newFile.manager = this.gameObject;
+        //newFile.manager = this.gameObject;
+        //newFile.textObject.text = GetLocalName(filePath);
+        newFile.path = filePath;
+
+        listOfCurrentFileButtons.Add(newFile);
+    }
+
+    /// <summary>
+    /// CreateBackButton will create a new back button for the interface.
+    /// </summary>
+    /// <param name="path"></param>
+    void CreateBackButton(string path)
+    {
+        VRButton back = Instantiate(VRButtonPrefab, filePosition,
+            Quaternion.Euler(fileRotation));
+        back.transform.parent = gameObject.transform;
+
+        back.name = "Back";
+        //back.manager = this.gameObject;
+        back.path = GetPreviousPath(path);
+    }
+
+    string GetLocalName(string path)
+    {
+        int index = path.LastIndexOf("/");
+        if (index > 0)
+        {
+            path = path.Substring(index + 1);
+            return path;
+        }
+        else
+        {
+            return path;
+        }
+    }
+
+    // 
+    string GetPreviousPath(string path)
+    {
+        int index = path.LastIndexOf("/");
+        if(index > 0)
+        {
+            path = path.Substring(0, index);
+            return path;
+        }
+        return path;
     }
 
     void Update()

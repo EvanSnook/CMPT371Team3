@@ -181,7 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d530cffb673cf7649a1f55e70ac80f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VRButtonPrefab: {fileID: 0}
+  VRButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+    type: 2}
   filePosition: {x: 0, y: 0, z: 0}
   fileRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1582520590
