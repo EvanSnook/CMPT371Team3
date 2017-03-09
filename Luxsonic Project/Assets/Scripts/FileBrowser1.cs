@@ -61,11 +61,15 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         CreateButtons();
     }
 
-    //Function CreateButtons() will generate the list of all buttons and set up for the current
-    //layout of the current file browsing directory
-    //Preconditions: none
-    //Postconditions: creation of all buttons involved
-    //Return: noting
+
+
+    /// <summary>
+    /// Function CreateButtons() will generate the list of all buttons and set up for the current
+    /// layout of the current file browsing directory
+    /// Preconditions: none
+    /// Postconditions: creation of all buttons involved
+    /// Return: nothing
+    /// </summary>
     void CreateButtons()
     {
         int count = 0;
@@ -84,31 +88,39 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             newFilePosition.y = newFilePosition.y - (count * 0.1f);
             CreateFileButton(j, newFilePosition);
             count++;
-
         }
-        
     }
 
-    //Function DisableLoadBar() will disable the LoadBar so that it cannot be seen
-    //Preconditions: User selected cancel or submit button
-    //Postconditions: LoadBar disabled
-    //Return: nothing
+
+    /// <summary>
+    /// Function DisableLoadBar() will disable the LoadBar so that it cannot be seen
+    /// Preconditions: User selected cancel or submit button
+    /// Postconditions: LoadBar disabled
+    /// Return: nothing
+    /// </summary>
     void DisableFileBrowser()
     {
         this.enabled = false;
     }
-    
-    //Function EnableLoadBar() will enable the LoadBar so that it can be seen
-    //Preconditions: User selected the load button
-    //Postconditions: LoadBar enabled
-    //Return: nothing
+
+
+    /// <summary>
+    /// Function EnableLoadBar() will enable the LoadBar so that it can be seen
+    /// Preconditions: User selected the load button
+    /// Postconditions: LoadBar enabled
+    /// Return: nothing
+    /// </summary>
     void EnableFileBrowser()
     {
         this.enabled = true;
     }
 
-    //Function EnterDirectory() will send the user to the specified directory and bring up the 
-    //all the buttons withing that directory
+
+    /// <summary>
+    /// Function EnterDirectory() will send the user to the specified directory and bring up the 
+    /// all the buttons withing that directory
+    /// </summary>
+    /// <param name="newDirectory"></param>
     void EnterDirectory(string newDirectory)
     {
         currentDirectory = newDirectory;
@@ -164,6 +176,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     //returns: nothing
     void CreateDirectoryButton(string directoryPath, Vector3 position)
     {
+        //we should contain a prefab and viable string
         Assert.IsNotNull(VRButtonPrefab);
         Assert.IsNotNull(directoryPath);
         // Create a Directory button to access the directory
@@ -171,9 +184,12 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             Quaternion.Euler(fileRotation));
         newDirectory.transform.parent = gameObject.transform;
 
+        //Setting all the atributes of the new Directory button
         newDirectory.name = "Directory";
-        //newDirectory.manager = this.gameObject;
-        //newDirectory.textObject.text = null; // GetLocalName(directoryPath);
+        newDirectory.manager = this.gameObject;
+        newDirectory.textObject = gameObject.GetComponentInChildren<TextMesh>();
+        newDirectory.textObject.text = GetLocalName(directoryPath);
+        Debug.Log(newDirectory.textObject.text);
         newDirectory.path = directoryPath;
         listOfCurrentDirectoryButtons.Add(newDirectory);
     }
@@ -192,10 +208,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
         // Set the name to 
         newFile.name = "File";
-        //newFile.manager = this.gameObject;
-        //newFile.textObject.text = GetLocalName(filePath);
+        newFile.manager = this.gameObject;
+        newFile.textObject = gameObject.GetComponentInChildren<TextMesh>();
+        newFile.textObject.text = GetLocalName(filePath);
         newFile.path = filePath;
-
         listOfCurrentFileButtons.Add(newFile);
     }
 
@@ -214,6 +230,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         back.path = GetPreviousPath(path);
     }
 
+
+    /// <summary>
+    /// GetLocalName will get the name of the directory given it's path.
+    /// The last name in the given path will be returned
+    /// Pre:: string path
+    /// Post:: nothing
+    /// Return:: string name
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns> string local name </returns>
     string GetLocalName(string path)
     {
         int index = path.LastIndexOf("/");
@@ -228,7 +254,11 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         }
     }
 
-    // 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     string GetPreviousPath(string path)
     {
         int index = path.LastIndexOf("/");
