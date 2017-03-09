@@ -10,6 +10,8 @@ public class VRButton : MonoBehaviour {
 
     // Button name
     public string name;
+    // string to store a potental path
+    public string path;
     // The object that creates and contains the functionality for this button.
     public GameObject manager;
     // Text on button
@@ -18,6 +20,7 @@ public class VRButton : MonoBehaviour {
     bool pressed = false;
     // Times button enters
     int timer;
+    
 
     /// <summary>
     /// onCollisionEnter deals with colliders entering the button
@@ -55,6 +58,7 @@ public class VRButton : MonoBehaviour {
         textObject = gameObject.GetComponentInChildren<TextMesh>();
         textObject.text = name;
         timer = 0;
+        path = null;
 	}
 
     // Update constantly updates the timer
