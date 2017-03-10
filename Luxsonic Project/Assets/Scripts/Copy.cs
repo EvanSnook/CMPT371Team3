@@ -266,7 +266,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 //			Light light = this.slider.manager.GetComponent<Light> ();
 			this.slider.Setup(0);
             this.brightnessOn = true;
-			AdjustBrightness (55);
+			AdjustBrightness (52);
         }
         else
         {
@@ -291,13 +291,14 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 		// If the brightness is on, update the value of the image according to the slider
         if (this.brightnessOn)
         {
-			Light light = this.GetComponent<Light> ();
-			light.color = new Color(value, value, value);
+			Debug.Log ("VALUE " + value);
+//			AdjustBrightness ((int)(value * 100));
         }//else if ()
         
     }
 
 	private void AdjustBrightness(int brightness){
+		Debug.Log ("BRIGHTNESS " + brightness);
 		int brightnessInt = Convert.ToInt32(brightness);
 		int mappedBrightness = (51 * brightnessInt) / 10 - 255;
 		//Make an empty Texture the same same as the original 
