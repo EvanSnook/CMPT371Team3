@@ -22,19 +22,25 @@ public class VRButton : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-<<<<<<< HEAD
-        timer = 0;
-=======
-        textObject = gameObject.GetComponentInChildren<TextMesh>();
-        textObject.text = name;
-        path = null;
->>>>>>> 13f504e0809e831f028c1897a2832f38ad4be89b
+
 	}
 
     // When mouve is pressed send clicked message to manager
     void OnMouseDown()
     {
-        manager.SendMessage("VRButtonClicked", name);
+        if (name == "Directory")
+        {
+            Debug.Log("Directory clicked, sending messages");
+            manager.SendMessage("EnterDirectory", path);
+        }
+        else if (name == "File")
+        {
+            //manager.SendMessage("EnterDirectory", path);
+        }
+        else
+        {
+            manager.SendMessage("VRButtonClicked", name);
+        }
     }
 
 

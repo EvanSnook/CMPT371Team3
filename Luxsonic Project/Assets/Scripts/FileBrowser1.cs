@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 using System.IO;
 using System;
 
+
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
     // Position of the Camera
@@ -34,6 +35,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryPosition;
     // Inital Rotation of the file Buttons
     public Vector3 directoryRotation;
+    // Distance between each button
+    public float seperationBetweenButtons;
     // VRButton back to move back to the previous directory
     private VRButton back;
     // Back button position
@@ -80,7 +83,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string i in listOfCurrentDirectories)
         {
             Vector3 newDirectoryPosition = directoryPosition;
-            newDirectoryPosition.y = newDirectoryPosition.y - (count * 10.0f);
+            newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
             CreateDirectoryButton(i, newDirectoryPosition);
             count++;
         }
@@ -89,7 +92,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string j in listOfCurrentFiles)
         {
             Vector3 newFilePosition = filePosition;
-            newFilePosition.y = newFilePosition.y - (count * 10.0f);
+            newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
             CreateFileButton(j, newFilePosition);
             count++;
         }
@@ -129,9 +132,20 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     void EnterDirectory(string newDirectory)
     {
         currentDirectory = newDirectory;
-
+        Debug.Log(currentDirectory);
+        //listOfCurrentDirectoryButtons.Clear();
+        foreach (VRButton d in listOfCurrentDirectoryButtons)
+        {
+            Destroy(d.gameObject);
+        }
+        foreach (VRButton f in listOfCurrentFileButtons)
+        {
+            Destroy(f.gameObject);
+        }
         listOfCurrentDirectories.Clear();
         listOfCurrentFiles.Clear();
+        Debug.Log(back.name);
+        Destroy(back.gameObject);
 
         string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
         foreach (string i in arrayOfCurrentDirectories)
@@ -280,7 +294,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     void Update()
     {
         //We always want the LoadBar to be infront of the user.
-        this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 10f);
+        this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 500f);
     }
 
     public void VRButtonClicked(string button)
@@ -297,7 +311,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
                 //GetFile()
                 break;
             case "Directory":
-                //EnterDirectory()
+                Debug.Log("This should not happen");
+               // EnterDirectory()
                 break;
         }
     }
