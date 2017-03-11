@@ -169,15 +169,19 @@ public class SliderBar : MonoBehaviour {
 	void Update ()
     {
 		// if update is true, then update the slider and slider knob
-        if (update)
+		if (update)
         {
             knobCoord = sliderKnobPrefab.transform.position;
-			//Debug.Log ("Converted: " + ConvertFromCoordToPercentOfSlider (knobCoord.x));
-            if (manager != null)
+
+			if (manager != null)
             {
+//				Debug.Log ("UPDATE");
                 manager.SendMessage("SliderUpdate", ConvertFromCoordToPercentOfSlider(knobCoord.x));
             }
+
+
         }
+
 	}
 
     /// <summary>

@@ -32,7 +32,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	// The transform of the display object in world space
     public Transform myTransform;     
 	// The image to render on the display object 
-    public MeshRenderer imageRenderer;  
+    public SpriteRenderer imageRenderer;  
 	// Determines if this instance of a display object is currently selected
     public bool isCurrentImage;  
 	// The brigtness of the copy
@@ -56,10 +56,15 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
 	// Indicates whether the brightness slider should be shown
     private bool brightnessOn = false;
+	private bool contrastOn = false;
 	// The created generic slider
 	private SliderBar slider;
 	// the scale of the copy
 	public float copyScale = 1;
+
+	// Shader for the copy
+	public Material curMaterial;
+	public Shader curShader;
     
 
     /// <summary>
@@ -72,25 +77,23 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     /// <param name="image"> A Texture2D to use as the image to display to the user </param>
     public void NewCopy(Texture2D image)
     {
-        Assert.IsNotNull(image);
-        this.myTransform = this.GetComponent<Transform>();
-        //        this.imageRenderer = this.GetComponent<SpriteRenderer>();
-        //        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-        //		renderer.material.SetTexture("_MyTexture", myTexture);
-        this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
-		this.imageRenderer = this.GetComponent<MeshRenderer>();
-        this.copyMaterial.mainTexture = image;
-        this.imageRenderer.sharedMaterial = copyMaterial;
-		//this.imageRenderer.sharedMaterial.SetTexture ("_MainTex", image);
-        
-        
-        this.buttonsVisible = false;
+		Assert.IsNotNull(image);
+		this.imageRenderer = this.GetComponent<SpriteRenderer>();
+		this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+		this.myTransform = this.GetComponent<Transform>();
+		this.buttonsVisible = false;
 
-        // Get the size of the image sprite and use it to form the bounding box
-//        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
-//        this.GetComponent<BoxCollider>().size = bbSize;
-//        this.buttonStartX = bbSize.x;
-//        this.buttonStartY = bbSize.y;
+		// Get the size of the image sprite and use it to form the bounding box
+		Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
+		this.GetComponent<BoxCollider>().size = bbSize;
+		this.buttonStartX = bbSize.x;
+		this.buttonStartY = bbSize.y;
+
+		this.curMaterial.SetFloat ("_BrightnessAmount", 1);
+		this.curMaterial.SetFloat ("_ContrastAmount", 1);
+		this.curMaterial.SetFloat ("_SaturationAmount", 1);
+//		this.curMaterial = this.gameObject.GetComponent<Material> ();
+//		this.curShader = 
     }
 
 	/// <summary>
@@ -207,6 +210,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         {
             case "Contrast":    // Contrast button clicked
                 // TODO: Implement contrast code
+			this.Contrast();
                 break;
 
             case "Rotate":    // Rotate button clicked
@@ -271,8 +275,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         {
             this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
             this.slider.manager = this.gameObject;
-			Light light = this.slider.manager.GetComponent<Light> ();
-			this.slider.Setup(light.color.r);
+//			Light light = this.slider.manager.GetComponent<Light> ();
+			this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount")/2);
             this.brightnessOn = true;
         }
         else
@@ -280,10 +284,28 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 			// If the brightness button is pressed again, hide the slider
 			DestroyImmediate(this.slider.gameObject);
             this.brightnessOn = false;
-			Debug.Log ("Brightness Close");
         }
 
     }
+
+	private void Contrast()
+	{
+		// If the brightness is not on, rreate a slider and display it in the scene
+		if (!this.contrastOn)
+		{
+			this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
+			this.slider.manager = this.gameObject;
+			//			Light light = this.slider.manager.GetComponent<Light> ();
+			this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount")/2);
+			this.contrastOn = true;
+		}
+		else
+		{
+			// If the brightness button is pressed again, hide the slider
+			DestroyImmediate(this.slider.gameObject);
+			this.contrastOn = false;
+		}
+	}
 
 	/// <summary>
 	/// The Slider updates the image depending on the value being modified
@@ -296,13 +318,51 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     public void SliderUpdate(float value)
     {
 		// If the brightness is on, update the value of the image according to the slider
-        if (this.brightnessOn)
-        {
-			Light light = this.GetComponent<Light> ();
-			light.color = new Color(value, value, value);
-        }//else if ()
+		if (this.brightnessOn) {
+			Debug.Log ("VALUE " + value);
+			this.curMaterial.SetFloat ("_BrightnessAmount", (value * 2));
+		} else if (this.contrastOn) {
+			this.curMaterial.SetFloat ("_ContrastAmount", (value * 2));
+		}
         
     }
+
+	private void AdjustBrightness(int brightness){
+//		Debug.Log ("BRIGHTNESS " + brightness);
+//		int brightnessInt = Convert.ToInt32(brightness);
+//		int mappedBrightness = (51 * brightnessInt) / 10 - 255;
+//		//Make an empty Texture the same same as the original 
+//		Texture2D bitmapImage = new Texture2D(imageRenderer.sprite.texture.width, imageRenderer.sprite.texture.height);
+//		Texture2D original = this.imageRenderer.sprite.texture;
+//		Debug.Log (bitmapImage);
+//		if (mappedBrightness < -255) mappedBrightness = -255;
+//		if (mappedBrightness > 255) mappedBrightness = 255;
+//		Color32 color;
+//		for (int i = 0; i < bitmapImage.width; i++)
+//		{
+//			for (int j = 0; j < bitmapImage.height; j++)
+//			{
+//				color = original.GetPixel(i, j);
+//				int cR = (int)color.r + mappedBrightness;
+//				int cG = (int)color.g + mappedBrightness;
+//				int cB = (int)color.b + mappedBrightness;
+//				if (cR < 0) cR = 0;
+//				if (cR > 255) cR = 255;
+//				if (cG < 0) cG = 0;
+//				if (cG > 255) cG = 255;
+//				if (cB < 0) cB = 0;
+//				if (cB > 255) cB = 255;
+//				bitmapImage.SetPixel(i, j, new Color32((byte) cR, (byte) cG, (byte) cB, 255));
+//			}
+//		}
+//		//Apply all SetPixel changes
+//		bitmapImage.Apply();
+//		//Connect texture to material of GameObject this script is attached to 
+//		//this.GetComponent<SpriteRenderer>().sprite.texture = bitmapImage;
+//		this.imageRenderer.sprite = Sprite.Create(bitmapImage, 
+//			new Rect(0, 0, bitmapImage.width, bitmapImage.height), 
+//			new Vector2(0.5f, 0.5f));
+	}
 
     /// <summary>
     /// Set the material for the copy
