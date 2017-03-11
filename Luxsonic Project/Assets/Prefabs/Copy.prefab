@@ -9,47 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1930037738419080}
+  m_RootGameObject: {fileID: 1135505955537766}
   m_IsPrefabParent: 1
---- !u!1 &1930037738419080
+--- !u!1 &1135505955537766
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4491975229625494}
-  - component: {fileID: 114216752214773576}
-  - component: {fileID: 212840685330987510}
-  - component: {fileID: 54467417603571960}
-  - component: {fileID: 65811805793480606}
-  - component: {fileID: 108533896492613874}
+  - component: {fileID: 4107660398456978}
+  - component: {fileID: 114884426801351116}
+  - component: {fileID: 212668329112982688}
+  - component: {fileID: 54124257576627348}
+  - component: {fileID: 65717649748082396}
+  - component: {fileID: 108358460776514248}
   m_Layer: 0
-  m_Name: Copy
+  m_Name: Copy 1
   m_TagString: Copy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4491975229625494
+--- !u!4 &4107660398456978
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: -106.9, z: -145}
+  m_GameObject: {fileID: 1135505955537766}
+  m_LocalRotation: {x: -0.0014593495, y: -0.00830475, z: -0.0022528796, w: 0.9999619}
+  m_LocalPosition: {x: 0.30090773, y: 0.6497177, z: 8.049015}
   m_LocalScale: {x: 30, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &54467417603571960
+  m_LocalEulerAnglesHint: {x: -0.16900001, y: -0.95100003, z: -0.257}
+--- !u!54 &54124257576627348
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
+  m_GameObject: {fileID: 1135505955537766}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -59,24 +59,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65811805793480606
+--- !u!65 &65717649748082396
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
+  m_GameObject: {fileID: 1135505955537766}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!108 &108533896492613874
+--- !u!108 &108358460776514248
 Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
+  m_GameObject: {fileID: 1135505955537766}
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 2
@@ -105,12 +105,12 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114216752214773576
+--- !u!114 &114884426801351116
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
+  m_GameObject: {fileID: 1135505955537766}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daf90ab90e6048a4187dda10c428fc94, type: 3}
@@ -130,14 +130,15 @@ MonoBehaviour:
     type: 2}
   sliderPrefab: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8,
     type: 2}
-  sliderPosition: {x: 250, y: 50, z: -253}
+  sliderPosition: {x: 250, y: 0, z: -353}
   copyScale: 1
---- !u!212 &212840685330987510
+  curShader: {fileID: 4800000, guid: 7288c753780bc420b917bde11fcdc4c1, type: 3}
+--- !u!212 &212668329112982688
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930037738419080}
+  m_GameObject: {fileID: 1135505955537766}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -145,7 +146,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1ddae8f5e087fec4b9b414f16441f23b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

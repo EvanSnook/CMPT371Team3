@@ -31,9 +31,6 @@ public class SliderBar : MonoBehaviour {
 	// Indicates if the slider needs to be updated
     private bool update = false;
 
-	// This is a test
-	float lastNum;
-
     /// <summary>
     /// Called by the manager to set up the slider
 	/// Pre:: currentVal is passed in from the Copy
@@ -60,7 +57,6 @@ public class SliderBar : MonoBehaviour {
 
 		// Updating the current position to the value of the slider knob
         knobCoord = sliderKnobPrefab.transform.position;
-		lastNum = 0.0f;
 		
 		// Setting the boundaries of the knob to the slider boundaries
 		sliderKnobPrefab.GetComponent<SliderKnob>().SetLeftBoundary(this.minCoord);
@@ -177,11 +173,10 @@ public class SliderBar : MonoBehaviour {
         {
             knobCoord = sliderKnobPrefab.transform.position;
 
-			if (manager != null  && ((Mathf.Abs(ConvertFromCoordToPercentOfSlider(knobCoord.x) - lastNum)) > 0.10))
+			if (manager != null)
             {
 //				Debug.Log ("UPDATE");
                 manager.SendMessage("SliderUpdate", ConvertFromCoordToPercentOfSlider(knobCoord.x));
-				lastNum = knobCoord.x;
             }
 
 

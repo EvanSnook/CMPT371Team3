@@ -60,6 +60,10 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	private SliderBar slider;
 	// the scale of the copy
 	public float copyScale = 1;
+
+	// Shader for the copy
+	public Material curMaterial;
+	public Shader curShader;
     
 
     /// <summary>
@@ -83,6 +87,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 		this.GetComponent<BoxCollider>().size = bbSize;
 		this.buttonStartX = bbSize.x;
 		this.buttonStartY = bbSize.y;
+
+//		this.curMaterial = this.gameObject.GetComponent<Material> ();
+//		this.curShader = 
     }
 
 	/// <summary>
@@ -264,7 +271,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
             this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
             this.slider.manager = this.gameObject;
 //			Light light = this.slider.manager.GetComponent<Light> ();
-			this.slider.Setup(0);
+			this.slider.Setup(0.5f);
             this.brightnessOn = true;
 			AdjustBrightness (52);
         }
@@ -292,46 +299,46 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         if (this.brightnessOn)
         {
 			Debug.Log ("VALUE " + value);
-//			AdjustBrightness ((int)(value * 100));
+			this.curMaterial.SetFloat ("_BrightnessAmount", (value*2));
         }//else if ()
         
     }
 
 	private void AdjustBrightness(int brightness){
-		Debug.Log ("BRIGHTNESS " + brightness);
-		int brightnessInt = Convert.ToInt32(brightness);
-		int mappedBrightness = (51 * brightnessInt) / 10 - 255;
-		//Make an empty Texture the same same as the original 
-		Texture2D bitmapImage = new Texture2D(imageRenderer.sprite.texture.width, imageRenderer.sprite.texture.height);
-		Texture2D original = this.imageRenderer.sprite.texture;
-		Debug.Log (bitmapImage);
-		if (mappedBrightness < -255) mappedBrightness = -255;
-		if (mappedBrightness > 255) mappedBrightness = 255;
-		Color32 color;
-		for (int i = 0; i < bitmapImage.width; i++)
-		{
-			for (int j = 0; j < bitmapImage.height; j++)
-			{
-				color = original.GetPixel(i, j);
-				int cR = (int)color.r + mappedBrightness;
-				int cG = (int)color.g + mappedBrightness;
-				int cB = (int)color.b + mappedBrightness;
-				if (cR < 0) cR = 0;
-				if (cR > 255) cR = 255;
-				if (cG < 0) cG = 0;
-				if (cG > 255) cG = 255;
-				if (cB < 0) cB = 0;
-				if (cB > 255) cB = 255;
-				bitmapImage.SetPixel(i, j, new Color32((byte) cR, (byte) cG, (byte) cB, 255));
-			}
-		}
-		//Apply all SetPixel changes
-		bitmapImage.Apply();
-		//Connect texture to material of GameObject this script is attached to 
-		//this.GetComponent<SpriteRenderer>().sprite.texture = bitmapImage;
-		this.imageRenderer.sprite = Sprite.Create(bitmapImage, 
-			new Rect(0, 0, bitmapImage.width, bitmapImage.height), 
-			new Vector2(0.5f, 0.5f));
+//		Debug.Log ("BRIGHTNESS " + brightness);
+//		int brightnessInt = Convert.ToInt32(brightness);
+//		int mappedBrightness = (51 * brightnessInt) / 10 - 255;
+//		//Make an empty Texture the same same as the original 
+//		Texture2D bitmapImage = new Texture2D(imageRenderer.sprite.texture.width, imageRenderer.sprite.texture.height);
+//		Texture2D original = this.imageRenderer.sprite.texture;
+//		Debug.Log (bitmapImage);
+//		if (mappedBrightness < -255) mappedBrightness = -255;
+//		if (mappedBrightness > 255) mappedBrightness = 255;
+//		Color32 color;
+//		for (int i = 0; i < bitmapImage.width; i++)
+//		{
+//			for (int j = 0; j < bitmapImage.height; j++)
+//			{
+//				color = original.GetPixel(i, j);
+//				int cR = (int)color.r + mappedBrightness;
+//				int cG = (int)color.g + mappedBrightness;
+//				int cB = (int)color.b + mappedBrightness;
+//				if (cR < 0) cR = 0;
+//				if (cR > 255) cR = 255;
+//				if (cG < 0) cG = 0;
+//				if (cG > 255) cG = 255;
+//				if (cB < 0) cB = 0;
+//				if (cB > 255) cB = 255;
+//				bitmapImage.SetPixel(i, j, new Color32((byte) cR, (byte) cG, (byte) cB, 255));
+//			}
+//		}
+//		//Apply all SetPixel changes
+//		bitmapImage.Apply();
+//		//Connect texture to material of GameObject this script is attached to 
+//		//this.GetComponent<SpriteRenderer>().sprite.texture = bitmapImage;
+//		this.imageRenderer.sprite = Sprite.Create(bitmapImage, 
+//			new Rect(0, 0, bitmapImage.width, bitmapImage.height), 
+//			new Vector2(0.5f, 0.5f));
 	}
 
     /// <summary>
