@@ -135,6 +135,7 @@ MonoBehaviour:
   copyScale: 1
   curShader: {fileID: 4800000, guid: 7288c753780bc420b917bde11fcdc4c1, type: 3}
   leftThumbX: Oculus_GearVR_LThumbstickX
+  rightThumbX: Oculus_GearVR_RThumbstickX
 --- !u!212 &212668329112982688
 SpriteRenderer:
   m_ObjectHideFlags: 1

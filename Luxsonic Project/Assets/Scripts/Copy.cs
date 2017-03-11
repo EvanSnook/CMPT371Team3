@@ -71,6 +71,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
     // The name of the axis for the left thumbstick
     public string leftThumbX;
+    // The name of the axis for hte right thumbstick
+    public string rightThumbX;
     
 
     /// <summary>
@@ -137,7 +139,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         }
 
         // Resize if the left thumbstick is being moved to resize
-        if(this.isCurrentImage && Input.GetAxis(this.leftThumbX) != 0)
+        if(this.isCurrentImage && Input.GetAxis(this.rightThumbX) != 0)
         {
             this.resize(Input.GetAxis(this.leftThumbX));
         }
