@@ -68,6 +68,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	// Shader for the copy
 	private Material curMaterial;
 	public Shader curShader;
+
+    // The name of the axis for the left thumbstick
+    public string leftThumbX;
     
 
     /// <summary>
@@ -131,6 +134,12 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         {
             this.buttonsVisible = false;
             HideButtons();
+        }
+
+        // Resize if the left thumbstick is being moved to resize
+        if(this.isCurrentImage && Input.GetAxis(this.leftThumbX) != 0)
+        {
+            this.resize(Input.GetAxis(this.leftThumbX));
         }
     }
 

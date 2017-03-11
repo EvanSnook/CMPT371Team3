@@ -126,6 +126,7 @@ MonoBehaviour:
   imageBrightness: 0
   imageContrast: 0
   imageRotation: {x: 0, y: 0, z: 0}
+  resizeScale: 1.5
   buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
   sliderPrefab: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8,
@@ -133,6 +134,7 @@ MonoBehaviour:
   sliderPosition: {x: 250, y: 0, z: -353}
   copyScale: 1
   curShader: {fileID: 4800000, guid: 7288c753780bc420b917bde11fcdc4c1, type: 3}
+  leftThumbX: Oculus_GearVR_LThumbstickX
 --- !u!212 &212668329112982688
 SpriteRenderer:
   m_ObjectHideFlags: 1
