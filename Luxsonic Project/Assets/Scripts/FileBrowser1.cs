@@ -33,6 +33,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     private VRButton VRButtonPrefab;
     // Inital Position of the file Buttons
     public Vector3 filePosition;
+    // The position of the second column of the files
+    //public Vector3 
     // Inital Rotation of the file Buttons
     public Vector3 fileRotation;
     // Inital Position of the file Buttons
@@ -41,6 +43,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryRotation;
     // Distance between each button
     public float seperationBetweenButtons;
+    // Number of buttons to display
+    [SerializeField]
+    private int numberOfButtonsPerColumn;
 
     // VRButton back to move back to the previous directory
     private VRButton backButton;
@@ -56,6 +61,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     // Cancel rotation
     public Vector3 cancelRotation;
 
+    
 
     // Use this for initialization
     void Start()
@@ -105,8 +111,20 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string i in listOfCurrentDirectories)
         {
             Vector3 newDirectoryPosition = directoryPosition;
-            newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
+            if(count >= numberOfButtonsPerColumn)
+            {
+                newDirectoryPosition.x = directoryPosition.x + 100f;
+                newDirectoryPosition.y = newDirectoryPosition.y - ((count - numberOfButtonsPerColumn) * seperationBetweenButtons);
+            }
+            else
+            {
+                newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
+            }
             CreateDirectoryButton(i, newDirectoryPosition);
+            /*if(count >= numberOfButtons)
+            {
+                listOfCurrentDirectoryButtons[count].gameObject.SetActive(false);
+            }*/
             count++;
         }
 
@@ -115,8 +133,20 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string j in listOfCurrentFiles)
         {
             Vector3 newFilePosition = filePosition;
-            newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
+            if (count >= numberOfButtonsPerColumn)
+            {
+                newFilePosition.x = newFilePosition.x + 100f;
+                newFilePosition.y = newFilePosition.y - ((count - numberOfButtonsPerColumn) * seperationBetweenButtons);
+            }
+            else
+            {
+                newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
+            }
             CreateFileButton(j, newFilePosition);
+            /*if (count >= numberOfButtons)
+            {
+                listOfCurrentFileButtons[count].gameObject.SetActive(false);
+            }*/
             count++;
         }
     }
@@ -130,7 +160,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// </summary>
     void DisableFileBrowser()
     {
-        this.enabled = false;
+        this.gameObject.SetActive(false);
     }
 
 
@@ -142,7 +172,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// </summary>
     void EnableFileBrowser()
     {
-        this.enabled = true;
+        this.gameObject.SetActive(true);
     }
 
 
@@ -183,6 +213,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         UpdateBackButton(newDirectory);
         CreateButtons();
     }
+
 
     /// <summary>
     /// Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
@@ -285,7 +316,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         back.path = GetPreviousPath(path);
         back.textObject = back.GetComponentInChildren<TextMesh>();
         back.textObject.text = "Back";
-        Debug.Log("Just created Back " + back);
 
         return back;
     }
@@ -331,6 +361,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// <param name="path">new path to update the back button</param>
     void UpdateBackButton(string path)
     {
+        Debug.Log("Updating back button with this path: ");
         backButton.path = GetPreviousPath(path);
         backButton.GetComponentInChildren<TextMesh>().text = "Back";
     }
@@ -372,10 +403,27 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         int index = path.LastIndexOf("\\");
         if(index > 0)
         {
-            path = path.Substring(0, index);
-            return path;
+            string newPath = path.Substring(0, index);
+            if (newPath == "C")
+            {
+                Debug.Log(path);
+                return path;
+            }
+            else
+            {
+                Debug.Log(newPath);
+                return newPath;
+            }
         }
         return path;
+    }
+
+
+    void ShowLimitedButtons()
+    {
+        foreach (VRButton button in listOfCurrentDirectoryButtons){
+
+        }
     }
 
 

@@ -91,6 +91,48 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &28576074
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043299334595082, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &625883777
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,14 +225,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VRButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  filePosition: {x: 0, y: 0, z: 200}
+  filePosition: {x: 200, y: 0, z: 200}
   fileRotation: {x: 0, y: 0, z: 0}
   directoryPosition: {x: -200, y: 0, z: 200}
   directoryRotation: {x: 0, y: 0, z: 0}
   seperationBetweenButtons: 50
-  backPosition: {x: -200, y: 200, z: 0}
+  numberOfButtonsPerColumn: 10
+  backPosition: {x: -100, y: 0, z: 200}
   backRotation: {x: 0, y: 0, z: 0}
-  cancelPosition: {x: 0, y: 0, z: 0}
+  cancelPosition: {x: -100, y: 0, z: 250}
   cancelRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1582520590
 Transform:
