@@ -60,6 +60,8 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	// Indicates whether the brightness slider should be shown
     private bool brightnessOn = false;
 	private bool contrastOn = false;
+    private bool resizing = false;
+
 	// The created generic slider
 	private SliderBar slider;
 	// the scale of the copy
@@ -112,9 +114,14 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	/// Raises the trigger enter event when the user has selected the Copy
 	/// </summary>
 	/// <param name="other">Other.</param>
-    public void OnTriggerEnter(Collider other)
+   // public void OnTriggerEnter(Collider other)
+    //{
+    //    this.isCurrentImage = true;
+   // }
+
+    public void Selected()
     {
-        this.isCurrentImage = true;
+        this.isCurrentImage = !this.isCurrentImage;
     }
 
 	/// <summary>
@@ -139,7 +146,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         }
 
         // Resize if the left thumbstick is being moved to resize
-        if(this.isCurrentImage && Input.GetAxis(this.rightThumbX) != 0)
+        if(this.isCurrentImage && this.resizing)
         {
             this.resize(Input.GetAxis(this.leftThumbX));
         }
@@ -244,7 +251,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
                 break;
 
             case "Resize":    // Resize button clicked
-                // TODO: Implement Resize code
+                this.resizing = !this.resizing;
                 break;
 
             case "Filter":    // Filter button clicked
