@@ -132,8 +132,7 @@ MonoBehaviour:
     type: 2}
   sliderPosition: {x: 250, y: 0, z: -353}
   copyScale: 1
-  curMaterial: {fileID: 2100000, guid: 1ddae8f5e087fec4b9b414f16441f23b, type: 2}
-  curShader: {fileID: 4800000, guid: 5e890c5e2123f044394a1e640130fff8, type: 3}
+  curShader: {fileID: 4800000, guid: 7288c753780bc420b917bde11fcdc4c1, type: 3}
 --- !u!212 &212668329112982688
 SpriteRenderer:
   m_ObjectHideFlags: 1
