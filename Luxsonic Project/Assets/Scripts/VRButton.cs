@@ -10,66 +10,55 @@ public class VRButton : MonoBehaviour {
 
     // Button name
     public string name;
+    // string to store a potental path
+    public string path;
     // The object that creates and contains the functionality for this button.
     public GameObject manager;
     // Text on button
     public TextMesh textObject;
     // Buttons state
     bool pressed = false;
-    // Times button enters
-    int timer;
+    
 
-    /// <summary>
-    /// onCollisionEnter deals with colliders entering the button
-    /// Checks to make sure the colliding object is a hand and the 
-    /// button isnt already pressed
-    /// Pre:: timer = 0
-    /// Post: sets button pressed to true
-    /// Post: set timer to zero
-    /// Return:: nothing
-    /// </summary>
-    public void OnCollisionEnter(Collision collision)
-    {
-        if ((timer == 0) && (pressed == false) && (collision.gameObject.tag == "Hand"))
-        {
-            manager.SendMessage("VRButtonClicked", name);
-            textObject.color = Color.black;
-            timer = 200;
-            pressed = true;
-        }
-    }
-
-    /// <summary>
-    /// onCollisionExit deals with button collisions when collder exits
-    /// sets button pressed to false when hand exits button
-    /// Pre:: pressed = true
-    /// Post: pressed = false
-    /// Return:: nothing
-    /// </summary>
-    public void OnCollisionExit(Collision collision)
-    {
-        pressed = false;
-    }
     // Use this for initialization
     void Start () {
+<<<<<<< HEAD
+        timer = 0;
+=======
         textObject = gameObject.GetComponentInChildren<TextMesh>();
         textObject.text = name;
-        timer = 0;
+        path = null;
+>>>>>>> 13f504e0809e831f028c1897a2832f38ad4be89b
 	}
-
-    // Update constantly updates the timer
-    // Brings back timer whenever it exceeds zero
-    private void Update()
-    {
-        if(timer > 0)
-        {
-            timer = timer - 1;
-        }
-    }
 
     // When mouve is pressed send clicked message to manager
     void OnMouseDown()
     {
         manager.SendMessage("VRButtonClicked", name);
+    }
+
+
+    /// <summary>
+    /// SetPressed sets the value of pressed to the value of val
+    /// Pre:: 
+    /// Post:: pressed is set to the value of val
+    /// Return:: nothing
+    /// </summary>
+    public void SetPressed(bool val)
+    {
+        pressed = val;
+        if (val) manager.SendMessage("VRButtonClicked", name);
+    }
+
+
+    /// <summary>
+    /// GetPressed returns the value of pressed
+    /// Pre:: 
+    /// Post:: 
+    /// Return:: value of pressed
+    /// </summary>
+    public bool GetPressed()
+    {
+        return pressed;
     }
 }

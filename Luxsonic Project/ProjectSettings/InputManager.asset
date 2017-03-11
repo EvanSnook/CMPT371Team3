@@ -390,7 +390,7 @@ InputManager:
     axis: 5
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Oculus_GearVR_LIndexTrigger
+    m_Name: LIndexTrigger
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -406,7 +406,7 @@ InputManager:
     axis: 12
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Oculus_GearVR_RIndexTrigger
+    m_Name: RIndexTrigger
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -419,7 +419,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 11
+    axis: 13
     joyNum: 0
   - serializedVersion: 3
     m_Name: RFistTrigger
@@ -452,4 +452,36 @@ InputManager:
     invert: 0
     type: 2
     axis: 10
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Oculus_GearVR_LIndexTrigger
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 12
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Oculus_GearVR_RIndexTrigger
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 11
     joyNum: 0
