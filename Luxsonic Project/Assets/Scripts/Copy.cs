@@ -56,6 +56,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 
 	// Indicates whether the brightness slider should be shown
     private bool brightnessOn = false;
+	private bool contrastOn = false;
 	// The created generic slider
 	private SliderBar slider;
 	// the scale of the copy
@@ -88,6 +89,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 		this.buttonStartX = bbSize.x;
 		this.buttonStartY = bbSize.y;
 
+		this.curMaterial.SetFloat ("_BrightnessAmount", 1);
+		this.curMaterial.SetFloat ("_ContrastAmount", 1);
+		this.curMaterial.SetFloat ("_SaturationAmount", 1);
 //		this.curMaterial = this.gameObject.GetComponent<Material> ();
 //		this.curShader = 
     }
@@ -206,6 +210,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
         {
             case "Contrast":    // Contrast button clicked
                 // TODO: Implement contrast code
+			this.Contrast();
                 break;
 
             case "Rotate":    // Rotate button clicked
@@ -271,19 +276,36 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
             this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
             this.slider.manager = this.gameObject;
 //			Light light = this.slider.manager.GetComponent<Light> ();
-			this.slider.Setup(0.5f);
+			this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount")/2);
             this.brightnessOn = true;
-			AdjustBrightness (52);
         }
         else
         {
 			// If the brightness button is pressed again, hide the slider
 			DestroyImmediate(this.slider.gameObject);
             this.brightnessOn = false;
-			Debug.Log ("Brightness Close");
         }
 
     }
+
+	private void Contrast()
+	{
+		// If the brightness is not on, rreate a slider and display it in the scene
+		if (!this.contrastOn)
+		{
+			this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
+			this.slider.manager = this.gameObject;
+			//			Light light = this.slider.manager.GetComponent<Light> ();
+			this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount")/2);
+			this.contrastOn = true;
+		}
+		else
+		{
+			// If the brightness button is pressed again, hide the slider
+			DestroyImmediate(this.slider.gameObject);
+			this.contrastOn = false;
+		}
+	}
 
 	/// <summary>
 	/// The Slider updates the image depending on the value being modified
@@ -296,11 +318,12 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     public void SliderUpdate(float value)
     {
 		// If the brightness is on, update the value of the image according to the slider
-        if (this.brightnessOn)
-        {
+		if (this.brightnessOn) {
 			Debug.Log ("VALUE " + value);
-			this.curMaterial.SetFloat ("_BrightnessAmount", (value*2));
-        }//else if ()
+			this.curMaterial.SetFloat ("_BrightnessAmount", (value * 2));
+		} else if (this.contrastOn) {
+			this.curMaterial.SetFloat ("_ContrastAmount", (value * 2));
+		}
         
     }
 
