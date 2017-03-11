@@ -11,6 +11,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     // Position of the Camera
     Transform cameraPosition;
 
+    // Reference to the Display
+    GameObject display;
+
     // Storage of the path name to the file we want to open
     string selectedFile;
     // Path name of the current directory
@@ -26,7 +29,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     List<VRButton> listOfCurrentFileButtons = new List<VRButton>();
 
     // VRButton prefab to create the Buttons
-    public VRButton VRButtonPrefab;
+    [SerializeField]
+    private VRButton VRButtonPrefab;
     // Inital Position of the file Buttons
     public Vector3 filePosition;
     // Inital Rotation of the file Buttons
@@ -39,17 +43,25 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public float seperationBetweenButtons;
 
     // VRButton back to move back to the previous directory
-    public static VRButton back;
+    private VRButton backButton;
     // Back button position
     public Vector3 backPosition;
     // Back rotation
     public Vector3 backRotation;
+
+    // VRButton cancel to exit out of the filebrowser
+    private VRButton cancelButton;
+    // Cancel button Position
+    public Vector3 cancelPosition;
+    // Cancel rotation
+    public Vector3 cancelRotation;
 
 
     // Use this for initialization
     void Start()
     {
         cameraPosition = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        display = GameObject.FindGameObjectWithTag("Display");
         selectedFile = "Nothing Selected";
         // Get the current Directory
         currentDirectory = Directory.GetCurrentDirectory().ToString();
@@ -67,10 +79,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         }
         //Create all directory and file buttons
         CreateButtons();
-        back = CreateBackButton(currentDirectory);
-        Debug.Log(back);
+        backButton = CreateBackButton(currentDirectory);
+        cancelButton = CreateCancelButton();
     }
 
+
+    void Update()
+    {
+        // We always want the LoadBar to be infront of the user.
+        // this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 500f);
+    }
 
 
     /// <summary>
@@ -82,6 +100,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// </summary>
     void CreateButtons()
     {
+        // Create a directory button for each directory
         int count = 0;
         foreach (string i in listOfCurrentDirectories)
         {
@@ -91,6 +110,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             count++;
         }
 
+        // Create a file button for each file
         count = 0;
         foreach (string j in listOfCurrentFiles)
         {
@@ -133,15 +153,19 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// <param name="newDirectory"></param>
     void EnterDirectory(string newDirectory)
     {
+        Assert.IsNotNull(newDirectory);
         currentDirectory = newDirectory;
+        // Destroy all current directory buttons
         foreach (VRButton d in listOfCurrentDirectoryButtons)
         {
             Destroy(d.gameObject);
         }
+        // Destroy all current File buttons
         foreach (VRButton f in listOfCurrentFileButtons)
         {
             Destroy(f.gameObject);
         }
+        // Empty all lists
         listOfCurrentDirectoryButtons.Clear();
         listOfCurrentFileButtons.Clear();
         listOfCurrentDirectories.Clear();
@@ -160,15 +184,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         CreateButtons();
     }
 
-    //Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
-    //to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
-    //from it.
-    //Preconditions: FileInfo file, the file to be converted
-    //Postconditions: updated ImageManager list and disabling the file-browser GUI
-    //Return: Nothing
-    public void ConvertAndSendImage(FileInfo file)
+    /// <summary>
+    /// Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
+    /// to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
+    /// from it.
+    /// </summary>
+    /// <param name="filePath">string representation of the files path</param>
+    public void ConvertAndSendImage(string filePath)
     {
-        //We can't do anything with a null file
+        FileInfo file = new FileInfo(filePath);
+        // Can't do anything with a null file
         if (file == null)
         {
             return;
@@ -183,15 +208,17 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(10, 10);
         image.LoadImage(dicomImage);
-        //SendMessage("AddImage", image);// Kyle and Heramb, this is the function to add an image to the List
+        display.SendMessage("AddImage", image);
         this.enabled = false;
     }
 
-    //Function CreateDirectoryButton() will create a new button representative of a directory that
-    //the user can select to enter and view that directory's contents
-    //Preconditions: none
-    //Postconditions: creation of a new directory button
-    //returns: nothing
+
+    /// <summary>
+    /// Function CreateDirectoryButton() will create a new button representative of a directory that
+    /// the user can select to enter and view that directory's contents
+    /// </summary>
+    /// <param name="directoryPath">string of the directory path</param>
+    /// <param name="position">position of the directory</param>
     void CreateDirectoryButton(string directoryPath, Vector3 position)
     {
         //we should contain a prefab and viable string
@@ -211,19 +238,24 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         listOfCurrentDirectoryButtons.Add(newDirectory);
     }
 
-    //Function create file Button will create a new button that will represent the path of
-    //a file which the user can select to open
-    //Preconditions: string filePath
-    //Postconditions: creation of file button
-    //Return: nothing
+
+    /// <summary>
+    /// Function CreateFileButton will create a new button that will represent the path of
+    /// a file which the user can select to open
+    /// </summary>
+    /// <param name="filePath">string of the files path</param>
+    /// <param name="position">position of the new file button</param>
     void CreateFileButton(string filePath, Vector3 position)
     {
+        //we should contain a prefab and viable string
+        Assert.IsNotNull(VRButtonPrefab);
+        Assert.IsNotNull(filePath);
         // Create a File button to access the file
         VRButton newFile = Instantiate(VRButtonPrefab, position,
             Quaternion.Euler(directoryRotation));
         newFile.transform.parent = gameObject.transform;
 
-        // Set the name to 
+        // Set each attribute of the button
         newFile.name = "File";
         newFile.manager = this.gameObject;
         newFile.path = filePath;
@@ -233,16 +265,21 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         listOfCurrentFileButtons.Add(newFile);
     }
 
+
     /// <summary>
     /// CreateBackButton will create a new back button for the interface.
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">The path leading to the directory one level above</param>
     VRButton CreateBackButton(string path)
     {
+        //we should contain a prefab and viable string
+        Assert.IsNotNull(VRButtonPrefab);
+        Assert.IsNotNull(path);
         VRButton back = Instantiate(VRButtonPrefab, backPosition,
             Quaternion.Euler(backRotation));
         back.transform.parent = gameObject.transform;
 
+        // Set attributes of the back button
         back.name = "Back";
         back.manager = this.gameObject;
         back.path = GetPreviousPath(path);
@@ -253,16 +290,49 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         return back;
     }
 
+
+    /// <summary>
+    /// CreateFunctionButton will create a new cancel button which will close down
+    /// the file browser by deactivating it.
+    /// </summary>
+    /// <returns>The newly created cancel buttob</returns>
+    VRButton CreateCancelButton()
+    {
+        //we should contain a prefab
+        Assert.IsNotNull(VRButtonPrefab);
+        cancelButton = Instantiate(VRButtonPrefab, cancelPosition,
+            Quaternion.Euler(cancelRotation));
+        cancelButton.transform.parent = gameObject.transform;
+
+        // Setting the attributes of thr cancel button
+        cancelButton.name = "Cancel";
+        cancelButton.manager = this.gameObject;
+        cancelButton.path = null;
+        cancelButton.textObject = cancelButton.GetComponentInChildren<TextMesh>();
+        cancelButton.textObject.text = "Cancel";
+    
+        return cancelButton;
+    }
+
+
+    /// <summary>
+    /// Function GoBack() will call EnterDirectory on the path above the current path.  This 
+    /// will generate all directory and file buttons for that directory.
+    /// </summary>
     void GoBack()
     {
         EnterDirectory(GetPreviousPath(currentDirectory));
     }
 
 
+    /// <summary>
+    /// UpdateBackButton will update the path contained in the back button
+    /// </summary>
+    /// <param name="path">new path to update the back button</param>
     void UpdateBackButton(string path)
     {
-        back.path = GetPreviousPath(path);
-        back.GetComponentInChildren<TextMesh>().text = "Back";
+        backButton.path = GetPreviousPath(path);
+        backButton.GetComponentInChildren<TextMesh>().text = "Back";
     }
 
 
@@ -273,7 +343,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// Post:: nothing
     /// Return:: string name
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">string of the path</param>
     /// <returns> string local name </returns>
    public string GetLocalName(string path)
     {
@@ -290,11 +360,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         }
     }
 
+
     /// <summary>
-    /// 
+    /// This function will take in a string representing a file or directory path and
+    /// and return the directory path to that directory or file
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="path">string of the path given to the function</param>
+    /// <returns>string of the path</returns>
     string GetPreviousPath(string path)
     {
         int index = path.LastIndexOf("\\");
@@ -306,12 +378,12 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         return path;
     }
 
-    void Update()
-    {
-        //We always want the LoadBar to be infront of the user.
-        this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 500f);
-    }
 
+    /// <summary>
+    /// This function comes from the VRButton interface.  It thakes in a string reptrsenting
+    /// the VRButton it recieves.  Based on the name, it will execute the specified function.
+    /// </summary>
+    /// <param name="button"></param>
     public void VRButtonClicked(string button)
     {
         switch (button)
@@ -320,7 +392,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
                 GoBack();
                 break;
             case "Cancel":
-                //Cancel()
+                DisableFileBrowser();
                 break;
         }
     }

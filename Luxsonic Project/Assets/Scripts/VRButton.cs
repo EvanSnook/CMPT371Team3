@@ -34,7 +34,7 @@ public class VRButton : MonoBehaviour {
         }
         else if (name == "File")
         {
-            //manager.SendMessage("EnterDirectory", path);
+            manager.SendMessage("ConvertAndSendImage", path);
         }
         else
         {

@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 1582520589}
   m_Layer: 0
   m_Name: FileBrowser
-  m_TagString: Untagged
+  m_TagString: FileBrowser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,12 +183,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VRButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  filePosition: {x: 0, y: 0, z: 0}
+  filePosition: {x: 0, y: 0, z: 200}
   fileRotation: {x: 0, y: 0, z: 0}
-  directoryPosition: {x: -50, y: 0, z: 0}
+  directoryPosition: {x: -200, y: 0, z: 200}
   directoryRotation: {x: 0, y: 0, z: 0}
-  backPosition: {x: -10, y: 0, z: 0}
+  seperationBetweenButtons: 50
+  backPosition: {x: -200, y: 200, z: 0}
   backRotation: {x: 0, y: 0, z: 0}
+  cancelPosition: {x: 0, y: 0, z: 0}
+  cancelRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1582520590
 Transform:
   m_ObjectHideFlags: 0

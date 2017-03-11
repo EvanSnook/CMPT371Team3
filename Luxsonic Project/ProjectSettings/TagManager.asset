@@ -11,6 +11,7 @@ TagManager:
   - Copy
   - Hand
   - Thumbnail
+  - FileBrowser
   layers:
   - Default
   - TransparentFX
