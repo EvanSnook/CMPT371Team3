@@ -37,8 +37,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryRotation;
     // Distance between each button
     public float seperationBetweenButtons;
+
     // VRButton back to move back to the previous directory
-    private VRButton back;
+    public static VRButton back;
     // Back button position
     public Vector3 backPosition;
     // Back rotation
@@ -66,6 +67,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         }
         //Create all directory and file buttons
         CreateButtons();
+        back = CreateBackButton(currentDirectory);
+        Debug.Log(back);
     }
 
 
@@ -96,7 +99,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             CreateFileButton(j, newFilePosition);
             count++;
         }
-        CreateBackButton(currentDirectory);
     }
 
 
@@ -132,8 +134,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     void EnterDirectory(string newDirectory)
     {
         currentDirectory = newDirectory;
-        Debug.Log(currentDirectory);
-        //listOfCurrentDirectoryButtons.Clear();
         foreach (VRButton d in listOfCurrentDirectoryButtons)
         {
             Destroy(d.gameObject);
@@ -142,11 +142,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         {
             Destroy(f.gameObject);
         }
+        listOfCurrentDirectoryButtons.Clear();
+        listOfCurrentFileButtons.Clear();
         listOfCurrentDirectories.Clear();
         listOfCurrentFiles.Clear();
-        Debug.Log(back.name);
-        Destroy(back.gameObject);
-
         string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
         foreach (string i in arrayOfCurrentDirectories)
         {
@@ -157,7 +156,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         {
             listOfCurrentFiles.Add(i);
         }
-
+        UpdateBackButton(newDirectory);
         CreateButtons();
     }
 
@@ -238,7 +237,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// CreateBackButton will create a new back button for the interface.
     /// </summary>
     /// <param name="path"></param>
-    void CreateBackButton(string path)
+    VRButton CreateBackButton(string path)
     {
         VRButton back = Instantiate(VRButtonPrefab, backPosition,
             Quaternion.Euler(backRotation));
@@ -246,6 +245,22 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
         back.name = "Back";
         back.manager = this.gameObject;
+        back.path = GetPreviousPath(path);
+        back.textObject = back.GetComponentInChildren<TextMesh>();
+        back.textObject.text = "Back";
+        Debug.Log("Just created Back " + back);
+
+        return back;
+    }
+
+    void GoBack()
+    {
+        EnterDirectory(GetPreviousPath(currentDirectory));
+    }
+
+
+    void UpdateBackButton(string path)
+    {
         back.path = GetPreviousPath(path);
         back.GetComponentInChildren<TextMesh>().text = "Back";
     }
@@ -302,17 +317,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         switch (button)
         {
             case "Back":
-                //Submit()
+                GoBack();
                 break;
             case "Cancel":
                 //Cancel()
-                break;
-            case "File":
-                //GetFile()
-                break;
-            case "Directory":
-                Debug.Log("This should not happen");
-               // EnterDirectory()
                 break;
         }
     }

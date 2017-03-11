@@ -30,7 +30,6 @@ public class VRButton : MonoBehaviour {
     {
         if (name == "Directory")
         {
-            Debug.Log("Directory clicked, sending messages");
             manager.SendMessage("EnterDirectory", path);
         }
         else if (name == "File")
