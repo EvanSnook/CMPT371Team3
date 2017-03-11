@@ -43,6 +43,9 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     public Vector3 imageRotation;  
 	// The current size of the copy
     private bool buttonsVisible;
+	//the scale increment for resizing
+	[SerializeField]
+	private float resizeScale;
 
 	// The buttons for the copy, the buttons are used to allow 
 	// modification on the copy (brightness, contrast, etc.)
@@ -376,4 +379,15 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
     {
         this.copyMaterial = mat; ;
     }
+
+	public void resize(float dir){
+		if (dir > 0) {
+			Vector3 scale = this.transform.localScale;
+			this.transform.localScale = new Vector3 (scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
+		}
+		else if (dir < 0) {
+			Vector3 scale = this.transform.localScale;
+			this.transform.localScale = new Vector3 (scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
+		}
+	}
 }
