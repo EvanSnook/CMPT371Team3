@@ -121,6 +121,9 @@ public class TouchAndGrab : MonoBehaviour
             {
                 other.gameObject.GetComponent<VRButton>().SetPressed(true);
             }
+        }else if((other.tag == "Copy") && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
+        {
+            other.gameObject.SendMessage("Select");
         }
     }
 
