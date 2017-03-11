@@ -63,7 +63,7 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 	public float copyScale = 1;
 
 	// Shader for the copy
-	public Material curMaterial;
+	private Material curMaterial;
 	public Shader curShader;
     
 
@@ -88,6 +88,10 @@ public class Copy : MonoBehaviour, IVRButton, IVRSlider {
 		this.GetComponent<BoxCollider>().size = bbSize;
 		this.buttonStartX = bbSize.x;
 		this.buttonStartY = bbSize.y;
+
+        this.imageRenderer.enabled = true;
+        this.imageRenderer.sharedMaterial = new Material(this.curShader);
+        this.curMaterial = this.imageRenderer.sharedMaterial;
 
 		this.curMaterial.SetFloat ("_BrightnessAmount", 1);
 		this.curMaterial.SetFloat ("_ContrastAmount", 1);

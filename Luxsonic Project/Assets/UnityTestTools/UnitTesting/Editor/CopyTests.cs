@@ -16,11 +16,16 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
 
         newCopy.SetCopyMaterial(mat);
         Texture2D tex = new Texture2D(100, 100);
@@ -29,7 +34,7 @@ public class CopyTests
 
         // The properties of the display should not be null
         Assert.IsNotNull(newCopy.myTransform, "The transform on the new display is Null");
-        Assert.AreEqual(tex, newCopy.GetComponent<MeshRenderer>().sharedMaterial.GetTexture("_MainTex"),
+        Assert.AreEqual(tex, newCopy.GetComponent<SpriteRenderer>().sprite.texture,
                             "Image in copy does not match image assigned");
     }
 
@@ -40,12 +45,16 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
 
         newCopy.SetCopyMaterial(mat);
 
@@ -73,12 +82,16 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
         Copy newCopy = copyObj.GetComponent<Copy>();
         Texture2D tex = new Texture2D(100, 100);
 
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+           
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
 
         newCopy.SetCopyMaterial(mat);
 
