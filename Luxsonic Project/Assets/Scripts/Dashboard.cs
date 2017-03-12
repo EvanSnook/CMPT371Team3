@@ -163,7 +163,7 @@ public class Dashboard : MonoBehaviour, IVRButton {
         filterButton.name = "Filter";
         filterButton.manager = this.gameObject;
         filterButton.textObject = filterButton.GetComponentInChildren<TextMesh>();
-        filterButton.textObject.text = "Load";
+        filterButton.textObject.text = "Filter";
 
         VRButton closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
         closeButton.name = "Close";

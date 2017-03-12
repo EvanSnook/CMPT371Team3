@@ -224,12 +224,18 @@ public class Copy : MonoBehaviour, IVRButton {
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
-	/// <summary>
-	/// A slider to adjust the brightness is instantiated
-	/// Pre:: The brightness button was clicked
-	/// Post:: A slider has been instantiated
-	/// Return:: nothing
-	/// </summary>
+    private void OnCollisionEnter(Collision collision)
+    {
+        this.isCurrentImage = !this.isCurrentImage;
+        this.dashboard.SendMessage("CopySelected", this.gameObject);
+    }
+
+    /// <summary>
+    /// A slider to adjust the brightness is instantiated
+    /// Pre:: The brightness button was clicked
+    /// Post:: A slider has been instantiated
+    /// Return:: nothing
+    /// </summary>
     private void Brightness(float input)
     {
         if(input > 0)

@@ -57,15 +57,15 @@ MonoBehaviour:
   displayImagePrefab: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
     type: 2}
   trayCreated: 0
-  trayPosition: {x: 800, y: -30, z: -250}
-  trayRotation: {x: 0, y: 0, z: 0}
+  trayPosition: {x: 0.5, y: -0.6, z: 0.1}
+  trayRotation: {x: 0, y: 30, z: 0}
   displayImagePositions:
-  - {x: 200, y: 150, z: -100}
-  - {x: 450, y: 150, z: -100}
-  - {x: 700, y: 150, z: -100}
+  - {x: -2.2, y: 0.15, z: 2.25}
+  - {x: 0, y: 0.15, z: 2.25}
+  - {x: 2.2, y: 0.15, z: 2.25}
   buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  leftScrollPosition: {x: 0, y: 0, z: 0}
+  leftScrollPosition: {x: 0.2, y: 0, z: 0.2}
   leftScrollRotation: {x: 0, y: 0, z: 0}
-  rightScrollPosition: {x: 550, y: 50, z: -250}
+  rightScrollPosition: {x: -0.2, y: 50, z: 0.2}
   rightScrollRotation: {x: 0, y: 0, z: 0}
