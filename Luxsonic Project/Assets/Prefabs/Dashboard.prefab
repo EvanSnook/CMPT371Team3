@@ -55,13 +55,29 @@ MonoBehaviour:
   display: {fileID: 0}
   myTransform: {fileID: 0}
   button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
-  loadButtonPosition: {x: 0.5, y: 0.265, z: 0}
+  loadButtonPosition: {x: 880, y: 10, z: -250}
   loadButtonRotation: {x: 0, y: 30, z: 0}
-  quitButtonPosition: {x: 0.5, y: 0.39, z: 0}
+  quitButtonPosition: {x: 880, y: 80, z: -250}
   quitButtonRotation: {x: 0, y: 30, z: 0}
-  minimizeButtonPosition: {x: 0.5, y: 0.15, z: 0}
+  minimizeButtonPosition: {x: 880, y: 150, z: -250}
   minimizeButtonRotation: {x: 0, y: 30, z: 0}
+  contrastButtonPosition: {x: 70, y: 0, z: -250}
+  contrastButtonRotation: {x: 0, y: 0, z: 0}
+  rotateButtonPosition: {x: 182, y: 0, z: -250}
+  rotateButtonRotation: {x: 0, y: 0, z: 0}
+  zoomButtonPosition: {x: 300, y: 0, z: -250}
+  zoomButtonRotation: {x: 0, y: 0, z: 0}
+  brightnessButtonPosition: {x: 70, y: -70, z: -250}
+  brightnessButtonRotation: {x: 0, y: 0, z: 0}
+  resizeButtonPosition: {x: 182, y: -70, z: -250}
+  resizeButtonRotation: {x: 0, y: 0, z: 0}
+  filterButtonPosition: {x: 300, y: -70, z: -250}
+  filterButtonRotation: {x: 0, y: 0, z: 0}
+  closeButtonPosition: {x: 430, y: 0, z: -250}
+  coseButtonRotation: {x: 0, y: 0, z: 0}
   dummyImages:
   - {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
   - {fileID: 2800000, guid: 89ed09b34f6cbcf4087020ea44a4fa96, type: 3}
   - {fileID: 2800000, guid: ac27c99b0a793cb4899d31cfaf8a2299, type: 3}
+  sliderPrefab: {fileID: 0}
+  currentCopy: {fileID: 0}
