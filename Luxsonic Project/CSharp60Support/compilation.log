@@ -1,0 +1,94 @@
+********************************************************************************
+*                       Saturday, 11 March 2017 16:52:06                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
+Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.dll" @Temp/UnityTempFile-ef3cb275bf3e94a1da5fd165ec386444 -debug-
+Exit code: 0
+Elapsed time: 2.29 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/VRButton.cs(11,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+
+PDB to MDB conversion skipped
+********************************************************************************
+*                       Saturday, 11 March 2017 16:52:09                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
+Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-0aec2deb390bc4298b599bf00ccbf5f0 -debug-
+Exit code: 0
+Elapsed time: 1.87 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+********************************************************************************
+*                       Saturday, 11 March 2017 16:53:05                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
+Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.dll" @Temp/UnityTempFile-f7a521255b9dd42f5a8b0de8180a895c -debug-
+Exit code: 0
+Elapsed time: 2.27 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/VRButton.cs(11,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+
+PDB to MDB conversion skipped
+********************************************************************************
+*                       Saturday, 11 March 2017 16:53:08                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
+Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-12e6d2307691c4c1dbb0305a6d3bb3bb -debug-
+Exit code: 0
+Elapsed time: 1.89 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
