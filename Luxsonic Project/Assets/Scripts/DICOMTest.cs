@@ -11,7 +11,7 @@ public class DICOMTest : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Debug.Log("Starting test.");
-		Dicom.DicomFile obj = Dicom.DicomFile.Open("Assets/Resources/DICOM/CR-MONO1-10-chest");
+		Dicom.DicomFile obj = Dicom.DicomFile.Open("Assets/Resources/DICOM/00000001");
 		var PatientName = obj.Dataset.Get< string>(Dicom.DicomTag.PatientName, null );
 		Debug.Log("" + PatientName);
 		Debug.Log("" + obj.Dataset.Get<string>(Dicom.DicomTag.PhotometricInterpretation));
