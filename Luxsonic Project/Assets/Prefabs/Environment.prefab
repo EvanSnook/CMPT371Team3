@@ -205,7 +205,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1651328756258798}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.4430935, y: 3.381378, z: -5.003762}
+  m_LocalPosition: {x: 1.4430935, y: 1.94, z: -5}
   m_LocalScale: {x: 0.39332142, y: 1.1138468, z: 0.7532353}
   m_Children: []
   m_Father: {fileID: 4687225619104434}
@@ -293,7 +293,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1442678517289928}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 4.4342937, y: 3.081378, z: -6.1637616}
+  m_LocalPosition: {x: 4.4342937, y: 1.64, z: -6.16}
   m_LocalScale: {x: 0.88194823, y: 1.1138468, z: 0.7532353}
   m_Children: []
   m_Father: {fileID: 4687225619104434}
@@ -345,7 +345,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1455880554212672}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -2.1781065, y: 3.081378, z: -6.3537617}
+  m_LocalPosition: {x: -2.1781065, y: 1.64, z: -6.35}
   m_LocalScale: {x: 0.88194823, y: 1.1138468, z: 0.7532353}
   m_Children: []
   m_Father: {fileID: 4687225619104434}
@@ -686,7 +686,7 @@ Light:
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!108 &108691199655629402
@@ -720,7 +720,7 @@ Light:
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!108 &108832358750775862
@@ -754,7 +754,7 @@ Light:
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!108 &108891043022503890
@@ -788,6 +788,6 @@ Light:
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
