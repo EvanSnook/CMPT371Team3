@@ -19,6 +19,9 @@ public class TouchAndGrab : MonoBehaviour
     public LayerMask _someMask;
     // Indicates whether an object is being grabbed or not
     private bool _isGrabbed;
+
+    private Transform objectsOldParent;
+
     /// <summary>
     /// Update is called once per frame
     /// On Update() check to see if the 11th or 12th axis is pressed or not pressed
@@ -65,6 +68,7 @@ public class TouchAndGrab : MonoBehaviour
             // make the object a child of the controller, updating the position of the object
             _object = _objectHits[_closestHit].transform.gameObject;
             _object.GetComponent<Rigidbody>().isKinematic = true;
+            this.objectsOldParent = _object.transform.parent;
             _object.transform.position = transform.position;
             _object.transform.parent = transform;
         }
@@ -82,7 +86,7 @@ public class TouchAndGrab : MonoBehaviour
         //If the object is attached change the transform to null so it keeps it's position
         if (_object != null)
         {
-            _object.transform.parent = null;
+            _object.transform.parent = this.objectsOldParent;
             _object.GetComponent<Rigidbody>().isKinematic = false;
             _object = null;
         }
@@ -106,7 +110,7 @@ public class TouchAndGrab : MonoBehaviour
         }
         else if ((other.tag == "Copy") && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
-            other.gameObject.SendMessage("Select");
+            other.gameObject.SendMessage("Selected");
         }
         else if (other.tag == "Thumbnail")
         {

@@ -7,8 +7,9 @@ using UnityEngine.Assertions;
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
-public class Dashboard : MonoBehaviour, IVRButton {
-    
+public class Dashboard : MonoBehaviour, IVRButton
+{
+
     //[SerializeField]
     //private float buttonWidth = 100; //commented out due to not being used
     //[SerializeField]
@@ -16,8 +17,10 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
     public GameObject loadBar;  // The file system to load images with
     public Display display; // Creates a display object in dashboard
+    public GameObject planePrefab;
 
-    public Transform myTransform;   
+
+    public Transform myTransform;
     public VRButton button;       // The button object to use as a button
 
     // Define where to instantiate the buttons
@@ -51,11 +54,11 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public Vector3 filterButtonRotation;
 
     public Vector3 closeButtonPosition;
-    public Vector3 coseButtonRotation;
+    public Vector3 closeButtonRotation;
 
     // The sliders position
     public Vector3 sliderPosition;
-    
+
 
     //Images used to test load functionality
     public Texture2D[] dummyImages;
@@ -77,6 +80,17 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
     private List<VRButton> copyButtons;
 
+    private GameObject menuPlane;
+    public Vector3 menuPlanePosition;
+    public Vector3 menuPlaneRotation;
+
+    private GameObject copyButtonsPlane;
+    public Vector3 copyButtonsPosition;
+    public Vector3 copyButtonsRotation;
+
+    public Vector3 copyButtonsPanelScale;
+    public Vector3 menuButtonsPanelScale;
+
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
@@ -85,19 +99,29 @@ public class Dashboard : MonoBehaviour, IVRButton {
         DisplayMenu();
     }
 
-    
+
 
     /// <summary>
     /// Function DisplayMenu() Creates the load, quit and minimize buttons for the menu
     /// Pre:: nothing
     /// Post:: Creation of the load, quit and minimize buttons
     /// </summary>
-    public void DisplayMenu(){
+    public void DisplayMenu()
+    {
+
+        this.menuPlane = Instantiate(planePrefab, this.menuPlanePosition, Quaternion.Euler(this.menuPlaneRotation));
+        this.menuPlane.transform.parent = this.gameObject.transform;
+        this.menuPlane.transform.localScale = this.menuButtonsPanelScale;
+
+        this.copyButtonsPlane = Instantiate(planePrefab, this.copyButtonsPosition, Quaternion.Euler(this.copyButtonsRotation));
+        this.copyButtonsPlane.transform.parent = this.gameObject.transform;
+        this.copyButtonsPlane.transform.localScale = this.copyButtonsPanelScale;
 
         // Create the load button to access the filesystem
-        this.loadButton = Instantiate(button, loadButtonPosition, 
+        this.loadButton = Instantiate(button, loadButtonPosition,
             Quaternion.Euler(loadButtonRotation));
-        loadButton.transform.parent = gameObject.transform;
+        loadButton.transform.parent = this.menuPlane.transform;
+        loadButton.transform.localPosition = new Vector3(loadButtonPosition.x, loadButtonPosition.y, 0.0f);
 
         this.loadButton.name = "Load";
         this.loadButton.manager = this.gameObject;
@@ -110,7 +134,8 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Quit button 
         this.quitButton = Instantiate(button, quitButtonPosition,
             Quaternion.Euler(quitButtonRotation));
-        quitButton.transform.parent = gameObject.transform;
+        quitButton.transform.parent = this.menuPlane.transform;
+        quitButton.transform.localPosition = new Vector3(quitButtonPosition.x, quitButtonPosition.y, 0.0f);
 
         this.quitButton.name = "Quit";
         this.quitButton.manager = this.gameObject;
@@ -120,7 +145,9 @@ public class Dashboard : MonoBehaviour, IVRButton {
         // Create the Minimize button 
         this.minimizeButton = Instantiate(button, minimizeButtonPosition,
             Quaternion.Euler(minimizeButtonRotation));
-        minimizeButton.transform.parent = gameObject.transform;
+        minimizeButton.transform.parent = this.menuPlane.transform;
+        minimizeButton.transform.localPosition = new Vector3(minimizeButtonPosition.x, minimizeButtonPosition.y, 0.0f);
+
 
         this.minimizeButton.name = "Minimize";
         this.minimizeButton.manager = this.gameObject;
@@ -128,50 +155,66 @@ public class Dashboard : MonoBehaviour, IVRButton {
         this.minimizeButton.textObject.text = "Minimize";
 
         // Create the buttons
-        VRButton contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton contrastButton = Instantiate(button, this.copyButtonsPlane.transform.position + contrastButtonPosition, Quaternion.Euler(this.contrastButtonRotation));
         contrastButton.name = "Contrast";
         contrastButton.manager = this.gameObject;
         contrastButton.textObject = contrastButton.GetComponentInChildren<TextMesh>();
         contrastButton.textObject.text = "Contrast";
+        contrastButton.transform.parent = this.copyButtonsPlane.transform;
+        contrastButton.transform.localPosition = new Vector3(contrastButtonPosition.x, contrastButtonPosition.y, 0.0f);
 
 
-        VRButton rotateButton = Instantiate(button, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton rotateButton = Instantiate(button, this.copyButtonsPlane.transform.position + rotateButtonPosition, Quaternion.Euler(this.rotateButtonRotation));
         rotateButton.name = "Rotate";
         rotateButton.manager = this.gameObject;
         rotateButton.textObject = rotateButton.GetComponentInChildren<TextMesh>();
         rotateButton.textObject.text = "Rotate";
+        rotateButton.transform.position = this.rotateButtonPosition + this.copyButtonsPlane.transform.position;
+        rotateButton.transform.parent = this.copyButtonsPlane.transform;
+        rotateButton.transform.localPosition = new Vector3(rotateButtonPosition.x, rotateButtonPosition.y, 0.0f);
 
-        VRButton zoomButton = Instantiate(button, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
+
+        VRButton zoomButton = Instantiate(button, this.copyButtonsPlane.transform.position + zoomButtonPosition, Quaternion.Euler(this.zoomButtonRotation));
         zoomButton.name = "Zoom";
         zoomButton.manager = this.gameObject;
         zoomButton.textObject = zoomButton.GetComponentInChildren<TextMesh>();
         zoomButton.textObject.text = "Zoom";
+        zoomButton.transform.parent = this.copyButtonsPlane.transform;
+        zoomButton.transform.localPosition = new Vector3(zoomButtonPosition.x, zoomButtonPosition.y, 0.0f);
 
-        VRButton brightnessButton = Instantiate(button, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton brightnessButton = Instantiate(button, this.copyButtonsPlane.transform.position + brightnessButtonPosition, Quaternion.Euler(this.brightnessButtonRotation));
         brightnessButton.name = "Brightness";
         brightnessButton.manager = this.gameObject;
         brightnessButton.textObject = brightnessButton.GetComponentInChildren<TextMesh>();
         brightnessButton.textObject.text = "Brightness";
+        brightnessButton.transform.parent = this.copyButtonsPlane.transform;
+        brightnessButton.transform.localPosition = new Vector3(brightnessButtonPosition.x, brightnessButtonPosition.y, 0.0f);
 
-        VRButton resizeButton = Instantiate(button, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton resizeButton = Instantiate(button, this.copyButtonsPlane.transform.position + resizeButtonPosition, Quaternion.Euler(this.resizeButtonRotation));
         resizeButton.name = "Resize";
         resizeButton.manager = this.gameObject;
         resizeButton.textObject = resizeButton.GetComponentInChildren<TextMesh>();
         resizeButton.textObject.text = "Resize";
+        resizeButton.transform.parent = this.copyButtonsPlane.transform;
+        resizeButton.transform.localPosition = new Vector3(resizeButtonPosition.x, resizeButtonPosition.y, 0.0f);
 
-        VRButton filterButton = Instantiate(button, filterButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton filterButton = Instantiate(button, this.copyButtonsPlane.transform.position + filterButtonPosition, Quaternion.Euler(this.filterButtonRotation));
         filterButton.name = "Filter";
         filterButton.manager = this.gameObject;
         filterButton.textObject = filterButton.GetComponentInChildren<TextMesh>();
         filterButton.textObject.text = "Filter";
+        filterButton.transform.parent = this.copyButtonsPlane.transform;
+        filterButton.transform.localPosition = new Vector3(filterButtonPosition.x, filterButtonPosition.y, 0.0f);
 
-        VRButton closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
+        VRButton closeButton = Instantiate(button, this.copyButtonsPlane.transform.position + closeButtonPosition, Quaternion.Euler(this.closeButtonRotation));
         closeButton.name = "Close";
         closeButton.manager = this.gameObject;
         closeButton.textObject = closeButton.GetComponentInChildren<TextMesh>();
         closeButton.textObject.text = "Close";
+        closeButton.transform.parent = this.copyButtonsPlane.transform;
+        closeButton.transform.localPosition = new Vector3(closeButtonPosition.x, closeButtonPosition.y, 0.0f);
 
-        this.slider = Instantiate(this.sliderPrefab, this.sliderPosition, new Quaternion(0, 0, 0, 0));
+        //this.slider = Instantiate(this.sliderPrefab, this.sliderPosition, new Quaternion(0, 0, 0, 0));
 
         // Add the buttons to the list of buttons
         copyButtons.Add(contrastButton);
@@ -210,8 +253,8 @@ public class Dashboard : MonoBehaviour, IVRButton {
             default:    // A copy option was clicked
                 if (this.currentCopy != null)
                 {
-                    this.currentCopy.SendMessage("ReceiveSlider", this.slider);
-                    this.currentCopy.SendMessage("VRButtonClicked", button); 
+                    //this.currentCopy.SendMessage("ReceiveSlider", this.slider);
+                    this.currentCopy.SendMessage("VRButtonClicked", button);
                 }
                 break;
 
@@ -267,8 +310,9 @@ public class Dashboard : MonoBehaviour, IVRButton {
     /// </summary>
     private void Minimize()
     {
-        if (this.minimized) {
-            
+        if (this.minimized)
+        {
+
             this.loadButton.gameObject.SetActive(true);
             this.quitButton.gameObject.SetActive(true);
             //this.display.gameObject.SetActive(true);
@@ -277,11 +321,13 @@ public class Dashboard : MonoBehaviour, IVRButton {
                 button.gameObject.SetActive(true);
             }
 
-            this.slider.gameObject.SetActive(true);
+            //this.slider.gameObject.SetActive(true);
             this.minimized = false;
-            
 
-        } else {
+
+        }
+        else
+        {
 
             this.loadButton.gameObject.SetActive(false);
             this.quitButton.gameObject.SetActive(false);
@@ -291,8 +337,9 @@ public class Dashboard : MonoBehaviour, IVRButton {
             {
                 button.gameObject.SetActive(false);
             }
-            this.slider.gameObject.SetActive(false);
+            //this.slider.gameObject.SetActive(false);
             this.minimized = true;
         }
     }
 }
+

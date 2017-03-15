@@ -10,42 +10,44 @@ using UnityEngine.Assertions;
 /// It contains functions to add textures to the texture list, and create Copies.
 /// This class also displays an 'image tray' of images to select from.
 /// </summary>
-public class Display : MonoBehaviour, IVRButton {
+public class Display : MonoBehaviour, IVRButton
+{
 
-	// The depth at which the copy will be placed in front of the user
-    public float copyDepth; 
+    // The depth at which the copy will be placed in front of the user
+    public float copyDepth;
 
-	// The list of images that have been loaded 
-    List<Texture2D> images = new List<Texture2D>(); 
-	// The list of display images that the user will be able to scroll through
-    LinkedList<GameObject> displayImages = new LinkedList<GameObject>(); 
+    // The list of images that have been loaded 
+    List<Texture2D> images = new List<Texture2D>();
+    // The list of display images that the user will be able to scroll through
+    LinkedList<GameObject> displayImages = new LinkedList<GameObject>();
 
-	// The list of copies currently in view
-    List<GameObject> copies = new List<GameObject>();  
-    
-	// The object prefab to use as a copy
-    public GameObject copyPrefab; 
-	// The object prefab to use as the tray
-    public GameObject trayPrefab;     
-	// The object prefab to use as the display images 
-    public GameObject displayImagePrefab; 
+    // The list of copies currently in view
+    List<GameObject> copies = new List<GameObject>();
 
-	// Indicates whether a tray has already been created in the scene
-    public bool trayCreated = false; 
-	// The tray that will be exhibited in the scene
-    private Tray tray; 
+    // The object prefab to use as a copy
+    public GameObject copyPrefab;
+    // The object prefab to use as the tray
+    public GameObject trayPrefab;
+    // The object prefab to use as the display images 
+    public GameObject displayImagePrefab;
 
-	// The position to create the tray object
-    public Vector3 trayPosition;  
-	// The rotation to spawn the tray at
-    public Vector3 trayRotation;    
+    // Indicates whether a tray has already been created in the scene
+    public bool trayCreated = false;
+    // The tray that will be exhibited in the scene
+    private Tray tray;
 
-	// An array containing the positions of the display images
-	// currently set to the minimal value, real value is set within Unity editor
-    public Vector3[] displayImagePositions = new Vector3[1]; 
+    // The position to create the tray object
+    public Vector3 trayPosition;
+    // The rotation to spawn the tray at
+    public Vector3 trayRotation;
 
-	// The button prefab that will be used for all buttons
-    public VRButton buttonPrefab; 
+    // An array containing the positions of the display images
+    // currently set to the minimal value, real value is set within Unity editor
+    public Vector3[] displayImagePositions = new Vector3[1];
+    public Vector3[] displayImageRotations = new Vector3[1];
+
+    // The button prefab that will be used for all buttons
+    public VRButton buttonPrefab;
 
     //Left and right buttons to scroll through the images in Display
     private VRButton leftScrollButton;
@@ -57,7 +59,7 @@ public class Display : MonoBehaviour, IVRButton {
     public Vector3 rightScrollPosition;
     public Vector3 rightScrollRotation;
 
-	// Indicates whether the scroll buttons are visible to the user	
+    // Indicates whether the scroll buttons are visible to the user	
     private bool scrollButtonsVisible = false;
 
     /// <summary>
@@ -79,13 +81,13 @@ public class Display : MonoBehaviour, IVRButton {
         GameObject displayImage = Instantiate(displayImagePrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
         displayImage.transform.parent = gameObject.transform;
         displayImage.SetActive(false);
-        displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), 
-			new Vector2(0.5f, 0.5f));
-        
+        displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
+            new Vector2(0.5f, 0.5f));
+
         displayImages.AddLast(displayImage);
 
         // If the number of display images is less or equal to the length of the display image positions array
-		// redraw the display iamges, else create the scroll bar buttons
+        // redraw the display iamges, else create the scroll bar buttons
         if (displayImages.Count <= displayImagePositions.Length)
         {
             redrawDisplayImages();
@@ -120,6 +122,10 @@ public class Display : MonoBehaviour, IVRButton {
         this.leftScrollButton = leftScrollButton;
 
         this.leftScrollButton.name = "Left";
+
+        this.leftScrollButton.textObject = this.leftScrollButton.GetComponentInChildren<TextMesh>();
+        this.leftScrollButton.textObject.text = "Left";
+
         this.leftScrollButton.manager = this.gameObject;
 
         // Create the right scroll button
@@ -129,23 +135,26 @@ public class Display : MonoBehaviour, IVRButton {
 
         this.rightScrollButton = rightScrollButton;
 
+        this.rightScrollButton.textObject = this.rightScrollButton.GetComponentInChildren<TextMesh>();
+        this.rightScrollButton.textObject.text = "Right";
+
         this.rightScrollButton.name = "Right";
         this.rightScrollButton.manager = this.gameObject;
 
-        
+
     }
-    
+
     /// <summary>
     /// Function CreateTray() creates and displays the tray of thumbnails
-	/// The tray exhibits all images that are available to the user to cycle through in the display
+    /// The tray exhibits all images that are available to the user to cycle through in the display
     /// Pre:: nothing
     /// Post: a new Tray instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
     public void CreateTray()
     {
-		// If a Tray does not exist already, create a Tray
-        if(!trayCreated)
+        // If a Tray does not exist already, create a Tray
+        if (!trayCreated)
         {
             GameObject newTray = Instantiate(trayPrefab, trayPosition, Quaternion.Euler(trayRotation));
             newTray.transform.parent = gameObject.transform;
@@ -153,7 +162,8 @@ public class Display : MonoBehaviour, IVRButton {
             this.tray.manager = this;
             this.tray.UpdateTray(this.images);
             this.trayCreated = true;
-        }else
+        }
+        else
         {
             this.tray.UpdateTray(this.images);
         }
@@ -166,18 +176,18 @@ public class Display : MonoBehaviour, IVRButton {
     /// Post:: a new Copy is instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
-    public void CreateCopy(Texture2D image) 
-	{
+    public void CreateCopy(Texture2D image)
+    {
         Assert.IsNotNull(image, "Creating new Copy from Display image was null");
 
-		// Retrieve the center point of the camera view and instantiate a Copy on that location
-        Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 
+        // Retrieve the center point of the camera view and instantiate a Copy on that location
+        Vector3 trans = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2,
             Camera.main.nearClipPlane));
         trans.z = copyDepth;
-        GameObject newCop = Instantiate(copyPrefab, trans, new Quaternion(0,0,0,0));
+        GameObject newCop = Instantiate(copyPrefab, trans, new Quaternion(0, 0, 0, 0));
         Copy cop = newCop.GetComponent<Copy>();
         cop.NewCopy(image);
-        copies.Add(newCop);  
+        copies.Add(newCop);
     }
 
     /// <summary>
@@ -192,7 +202,7 @@ public class Display : MonoBehaviour, IVRButton {
         return this.images;
     }
 
-    
+
 
     /// <summary>
     /// GetCopies() will return the list of Copies in the manager
@@ -250,8 +260,8 @@ public class Display : MonoBehaviour, IVRButton {
     {
         GameObject temp = displayImages.Last.Value;
         LinkedListNode<GameObject> t2 = displayImages.First;
-		// Start from the first image and find the last image being displayed
-        for(int i = 1; i < displayImagePositions.Length; i++)
+        // Start from the first image and find the last image being displayed
+        for (int i = 1; i < displayImagePositions.Length; i++)
         {
             t2 = t2.Next;
         }
@@ -272,19 +282,22 @@ public class Display : MonoBehaviour, IVRButton {
     private void redrawDisplayImages()
     {
         int i = 0;
-		// for each display image, if there are less than the display image positions array length
-		// draw the image in the specified position and set it active
+        // for each display image, if there are less than the display image positions array length
+        // draw the image in the specified position and set it active
         foreach (GameObject img in displayImages)
         {
             if (i < displayImagePositions.Length)
             {
                 img.gameObject.GetComponent<Transform>().position = displayImagePositions[i];
+                img.gameObject.GetComponent<Transform>().rotation = Quaternion.Euler(displayImageRotations[i]);
                 img.SetActive(true);
                 i++;
-            }else
+            }
+            else
             {
                 break;
             }
         }
     }
 }
+
