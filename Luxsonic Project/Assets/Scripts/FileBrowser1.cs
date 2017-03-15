@@ -219,9 +219,12 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
-    /// to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
+    /// Function ConvertAndSendImage() will take in a file path which it will convert to a Texture2D and send it
+    /// to the Display. This is done by converting the file into an array of bytes and creating a new Texture2D
     /// from it.
+    /// Pre:: file path is not null
+    /// Post:: send created Texture2D to Display
+    /// Return:: nothing
     /// </summary>
     /// <param name="filePath">string representation of the files path</param>
     public void ConvertAndSendImage(string filePath)
