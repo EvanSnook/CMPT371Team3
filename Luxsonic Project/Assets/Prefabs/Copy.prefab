@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 54124257576627348}
   - component: {fileID: 65717649748082396}
   - component: {fileID: 108358460776514248}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Copy
   m_TagString: Copy
   m_Icon: {fileID: 0}
@@ -126,7 +126,9 @@ MonoBehaviour:
   imageBrightness: 0
   imageContrast: 0
   imageRotation: {x: 0, y: 0, z: 0}
-  resizeScale: 1.5
+  resizeScale: 1.01
+  brightnessConst: 0.01
+  contrastConst: 0.01
   buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
   sliderPrefab: {fileID: 114809436250956828, guid: 5c6e9d5e9c48a6745a74fa58c0e6cef8,
@@ -135,6 +137,7 @@ MonoBehaviour:
   copyScale: 1
   curShader: {fileID: 4800000, guid: 7288c753780bc420b917bde11fcdc4c1, type: 3}
   leftThumbX: Oculus_GearVR_LThumbstickX
+  rightThumbX: Oculus_GearVR_RThumbstickX
 --- !u!212 &212668329112982688
 SpriteRenderer:
   m_ObjectHideFlags: 1

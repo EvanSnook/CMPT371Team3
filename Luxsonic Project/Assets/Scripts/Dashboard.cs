@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// A script to control the Workspace Manager menu system. 
@@ -31,6 +32,31 @@ public class Dashboard : MonoBehaviour, IVRButton {
     public Vector3 minimizeButtonPosition;
     public Vector3 minimizeButtonRotation;
 
+    public Vector3 contrastButtonPosition;
+    public Vector3 contrastButtonRotation;
+
+    public Vector3 rotateButtonPosition;
+    public Vector3 rotateButtonRotation;
+
+    public Vector3 zoomButtonPosition;
+    public Vector3 zoomButtonRotation;
+
+    public Vector3 brightnessButtonPosition;
+    public Vector3 brightnessButtonRotation;
+
+    public Vector3 resizeButtonPosition;
+    public Vector3 resizeButtonRotation;
+
+    public Vector3 filterButtonPosition;
+    public Vector3 filterButtonRotation;
+
+    public Vector3 closeButtonPosition;
+    public Vector3 coseButtonRotation;
+
+    // The sliders position
+    public Vector3 sliderPosition;
+    
+
     //Images used to test load functionality
     public Texture2D[] dummyImages;
 
@@ -39,13 +65,23 @@ public class Dashboard : MonoBehaviour, IVRButton {
     private VRButton quitButton;
     private VRButton minimizeButton;
 
+    // the object prefab to use for the slider
+    public SliderBar sliderPrefab;
+
+    private SliderBar slider;
+
     //Are the Buttons visable to the user?
     private bool minimized = false;
+
+    public GameObject currentCopy;
+
+    private List<VRButton> copyButtons;
 
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
         display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
+        this.copyButtons = new List<VRButton>();
         DisplayMenu();
     }
 
@@ -66,6 +102,10 @@ public class Dashboard : MonoBehaviour, IVRButton {
         this.loadButton.name = "Load";
         this.loadButton.manager = this.gameObject;
 
+        this.loadButton.textObject = this.loadButton.GetComponentInChildren<TextMesh>();
+        this.loadButton.textObject.text = "Load";
+
+
 
         // Create the Quit button 
         this.quitButton = Instantiate(button, quitButtonPosition,
@@ -74,6 +114,8 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
         this.quitButton.name = "Quit";
         this.quitButton.manager = this.gameObject;
+        this.quitButton.textObject = this.quitButton.GetComponentInChildren<TextMesh>();
+        this.quitButton.textObject.text = "Quit";
 
         // Create the Minimize button 
         this.minimizeButton = Instantiate(button, minimizeButtonPosition,
@@ -82,6 +124,63 @@ public class Dashboard : MonoBehaviour, IVRButton {
 
         this.minimizeButton.name = "Minimize";
         this.minimizeButton.manager = this.gameObject;
+        this.minimizeButton.textObject = this.minimizeButton.GetComponentInChildren<TextMesh>();
+        this.minimizeButton.textObject.text = "Minimize";
+
+        // Create the buttons
+        VRButton contrastButton = Instantiate(button, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
+        contrastButton.name = "Contrast";
+        contrastButton.manager = this.gameObject;
+        contrastButton.textObject = contrastButton.GetComponentInChildren<TextMesh>();
+        contrastButton.textObject.text = "Contrast";
+
+
+        VRButton rotateButton = Instantiate(button, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
+        rotateButton.name = "Rotate";
+        rotateButton.manager = this.gameObject;
+        rotateButton.textObject = rotateButton.GetComponentInChildren<TextMesh>();
+        rotateButton.textObject.text = "Rotate";
+
+        VRButton zoomButton = Instantiate(button, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
+        zoomButton.name = "Zoom";
+        zoomButton.manager = this.gameObject;
+        zoomButton.textObject = zoomButton.GetComponentInChildren<TextMesh>();
+        zoomButton.textObject.text = "Zoom";
+
+        VRButton brightnessButton = Instantiate(button, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
+        brightnessButton.name = "Brightness";
+        brightnessButton.manager = this.gameObject;
+        brightnessButton.textObject = brightnessButton.GetComponentInChildren<TextMesh>();
+        brightnessButton.textObject.text = "Brightness";
+
+        VRButton resizeButton = Instantiate(button, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
+        resizeButton.name = "Resize";
+        resizeButton.manager = this.gameObject;
+        resizeButton.textObject = resizeButton.GetComponentInChildren<TextMesh>();
+        resizeButton.textObject.text = "Resize";
+
+        VRButton filterButton = Instantiate(button, filterButtonPosition, new Quaternion(0, 0, 0, 0));
+        filterButton.name = "Filter";
+        filterButton.manager = this.gameObject;
+        filterButton.textObject = filterButton.GetComponentInChildren<TextMesh>();
+        filterButton.textObject.text = "Filter";
+
+        VRButton closeButton = Instantiate(button, closeButtonPosition, new Quaternion(0, 0, 0, 0));
+        closeButton.name = "Close";
+        closeButton.manager = this.gameObject;
+        closeButton.textObject = closeButton.GetComponentInChildren<TextMesh>();
+        closeButton.textObject.text = "Close";
+
+        this.slider = Instantiate(this.sliderPrefab, this.sliderPosition, new Quaternion(0, 0, 0, 0));
+
+        // Add the buttons to the list of buttons
+        copyButtons.Add(contrastButton);
+        copyButtons.Add(rotateButton);
+        copyButtons.Add(zoomButton);
+        copyButtons.Add(brightnessButton);
+        copyButtons.Add(resizeButton);
+        copyButtons.Add(filterButton);
+        copyButtons.Add(closeButton);
     }
 
     /// <summary>
@@ -107,9 +206,30 @@ public class Dashboard : MonoBehaviour, IVRButton {
                 // If the minimize button was clicked
                 Minimize();
                 break;
+
+            default:    // A copy option was clicked
+                if (this.currentCopy != null)
+                {
+                    this.currentCopy.SendMessage("ReceiveSlider", this.slider);
+                    this.currentCopy.SendMessage("VRButtonClicked", button); 
+                }
+                break;
+
         }
-       
-    } 
+
+    }
+
+    public void CopySelected(GameObject copy)
+    {
+        if (copy.GetComponent<Copy>().isCurrentImage)
+        {
+            this.currentCopy = copy;
+        }
+        else
+        {
+            this.currentCopy = null;
+        }
+    }
 
     /// <summary>
     /// Function Quit() adds functionality for the quit button. When called, the program
@@ -152,7 +272,12 @@ public class Dashboard : MonoBehaviour, IVRButton {
             this.loadButton.gameObject.SetActive(true);
             this.quitButton.gameObject.SetActive(true);
             //this.display.gameObject.SetActive(true);
+            foreach (VRButton button in copyButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
 
+            this.slider.gameObject.SetActive(true);
             this.minimized = false;
             
 
@@ -162,6 +287,11 @@ public class Dashboard : MonoBehaviour, IVRButton {
             this.quitButton.gameObject.SetActive(false);
             //this.display.gameObject.SetActive(false);
 
+            foreach (VRButton button in copyButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+            this.slider.gameObject.SetActive(false);
             this.minimized = true;
         }
     }
