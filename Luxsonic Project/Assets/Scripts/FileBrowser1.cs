@@ -85,6 +85,62 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 
     /// <summary>
+    /// Function GetListOfFilePaths will return the list of file paths currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of file paths as strings
+    /// </summary>
+    /// <returns> list of file paths</returns>
+    public List<string> GetListOfFilePaths()
+    {
+        return this.listOfCurrentFiles;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfDirectory Paths will return the list of directory paths currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of directory paths as strings
+    /// </summary>
+    /// <returns> list of directory paths</returns>
+    public List<string> GetListOfDirectoryPaths()
+    {
+        return this.listOfCurrentDirectories;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfFileButtons will return the list of File buttons currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of file buttons
+    /// </summary>
+    /// <returns> list of VRButtons paths</returns>
+    public List<VRButton> GetListOfFileButtons()
+    {
+        return this.listOfCurrentFileButtons;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfDirectoryButtons will return the list of directory buttons currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of directory buttons
+    /// </summary>
+    /// <returns> list of VRButtons paths</returns>
+    public List<VRButton> GetListOfDirectoryButtons()
+    {
+        return this.listOfCurrentDirectoryButtons;
+    }
+
+
+    /// <summary>
     /// Function CreateButtons() will generate the list of all buttons and set up for the current
     /// layout of the current file browsing directory
     /// Preconditions: none
