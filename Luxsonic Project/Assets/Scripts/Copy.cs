@@ -229,6 +229,11 @@ public class Copy : MonoBehaviour, IVRButton
     private void OnCollisionEnter(Collision collision)
     {
         this.isCurrentImage = !this.isCurrentImage;
+		if (isCurrentImage) {
+			this.transform.GetChild (0).gameObject.SetActive (true);
+		} else {
+			this.transform.GetChild (0).gameObject.SetActive (false);
+		}
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
