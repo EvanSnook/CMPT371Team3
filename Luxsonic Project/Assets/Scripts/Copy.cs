@@ -12,13 +12,6 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Copy : MonoBehaviour, IVRButton
 {
-
-    // The width and ehgith of each button
-    [SerializeField]
-    private float buttonWidth = 100;
-    [SerializeField]
-    private float buttonHeight = 50;
-
     [SerializeField]
     private Material copyMaterial;
 

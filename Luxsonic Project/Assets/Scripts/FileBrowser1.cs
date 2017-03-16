@@ -141,6 +141,19 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 
     /// <summary>
+    /// This function sets the current directoy to the path name given in the argument.
+    /// Pre:: nothing
+    /// Post:: sets current directory
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="path">string we want to set the directory to</param>
+    public void SetCurrentDirectory(string path)
+    {
+        this.currentDirectory = path;
+    }
+
+
+    /// <summary>
     /// Function CreateButtons() will generate the list of all buttons and set up for the current
     /// layout of the current file browsing directory
     /// Preconditions: none
@@ -240,7 +253,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// Pre:: The listOfCurrentFiles must be empty
     /// Post:: list populated with new files.
     /// </summary>
-    private void GetCurrentFiles()
+    public void GetCurrentFiles()
     {
         // List should be empty
         Assert.AreEqual(0, listOfCurrentFiles.Count);
@@ -260,7 +273,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// Pre:: The listOfCurrentDirectories must be empty
     /// Post:: list populated with new directories.
     /// </summary>
-    private void GetCurrentDirectories()
+    public void GetCurrentDirectories()
     {
         // List should be empty
         Assert.AreEqual(0, listOfCurrentDirectories.Count);
