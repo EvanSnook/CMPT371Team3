@@ -10,7 +10,7 @@ public class DashboardTests {
     [Test]
     public void DisplayMenu()
     {
-		/*GameObject dashObj = new GameObject();
+		GameObject dashObj = new GameObject();
 		dashObj.AddComponent<Dashboard>();
 		Dashboard dash = dashObj.GetComponent<Dashboard>();
 
@@ -21,11 +21,13 @@ public class DashboardTests {
 		dispObj.AddComponent<Display>();
 
 		GameObject buttonObj = new GameObject();
+		TextMesh btnMesh = new TextMesh ();
 		buttonObj.AddComponent<VRButton> ();
+		buttonObj.AddComponent<TextMesh> ();
 		dash.button = buttonObj.GetComponent<VRButton>();
 
 		dash.Start ();
-*/
+
 
         Assert.Pass();
     }
