@@ -4,64 +4,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
 /// <summary>
 /// A script to be attached to objects that are to be displayed to the user.
 /// This object will have an image attached to it that the user may choose from the loaded images, 
 /// and will contain options to control properties of the image through related scripts, as well as being able to
-/// control the position and size of the display.
+/// control the position and size of the copy.
 /// </summary>
 public class Copy : MonoBehaviour, IVRButton
 {
-    [SerializeField]
-    private Material copyMaterial;
+    // The transform of the copy object in world space
+    private Transform myTransform;
+    // The component to render the image on the copy object 
+    private SpriteRenderer imageRenderer;
 
-    // The spawning depth of the buttons
-    // TODO: Figure out the actual scale for this matematically
-    public float buttonDepth;
-
-    // The starting position to place the buttons
-    private float buttonStartX;
-    private float buttonStartY;
-
-    // The transform of the display object in world space
-    public Transform myTransform;
-    // The image to render on the display object 
-    public SpriteRenderer imageRenderer;
-    // Determines if this instance of a display object is currently selected
+    // Determines if this instance of a copy object is currently selected
     public bool isCurrentImage;
-    // The brigtness of the copy
-    public float imageBrightness;
-    // The contrast of the copy
-    public float imageContrast;
     // The current rotation of the copy
-    public Vector3 imageRotation;
-    // The current size of the copy
-    private bool buttonsVisible;
+    [SerializeField]
+    private Vector3 imageRotation;
     //the scale increment for resizing
     [SerializeField]
     private float resizeScale;
+    // The scale increment for brightness
     [SerializeField]
     private float brightnessConst;
+    // The scale increment for contrast
     [SerializeField]
     private float contrastConst;
 
-    // The buttons for the copy, the buttons are used to allow 
-    // modification on the copy (brightness, contrast, etc.)
-    private List<VRButton> buttons = new List<VRButton>();
-    // The object prefab to use for the buttons
-    public VRButton buttonPrefab;
-    // the object prefab to use for the slider
-    public SliderBar sliderPrefab;
-    // The sliders position
-    public Vector3 sliderPosition;
 
-    // Indicates whether the brightness slider should be shown
+    // An enum used to determine which modification is currently being made to the image
     private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
-
+    
+    // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
 
-    // The created generic slider
-    private SliderBar slider;
     // the scale of the copy
     public float copyScale = 1;
 
@@ -73,21 +51,22 @@ public class Copy : MonoBehaviour, IVRButton
     public string leftThumbX;
     // The name of the axis for hte right thumbstick
     public string rightThumbX;
-
+    
+    // The dashboard to for the copy to talk to
     private GameObject dashboard;
 
     private void Start()
     {
+        // Find the dashboard
         this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
     }
 
     /// <summary>
     /// Creates a new Copy object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
-	/// Pre:: Texture2D image to add
-	/// Post:: A new Copy is created for the user to manipulate
-	/// Return:: nothing
     /// </summary>
+    /// <pre>Texture2D image to add</pre>
+    /// <post>A new copy is created for the user to manipulate</post>
     /// <param name="image"> A Texture2D to use as the image to display to the user </param>
     public void NewCopy(Texture2D image)
     {
@@ -95,28 +74,21 @@ public class Copy : MonoBehaviour, IVRButton
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         this.myTransform = this.GetComponent<Transform>();
-        this.buttonsVisible = false;
+        
 
         // Get the size of the image sprite and use it to form the bounding box
         Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
         this.GetComponent<BoxCollider>().size = bbSize;
-        this.buttonStartX = bbSize.x;
-        this.buttonStartY = bbSize.y;
-
+        
+        // Set up the image renderer and add our material to it
         this.imageRenderer.enabled = true;
         this.imageRenderer.sharedMaterial = new Material(this.curShader);
         this.curMaterial = this.imageRenderer.sharedMaterial;
 
+        // Set all shader values to 1 as default
         this.curMaterial.SetFloat("_BrightnessAmount", 1);
         this.curMaterial.SetFloat("_ContrastAmount", 1);
         this.curMaterial.SetFloat("_SaturationAmount", 1);
-    }
-
-
-    public void Selected()
-    {
-        this.isCurrentImage = !this.isCurrentImage;
-        this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
     /// <summary>
@@ -124,18 +96,23 @@ public class Copy : MonoBehaviour, IVRButton
     /// </summary>
     void Update()
     {
+        // If we are the current image...
         if (this.isCurrentImage)
         {
+            // Check our current selection
             switch (currentSelection)
             {
+                // If brightness is selected edit brightness
                 case CurrentSelection.brightness:
                     this.Brightness(Input.GetAxis(this.rightThumbX));
                     break;
 
+                // If contrast is selected edit contrast
                 case CurrentSelection.contrast:
                     this.Contrast(Input.GetAxis(this.rightThumbX));
                     break;
 
+                // If resize if selected edit the size 
                 case CurrentSelection.resize:
                     this.Resize(Input.GetAxis(this.rightThumbX));
                     break;
@@ -150,13 +127,13 @@ public class Copy : MonoBehaviour, IVRButton
 
     /// <summary>
     /// When a button is clicked, execute the code associated with that button
-	/// Pre:: the button exists
-	/// Post:: An action is executed depending on the button
-	/// Return:: nothing
     /// </summary>
+    /// <pre>A VR button whose manager is the copy has been pressed</pre>
+    /// <post>An action is executed, depending on the selected button</post>
     /// <param name="button">The name of the button clicked</param>
     public void VRButtonClicked(string button)
     {
+        Assert.IsNotNull(button);
         switch (button)
         {
             case "Contrast":    // Contrast button clicked
@@ -196,19 +173,6 @@ public class Copy : MonoBehaviour, IVRButton
         }
     }
 
-    public void ReceiveSlider(SliderBar slider)
-    {
-        //this.slider = slider;
-    }
-
-    /// <summary>
-    /// Returns the list of buttons for this display
-    /// </summary>
-    /// <returns>The list of buttons</returns>
-    public List<VRButton> GetButtons()
-    {
-        return this.buttons;
-    }
 
     /// <summary>
     /// Used mainly for testing with a mouse
@@ -219,88 +183,144 @@ public class Copy : MonoBehaviour, IVRButton
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
+    /// <summary>
+    /// Called when the object is interacted with in VR
+    /// </summary>
+    /// <param name="collision">The collision detected</param>
     private void OnCollisionEnter(Collision collision)
     {
+        // Toggle isCurrent image and notify the dashboard that this copy has been interacted with
         this.isCurrentImage = !this.isCurrentImage;
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
     /// <summary>
-    /// A slider to adjust the brightness is instantiated
-    /// Pre:: The brightness button was clicked
-    /// Post:: A slider has been instantiated
-    /// Return:: nothing
+    /// Adjusts the brightness of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the brightness
+    /// and a negative input will decrease the brightness.  The brightnessConst value is used to change the value.
+    /// 
+    /// <pre>The brightness button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The brightness of the associated image has been changed </post>
     /// </summary>
     private void Brightness(float input)
     {
+        // If the input is positive, we are increasing the brightness
         if (input > 0)
         {
-            //this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount") / 2);
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") + this.brightnessConst));
         }
+        // Otherwise, decrease the brightness
         else if (input < 0)
         {
-            //this.slider.Setup(this.curMaterial.GetFloat("_BrightnessAmount") / 2);
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") - this.brightnessConst));
         }
     }
 
+    /// <summary>
+    /// Adjusts the contrast of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the contrast
+    /// and a negative input will decrease the contrast.  The contrastConst value is used to change the value.
+    /// 
+    /// <pre>The contrast button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The contrast of the associated image has been changed </post>
+    /// </summary>
     private void Contrast(float input)
     {
+        // If the input is positive, increase the contrast
         if (input > 0)
         {
-            //this.slider.Setup(this.curMaterial.GetFloat("_ContrastAmount") / 2);
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") + this.contrastConst));
         }
+        // Otherwise, decrease the contrast
         else if (input < 0)
         {
-            //this.slider.Setup(this.curMaterial.GetFloat("_ContrastAmount") / 2);
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") - this.contrastConst));
         }
     }
 
     /// <summary>
-    /// The Slider updates the image depending on the value being modified
-    /// Pre:: The Slider has been instantiated and returns a value
-    /// Post:: The image is updated according to the Slider value
-    /// Return:: nothing
+    /// Adjusts the size of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the size
+    /// and a negative input will decrease the size.  The resizeConst value is used to change the value.
+    /// 
+    /// <pre>The resize button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The size of the associated image has been changed </post>
     /// </summary>
-    /// <returns>The update.</returns>
-    /// <param name="value">Value.</param>
-    /*public void SliderUpdate(float value)
+    public void Resize(float input)
     {
-		// If the brightness is on, update the value of the image according to the slider
-		if (this.brightnessOn) {
-			Debug.Log ("VALUE " + value);
-			this.curMaterial.SetFloat ("_BrightnessAmount", (value * 2));
-		} else if (this.contrastOn) {
-			this.curMaterial.SetFloat ("_ContrastAmount", (value * 2));
-		}
-        
-    }*/
-
-
-    /// <summary>
-    /// Set the material for the copy
-    /// </summary>
-    /// <param name="mat">The material to set for the copy.</param>
-    public void SetCopyMaterial(Material mat)
-    {
-        this.copyMaterial = mat; ;
-    }
-
-    public void Resize(float dir)
-    {
-        if (dir > 0)
+        // If the input is positive, increase the size
+        if (input > 0)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
         }
-        else if (dir < 0)
+        // Otherwise, decrease the size
+        else if (input < 0)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
         }
     }
 
+    /// <summary>
+    /// Returns the material being used by the copy
+    /// </summary>
+    /// <returns>The material being used by the copy</returns>
+    public Material GetMaterial()
+    {
+        return this.curMaterial;
+    }
+    
+    /// <summary>
+    /// Returns the brightness constant being used for the image
+    /// </summary>
+    /// <returns>The brightness constant being used for the image</returns>
+    public float GetBrightnessConst()
+    {
+        return this.brightnessConst;
+    }
+
+    /// <summary>
+    /// Returns the contrast constant being used for the image
+    /// </summary>
+    /// <returns>The contrast constant being used for the image</returns>
+    public float GetContrastConst()
+    {
+        return this.contrastConst;
+    }
+
+    /// <summary>
+    /// Returns the resize scale being used for the image
+    /// </summary>
+    /// <returns>The resize scale being used for the image</returns>
+    public float GetResizeScale()
+    {
+        return this.resizeScale;
+    }
+
+    /// <summary>
+    /// Test hook for testing the private functionality of this class
+    /// </summary>
+    /// <param name="testValue"></param>
+    public void TestPrivateAttributes(float testValue, string func)
+    {
+        switch (func.ToLower()) {
+            case "brightness":
+                this.brightnessConst = 0.1f;
+                this.Brightness(testValue);
+                break;
+            case "contrast":
+                this.contrastConst = 0.1f;
+                this.Contrast(testValue);
+                break;
+            case "resize":
+                this.resizeScale = 0.1f;
+                this.Resize(testValue);
+                break;
+
+            default:
+                break;
+
+        }
+    }
 }
