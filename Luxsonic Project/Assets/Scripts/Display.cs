@@ -115,33 +115,33 @@ public class Display : MonoBehaviour, IVRButton
     private void createScrollButtons()
     {
         // Create the left scroll button
-        VRButton leftScrollButton = Instantiate(buttonPrefab, leftScrollPosition,
-            Quaternion.Euler(leftScrollRotation));
-        leftScrollButton.transform.parent = gameObject.transform;
-
-        this.leftScrollButton = leftScrollButton;
-
-        this.leftScrollButton.name = "Left";
-
-        this.leftScrollButton.textObject = this.leftScrollButton.GetComponentInChildren<TextMesh>();
-        this.leftScrollButton.textObject.text = "Left";
-
-        this.leftScrollButton.manager = this.gameObject;
-
+        CreateScrollButton("Left", this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
         // Create the right scroll button
-        VRButton rightScrollButton = Instantiate(buttonPrefab, rightScrollPosition,
-            Quaternion.Euler(rightScrollRotation));
-        rightScrollButton.transform.parent = gameObject.transform;
-
-        this.rightScrollButton = rightScrollButton;
-
-        this.rightScrollButton.textObject = this.rightScrollButton.GetComponentInChildren<TextMesh>();
-        this.rightScrollButton.textObject.text = "Right";
-
-        this.rightScrollButton.name = "Right";
-        this.rightScrollButton.manager = this.gameObject;
+        CreateScrollButton("Right", this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
+    }
 
 
+    /// <summary>
+    /// CreateScrollButton will create a single instance of a scroll button
+    /// Pre:: buttonPrefab must not be null
+    /// Post:: creation of a new scroll button
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="buttonName">The name of the button "Left" or "Right"</param>
+    /// <param name="button">the button attribute we are instantiating</param>
+    /// <param name="position">position of the button</param>
+    /// <param name="rotation">rotation of the button</param>
+    public void CreateScrollButton(string buttonName, VRButton button, Vector3 position, Vector3 rotation)
+    {
+        button = Instantiate(buttonPrefab, position,
+            Quaternion.Euler(rotation));
+        button.transform.parent = gameObject.transform;
+
+        button.textObject = button.GetComponentInChildren<TextMesh>();
+        button.textObject.text = buttonName;
+
+        button.name = buttonName;
+        button.manager = this.gameObject;
     }
 
     /// <summary>

@@ -5,7 +5,10 @@ using UnityEngine.Assertions;
 using System.IO;
 using System;
 
-
+/// <summary>
+/// The FileBrowser1 class represents the script for generating a virtual filebrowser that the user can
+/// navigate to seach for image and dicom files for use in the program
+/// </summary>
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
     // Position of the Camera
