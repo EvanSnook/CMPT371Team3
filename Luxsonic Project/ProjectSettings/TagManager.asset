@@ -11,6 +11,8 @@ TagManager:
   - Copy
   - Hand
   - Thumbnail
+  - FileBrowser
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - 
   - grabbable
   - Copy
-  - 
+  - environment
   - 
   - 
   - 

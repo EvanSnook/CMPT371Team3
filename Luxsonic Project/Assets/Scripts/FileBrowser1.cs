@@ -5,13 +5,15 @@ using UnityEngine.Assertions;
 using System.IO;
 using System;
 
+
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
     // Position of the Camera
     Transform cameraPosition;
 
-    // Storage of the path name to the file we want to open
-    string selectedFile;
+    // Reference to the Display
+    GameObject display;
+
     // Path name of the current directory
     string currentDirectory;
     // List of all directories within the current directory
@@ -25,7 +27,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     List<VRButton> listOfCurrentFileButtons = new List<VRButton>();
 
     // VRButton prefab to create the Buttons
-    public VRButton VRButtonPrefab;
+    [SerializeField]
+    private VRButton VRButtonPrefab;
     // Inital Position of the file Buttons
     public Vector3 filePosition;
     // Inital Rotation of the file Buttons
@@ -34,233 +37,453 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryPosition;
     // Inital Rotation of the file Buttons
     public Vector3 directoryRotation;
-    // VRButton back to move back to the previous directory
-    private VRButton back;
+    // Distance between each button
+    public float seperationBetweenButtons;
 
+    // VRButton back to move back to the previous directory
+    private VRButton backButton;
+    // Back button position
+    public Vector3 backPosition;
+    // Back rotation
+    public Vector3 backRotation;
+
+    // VRButton cancel to exit out of the filebrowser
+    private VRButton cancelButton;
+    // Cancel button Position
+    public Vector3 cancelPosition;
+    // Cancel rotation
+    public Vector3 cancelRotation;
+
+    
 
     // Use this for initialization
     void Start()
     {
+        // We want the file browser to eventually be fixated on the user
         cameraPosition = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        selectedFile = "Nothing Selected";
+        display = GameObject.FindGameObjectWithTag("Display");
         // Get the current Directory
         currentDirectory = Directory.GetCurrentDirectory().ToString();
 
         // Get all directories in the current directory and put them into a list
-        string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
-        foreach (string i in arrayOfCurrentDirectories){
-            listOfCurrentDirectories.Add(i);
-        }
+        GetCurrentDirectories();
 
         // Get all files in the current directory and put them into a list
-        string[] arrayOfCurrentFiles = Directory.GetFiles(currentDirectory);
-        foreach (string i in arrayOfCurrentFiles) {
-            listOfCurrentFiles.Add(i);
-        }
+        GetCurrentFiles();
         //Create all directory and file buttons
         CreateButtons();
+        CreateVRButton(this.currentDirectory, "Back", backPosition, backRotation);
+        CreateVRButton(this.currentDirectory, "Cancel", cancelPosition, cancelRotation);
     }
 
-    //Function CreateButtons() will generate the list of all buttons and set up for the current
-    //layout of the current file browsing directory
-    //Preconditions: none
-    //Postconditions: creation of all buttons involved
-    //Return: noting
+
+    void Update()
+    {
+        // We always want the FileBrowser to be infront of the user.
+        // this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 500f);
+    }
+
+
+    /// <summary>
+    /// Function GetListOfFilePaths will return the list of file paths currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of file paths as strings
+    /// </summary>
+    /// <returns> list of file paths</returns>
+    public List<string> GetListOfFilePaths()
+    {
+        return this.listOfCurrentFiles;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfDirectory Paths will return the list of directory paths currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of directory paths as strings
+    /// </summary>
+    /// <returns> list of directory paths</returns>
+    public List<string> GetListOfDirectoryPaths()
+    {
+        return this.listOfCurrentDirectories;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfFileButtons will return the list of File buttons currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of file buttons
+    /// </summary>
+    /// <returns> list of VRButtons paths</returns>
+    public List<VRButton> GetListOfFileButtons()
+    {
+        return this.listOfCurrentFileButtons;
+    }
+
+
+    /// <summary>
+    /// Function GetListOfDirectoryButtons will return the list of directory buttons currently stored
+    /// in the FileBrowser
+    /// Pre:: nothing
+    /// Post:: nothing
+    /// Return:: List of directory buttons
+    /// </summary>
+    /// <returns> list of VRButtons paths</returns>
+    public List<VRButton> GetListOfDirectoryButtons()
+    {
+        return this.listOfCurrentDirectoryButtons;
+    }
+
+
+    /// <summary>
+    /// This function sets the current directoy to the path name given in the argument.
+    /// Pre:: nothing
+    /// Post:: sets current directory
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="path">string we want to set the directory to</param>
+    public void SetCurrentDirectory(string path)
+    {
+        this.currentDirectory = path;
+    }
+
+
+    /// <summary>
+    /// Function CreateButtons() will generate the list of all buttons and set up for the current
+    /// layout of the current file browsing directory
+    /// Preconditions: none
+    /// Postconditions: creation of all buttons involved
+    /// Return: nothing
+    /// </summary>
     void CreateButtons()
     {
+        // Create a directory button for each directory
         int count = 0;
-        foreach (string i in listOfCurrentDirectories)
+        foreach (string directory in listOfCurrentDirectories)
         {
             Vector3 newDirectoryPosition = directoryPosition;
-            newDirectoryPosition.y = newDirectoryPosition.y - (count * 0.1f);
-            CreateDirectoryButton(i, newDirectoryPosition);
+            newDirectoryPosition.x = directoryPosition.x + 100f;
+            newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
+            CreateVRButton(directory, "Directory", newDirectoryPosition, directoryRotation);
             count++;
         }
-
+        // Create a file button for each file
         count = 0;
-        foreach (string j in listOfCurrentFiles)
+        foreach (string file in listOfCurrentFiles)
         {
             Vector3 newFilePosition = filePosition;
-            newFilePosition.y = newFilePosition.y - (count * 0.1f);
-            CreateFileButton(j, newFilePosition);
+            newFilePosition.x = newFilePosition.x + 100f;
+            newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
+            CreateVRButton(file, "File", newFilePosition, fileRotation);
             count++;
-
         }
-        
     }
 
-    //Function DisableLoadBar() will disable the LoadBar so that it cannot be seen
-    //Preconditions: User selected cancel or submit button
-    //Postconditions: LoadBar disabled
-    //Return: nothing
+
+    /// <summary>
+    /// Function DisableFileBrowser() will disable the FileBrowser so that it cannot be seen
+    /// Preconditions: none
+    /// Postconditions: FileBrowser is disabled if it is not currently
+    /// Return: nothing
+    /// </summary>
     void DisableFileBrowser()
     {
-        this.enabled = false;
+        this.gameObject.SetActive(false);
     }
-    
-    //Function EnableLoadBar() will enable the LoadBar so that it can be seen
-    //Preconditions: User selected the load button
-    //Postconditions: LoadBar enabled
-    //Return: nothing
+
+
+    /// <summary>
+    /// Function EnableFileBrowser() will enable the FileBrowser so that it can be seen
+    /// Preconditions: none
+    /// Postconditions: FileBrowser enabled
+    /// Return: nothing
+    /// </summary>
     void EnableFileBrowser()
     {
-        this.enabled = true;
+        this.gameObject.SetActive(true);
     }
 
-    //Function EnterDirectory() will send the user to the specified directory and bring up the 
-    //all the buttons withing that directory
+
+    /// <summary>
+    /// Function EnterDirectory() will send the user to the specified directory and bring up the 
+    /// all the buttons withing that directory
+    /// Pre:: string of the directory's path
+    /// Post:: current directory is set to the new directory, and the list of directory
+    /// buttons and files are reset and given the values of the directory we are entering
+    /// </summary>
+    /// <param name="newDirectory">string of the path representing the directory
+    /// we are entering</param>
     void EnterDirectory(string newDirectory)
     {
+        Assert.IsNotNull(newDirectory);
         currentDirectory = newDirectory;
-
+        // Destroy all current directory buttons
+        foreach (VRButton d in listOfCurrentDirectoryButtons)
+        {
+            Destroy(d.gameObject);
+        }
+        // Destroy all current File buttons
+        foreach (VRButton f in listOfCurrentFileButtons)
+        {
+            Destroy(f.gameObject);
+        }
+        // Empty all lists
+        listOfCurrentDirectoryButtons.Clear();
+        listOfCurrentFileButtons.Clear();
         listOfCurrentDirectories.Clear();
         listOfCurrentFiles.Clear();
-
-        string[] arrayOfCurrentDirectories = Directory.GetDirectories(currentDirectory);
-        foreach (string i in arrayOfCurrentDirectories)
-        {
-            listOfCurrentDirectories.Add(i);
-        }
-        string[] arrayOfCurrentFiles = Directory.GetFiles(currentDirectory);
-        foreach (string i in arrayOfCurrentFiles)
-        {
-            listOfCurrentFiles.Add(i);
-        }
-
+        // Get the new list of directories and files
+        GetCurrentDirectories();
+        GetCurrentFiles();
+        // Update the path of the Back button
+        UpdateBackButton(newDirectory);
+        // Create file and directory buttons
         CreateButtons();
     }
 
-    //Function ConvertAndSendImage() will take in a file which it will convert to a Texture2D and send it
-    //to the ImageManager.  This is done by converting the file into an array of bytes and creating a new Texture
-    //from it.
-    //Preconditions: FileInfo file, the file to be converted
-    //Postconditions: updated ImageManager list and disabling the file-browser GUI
-    //Return: Nothing
-    public void ConvertAndSendImage(FileInfo file)
+
+    /// <summary>
+    /// Function GetCurrentFiles() will store the paths of each file in the 
+    /// listOfCurrentFiles attribute.
+    /// Pre:: The listOfCurrentFiles must be empty
+    /// Post:: list populated with new files.
+    /// </summary>
+    public void GetCurrentFiles()
     {
-        //We can't do anything with a null file
-        if (file == null)
+        // List should be empty
+        Assert.AreEqual(0, listOfCurrentFiles.Count);
+        // The function GetFiles returns an array, so we want to place them in a list
+        // for easier use.
+        string[] arrayOfCurrentFiles = Directory.GetFiles(currentDirectory);
+        foreach (string file in arrayOfCurrentFiles)
         {
-            return;
+            listOfCurrentFiles.Add(file);
         }
+    }
+
+
+    /// <summary>
+    /// Function GetCurrentDirectories() will store the paths of each directory in the 
+    /// listOfCurrentDirectories attribute.
+    /// Pre:: The listOfCurrentDirectories must be empty
+    /// Post:: list populated with new directories.
+    /// </summary>
+    public void GetCurrentDirectories()
+    {
+        // List should be empty
+        Assert.AreEqual(0, listOfCurrentDirectories.Count);
+        // The function GetDirectories returns an array, so we want to place them in a list
+        // for easier use.
+        string[] arrayOfCurrentDirectories = Directory.GetDirectories(this.currentDirectory);
+        foreach (string directory in arrayOfCurrentDirectories)
+        {
+            this.listOfCurrentDirectories.Add(directory);
+        }
+    }
+
+
+    /// <summary>
+    /// Function ConvertAndSendImage() will take in a file path which it will convert to a Texture2D and send it
+    /// to the Display. This is done by converting the file into an array of bytes and creating a new Texture2D
+    /// from it.
+    /// Pre:: file path is not null
+    /// Post:: send created Texture2D to Display
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="filePath">string representation of the files path</param>
+    public void ConvertAndSendImage(string filePath)
+    {
+        FileInfo file = new FileInfo(filePath);
+        // Can't do anything with a null file
+        Assert.AreNotEqual(null, file, "The file should not be null");
         byte[] dicomImage = File.ReadAllBytes(file.ToString());
         //We also can't do anything with an empty file
-        if (dicomImage.Length < 1)
-        {
-            return;
-        }
         Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(10, 10);
         image.LoadImage(dicomImage);
-        //SendMessage("AddImage", image);// Kyle and Heramb, this is the function to add an image to the List
-        this.enabled = false;
+        display.SendMessage("AddImage", image);
     }
 
-    //Function CreateDirectoryButton() will create a new button representative of a directory that
-    //the user can select to enter and view that directory's contents
-    //Preconditions: none
-    //Postconditions: creation of a new directory button
-    //returns: nothing
-    void CreateDirectoryButton(string directoryPath, Vector3 position)
-    {
-        Assert.IsNotNull(VRButtonPrefab);
-        Assert.IsNotNull(directoryPath);
-        // Create a Directory button to access the directory
-        VRButton newDirectory = Instantiate(VRButtonPrefab, position,
-            Quaternion.Euler(fileRotation));
-        newDirectory.transform.parent = gameObject.transform;
-
-        newDirectory.name = "Directory";
-        //newDirectory.manager = this.gameObject;
-        //newDirectory.textObject.text = null; // GetLocalName(directoryPath);
-        newDirectory.path = directoryPath;
-        listOfCurrentDirectoryButtons.Add(newDirectory);
-    }
-
-    //Function create file Button will create a new button that will represent the path of
-    //a file which the user can select to open
-    //Preconditions: string filePath
-    //Postconditions: creation of file button
-    //Return: nothing
-    void CreateFileButton(string filePath, Vector3 position)
-    {
-        // Create a File button to access the file
-        VRButton newFile = Instantiate(VRButtonPrefab, position,
-            Quaternion.Euler(directoryRotation));
-        newFile.transform.parent = gameObject.transform;
-
-        // Set the name to 
-        newFile.name = "File";
-        //newFile.manager = this.gameObject;
-        //newFile.textObject.text = GetLocalName(filePath);
-        newFile.path = filePath;
-
-        listOfCurrentFileButtons.Add(newFile);
-    }
 
     /// <summary>
-    /// CreateBackButton will create a new back button for the interface.
+    /// Function CreateVRButton will instantiate a new VRButton.  It will create either a File, Directory,
+    /// Back, or Cancel button based on the parameters given to it.
+    /// Pre:: string or the button's path and name, Vector3 of the buttons position and rotation
     /// </summary>
-    /// <param name="path"></param>
-    void CreateBackButton(string path)
+    /// <param name="buttonPath">string of the path given to the button</param>
+    /// <param name="buttonName">string of the new button's name</param>
+    /// <param name="position">Vector3 of the buttons position</param>
+    /// <param name="rotation">Vector3 of the buttons Rotation</param>
+    private void CreateVRButton(string buttonPath, string buttonName, Vector3 position, Vector3 rotation)
     {
-        VRButton back = Instantiate(VRButtonPrefab, filePosition,
-            Quaternion.Euler(fileRotation));
-        back.transform.parent = gameObject.transform;
-
-        back.name = "Back";
-        //back.manager = this.gameObject;
-        back.path = GetPreviousPath(path);
+        // we should contain a prefab and viable string
+        Assert.IsNotNull(VRButtonPrefab);
+        // Instantiate a new button and set it as a child of the FileBrowser
+        VRButton newButton = Instantiate(VRButtonPrefab, position,
+            Quaternion.Euler(rotation));
+        newButton.transform.parent = gameObject.transform;
+        newButton.name = buttonName;
+        newButton.manager = this.gameObject;
+        newButton.path = buttonPath;
+        newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
+        // File attributes are set
+        if(buttonName == "File")
+        {
+            newButton.textObject.text = GetLocalName(buttonPath);
+            listOfCurrentFileButtons.Add(newButton);
+        }
+        // Directory attributes are set
+        else if(buttonName == "Directory")
+        {
+            newButton.textObject.text = GetLocalName(buttonPath);
+            listOfCurrentDirectoryButtons.Add(newButton);
+        }
+        // Back button attributes are set
+        else if(buttonName == "Back")
+        {
+            newButton.textObject.text = "Back";
+            newButton.path = GetPreviousPath(buttonPath);
+            this.backButton = newButton;
+        }
+        // Cancel button attributes are set
+        else if(buttonName == "Cancel")
+        {
+            newButton.textObject.text = "Cancel";
+            newButton.path = null;
+            this.cancelButton = newButton;
+        }
+        else
+        {
+            // If the buttonName is not one of the above four possibilities,
+            // then something has gone wrong
+            Assert.AreEqual<string>("File", buttonName, "The button was given an incorrect name");
+        }
     }
 
-    string GetLocalName(string path)
+
+    /// <summary>
+    /// Function GoBack() will call EnterDirectory on the path above the current path.  This 
+    /// will generate all directory and file buttons for that directory.
+    /// Pre:: current directory is not null
+    /// Post:: current directory is switched to that of the previous directory
+    /// Return:: nothing
+    /// </summary>
+    void GoBack()
     {
-        int index = path.LastIndexOf("/");
+        Assert.IsNotNull(currentDirectory);
+        EnterDirectory(GetPreviousPath(currentDirectory));
+    }
+
+
+    /// <summary>
+    /// UpdateBackButton will update the path contained in the back button
+    /// Pre:: string of thr path is not null
+    /// Post:: back button's path is now updated
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="path">new path to update the back button</param>
+    void UpdateBackButton(string path)
+    {
+        backButton.path = GetPreviousPath(path);
+        backButton.GetComponentInChildren<TextMesh>().text = "Back";
+    }
+
+
+    /// <summary>
+    /// GetLocalName will get the name of the directory given it's path.
+    /// The last name in the given path will be returned
+    /// Pre:: string path to get the local name from
+    /// Post:: nothing
+    /// Return:: string of the last word at the end of the path
+    /// </summary>
+    /// <param name="path">string of the path</param>
+    /// <returns> string local name </returns>
+   public string GetLocalName(string path)
+    {
+        Assert.IsNotNull(path);
+        // Get the index in the string where the last '\' is present
+        int index = path.LastIndexOf("\\");
+        // if the index is bigger than 0, then we can get the local name
         if (index > 0)
         {
+            // we don't want the '\' in the name, so we add 1.
             path = path.Substring(index + 1);
             return path;
         }
+        // the string given to us is already local
         else
         {
             return path;
         }
     }
 
-    // 
+
+    /// <summary>
+    /// This function will take in a string representing a file or directory path and
+    /// and return the directory path to that directory or file
+    /// Pre:: string path to get the previous path from
+    /// Post:: nothing
+    /// Return:: string of path one directory above 
+    /// </summary>
+    /// <param name="path">string of the path given to the function</param>
+    /// <returns>string of the path</returns>
     string GetPreviousPath(string path)
     {
-        int index = path.LastIndexOf("/");
+        Assert.IsNotNull(path, "The path must not be null");
+        // Get the index in the string where the last '\' is present
+        int index = path.LastIndexOf("\\");
+        // We can get the previous path if the index is greater than 0
         if(index > 0)
         {
-            path = path.Substring(0, index);
-            return path;
+            string newPath = path.Substring(0, index);
+            // If we are already at the end of the file we cant get a previous path
+            if (newPath == "C::")
+            {
+                return path;
+            }
+            else
+            {
+                return newPath;
+            }
         }
         return path;
     }
 
-    void Update()
+    /// <summary>
+    /// To be implemented
+    /// </summary>
+    void ShowLimitedButtons()
     {
-        //We always want the LoadBar to be infront of the user.
-        this.transform.position = new Vector3(cameraPosition.position.x + 10f, cameraPosition.position.y, cameraPosition.position.z + 10f);
+        foreach (VRButton button in listOfCurrentDirectoryButtons){
+
+        }
     }
 
+
+    /// <summary>
+    /// This function comes from the VRButton interface.  It thakes in a string reptrsenting
+    /// the VRButton it recieves.  Based on the name, it will execute the specified function.
+    /// Pre:: string button is not null
+    /// Post:: execution of the specified function
+    /// Return:: nothing.
+    /// </summary>
+    /// <param name="button">string button is the name of the button clicked</param>
     public void VRButtonClicked(string button)
     {
+        Assert.IsNotNull(button, "VRButtonClicked is given a null button name in FileBrowser");
         switch (button)
         {
             case "Back":
-                //Submit()
+                GoBack();
                 break;
             case "Cancel":
-                //Cancel()
-                break;
-            case "File":
-                //GetFile()
-                break;
-            case "Directory":
-                //EnterDirectory()
+                DisableFileBrowser();
                 break;
         }
     }

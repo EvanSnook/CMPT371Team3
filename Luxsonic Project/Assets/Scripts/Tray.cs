@@ -6,7 +6,8 @@ using UnityEngine;
 /// The Tray class represents a tray of thumbnails in the workspace that is used to
 /// keep track of all loaded images
 /// </summary>
-public class Tray : MonoBehaviour {
+public class Tray : MonoBehaviour
+{
 
     // The top left x coordinate for the tray to display
     public float trayStartX;
@@ -32,9 +33,10 @@ public class Tray : MonoBehaviour {
     List<GameObject> thumbnails = new List<GameObject>();
 
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start()
+    {
+
+    }
 
     /// <summary>
     /// Update the tray to display the thumbnails
@@ -42,7 +44,7 @@ public class Tray : MonoBehaviour {
     /// <param name="images">The list of images to turn into thumbnails</param>
     public void UpdateTray(List<Texture2D> images)
     {
-        
+
         // Destroy the current tray  TODO: Make more efficient
         foreach (GameObject t in thumbnails)
         {
@@ -50,7 +52,7 @@ public class Tray : MonoBehaviour {
         }
 
         // Clear the list so we can recalculate the thumbnails
-        thumbnails.Clear(); 
+        thumbnails.Clear();
         float x = trayStartX;
         float z = trayStartZ;
         // For each image in the list, create a thumbnail and display it in the tray
@@ -88,3 +90,4 @@ public class Tray : MonoBehaviour {
         return this.thumbnails;
     }
 }
+
