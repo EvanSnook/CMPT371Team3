@@ -4,16 +4,8 @@ using UnityEngine;
 
 public class TouchAndGrab : MonoBehaviour
 {
-    // the OVR controller
-    public OVRInput.Controller controller;
     // name of the axis for the grab trigger
-    [SerializeField]
-    private string grabTrigger;
-    // name of the axis for the index trigger
-    [SerializeField]
-    private string indexTrigger;
-    // the object we are touching/grabbing
-    public GameObject _object;
+    public GameObject _grabbedObject;
     // the radius of the sphere for the raycast
     public float _sphereRadius;
     // This variable will be updated
@@ -21,26 +13,12 @@ public class TouchAndGrab : MonoBehaviour
 
     // Indicates whether an object is being grabbed or not
     private bool _isGrabbed;
-
-    /// <summary>
-    /// Update is called once per frame
-    /// On Update() check to see if the 11th or 12th axis is pressed or not pressed
-    /// Call function Grab() on pressed
-    /// Call function Drop() on not pressed
-    /// Pre:: 
-    /// Post:: 
-    /// Return:: 
-    /// </summary>
-    void Update()
-    {
-        // If the object is not being grabbed, grab the object, else drop the object
-        if (!_isGrabbed && (Input.GetAxis(grabTrigger) == 1))
-            Grab();
-
-        if (_isGrabbed && (Input.GetAxis(grabTrigger) < 1))
-            Drop();
-    }
-
+    [SerializeField]
+    private string grabTrigger;
+    // name of the axis for the index trigger
+    [SerializeField]
+    private string indexTrigger;
+    // the object we are touching/grabbing
 
     /// <summary>
     /// Make the object being grabbed a child of the controller (hand) whenever it is within the raycast
@@ -76,11 +54,10 @@ public class TouchAndGrab : MonoBehaviour
             }
 
             // make the object a child of the controller, updating the position of the object
-            _object = _objectHits[_closestHit].transform.gameObject;
-            _object.GetComponent<Rigidbody>().isKinematic = true;
-            _object.transform.position = transform.position;
-            _object.transform.parent = transform;
-
+            _grabbedObject = _objectHits[_closestHit].transform.gameObject;
+            _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+            _grabbedObject.transform.position = transform.position;
+            _grabbedObject.transform.parent = transform;
         }
     }
 
@@ -96,12 +73,12 @@ public class TouchAndGrab : MonoBehaviour
         _isGrabbed = false;
 
         //If the object is attached change the transform to null so it keeps it's position
-        if (_object != null)
+        if (_grabbedObject != null)
         {
-            _object.transform.parent = null;
-            _object.GetComponent<Rigidbody>().isKinematic = false;
+            _grabbedObject.transform.parent = null;
+            _grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
 
-            _object = null;
+            _grabbedObject = null;
         }
     }
 
@@ -124,6 +101,16 @@ public class TouchAndGrab : MonoBehaviour
         }
     }
 
+
+    private void OnTriggerStay(Collider other)
+    {
+        if ((!_isGrabbed) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
+        {
+            Grab();
+        }
+    }
+
+
     /// <summary>
     /// OnTriggerExit is called once an object exits the collision box
     /// If OnTriggerExit() on a menu button, reset button's pressed flag
@@ -136,6 +123,11 @@ public class TouchAndGrab : MonoBehaviour
         if (other.tag == "MenuButton")
         {
             other.gameObject.GetComponent<VRButton>().SetPressed(false);
+        }   
+
+        if ((!_isGrabbed) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
+        {
+            Drop();
         }
     }
 }
