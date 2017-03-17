@@ -1,94 +1,195 @@
 ********************************************************************************
-*                       Saturday, 11 March 2017 16:52:06                       *
+*                      Friday, March 17, 2017 2:07:03 AM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
-Platform: Mac
+Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
-Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
 Compiler: Microsoft C# 6.0
 
 - Compilation -----------------------------------------------
 
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.dll" @Temp/UnityTempFile-ef3cb275bf3e94a1da5fd165ec386444 -debug-
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-5971e536b7f19e94b9cd69e8a42168a9 
 Exit code: 0
-Elapsed time: 2.29 sec
+Elapsed time: 2.65 sec
 
 - Compiler output (0 lines):
 
-- Compiler errors (1 line):
-0: Assets/Scripts/VRButton.cs(11,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+- Compiler errors (5 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+2: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
+4: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
 
-PDB to MDB conversion skipped
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.14 sec
+
+- pdb2mdb.exe output (0 lines):
 ********************************************************************************
-*                       Saturday, 11 March 2017 16:52:09                       *
+*                      Friday, March 17, 2017 2:07:06 AM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
-Platform: Mac
+Platform: Windows
 Target assembly: Assembly-CSharp-Editor.dll
-Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
-Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\2.0
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
 Compiler: Microsoft C# 6.0
 
 - Compilation -----------------------------------------------
 
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-0aec2deb390bc4298b599bf00ccbf5f0 -debug-
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Xml.dll" @Temp/UnityTempFile-54853f5f6396bef4898790dd3a2dfe52 
 Exit code: 0
-Elapsed time: 1.87 sec
+Elapsed time: 2.60 sec
 
 - Compiler output (0 lines):
 
 - Compiler errors (0 lines):
 
-PDB to MDB conversion skipped
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.12 sec
+
+- pdb2mdb.exe output (0 lines):
 ********************************************************************************
-*                       Saturday, 11 March 2017 16:53:05                       *
+*                      Friday, March 17, 2017 2:08:46 AM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
-Platform: Mac
+Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
-Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
 Compiler: Microsoft C# 6.0
 
 - Compilation -----------------------------------------------
 
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.dll" @Temp/UnityTempFile-f7a521255b9dd42f5a8b0de8180a895c -debug-
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-0bc892589a10d944291e2027c4236759 
 Exit code: 0
-Elapsed time: 2.27 sec
+Elapsed time: 2.62 sec
 
 - Compiler output (0 lines):
 
-- Compiler errors (1 line):
-0: Assets/Scripts/VRButton.cs(11,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+- Compiler errors (5 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+2: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
+4: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
 
-PDB to MDB conversion skipped
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.12 sec
+
+- pdb2mdb.exe output (0 lines):
 ********************************************************************************
-*                       Saturday, 11 March 2017 16:53:08                       *
+*                      Friday, March 17, 2017 2:08:50 AM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
-Platform: Mac
+Platform: Windows
 Target assembly: Assembly-CSharp-Editor.dll
-Project directory: /Users/J/School/371/repository/CMPT371Team3/Luxsonic Project
-Target profile directory: /Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\2.0
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
 Compiler: Microsoft C# 6.0
 
 - Compilation -----------------------------------------------
 
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/J/School/371/repository/CMPT371Team3/Luxsonic Project/CSharp60Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-12e6d2307691c4c1dbb0305a6d3bb3bb -debug-
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Xml.dll" @Temp/UnityTempFile-d9831c53e965e564294862792a1caf01 
 Exit code: 0
-Elapsed time: 1.89 sec
+Elapsed time: 2.49 sec
 
 - Compiler output (0 lines):
 
 - Compiler errors (0 lines):
 
-PDB to MDB conversion skipped
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.10 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Friday, March 17, 2017 2:09:41 AM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-6492c61f271efcc439490b63dd034c1a 
+Exit code: 0
+Elapsed time: 2.61 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (5 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+2: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
+4: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
+
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.13 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Friday, March 17, 2017 2:09:44 AM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: E:\Git Projects\CMPT371Team3\Luxsonic Project
+Target profile directory: E:\Unity\Editor\Data\Mono\lib\mono\2.0
+Unity 'Data' or 'Frameworks' directory: E:/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\mscorlib.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Core.dll" -r:"E:\Unity\Editor\Data\Mono\lib\mono\2.0\System.Xml.dll" @Temp/UnityTempFile-580aa5d8e51f1d8429ca5659d25917ce 
+Exit code: 0
+Elapsed time: 2.40 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: E:\Git Projects\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.10 sec
+
+- pdb2mdb.exe output (0 lines):
