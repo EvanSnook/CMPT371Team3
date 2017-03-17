@@ -341,5 +341,10 @@ public class Dashboard : MonoBehaviour, IVRButton
             this.minimized = true;
         }
     }
+
+	public void SetCopyButtons(List<VRButton> theList){
+		this.copyButtons = theList;
+	}
+		
 }
 
