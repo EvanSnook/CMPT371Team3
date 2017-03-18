@@ -10,26 +10,25 @@ public class InvokeTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        string path = @"E:\Git Projects\CMPT371Team3\Luxsonic Project\Assets\Resources\DICOM";
+        string path = @"V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\Assets\Resources\DICOM";
         Process newProcess = new Process();
-        newProcess.StartInfo.FileName = @"E:\Git Projects\CMPT371Team3\Converter\DICOMConverter.exe";
-        newProcess.StartInfo.Arguments = path;
+        newProcess.StartInfo.FileName = @"V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Converter\DICOMConverter.exe";
+        newProcess.StartInfo.Arguments = "\"" + path + "\"";
         newProcess.StartInfo.UseShellExecute = false;
         newProcess.StartInfo.CreateNoWindow = true;
         newProcess.EnableRaisingEvents = true;
         newProcess.Start();
         newProcess.WaitForExit();
 
-        UnityEngine.Debug.Log(newProcess.ExitCode);
-
-        var filePath = @"Assets\Resources\DICOM\temp\00000001";
+        var filePath = @"Assets\Resources\DICOM\temp\00000001.jpg";
 
         if (File.Exists(filePath))
         {
-            var fileData = File.ReadAllBytes(filePath);
-            var texture = new Texture2D(2, 2);
-            texture.LoadImage(fileData);
-            gameObject.GetComponent<GUITexture>().texture = texture;
+            FileInfo file = new FileInfo(filePath);
+            byte[] dicomImage = File.ReadAllBytes(file.ToString());
+            Texture2D image = new Texture2D(2, 2);
+            image.LoadImage(dicomImage);
+            gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         }
     }
 	
