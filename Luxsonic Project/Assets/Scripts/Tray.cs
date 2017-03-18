@@ -32,6 +32,9 @@ public class Tray : MonoBehaviour
     // The list of thumbnails being displayed in the tray
     List<GameObject> thumbnails = new List<GameObject>();
 
+    private float currentTrayX;
+    private float currentTrayZ;
+
     // Use this for initialization
     void Start()
     {
@@ -41,44 +44,39 @@ public class Tray : MonoBehaviour
     /// <summary>
     /// Update the tray to display the thumbnails
     /// </summary>
-    /// <param name="images">The list of images to turn into thumbnails</param>
-    public void UpdateTray(List<Texture2D> images)
+    /// <param name="image">The new image to add to the tray</param>
+    public void UpdateTray(Texture2D image)
     {
+        // Get the last position we used
+        float x = this.currentTrayX;
+        float z = this.currentTrayZ;
 
-        // Destroy the current tray  TODO: Make more efficient
-        foreach (GameObject t in thumbnails)
+        if (Mathf.Abs(x - trayStartX) >= trayNumColumns * trayIncrementor)
         {
-            DestroyImmediate(t);
+            x = trayStartX;
+            z -= trayIncrementor;
         }
 
-        // Clear the list so we can recalculate the thumbnails
-        thumbnails.Clear();
-        float x = trayStartX;
-        float z = trayStartZ;
-        // For each image in the list, create a thumbnail and display it in the tray
-        foreach (Texture2D image in images)
-        {
-            if (Mathf.Abs(x - trayStartX) >= trayNumColumns * trayIncrementor)
-            {
-                x = trayStartX;
-                z -= trayIncrementor;
-            }
-            x += trayIncrementor;
 
-            if (Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
-            {
-                break;
-            }
-            //Debug.Log("Going to instantiate thumb");
-            GameObject newThumb = Instantiate(thumbnailPrefab, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
-            newThumb.transform.parent = gameObject.transform;
-            //Debug.Log("Instantiated new thumb");
-            newThumb.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-            newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
-            newThumb.GetComponent<Thumbnail>().manager = this.manager.gameObject;
-            newThumb.GetComponent<Thumbnail>().image = image;
-            thumbnails.Add(newThumb);
+        x += trayIncrementor;
+
+        if (Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor && x >= trayNumRows * trayIncrementor)
+        {
+            // TODO: Add scrolling or end tray here
         }
+
+        GameObject newThumb = Instantiate(thumbnailPrefab, new Vector3(x, z, trayDepth), new Quaternion(0, 0, 0, 0));
+        newThumb.transform.parent = gameObject.transform;
+
+        newThumb.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
+        newThumb.GetComponent<Thumbnail>().manager = this.manager.gameObject;
+        newThumb.GetComponent<Thumbnail>().image = image;
+        thumbnails.Add(newThumb);
+
+        // Save the values of x and z for next time
+        this.currentTrayX = x;
+        this.currentTrayZ = z;
     }
 
     /// <summary>
@@ -88,6 +86,18 @@ public class Tray : MonoBehaviour
     public List<GameObject> GetThumbnails()
     {
         return this.thumbnails;
+    }
+
+    /// <summary>
+    /// Called to initialize the tray for the first time
+    /// </summary>
+    /// <param name="image">The first image to add to the tray</param>
+    public void Setup(Texture2D image)
+    {
+        this.currentTrayX = this.trayStartX;
+        this.currentTrayZ = this.trayStartZ;
+
+        this.UpdateTray(image);
     }
 }
 

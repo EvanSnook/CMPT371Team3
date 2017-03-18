@@ -18,6 +18,7 @@ public class Display : MonoBehaviour, IVRButton
 
     // The list of images that have been loaded 
     List<Texture2D> images = new List<Texture2D>();
+
     // The list of display images that the user will be able to scroll through
     LinkedList<GameObject> displayImages = new LinkedList<GameObject>();
 
@@ -101,7 +102,7 @@ public class Display : MonoBehaviour, IVRButton
             }
         }
 
-        CreateTray();
+        CreateTray(image);
     }
 
 
@@ -151,21 +152,22 @@ public class Display : MonoBehaviour, IVRButton
     /// Post: a new Tray instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
-    public void CreateTray()
+    public void CreateTray(Texture2D image)
     {
         // If a Tray does not exist already, create a Tray
         if (!trayCreated)
         {
             GameObject newTray = Instantiate(trayPrefab, trayPosition, Quaternion.Euler(trayRotation));
             newTray.transform.parent = gameObject.transform;
+
             this.tray = newTray.GetComponent<Tray>();
             this.tray.manager = this;
-            this.tray.UpdateTray(this.images);
+            this.tray.Setup(image);
             this.trayCreated = true;
         }
         else
         {
-            this.tray.UpdateTray(this.images);
+            this.tray.UpdateTray(image);
         }
     }
 

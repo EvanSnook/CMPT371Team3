@@ -160,7 +160,11 @@ public class TouchAndGrab : MonoBehaviour
         }
         else if (other.tag == "Thumbnail")
         {
-            other.gameObject.SendMessage("Selected");
+            if (!(other.gameObject.GetComponent<Thumbnail>().GetPressed()))
+            {
+                other.gameObject.GetComponent<Thumbnail>().SetPressed(true);
+            }
+
         }
     }
     /// <summary>
@@ -175,6 +179,10 @@ public class TouchAndGrab : MonoBehaviour
         if (other.tag == "MenuButton")
         {
             other.gameObject.GetComponent<VRButton>().SetPressed(false);
+        }
+        else if (other.tag == "Thumbnail")
+        {
+            other.gameObject.GetComponent<Thumbnail>().SetPressed(false);
         }
     }
 }
