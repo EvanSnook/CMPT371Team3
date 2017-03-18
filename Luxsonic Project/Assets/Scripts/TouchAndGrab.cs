@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+
 public class TouchAndGrab : MonoBehaviour
 {
     // the OVR controller
@@ -110,6 +112,9 @@ public class TouchAndGrab : MonoBehaviour
     }
 
 	void AssignGrabbedObject(GameObject closest){
+
+		Assert.IsNotNull (closest);
+
 		_isHolding = true;
 		_object = closest;
 		_object.GetComponent<Rigidbody>().isKinematic = true;

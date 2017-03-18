@@ -51,8 +51,8 @@ public class Display : MonoBehaviour, IVRButton
     public VRButton buttonPrefab;
 
     //Left and right buttons to scroll through the images in Display
-    private VRButton leftScrollButton;
-    private VRButton rightScrollButton;
+    private VRButton leftScrollButton = null;
+    private VRButton rightScrollButton = null;
 
     // Define positions for the scroll buttons
     public Vector3 leftScrollPosition;

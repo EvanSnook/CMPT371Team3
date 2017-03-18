@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class VRButton : MonoBehaviour
 {
-    // Button name
-    public string name;
+    // Button name for message-passing purposes
+    public string buttonName;
     // string to store a potental path
     public string path;
     // The object that creates and contains the functionality for this button.
@@ -25,17 +25,17 @@ public class VRButton : MonoBehaviour
     // When mouve is pressed send clicked message to manager
     void OnMouseDown()
     {
-        if (name == "Directory")
+        if (buttonName == "Directory")
         {
             manager.SendMessage("EnterDirectory", path);
         }
-        else if (name == "File")
+        else if (buttonName == "File")
         {
             manager.SendMessage("ConvertAndSendImage", path);
         }
         else
         {
-            manager.SendMessage("VRButtonClicked", name);
+            manager.SendMessage("VRButtonClicked", buttonName);
         }
     }
     /// <summary>
@@ -47,7 +47,7 @@ public class VRButton : MonoBehaviour
     public void SetPressed(bool val)
     {
         pressed = val;
-        if (val) manager.SendMessage("VRButtonClicked", name);
+        if (val) manager.SendMessage("VRButtonClicked", buttonName);
     }
     /// <summary>
     /// GetPressed returns the value of pressed

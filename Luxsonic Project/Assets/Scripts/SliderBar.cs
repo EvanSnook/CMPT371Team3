@@ -19,10 +19,10 @@ public class SliderBar : MonoBehaviour
     private float maxScale;
     // The knobCoord normalized (0 - knobScaleValue - maxScale)
     private float knobScaleValue;
-    // The max represented as a percent
-    float maxPercentScale = 1;
-    // the min represented as a percent
-    float minPercentScale = 0;
+//    // The max represented as a percent
+//    float maxPercentScale = 1;
+//    // the min represented as a percent
+//    float minPercentScale = 0;
     // Indicates if the slider needs to be updated
     private bool update = false;
     /// <summary>

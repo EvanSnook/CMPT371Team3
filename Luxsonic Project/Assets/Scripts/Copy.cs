@@ -13,26 +13,27 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Copy : MonoBehaviour, IVRButton
 {
-    // The transform of the copy object in world space
-    private Transform myTransform;
     // The component to render the image on the copy object 
     private SpriteRenderer imageRenderer;
 
     // Determines if this instance of a copy object is currently selected
     public bool isCurrentImage;
+
     // The current rotation of the copy
     [SerializeField]
     private Vector3 imageRotation;
+
     //the scale increment for resizing
     [SerializeField]
     private float resizeScale;
+
     // The scale increment for brightness
     [SerializeField]
     private float brightnessConst;
+
     // The scale increment for contrast
     [SerializeField]
     private float contrastConst;
-
 
     // An enum used to determine which modification is currently being made to the image
     private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
@@ -55,11 +56,15 @@ public class Copy : MonoBehaviour, IVRButton
     // The dashboard to for the copy to talk to
     private GameObject dashboard;
 
+	// Scale of the selection background on the Copy
+	// This value is set in the the editor; below is a default value.
     [SerializeField]
-    private int outlineScale;
+    private int outlineScale = 0;
 
+	// Depth of the selection background on the Copy -- how far away from the copy it is
+	// This value is set in the the editor; below is a default value.
     [SerializeField]
-    private float outlineDepth;
+    private float outlineDepth = 0f;
 
 
     private Texture2D outlineTexture;
@@ -68,10 +73,12 @@ public class Copy : MonoBehaviour, IVRButton
     {
         // Find the dashboard
         this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
+		// Scaffolding for future snap to grid functionality
         //while (CollideCheck()) ;
 
     }
 
+	// Scaffolding for future snap to grid functionality
     //public bool CollideCheck()
     //{
     //    foreach(GameObject obj in GameObject.FindGameObjectsWithTag("grabbable")){
@@ -97,7 +104,6 @@ public class Copy : MonoBehaviour, IVRButton
         Assert.IsNotNull(image);
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-        this.myTransform = this.GetComponent<Transform>();
 
 
         // Get the size of the image sprite and use it to form the bounding box
@@ -115,6 +121,7 @@ public class Copy : MonoBehaviour, IVRButton
         this.curMaterial.SetFloat("_SaturationAmount", 1);
         this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
 
+		// Set the position of the object in the scene
         this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
         this.transform.GetChild(0).transform.rotation = this.transform.rotation;
         this.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(outlineTexture, new Rect(0, 0, this.outlineTexture.width, this.outlineTexture.height), new Vector2(0.5f, 0.5f));
