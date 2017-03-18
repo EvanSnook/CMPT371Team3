@@ -33,8 +33,7 @@ public class TouchAndGrab : MonoBehaviour
     private float _sphereRadius = 0.1f;
 
     // This variable will be updated
-	//**UPDATED TO WHAT?**
-	public LayerMask _someMask = (LayerMask)null;
+	public LayerMask _someMask;
     // Indicates whether an object is being grabbed or not
 	private bool _isHolding = false;
 
@@ -101,7 +100,7 @@ public class TouchAndGrab : MonoBehaviour
 			// Check to see if the other hand is holding something
 			// If it is, and it's the same as the closest raycast object, don't grab
 			if (oppositeHand.IsHolding ()) {
-				if (oppositeHand.GetHeldObject () != _objectHits [_closestHit]) {
+				if (oppositeHand.GetHeldObject () != _objectHits [_closestHit].transform.gameObject) {
 					AssignGrabbedObject (_objectHits [_closestHit].transform.gameObject);
 				}
 			} else {
