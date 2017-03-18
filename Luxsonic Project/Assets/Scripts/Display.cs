@@ -51,8 +51,8 @@ public class Display : MonoBehaviour, IVRButton
     public VRButton buttonPrefab;
 
     //Left and right buttons to scroll through the images in Display
-    private VRButton leftScrollButton = null;
-    private VRButton rightScrollButton = null;
+    private VRButton leftScrollButton;
+    private VRButton rightScrollButton;
 
     // Define positions for the scroll buttons
     public Vector3 leftScrollPosition;
@@ -244,11 +244,14 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollLeft()
     {
-        GameObject temp = displayImages.First.Value;
-        temp.SetActive(false);
-        displayImages.RemoveFirst();
-        displayImages.AddLast(temp);
-        redrawDisplayImages();
+        if (this.images.Count >= this.displayImagePositions.Length)
+        {
+            GameObject temp = displayImages.First.Value;
+            temp.SetActive(false);
+            displayImages.RemoveFirst();
+            displayImages.AddLast(temp);
+            redrawDisplayImages();
+        }
     }
 
     /// <summary>
@@ -260,17 +263,20 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollRight()
     {
-        GameObject temp = displayImages.Last.Value;
-        LinkedListNode<GameObject> t2 = displayImages.First;
-        // Start from the first image and find the last image being displayed
-        for (int i = 1; i < displayImagePositions.Length; i++)
+        if (this.images.Count >= this.displayImagePositions.Length)
         {
-            t2 = t2.Next;
+            GameObject temp = displayImages.Last.Value;
+            LinkedListNode<GameObject> t2 = displayImages.First;
+            // Start from the first image and find the last image being displayed
+            for (int i = 1; i < displayImagePositions.Length; i++)
+            {
+                t2 = t2.Next;
+            }
+            t2.Value.SetActive(false);
+            displayImages.RemoveLast();
+            displayImages.AddFirst(temp);
+            redrawDisplayImages();
         }
-        t2.Value.SetActive(false);
-        displayImages.RemoveLast();
-        displayImages.AddFirst(temp);
-        redrawDisplayImages();
     }
 
     /// <summary>
