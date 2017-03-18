@@ -20,6 +20,10 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
@@ -46,6 +50,10 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
@@ -85,6 +93,10 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
@@ -125,12 +137,17 @@ public class CopyTests
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
         Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
         newCopy.curShader = shad;
         Assert.IsNotNull(newCopy.curShader);
+
 
         Texture2D tex = new Texture2D(100, 100);
 
