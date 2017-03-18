@@ -342,9 +342,10 @@ public class Dashboard : MonoBehaviour, IVRButton
         }
     }
 
-	public void SetCopyButtons(List<VRButton> theList){
-		this.copyButtons = theList;
-	}
-		
+    public void SetCopyButtons(List<VRButton> theList)
+    {
+        this.copyButtons = theList;
+    }
+
 }
 

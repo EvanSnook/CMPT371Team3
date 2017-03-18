@@ -68,7 +68,22 @@ public class Copy : MonoBehaviour, IVRButton
     {
         // Find the dashboard
         this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
+        //while (CollideCheck()) ;
+
     }
+
+    //public bool CollideCheck()
+    //{
+    //    foreach(GameObject obj in GameObject.FindGameObjectsWithTag("grabbable")){
+    //        if (this.gameObject.GetComponent<Collider>().bounds.Intersects(obj.GetComponent<Collider>().bounds))
+    //        {
+    //            //this.transform.position = 
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+
+    //}
 
     /// <summary>
     /// Creates a new Copy object with the Texture2D converted to a sprite stored
