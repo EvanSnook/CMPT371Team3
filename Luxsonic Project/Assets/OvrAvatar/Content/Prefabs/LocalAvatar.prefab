@@ -434,6 +434,7 @@ MonoBehaviour:
   controller: 1
   grabTrigger: LFistTrigger
   indexTrigger: LIndexTrigger
+  oppositeHandObject: {fileID: 1000010482306814}
   _object: {fileID: 0}
   _sphereRadius: 0.1
   _someMask:
@@ -453,6 +454,7 @@ MonoBehaviour:
   controller: 2
   grabTrigger: RFistTrigger
   indexTrigger: RIndexTrigger
+  oppositeHandObject: {fileID: 1000011125779090}
   _object: {fileID: 0}
   _sphereRadius: 0.1
   _someMask:
