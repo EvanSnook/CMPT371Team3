@@ -36,7 +36,7 @@ public class Copy : MonoBehaviour, IVRButton
 
     // An enum used to determine which modification is currently being made to the image
     private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
-    
+
     // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
 
@@ -51,9 +51,18 @@ public class Copy : MonoBehaviour, IVRButton
     public string leftThumbX;
     // The name of the axis for hte right thumbstick
     public string rightThumbX;
-    
+
     // The dashboard to for the copy to talk to
     private GameObject dashboard;
+
+    [SerializeField]
+    private int outlineScale;
+
+    [SerializeField]
+    private float outlineDepth;
+
+
+    private Texture2D outlineTexture;
 
     private void Start()
     {
@@ -74,12 +83,12 @@ public class Copy : MonoBehaviour, IVRButton
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         this.myTransform = this.GetComponent<Transform>();
-        
+
 
         // Get the size of the image sprite and use it to form the bounding box
         Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
         this.GetComponent<BoxCollider>().size = bbSize;
-        
+
         // Set up the image renderer and add our material to it
         this.imageRenderer.enabled = true;
         this.imageRenderer.sharedMaterial = new Material(this.curShader);
@@ -89,6 +98,12 @@ public class Copy : MonoBehaviour, IVRButton
         this.curMaterial.SetFloat("_BrightnessAmount", 1);
         this.curMaterial.SetFloat("_ContrastAmount", 1);
         this.curMaterial.SetFloat("_SaturationAmount", 1);
+        this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
+
+        this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
+        this.transform.GetChild(0).transform.rotation = this.transform.rotation;
+        this.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(outlineTexture, new Rect(0, 0, this.outlineTexture.width, this.outlineTexture.height), new Vector2(0.5f, 0.5f));
+        this.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -173,6 +188,24 @@ public class Copy : MonoBehaviour, IVRButton
         }
     }
 
+    /// <summary>
+    /// Called when the object is interacted with in VR
+    /// </summary>
+    private void Selected()
+    {
+        // Toggle isCurrent image and notify the dashboard that this copy has been interacted with
+        this.isCurrentImage = !this.isCurrentImage;
+        if (isCurrentImage)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        this.dashboard.SendMessage("CopySelected", this.gameObject);
+    }
+
 
     /// <summary>
     /// Used mainly for testing with a mouse
@@ -183,21 +216,6 @@ public class Copy : MonoBehaviour, IVRButton
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
-    /// <summary>
-    /// Called when the object is interacted with in VR
-    /// </summary>
-    /// <param name="collision">The collision detected</param>
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Toggle isCurrent image and notify the dashboard that this copy has been interacted with
-        this.isCurrentImage = !this.isCurrentImage;
-		if (isCurrentImage) {
-			this.transform.GetChild (0).gameObject.SetActive (true);
-		} else {
-			this.transform.GetChild (0).gameObject.SetActive (false);
-		}
-        this.dashboard.SendMessage("CopySelected", this.gameObject);
-    }
 
     /// <summary>
     /// Adjusts the brightness of the image attached to the copy according to the input.
@@ -275,7 +293,7 @@ public class Copy : MonoBehaviour, IVRButton
     {
         return this.curMaterial;
     }
-    
+
     /// <summary>
     /// Returns the brightness constant being used for the image
     /// </summary>
@@ -309,7 +327,8 @@ public class Copy : MonoBehaviour, IVRButton
     /// <param name="testValue"></param>
     public void TestPrivateAttributes(float testValue, string func)
     {
-        switch (func.ToLower()) {
+        switch (func.ToLower())
+        {
             case "brightness":
                 this.brightnessConst = 0.1f;
                 this.Brightness(testValue);
