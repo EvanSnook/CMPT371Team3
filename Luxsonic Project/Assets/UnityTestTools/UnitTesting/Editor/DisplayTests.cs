@@ -79,7 +79,7 @@ public class DisplayTests
     [Ignore("Test has some life issues.")]
     public void TestCreateDisplay()
     {
-        GameObject mannyObj = new GameObject();
+//        GameObject mannyObj = new GameObject();
         //mannyObj.AddComponent<ImageManager>();
         //ImageManager manny = mannyObj.GetComponent<ImageManager>();
 
@@ -93,7 +93,7 @@ public class DisplayTests
         dispObject.AddComponent<SpriteRenderer>();
         dispObject.AddComponent<BoxCollider>();
 
-        Texture2D tex = new Texture2D(100, 100);
+//        Texture2D tex = new Texture2D(100, 100);
 
         //manny.thumbnail = thumbObject;
         //manny.displayObj = dispObject;

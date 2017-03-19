@@ -17,7 +17,7 @@ public class DashboardTests {
 		dash.planePrefab = new GameObject();
 		dash.SetCopyButtons( new List<VRButton>());
 		GameObject buttonObj = new GameObject();
-		TextMesh btnMesh = new TextMesh ();
+//		TextMesh btnMesh = new TextMesh ();
 		buttonObj.AddComponent<VRButton> ();
 		buttonObj.AddComponent<TextMesh> ();
 		dash.button = buttonObj.GetComponent<VRButton>();
