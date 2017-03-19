@@ -22,6 +22,20 @@ public class DashboardTests {
 		buttonObj.AddComponent<TextMesh> ();
 		dash.button = buttonObj.GetComponent<VRButton>();
 
+		dash.buttonAttributes = new Dashboard.ButtonAttributes[] {
+			new Dashboard.ButtonAttributes("Load", new Vector3(0, 0.3f, 0)),
+			new Dashboard.ButtonAttributes("Quit", new Vector3(0, 0, 0)),
+			new Dashboard.ButtonAttributes("Minimize", new Vector3(0, -0.3f, 0)),
+			new Dashboard.ButtonAttributes("Contrast", new Vector3(-0.3f, 0.2f, 0)),
+			new Dashboard.ButtonAttributes("Rotate", new Vector3(0, 0.2f, 0)),
+			new Dashboard.ButtonAttributes("Zoom", new Vector3(0.3f, 0.2f, 0)),
+			new Dashboard.ButtonAttributes("Brightness", new Vector3(-0.3f, -0.2f, 0)),
+			new Dashboard.ButtonAttributes("Resize", new Vector3(0, -0.2f, 0)),
+			new Dashboard.ButtonAttributes("Filter", new Vector3(0.3f, -0.2f, 0)),
+			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0))
+		};
+
+
 		dash.DisplayMenu ();
 		VRButton[] myButtons = Transform.FindObjectsOfType<VRButton> ();
 		Assert.Greater (myButtons.Length, 0);

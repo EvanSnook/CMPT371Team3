@@ -28,6 +28,12 @@ public class Dashboard : MonoBehaviour, IVRButton
 		// The local position of the button, relative to its parent plane
 		public Vector3 position;
 
+		public ButtonAttributes(string n, Vector3 pos){
+			buttonName = n;
+			position = pos;
+		}
+
+
 		public string getName(){
 			return this.buttonName;
 		}
