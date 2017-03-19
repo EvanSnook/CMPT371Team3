@@ -68,15 +68,15 @@ public class Dashboard : MonoBehaviour, IVRButton
     private VRButton quitButton;
     private VRButton minimizeButton;
 
-//    // the object prefab to use for the slider
-//    public SliderBar sliderPrefab;
-//
-//    private SliderBar slider;
+    // the object prefab to use for the slider
+    public SliderBar sliderPrefab;
+
+    private SliderBar slider;
 
     //Are the Buttons visable to the user?
     private bool minimized = false;
 
-    public GameObject currentCopy;
+    public List<GameObject> currentCopies;
 
     private List<VRButton> copyButtons;
 
@@ -91,6 +91,9 @@ public class Dashboard : MonoBehaviour, IVRButton
     public Vector3 copyButtonsPanelScale;
     public Vector3 menuButtonsPanelScale;
 
+    // The current selection, defaults to none
+    private string currentSelection = "none";
+
     public void Start()
     {
         this.myTransform = this.GetComponent<Transform>();
@@ -98,6 +101,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         this.copyButtons = new List<VRButton>();
         DisplayMenu();
     }
+
 
 
     /// <summary>
@@ -249,27 +253,64 @@ public class Dashboard : MonoBehaviour, IVRButton
                 Minimize();
                 break;
 
+            case "Brightness":
+                this.currentSelection = "Brightness";
+                this.UpdateCopyOptions();
+                break;
+
+            case "Contrast":
+                this.currentSelection = "Contrast";
+                this.UpdateCopyOptions();
+                break;
+
+            case "Resize":
+                this.currentSelection = "Resize";
+                this.UpdateCopyOptions();
+                break;
+
+            case "Close":
+                this.currentSelection = "Close";
+                this.UpdateCopyOptions();
+                break;
+
             default:    // A copy option was clicked
-                if (this.currentCopy != null)
-                {
-                    //this.currentCopy.SendMessage("ReceiveSlider", this.slider);
-                    this.currentCopy.SendMessage("VRButtonClicked", button);
-                }
+
+                //if (this.currentCopies.Count > 0)
+                //{
+                //this.currentCopy.SendMessage("ReceiveSlider", this.slider);
+                //  foreach (GameObject currentCopy in this.currentCopies)
+                //{
+                //  currentCopy.SendMessage("VRButtonClicked", button);
+                //}
+                // }
                 break;
 
         }
 
     }
 
+    private void UpdateCopyOptions()
+    {
+        if (this.currentCopies.Count > 0)
+        {
+            //this.currentCopy.SendMessage("ReceiveSlider", this.slider);
+            foreach (GameObject currentCopy in this.currentCopies)
+            {
+                currentCopy.SendMessage("NewOptions", this.currentSelection);
+            }
+        }
+    }
+
     public void CopySelected(GameObject copy)
     {
         if (copy.GetComponent<Copy>().isCurrentImage)
         {
-            this.currentCopy = copy;
+            this.currentCopies.Add(copy);
+            this.UpdateCopyOptions();
         }
         else
         {
-            this.currentCopy = null;
+            this.currentCopies.Remove(copy);
         }
     }
 
@@ -311,28 +352,35 @@ public class Dashboard : MonoBehaviour, IVRButton
     {
         if (this.minimized)
         {
-			MinimizeButtons (true);
-            
+
+            this.loadButton.gameObject.SetActive(true);
+            this.quitButton.gameObject.SetActive(true);
+            //this.display.gameObject.SetActive(true);
+            foreach (VRButton button in copyButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
+
+            //this.slider.gameObject.SetActive(true);
+            this.minimized = false;
 
 
         }
         else
         {
 
-			MinimizeButtons (false);
+            this.loadButton.gameObject.SetActive(false);
+            this.quitButton.gameObject.SetActive(false);
+            //this.display.gameObject.SetActive(false);
+
+            foreach (VRButton button in copyButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+            //this.slider.gameObject.SetActive(false);
+            this.minimized = true;
         }
     }
-
-	private void MinimizeButtons(bool mode){
-		this.loadButton.gameObject.SetActive(mode);
-		this.quitButton.gameObject.SetActive(mode);
-		foreach (VRButton button in copyButtons)
-		{
-			button.gameObject.SetActive(mode);
-		}
-
-		this.minimized = !mode;
-	}
 
     public void SetCopyButtons(List<VRButton> theList)
     {
@@ -340,4 +388,3 @@ public class Dashboard : MonoBehaviour, IVRButton
     }
 
 }
-

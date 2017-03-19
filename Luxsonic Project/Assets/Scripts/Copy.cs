@@ -11,29 +11,28 @@ using UnityEngine.Assertions;
 /// and will contain options to control properties of the image through related scripts, as well as being able to
 /// control the position and size of the copy.
 /// </summary>
-public class Copy : MonoBehaviour, IVRButton
+public class Copy : MonoBehaviour
 {
+    // The transform of the copy object in world space
+    private Transform myTransform;
     // The component to render the image on the copy object 
     private SpriteRenderer imageRenderer;
 
     // Determines if this instance of a copy object is currently selected
     public bool isCurrentImage;
-
     // The current rotation of the copy
     [SerializeField]
     private Vector3 imageRotation;
-
     //the scale increment for resizing
     [SerializeField]
     private float resizeScale;
-
     // The scale increment for brightness
     [SerializeField]
     private float brightnessConst;
-
     // The scale increment for contrast
     [SerializeField]
     private float contrastConst;
+
 
     // An enum used to determine which modification is currently being made to the image
     private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
@@ -56,15 +55,11 @@ public class Copy : MonoBehaviour, IVRButton
     // The dashboard to for the copy to talk to
     private GameObject dashboard;
 
-	// Scale of the selection background on the Copy
-	// This value is set in the the editor; below is a default value.
     [SerializeField]
-    private int outlineScale = 0;
+    private int outlineScale;
 
-	// Depth of the selection background on the Copy -- how far away from the copy it is
-	// This value is set in the the editor; below is a default value.
     [SerializeField]
-    private float outlineDepth = 0f;
+    private float outlineDepth;
 
 
     private Texture2D outlineTexture;
@@ -73,12 +68,10 @@ public class Copy : MonoBehaviour, IVRButton
     {
         // Find the dashboard
         this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
-		// Scaffolding for future snap to grid functionality
         //while (CollideCheck()) ;
 
     }
 
-	// Scaffolding for future snap to grid functionality
     //public bool CollideCheck()
     //{
     //    foreach(GameObject obj in GameObject.FindGameObjectsWithTag("grabbable")){
@@ -104,6 +97,7 @@ public class Copy : MonoBehaviour, IVRButton
         Assert.IsNotNull(image);
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        this.myTransform = this.GetComponent<Transform>();
 
 
         // Get the size of the image sprite and use it to form the bounding box
@@ -121,7 +115,6 @@ public class Copy : MonoBehaviour, IVRButton
         this.curMaterial.SetFloat("_SaturationAmount", 1);
         this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
 
-		// Set the position of the object in the scene
         this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
         this.transform.GetChild(0).transform.rotation = this.transform.rotation;
         this.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(outlineTexture, new Rect(0, 0, this.outlineTexture.width, this.outlineTexture.height), new Vector2(0.5f, 0.5f));
@@ -168,7 +161,7 @@ public class Copy : MonoBehaviour, IVRButton
     /// <pre>A VR button whose manager is the copy has been pressed</pre>
     /// <post>An action is executed, depending on the selected button</post>
     /// <param name="button">The name of the button clicked</param>
-    public void VRButtonClicked(string button)
+    public void NewOptions(string button)
     {
         Assert.IsNotNull(button);
         switch (button)
@@ -203,8 +196,8 @@ public class Copy : MonoBehaviour, IVRButton
                 //DestroyImmediate(this.gameObject);
                 break;
 
-            default:        // This should never happen
-                Assert.IsTrue(false, "Undefined button");
+            default:        // This happens when no options are selected
+
                 break;
 
         }
@@ -224,6 +217,7 @@ public class Copy : MonoBehaviour, IVRButton
         else
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
+            this.currentSelection = CurrentSelection.none;
         }
         this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
