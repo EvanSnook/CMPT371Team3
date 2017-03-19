@@ -115,6 +115,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 		Vector3 pos = buttonAttributes [(int)index].getPosition ();
 		string newName = buttonAttributes [(int)index].getName ();
+		Debug.Log (newName);
 		VRButton newButton;
 
 		if (copyPlane) {
@@ -129,8 +130,9 @@ public class Dashboard : MonoBehaviour, IVRButton
 		newButton.type = index;
 		newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
 		newButton.name = newName;
+		newButton.buttonName = newName;
 		newButton.manager = this.gameObject;
-		newButton.textObject = button.GetComponentInChildren<TextMesh>();
+		newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
 		newButton.textObject.text = newName;
 		return newButton;
 	}
