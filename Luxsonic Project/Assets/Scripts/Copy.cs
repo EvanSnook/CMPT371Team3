@@ -4,312 +4,361 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using buttons;
+
 /// <summary>
 /// A script to be attached to objects that are to be displayed to the user.
 /// This object will have an image attached to it that the user may choose from the loaded images, 
 /// and will contain options to control properties of the image through related scripts, as well as being able to
-/// control the position and size of the display.
+/// control the position and size of the copy.
 /// </summary>
-public class Copy : MonoBehaviour, IVRButton, IVRSlider {
+public class Copy : MonoBehaviour
+{
+    // The component to render the image on the copy object 
+    private SpriteRenderer imageRenderer;
 
-	// The width and ehgith of each button
+    // Determines if this instance of a copy object is currently selected
+    public bool isCurrentImage;
+    // The current rotation of the copy
     [SerializeField]
-    private float buttonWidth = 100;
+    private Vector3 imageRotation;
+    //the scale increment for resizing
     [SerializeField]
-    private float buttonHeight = 50;
+    private float resizeScale;
+    // The scale increment for brightness
+    [SerializeField]
+    private float brightnessConst;
+    // The scale increment for contrast
+    [SerializeField]
+    private float contrastConst;
+
+
+    // An enum used to determine which modification is currently being made to the image
+    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
+
+    // The current selection, defaults to none
+    private CurrentSelection currentSelection = CurrentSelection.none;
+
+    // the scale of the copy
+    public float copyScale = 1;
+
+    // Shader for the copy
+    private Material curMaterial;
+    public Shader curShader;
+
+    // The name of the axis for the left thumbstick
+    public string leftThumbX;
+    // The name of the axis for hte right thumbstick
+    public string rightThumbX;
+
+    // The dashboard to for the copy to talk to
+    private GameObject dashboard;
 
     [SerializeField]
-    private Material copyMaterial;
+    private int outlineScale;
 
-	// The spawning depth of the buttons
-	// TODO: Figure out the actual scale for this matematically
-    public float buttonDepth;   
+    [SerializeField]
+    private float outlineDepth;
 
-	// The starting position to place the buttons
-    private float buttonStartX;
-    private float buttonStartY;
 
-	// The transform of the display object in world space
-    public Transform myTransform;     
-	// The image to render on the display object 
-    public MeshRenderer imageRenderer;  
-	// Determines if this instance of a display object is currently selected
-    public bool isCurrentImage;  
-	// The brigtness of the copy
-    public float imageBrightness; 
-	// The contrast of the copy
-    public float imageContrast;  
-	// The current rotation of the copy
-    public Vector3 imageRotation;  
-	// The current size of the copy
-    private bool buttonsVisible;
+    private Texture2D outlineTexture;
 
-	// The buttons for the copy, the buttons are used to allow 
-	// modification on the copy (brightness, contrast, etc.)
-    private List<VRButton> buttons = new List<VRButton>();
-	// The object prefab to use for the buttons
-    public VRButton buttonPrefab;
-	// the object prefab to use for the slider
-    public SliderBar sliderPrefab;
-	// The sliders position
-    public Vector3 sliderPosition;
+    private void Start()
+    {
+        // Find the dashboard
+        this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
+        //while (CollideCheck()) ;
 
-	// Indicates whether the brightness slider should be shown
-    private bool brightnessOn = false;
-	// The created generic slider
-	private SliderBar slider;
-	// the scale of the copy
-	public float copyScale = 1;
-    
+    }
+
+    //public bool CollideCheck()
+    //{
+    //    foreach(GameObject obj in GameObject.FindGameObjectsWithTag("grabbable")){
+    //        if (this.gameObject.GetComponent<Collider>().bounds.Intersects(obj.GetComponent<Collider>().bounds))
+    //        {
+    //            //this.transform.position = 
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+
+    //}
 
     /// <summary>
     /// Creates a new Copy object with the Texture2D converted to a sprite stored
     /// in the imageRenderer component.
-	/// Pre:: Texture2D image to add
-	/// Post:: A new Copy is created for the user to manipulate
-	/// Return:: nothing
     /// </summary>
+    /// <pre>Texture2D image to add</pre>
+    /// <post>A new copy is created for the user to manipulate</post>
     /// <param name="image"> A Texture2D to use as the image to display to the user </param>
     public void NewCopy(Texture2D image)
     {
         Assert.IsNotNull(image);
-        this.myTransform = this.GetComponent<Transform>();
-        //        this.imageRenderer = this.GetComponent<SpriteRenderer>();
-        //        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-        //		renderer.material.SetTexture("_MyTexture", myTexture);
-        this.transform.localScale = new Vector3(image.width * copyScale, image.height * copyScale, 1);
-		this.imageRenderer = this.GetComponent<MeshRenderer>();
-        this.copyMaterial.mainTexture = image;
-        this.imageRenderer.sharedMaterial = copyMaterial;
-		//this.imageRenderer.sharedMaterial.SetTexture ("_MainTex", image);
-        
-        
-        this.buttonsVisible = false;
+        this.imageRenderer = this.GetComponent<SpriteRenderer>();
+        this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+
 
         // Get the size of the image sprite and use it to form the bounding box
-//        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
-//        this.GetComponent<BoxCollider>().size = bbSize;
-//        this.buttonStartX = bbSize.x;
-//        this.buttonStartY = bbSize.y;
+        Vector2 bbSize = this.GetComponent<SpriteRenderer>().sprite.bounds.size;
+        this.GetComponent<BoxCollider>().size = bbSize;
+
+        // Set up the image renderer and add our material to it
+        this.imageRenderer.enabled = true;
+        this.imageRenderer.sharedMaterial = new Material(this.curShader);
+        this.curMaterial = this.imageRenderer.sharedMaterial;
+
+        // Set all shader values to 1 as default
+        this.curMaterial.SetFloat("_BrightnessAmount", 1);
+        this.curMaterial.SetFloat("_ContrastAmount", 1);
+        this.curMaterial.SetFloat("_SaturationAmount", 1);
+        this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
+
+        this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
+        this.transform.GetChild(0).transform.rotation = this.transform.rotation;
+        this.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(outlineTexture, new Rect(0, 0, this.outlineTexture.width, this.outlineTexture.height), new Vector2(0.5f, 0.5f));
+        this.transform.GetChild(0).gameObject.SetActive(false);
     }
 
-	/// <summary>
-	/// Raises the trigger enter event when the user has selected the Copy
-	/// </summary>
-	/// <param name="other">Other.</param>
-    public void OnTriggerEnter(Collider other)
-    {
-        this.isCurrentImage = true;
-    }
-
-	/// <summary>
-	/// Update this instance with visibile manipulation buttons if it is the current image.
-	/// </summary>
+    /// <summary>
+    /// Update this instance with visibile manipulation buttons if it is the current image.
+    /// </summary>
     void Update()
     {
-//        Debug.Log("Current: " + this.isCurrentImage);
-//        Debug.Log("Visible: " + this.buttonsVisible);
-        // Check if we should create the buttons
-        if (this.isCurrentImage && !this.buttonsVisible)
+        // If we are the current image...
+        if (this.isCurrentImage)
         {
-            DisplayButtons();
-            this.buttonsVisible = true;
-        }
+            // Check our current selection
+            switch (currentSelection)
+            {
+                // If brightness is selected edit brightness
+                case CurrentSelection.brightness:
+                    this.Brightness(Input.GetAxis(this.rightThumbX));
+                    break;
 
-        // Check if we should hide the buttons
-        if (!this.isCurrentImage)
-        {
-            this.buttonsVisible = false;
-            HideButtons();
+                // If contrast is selected edit contrast
+                case CurrentSelection.contrast:
+                    this.Contrast(Input.GetAxis(this.rightThumbX));
+                    break;
+
+                // If resize if selected edit the size 
+                case CurrentSelection.resize:
+                    this.Resize(Input.GetAxis(this.rightThumbX));
+                    break;
+
+                default:
+                    break;
+
+            }
         }
     }
 
-    /// <summary>
-    /// Instantiate the buttons for this display
-	/// Pre:: A Copy exists to select
-	/// Post:: Buttons to manipulate the current Copy is visible
-    /// </summary>
-    public void DisplayButtons()
-    {
-        Vector3 contrastButtonPosition = myTransform.position - new Vector3(buttonStartX, buttonStartY, buttonDepth);
-        Vector3 rotateButtonPosition = myTransform.position - new Vector3(buttonWidth, 0, buttonDepth);
-        Vector3 zoomButtonPosition = myTransform.position - new Vector3(buttonWidth*2, 0, buttonDepth);
-        Vector3 brightnessButtonPosition = myTransform.position - new Vector3(buttonWidth*2, buttonHeight, buttonDepth);
-        Vector3 resizeButtonPosition = myTransform.position - new Vector3(0, buttonHeight, buttonDepth);
-        Vector3 filterButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight, buttonDepth);
-        Vector3 closeButtonPosition = myTransform.position - new Vector3(buttonWidth, buttonHeight*2, buttonDepth);
-
-        // Create the buttons
-        VRButton contrastButton = Instantiate(buttonPrefab, contrastButtonPosition, new Quaternion(0, 0, 0, 0));
-        contrastButton.name = "Contrast";
-        contrastButton.manager = this.gameObject;
-
-        VRButton rotateButton = Instantiate(buttonPrefab, rotateButtonPosition, new Quaternion(0, 0, 0, 0));
-        rotateButton.name = "Rotate";
-        rotateButton.manager = this.gameObject;
-
-        VRButton zoomButton = Instantiate(buttonPrefab, zoomButtonPosition, new Quaternion(0, 0, 0, 0));
-        zoomButton.name = "Zoom";
-        zoomButton.manager = this.gameObject;
-
-        VRButton brightnessButton = Instantiate(buttonPrefab, brightnessButtonPosition, new Quaternion(0, 0, 0, 0));
-        brightnessButton.name = "Brightness";
-        brightnessButton.manager = this.gameObject;
-
-        VRButton resizeButton = Instantiate(buttonPrefab, resizeButtonPosition, new Quaternion(0, 0, 0, 0));
-        resizeButton.name = "Resize";
-        resizeButton.manager = this.gameObject;
-
-        VRButton filterButton = Instantiate(buttonPrefab, filterButtonPosition, new Quaternion(0, 0, 0, 0));
-        filterButton.name = "Filter";
-        filterButton.manager = this.gameObject;
-
-        VRButton closeButton = Instantiate(buttonPrefab, closeButtonPosition, new Quaternion(0, 0, 0, 0));
-        closeButton.name = "Close";
-        closeButton.manager = this.gameObject;
-
-        // Add the buttons to the list of buttons
-        buttons.Add(contrastButton);
-        buttons.Add(rotateButton);
-        buttons.Add(zoomButton);
-        buttons.Add(brightnessButton);
-        buttons.Add(resizeButton);
-        buttons.Add(filterButton);
-        buttons.Add(closeButton);
-    }
-
-    /// <summary>
-    /// Hide the buttons from the display by destroying them
-	/// Pre:: buttons are visible
-	/// Post:: buttons are no longer visible
-	/// Return:: nothing
-    /// </summary>
-    public void HideButtons()
-    {
-        foreach(VRButton button in buttons)
-        {
-            DestroyImmediate(button.gameObject);
-        }
-
-        buttons.Clear();
-    }
 
     /// <summary>
     /// When a button is clicked, execute the code associated with that button
-	/// Pre:: the button exists
-	/// Post:: An action is executed depending on the button
-	/// Return:: nothing
     /// </summary>
+    /// <pre>A VR button whose manager is the copy has been pressed</pre>
+    /// <post>An action is executed, depending on the selected button</post>
     /// <param name="button">The name of the button clicked</param>
-    public void VRButtonClicked(string button)
+    public void NewOptions(ButtonType button)
     {
+        Assert.IsFalse(button == ButtonType.NONE);
         switch (button)
         {
-            case "Contrast":    // Contrast button clicked
-                // TODO: Implement contrast code
+			case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
+                this.currentSelection = CurrentSelection.contrast;
                 break;
 
-            case "Rotate":    // Rotate button clicked
+            case ButtonType.ROTATE_BUTTON:    // Rotate button clicked
                 // TODO: Implement Rotate code
                 break;
 
-            case "Zoom":    // Zoom button clicked
+            case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
                 // TODO: Implement Zoom code
                 break;
 
-            case "Brightness":    // Brightness button clicked
-                this.Brightness();
+            case ButtonType.BRIGHTNESS_BUTTON:    // Brightness button clicked
+                this.currentSelection = CurrentSelection.brightness;
                 break;
 
-            case "Resize":    // Resize button clicked
-                // TODO: Implement Resize code
+            case ButtonType.RESIZE_BUTTON:    // Resize button clicked
+                this.currentSelection = CurrentSelection.resize;
                 break;
 
-            case "Filter":    // Filter button clicked
+            case ButtonType.FILTER_BUTTON:    // Filter button clicked
                 // TODO: Implement Filter code
                 break;
 
-            case "Close":    // Close button clicked
-                this.HideButtons();
-                DestroyImmediate(this.gameObject);
+            case ButtonType.CLOSE_BUTTON:    // Close button clicked
+                this.currentSelection = CurrentSelection.close;
+                this.gameObject.SetActive(false);
+                //DestroyImmediate(this.gameObject);
                 break;
 
-            default:        // This should never happen
-                Assert.IsTrue(false, "Undefined button");
-                break; 
+            default:        // This happens when no options are selected
+
+                break;
 
         }
     }
 
     /// <summary>
-    /// Returns the list of buttons for this display
+    /// Called when the object is interacted with in VR
     /// </summary>
-    /// <returns>The list of buttons</returns>
-    public List<VRButton> GetButtons()
+    private void Selected()
     {
-        return this.buttons;
+        // Toggle isCurrent image and notify the dashboard that this copy has been interacted with
+        this.isCurrentImage = !this.isCurrentImage;
+        if (isCurrentImage)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+            this.currentSelection = CurrentSelection.none;
+        }
+        this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
+
 
     /// <summary>
     /// Used mainly for testing with a mouse
     /// </summary>
     private void OnMouseDown()
     {
-        this.isCurrentImage = true;
+        this.isCurrentImage = !this.isCurrentImage;
+        this.dashboard.SendMessage("CopySelected", this.gameObject);
     }
 
-	/// <summary>
-	/// A slider to adjust the brightness is instantiated
-	/// Pre:: The brightness button was clicked
-	/// Post:: A slider has been instantiated
-	/// Return:: nothing
-	/// </summary>
-    private void Brightness()
-    {
-		// If the brightness is not on, rreate a slider and display it in the scene
-        if (!this.brightnessOn)
-        {
-            this.slider = Instantiate(sliderPrefab, sliderPosition, new Quaternion(0, 0, 0, 0));
-            this.slider.manager = this.gameObject;
-			Light light = this.slider.manager.GetComponent<Light> ();
-			this.slider.Setup(light.color.r);
-            this.brightnessOn = true;
-        }
-        else
-        {
-			// If the brightness button is pressed again, hide the slider
-			DestroyImmediate(this.slider.gameObject);
-            this.brightnessOn = false;
-			Debug.Log ("Brightness Close");
-        }
 
-    }
-
-	/// <summary>
-	/// The Slider updates the image depending on the value being modified
-	/// Pre:: The Slider has been instantiated and returns a value
-	/// Post:: The image is updated according to the Slider value
-	/// Return:: nothing
-	/// </summary>
-	/// <returns>The update.</returns>
-	/// <param name="value">Value.</param>
-    public void SliderUpdate(float value)
+    /// <summary>
+    /// Adjusts the brightness of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the brightness
+    /// and a negative input will decrease the brightness.  The brightnessConst value is used to change the value.
+    /// 
+    /// <pre>The brightness button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The brightness of the associated image has been changed </post>
+    /// </summary>
+    private void Brightness(float input)
     {
-		// If the brightness is on, update the value of the image according to the slider
-        if (this.brightnessOn)
+        // If the input is positive, we are increasing the brightness
+        if (input > 0)
         {
-			Light light = this.GetComponent<Light> ();
-			light.color = new Color(value, value, value);
-        }//else if ()
-        
+            this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") + this.brightnessConst));
+        }
+        // Otherwise, decrease the brightness
+        else if (input < 0)
+        {
+            this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") - this.brightnessConst));
+        }
     }
 
     /// <summary>
-    /// Set the material for the copy
+    /// Adjusts the contrast of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the contrast
+    /// and a negative input will decrease the contrast.  The contrastConst value is used to change the value.
+    /// 
+    /// <pre>The contrast button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The contrast of the associated image has been changed </post>
     /// </summary>
-    /// <param name="mat">The material to set for the copy.</param>
-    public void SetCopyMaterial(Material mat)
+    private void Contrast(float input)
     {
-        this.copyMaterial = mat; ;
+        // If the input is positive, increase the contrast
+        if (input > 0)
+        {
+            this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") + this.contrastConst));
+        }
+        // Otherwise, decrease the contrast
+        else if (input < 0)
+        {
+            this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") - this.contrastConst));
+        }
+    }
+
+    /// <summary>
+    /// Adjusts the size of the image attached to the copy according to the input.
+    /// The input is based on the Unity input axis system.  A positive input will increase the size
+    /// and a negative input will decrease the size.  The resizeConst value is used to change the value.
+    /// 
+    /// <pre>The resize button is seleced and this.isCurrentImage is true</pre>
+    /// <post>The size of the associated image has been changed </post>
+    /// </summary>
+    public void Resize(float input)
+    {
+        // If the input is positive, increase the size
+        if (input > 0)
+        {
+            Vector3 scale = this.transform.localScale;
+            this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
+        }
+        // Otherwise, decrease the size
+        else if (input < 0)
+        {
+            Vector3 scale = this.transform.localScale;
+            this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
+        }
+    }
+
+    /// <summary>
+    /// Returns the material being used by the copy
+    /// </summary>
+    /// <returns>The material being used by the copy</returns>
+    public Material GetMaterial()
+    {
+        return this.curMaterial;
+    }
+
+    /// <summary>
+    /// Returns the brightness constant being used for the image
+    /// </summary>
+    /// <returns>The brightness constant being used for the image</returns>
+    public float GetBrightnessConst()
+    {
+        return this.brightnessConst;
+    }
+
+    /// <summary>
+    /// Returns the contrast constant being used for the image
+    /// </summary>
+    /// <returns>The contrast constant being used for the image</returns>
+    public float GetContrastConst()
+    {
+        return this.contrastConst;
+    }
+
+    /// <summary>
+    /// Returns the resize scale being used for the image
+    /// </summary>
+    /// <returns>The resize scale being used for the image</returns>
+    public float GetResizeScale()
+    {
+        return this.resizeScale;
+    }
+
+    /// <summary>
+    /// Test hook for testing the private functionality of this class
+    /// </summary>
+    /// <param name="testValue"></param>
+    public void TestPrivateAttributes(float testValue, string func)
+    {
+        switch (func.ToLower())
+        {
+            case "brightness":
+                this.brightnessConst = 0.1f;
+                this.Brightness(testValue);
+                break;
+            case "contrast":
+                this.contrastConst = 0.1f;
+                this.Contrast(testValue);
+                break;
+            case "resize":
+                this.resizeScale = 0.1f;
+                this.Resize(testValue);
+                break;
+
+            default:
+                break;
+
+        }
     }
 }
