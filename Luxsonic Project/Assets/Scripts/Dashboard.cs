@@ -115,7 +115,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 		Vector3 pos = buttonAttributes [(int)index].getPosition ();
 		string newName = buttonAttributes [(int)index].getName ();
-		Debug.Log (newName);
 		VRButton newButton;
 
 		if (copyPlane) {
