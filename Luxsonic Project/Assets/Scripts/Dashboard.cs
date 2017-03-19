@@ -5,11 +5,6 @@ using UnityEngine.Assertions;
 
 using buttons;
 
-namespace buttons {
-	public enum ButtonType {LOAD_BUTTON, QUIT_BUTTON, MINIMIZE_BUTTON, CONTRAST_BUTTON,
-		ROTATE_BUTTON, ZOOM_BUTTON, BRIGHTNESS_BUTTON,
-		RESIZE_BUTTON, FILTER_BUTTON, CLOSE_BUTTON, NONE};
-}
 
 
 

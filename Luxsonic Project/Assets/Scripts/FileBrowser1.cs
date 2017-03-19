@@ -5,6 +5,8 @@ using UnityEngine.Assertions;
 using System.IO;
 using System;
 
+using buttons;
+
 /// <summary>
 /// The FileBrowser1 class represents the script for generating a virtual filebrowser that the user can
 /// navigate to seach for image and dicom files for use in the program
@@ -75,8 +77,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         GetCurrentFiles();
         //Create all directory and file buttons
         CreateButtons();
-        CreateVRButton(this.currentDirectory, "Back", backPosition, backRotation);
-        CreateVRButton(this.currentDirectory, "Cancel", cancelPosition, cancelRotation);
+        CreateVRButton(this.currentDirectory, "Back", ButtonType.BACK_BUTTON, backPosition, backRotation);
+        CreateVRButton(this.currentDirectory, "Cancel", ButtonType.CANCEL_BUTTON, cancelPosition, cancelRotation);
     }
 
 
@@ -172,7 +174,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             Vector3 newDirectoryPosition = directoryPosition;
             newDirectoryPosition.x = directoryPosition.x + 100f;
             newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
-            CreateVRButton(directory, "Directory", newDirectoryPosition, directoryRotation);
+            CreateVRButton(directory, "Directory", ButtonType.DIRECTORY_BUTTON, newDirectoryPosition, directoryRotation);
             count++;
         }
         // Create a file button for each file
@@ -182,7 +184,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             Vector3 newFilePosition = filePosition;
             newFilePosition.x = newFilePosition.x + 100f;
             newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
-            CreateVRButton(file, "File", newFilePosition, fileRotation);
+            CreateVRButton(file, "File", ButtonType.FILE_BUTTON, newFilePosition, fileRotation);
             count++;
         }
     }
@@ -321,41 +323,43 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// </summary>
     /// <param name="buttonPath">string of the path given to the button</param>
     /// <param name="buttonName">string of the new button's name</param>
+	/// <param name="buttonType">enum describing the type of button</param> 
     /// <param name="position">Vector3 of the buttons position</param>
     /// <param name="rotation">Vector3 of the buttons Rotation</param>
-    private void CreateVRButton(string buttonPath, string buttonName, Vector3 position, Vector3 rotation)
+    private void CreateVRButton(string buttonPath, string buttonName, ButtonType buttonType, Vector3 position, Vector3 rotation)
     {
         // we should contain a prefab and viable string
         Assert.IsNotNull(VRButtonPrefab);
         // Instantiate a new button and set it as a child of the FileBrowser
         VRButton newButton = Instantiate(VRButtonPrefab, position,
             Quaternion.Euler(rotation));
+		newButton.type = buttonType;
         newButton.transform.parent = gameObject.transform;
         newButton.name = buttonName;
         newButton.manager = this.gameObject;
         newButton.path = buttonPath;
         newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
         // File attributes are set
-        if(buttonName == "File")
+        if(buttonType == ButtonType.FILE_BUTTON)
         {
             newButton.textObject.text = GetLocalName(buttonPath);
             listOfCurrentFileButtons.Add(newButton);
         }
         // Directory attributes are set
-        else if(buttonName == "Directory")
+		else if(buttonType == ButtonType.DIRECTORY_BUTTON)
         {
             newButton.textObject.text = GetLocalName(buttonPath);
             listOfCurrentDirectoryButtons.Add(newButton);
         }
         // Back button attributes are set
-        else if(buttonName == "Back")
+        else if(buttonType == ButtonType.BACK_BUTTON)
         {
             newButton.textObject.text = "Back";
             newButton.path = GetPreviousPath(buttonPath);
             this.backButton = newButton;
         }
         // Cancel button attributes are set
-        else if(buttonName == "Cancel")
+        else if(buttonType == ButtonType.CANCEL_BUTTON)
         {
 			this.cancelButton = newButton;
 			this.cancelButton.textObject.text = "Cancel";
@@ -460,14 +464,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     }
 
     /// <summary>
-    /// To be implemented
+	/// Stub function; to be implemented when scrolling is added to the file browser
     /// </summary>
-    void ShowLimitedButtons()
-    {
-        foreach (VRButton button in listOfCurrentDirectoryButtons){
-
-        }
-    }
+//    void ShowLimitedButtons()
+//    {
+//        foreach (VRButton dirButton in listOfCurrentDirectoryButtons){
+//
+//        }
+//    }
 
 
     /// <summary>
@@ -478,15 +482,15 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     /// Return:: nothing.
     /// </summary>
     /// <param name="button">string button is the name of the button clicked</param>
-    public void VRButtonClicked(string button)
+    public void VRButtonClicked(ButtonType button)
     {
-        Assert.IsNotNull(button, "VRButtonClicked is given a null button name in FileBrowser");
+		Assert.IsFalse (button == ButtonType.NONE, "ButtonType of None passed into File Browser.");
         switch (button)
         {
-            case "Back":
+            case ButtonType.BACK_BUTTON:
                 GoBack();
                 break;
-            case "Cancel":
+            case ButtonType.CANCEL_BUTTON:
                 DisableFileBrowser();
                 break;
         }

@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonName: 
+  type: 0
   path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}

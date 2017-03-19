@@ -4,6 +4,14 @@ using UnityEngine;
 
 using buttons;
 
+namespace buttons {
+	public enum ButtonType {LOAD_BUTTON, QUIT_BUTTON, MINIMIZE_BUTTON, CONTRAST_BUTTON,
+		ROTATE_BUTTON, ZOOM_BUTTON, BRIGHTNESS_BUTTON,
+		RESIZE_BUTTON, FILTER_BUTTON, CLOSE_BUTTON, NONE, DIRECTORY_BUTTON, FILE_BUTTON,
+		BACK_BUTTON, CANCEL_BUTTON, LEFT_BUTTON, RIGHT_BUTTON};
+}
+
+
 /// <summary>
 /// The IVRButton interface is an interface to be used with the IVRButton class.  It contains
 /// the methods required to use a VRButton

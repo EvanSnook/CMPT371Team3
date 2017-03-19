@@ -30,11 +30,11 @@ public class VRButton : MonoBehaviour
     // When mouve is pressed send clicked message to manager
     void OnMouseDown()
     {
-		if (buttonName == "Directory")
+		if (type == ButtonType.DIRECTORY_BUTTON)
         {
             manager.SendMessage("EnterDirectory", path);
         }
-		else if (buttonName == "File")
+		else if (type == ButtonType.FILE_BUTTON)
         {
             manager.SendMessage("ConvertAndSendImage", path);
         }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using buttons;
+
+
 /// <summary>
 /// The Display class manages images for the system.
 /// This class contains a list of Texture2D elements that can be used with the Copy class.
@@ -222,14 +225,14 @@ public class Display : MonoBehaviour, IVRButton
     /// based on the string given to it.
     /// </summary>
     /// <param name="button"></param>
-    public void VRButtonClicked(string button)
+    public void VRButtonClicked(ButtonType button)
     {
         switch (button)
         {
-            case "Left":
+            case ButtonType.LEFT_BUTTON:
                 ScrollLeft();
                 break;
-            case "Right":
+            case ButtonType.RIGHT_BUTTON:
                 ScrollRight();
                 break;
         }
