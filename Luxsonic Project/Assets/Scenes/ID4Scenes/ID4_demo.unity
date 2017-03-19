@@ -280,21 +280,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: buttonAttributes.Array.data[6].position.y
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: buttonAttributes.Array.data[7].position.y
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: buttonAttributes.Array.data[8].position.y
-      value: -0.2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c62a3c417de7a4488d3677094d0e737, type: 2}
   m_IsPrefabParent: 0
