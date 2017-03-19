@@ -85,6 +85,83 @@ public class DashboardTests {
 		Assert.AreEqual (resizeIn, true);
 		Assert.AreEqual (filterIn, true);
 		Assert.AreEqual (closeIn, true);
+	}
 
+	[Test]
+	public void VRButtonClicked()
+	{
+		//Setup conditions
+		//create dashboard object
+		GameObject dashObj = new GameObject();
+		dashObj.AddComponent<Dashboard>();
+		Dashboard dash = dashObj.GetComponent<Dashboard>();
+
+		//initialize neccesary members of dashboard
+		//setup display
+		GameObject displayObj = new GameObject();
+		displayObj.AddComponent<Display>();
+		Display disp = displayObj.GetComponent<Display>();
+		dash.display = disp;
+
+		GameObject trayObject = new GameObject();
+		trayObject.AddComponent<Tray>();
+		disp.trayPrefab = trayObject;
+
+		GameObject thumbObject = new GameObject();
+		thumbObject.AddComponent<Thumbnail>();
+		thumbObject.AddComponent<SpriteRenderer>();
+		trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+
+		GameObject dispImgObj = new GameObject();
+		dispImgObj.AddComponent<SpriteRenderer>();
+		dispImgObj.tag = "DisplayImage";
+		disp.displayImagePrefab = dispImgObj;
+		dash.dummyImages = new Texture2D[1];
+		dash.dummyImages.SetValue (new Texture2D(5,6), 0);
+
+		//set up dashboard
+		dash.planePrefab = new GameObject();
+		dash.SetCopyButtons( new List<VRButton>());
+		GameObject buttonObj = new GameObject();
+		TextMesh btnMesh = new TextMesh ();
+		buttonObj.AddComponent<VRButton> ();
+		buttonObj.AddComponent<TextMesh> ();
+		dash.button = buttonObj.GetComponent<VRButton>();
+		dash.DisplayMenu ();
+
+		//Test VRButtonClicked with "Load" option
+		int myImages = dash.display.GetImages().Count;
+		Assert.AreEqual (0, myImages);
+		dash.VRButtonClicked("Load");
+		myImages = dash.display.GetImages().Count;
+		Assert.AreEqual (1, myImages);
+
+		//Test VRButtonClicked with "Minimize" option
+		Assert.AreEqual(false, dash.getMinimized());
+		dash.VRButtonClicked("Minimize");
+		Assert.AreEqual(true, dash.getMinimized());
+		dash.VRButtonClicked("Minimize");
+		Assert.AreEqual(false, dash.getMinimized());
+
+		//Test VRButtonClicked with "Brightness" option
+		dash.currentCopies = new List<GameObject>();
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("none"));
+		dash.VRButtonClicked("Brightness");
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Brightness"));
+
+		//Test VRButtonClicked with "Contrast" option
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Brightness"));
+		dash.VRButtonClicked("Contrast");
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Contrast"));
+
+		//Test VRButtonClicked with "Resize" option
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Contrast"));
+		dash.VRButtonClicked("Resize");
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Resize"));
+
+		//Test VRButtonClicked with "Close" option
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Resize"));
+		dash.VRButtonClicked("Close");
+		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo("Close"));
 	}
 }
