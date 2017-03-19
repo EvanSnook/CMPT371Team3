@@ -10,14 +10,18 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Dashboard : MonoBehaviour, IVRButton
 {
-	// Define where to instantiate the buttons
-	//First vector for each button contains position (x,y,z) and second contains rotation (x,y,z)
 
+	/// <summary>
+	/// Class defining where to instantiate buttons.
+	/// Holds the name, position and rotation of each button in the inspector.
+	/// </summary>
 	[System.Serializable]
 	public class ButtonAttributes {
+		// The name and text to appear on the button
 		public string buttonName;
+
+		// The local position of the button, relative to its parent plane
 		public Vector3 position;
-		public Vector3 rotation;
 
 		public string getName(){
 			return this.buttonName;
@@ -27,9 +31,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			return this.position;
 		}
 
-		public Vector3 getRotation(){
-			return this.rotation;
-		}
 	}
 
     //[SerializeField]
@@ -77,8 +78,8 @@ public class Dashboard : MonoBehaviour, IVRButton
     public Vector3 menuPlaneRotation;
 
     private GameObject copyButtonsPlane;
-    public Vector3 copyButtonsPosition;
-    public Vector3 copyButtonsRotation;
+    public Vector3 copyPlanePosition;
+    public Vector3 copyPlaneRotation;
 
     public Vector3 copyButtonsPanelScale;
     public Vector3 menuButtonsPanelScale;
@@ -98,11 +99,14 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public VRButton InitializeButton(int index, bool copyPlane=false){
 		Vector3 pos = buttonAttributes [index].getPosition ();
 		string newName = buttonAttributes [index].getName ();
-		VRButton newButton = Instantiate(button, pos,
-			Quaternion.Euler(buttonAttributes[index].getRotation()));
+		VRButton newButton;
 		if (copyPlane) {
+			newButton = Instantiate(button, pos,
+				Quaternion.Euler(copyPlaneRotation));
 			newButton.transform.parent = this.copyButtonsPlane.transform;
 		} else {
+			newButton = Instantiate(button, pos,
+				Quaternion.Euler(menuPlaneRotation));
 			newButton.transform.parent = this.menuPlane.transform;
 		}
 		newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
@@ -127,7 +131,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         this.menuPlane.transform.parent = this.gameObject.transform;
         this.menuPlane.transform.localScale = this.menuButtonsPanelScale;
 
-        this.copyButtonsPlane = Instantiate(planePrefab, this.copyButtonsPosition, Quaternion.Euler(this.copyButtonsRotation));
+        this.copyButtonsPlane = Instantiate(planePrefab, this.copyPlanePosition, Quaternion.Euler(this.copyPlaneRotation));
         this.copyButtonsPlane.transform.parent = this.gameObject.transform;
         this.copyButtonsPlane.transform.localScale = this.copyButtonsPanelScale;
 
