@@ -357,9 +357,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         // Cancel button attributes are set
         else if(buttonName == "Cancel")
         {
-            newButton.textObject.text = "Cancel";
-            newButton.path = null;
-            this.cancelButton = newButton;
+			this.cancelButton = newButton;
+			this.cancelButton.textObject.text = "Cancel";
+			this.cancelButton.path = null;
+            
         }
         else
         {

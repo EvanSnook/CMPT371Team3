@@ -13,8 +13,6 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Copy : MonoBehaviour
 {
-    // The transform of the copy object in world space
-    private Transform myTransform;
     // The component to render the image on the copy object 
     private SpriteRenderer imageRenderer;
 
@@ -97,7 +95,6 @@ public class Copy : MonoBehaviour
         Assert.IsNotNull(image);
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-        this.myTransform = this.GetComponent<Transform>();
 
 
         // Get the size of the image sprite and use it to form the bounding box
