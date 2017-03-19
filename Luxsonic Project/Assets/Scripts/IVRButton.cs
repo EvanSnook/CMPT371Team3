@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using buttons;
+
 /// <summary>
 /// The IVRButton interface is an interface to be used with the IVRButton class.  It contains
 /// the methods required to use a VRButton
@@ -16,5 +18,5 @@ public interface IVRButton
     /// it should carry out.
     /// </summary>
     /// <param name="button"></param>
-    void VRButtonClicked(string button);
+    void VRButtonClicked(ButtonType button);
 }

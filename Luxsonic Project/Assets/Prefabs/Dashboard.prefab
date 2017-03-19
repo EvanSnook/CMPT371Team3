@@ -54,34 +54,24 @@ MonoBehaviour:
   buttonAttributes:
   - buttonName: Load
     position: {x: 0, y: -0.3, z: 0}
-    rotation: {x: 30.25, y: -15.5, z: 0}
   - buttonName: Quit
     position: {x: 0, y: 0, z: 0}
-    rotation: {x: 30.25, y: -15.5, z: 0}
   - buttonName: Minimize
     position: {x: 0, y: 0.3, z: 0}
-    rotation: {x: 30.25, y: -15.5, z: 0}
   - buttonName: Contrast
     position: {x: -0.3, y: 0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Rotate
     position: {x: 0, y: 0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Zoom
     position: {x: 0.3, y: 0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Brightness
     position: {x: -0.3, y: -0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Resize
     position: {x: 0, y: -0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Filter
     position: {x: 0.3, y: -0.2, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   - buttonName: Close
     position: {x: 0, y: -0.7, z: 0}
-    rotation: {x: 30.25, y: 8.985, z: 0}
   loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
   display: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
   planePrefab: {fileID: 1584918621441566, guid: 3f50c11c0bb7c044e99d0dc0bb2e892b,
@@ -95,7 +85,7 @@ MonoBehaviour:
   currentCopies: []
   menuPlanePosition: {x: -0.3, y: -0.99, z: -0.09}
   menuPlaneRotation: {x: 30.25, y: -15.5, z: 0}
-  copyButtonsPosition: {x: 0.18402, y: -1.00372, z: -0.072259}
-  copyButtonsRotation: {x: 30.25, y: 8.985, z: 0}
+  copyPlanePosition: {x: 0.18402, y: -1.00372, z: -0.072259}
+  copyPlaneRotation: {x: 30.25, y: 8.985, z: 0}
   copyButtonsPanelScale: {x: 0.56, y: 0.26, z: 0.1}
   menuButtonsPanelScale: {x: 0.25, y: 0.26, z: 0.1}
