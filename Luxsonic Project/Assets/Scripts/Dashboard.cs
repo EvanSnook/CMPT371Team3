@@ -303,10 +303,12 @@ public class Dashboard : MonoBehaviour, IVRButton
         if (this.minimized)
         {
 			MaximizeButtons (true);
+			this.minimizeButton.textObject.text = "Minimize";
         }
         else
         {
 			MaximizeButtons (false);
+			this.minimizeButton.textObject.text = "Maximize";
         }
     }
 

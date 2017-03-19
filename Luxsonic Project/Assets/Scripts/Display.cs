@@ -120,9 +120,9 @@ public class Display : MonoBehaviour, IVRButton
     private void createScrollButtons()
     {
         // Create the left scroll button
-        CreateScrollButton("Left", this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
+        CreateScrollButton("Left", ButtonType.LEFT_BUTTON, this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
         // Create the right scroll button
-        CreateScrollButton("Right", this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
+		CreateScrollButton("Right", ButtonType.RIGHT_BUTTON, this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
     }
 
 
@@ -134,18 +134,20 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     /// <param name="buttonName">The name of the button "Left" or "Right"</param>
     /// <param name="button">the button attribute we are instantiating</param>
+	/// <param name="type">Enum representing the type of button</param> 
     /// <param name="position">position of the button</param>
     /// <param name="rotation">rotation of the button</param>
-    public void CreateScrollButton(string buttonName, VRButton button, Vector3 position, Vector3 rotation)
+    public void CreateScrollButton(string buttonName, ButtonType type, VRButton button, Vector3 position, Vector3 rotation)
     {
         button = Instantiate(buttonPrefab, position,
             Quaternion.Euler(rotation));
         button.transform.parent = gameObject.transform;
-
+		button.type = type;
         button.textObject = button.GetComponentInChildren<TextMesh>();
         button.textObject.text = buttonName;
 
         button.name = buttonName;
+		button.buttonName = buttonName;
         button.manager = this.gameObject;
     }
 
