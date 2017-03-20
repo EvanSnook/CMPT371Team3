@@ -24,7 +24,7 @@ public class CopyTests
         child.AddComponent<SpriteRenderer>();
 
         child.transform.SetParent(newCopy.transform);
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
@@ -54,7 +54,7 @@ public class CopyTests
         child.AddComponent<SpriteRenderer>();
 
         child.transform.SetParent(newCopy.transform);
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
@@ -97,7 +97,7 @@ public class CopyTests
         child.AddComponent<SpriteRenderer>();
 
         child.transform.SetParent(newCopy.transform);
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
@@ -141,7 +141,7 @@ public class CopyTests
         child.AddComponent<SpriteRenderer>();
 
         child.transform.SetParent(newCopy.transform);
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
 
         Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 

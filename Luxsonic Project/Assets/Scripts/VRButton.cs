@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using buttons;
+
 /// <summary>
 /// This class defines an interactable 3D button for use with VR
 /// A class using this button must implement the IVRButton interface
@@ -8,7 +11,9 @@ using UnityEngine;
 public class VRButton : MonoBehaviour
 {
     // Button name
-    public string name;
+    public string buttonName;
+	// Button Type
+	public ButtonType type;
     // string to store a potental path
     public string path;
     // The object that creates and contains the functionality for this button.
@@ -25,17 +30,17 @@ public class VRButton : MonoBehaviour
     // When mouve is pressed send clicked message to manager
     void OnMouseDown()
     {
-        if (name == "Directory")
+		if (type == ButtonType.DIRECTORY_BUTTON)
         {
             manager.SendMessage("EnterDirectory", path);
         }
-        else if (name == "File")
+		else if (type == ButtonType.FILE_BUTTON)
         {
             manager.SendMessage("ConvertAndSendImage", path);
         }
         else
         {
-            manager.SendMessage("VRButtonClicked", name);
+			manager.SendMessage("VRButtonClicked", type);
         }
     }
     /// <summary>
@@ -47,7 +52,7 @@ public class VRButton : MonoBehaviour
     public void SetPressed(bool val)
     {
         pressed = val;
-        if (val) manager.SendMessage("VRButtonClicked", name);
+		if (val) manager.SendMessage("VRButtonClicked", type);
     }
     /// <summary>
     /// GetPressed returns the value of pressed

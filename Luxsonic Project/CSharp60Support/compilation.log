@@ -1,0 +1,119 @@
+********************************************************************************
+*                      Friday, March 17, 2017 7:58:04 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-2eda1d4f8423c364bbd1b70922894921 
+Exit code: 1
+Elapsed time: 3.03 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (6 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\InvokeTest.cs(31,64): error CS0029: Cannot implicitly convert type 'UnityEngine.Texture2D' to 'UnityEngine.Sprite'
+2: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+4: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
+5: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
+********************************************************************************
+*                      Friday, March 17, 2017 7:59:12 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-64f1b52c6f291554f9cc7fbb0e4575dd 
+Exit code: 1
+Elapsed time: 3.02 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (6 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\InvokeTest.cs(31,13): error CS0131: The left-hand side of an assignment must be a variable, property or indexer
+2: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+4: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
+5: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
+********************************************************************************
+*                      Friday, March 17, 2017 8:01:42 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-ea420ab7cc92cd449a7ff95eaa0e728c 
+Exit code: 0
+Elapsed time: 3.68 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (5 lines):
+0: Assets\Scripts\VRButton.cs(12,19): warning CS0108: 'VRButton.name' hides inherited member 'Object.name'. Use the new keyword if hiding was intended.
+1: Assets\Scripts\Copy.cs(29,19): warning CS0649: Field 'Copy.buttonStartX' is never assigned to, and will always have its default value 0
+2: Assets\Scripts\Copy.cs(30,19): warning CS0649: Field 'Copy.buttonStartY' is never assigned to, and will always have its default value 0
+3: Assets\Scripts\SliderBar.cs(27,11): warning CS0414: The field 'SliderBar.maxPercentScale' is assigned but its value is never used
+4: Assets\Scripts\SliderBar.cs(29,8): warning CS0414: The field 'SliderBar.minPercentScale' is assigned but its value is never used
+
+- PDB to MDB conversion --------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 3.37 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Friday, March 17, 2017 8:01:52 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 6.0
+
+- Compilation -----------------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\2.0\System.Xml.dll" @Temp/UnityTempFile-fc3f22c4c1760004b853ea9580a515b1 
+Exit code: 0
+Elapsed time: 3.03 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: V:\cmpt\cswin\Desktop\GitHub\CMPT371Team3\Luxsonic Project\CSharp60Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 1.49 sec
+
+- pdb2mdb.exe output (0 lines):

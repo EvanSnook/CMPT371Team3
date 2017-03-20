@@ -3,62 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using buttons;
+
+
+
+
 /// <summary>
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
 public class Dashboard : MonoBehaviour, IVRButton
 {
+	
 
-    //[SerializeField]
-    //private float buttonWidth = 100; //commented out due to not being used
-    //[SerializeField]
-    //private float buttonHeight = 50;
+	/// <summary>
+	/// Class defining where to instantiate buttons.
+	/// Holds the name, position and rotation of each button in the inspector.
+	/// </summary>
+	[System.Serializable]
+	public class ButtonAttributes {
+		// The name and text to appear on the button
+		public string buttonName;
 
-    public GameObject loadBar;  // The file system to load images with
-    public Display display; // Creates a display object in dashboard
+		// The local position of the button, relative to its parent plane
+		public Vector3 position;
+
+		public ButtonAttributes(string n, Vector3 pos){
+			buttonName = n;
+			position = pos;
+		}
+
+
+		public string getName(){
+			return this.buttonName;
+		}
+
+		public Vector3 getPosition(){
+			return this.position;
+		}
+
+	}
+
+
+
+	// Holds the attributes for each button, indexed by the ButtonType
+	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[10];
+
+	// The file system to load images with
+    public GameObject loadBar;  
+
+	// Creates a display object in dashboard
+    public Display display; 
+
+	// Prefab for the menu planes, which hold menu buttons
     public GameObject planePrefab;
 
-
-    public Transform myTransform;
-    public VRButton button;       // The button object to use as a button
-
-    // Define where to instantiate the buttons
-    //First vector for each button contains position (x,y,z) and second contains rotation (x,y,z)
-    // These are the load, quit and minimize buttons seen on runtime
-    public Vector3 loadButtonPosition;
-    public Vector3 loadButtonRotation;
-
-    public Vector3 quitButtonPosition;
-    public Vector3 quitButtonRotation;
-
-    public Vector3 minimizeButtonPosition;
-    public Vector3 minimizeButtonRotation;
-
-    public Vector3 contrastButtonPosition;
-    public Vector3 contrastButtonRotation;
-
-    public Vector3 rotateButtonPosition;
-    public Vector3 rotateButtonRotation;
-
-    public Vector3 zoomButtonPosition;
-    public Vector3 zoomButtonRotation;
-
-    public Vector3 brightnessButtonPosition;
-    public Vector3 brightnessButtonRotation;
-
-    public Vector3 resizeButtonPosition;
-    public Vector3 resizeButtonRotation;
-
-    public Vector3 filterButtonPosition;
-    public Vector3 filterButtonRotation;
-
-    public Vector3 closeButtonPosition;
-    public Vector3 closeButtonRotation;
-
-    // The sliders position
-    public Vector3 sliderPosition;
-
+	// The button object to use for instantiating buttons
+    public VRButton button;       
 
     //Images used to test load functionality
     public Texture2D[] dummyImages;
@@ -68,40 +69,78 @@ public class Dashboard : MonoBehaviour, IVRButton
     private VRButton quitButton;
     private VRButton minimizeButton;
 
-    // the object prefab to use for the slider
-    public SliderBar sliderPrefab;
-
-    private SliderBar slider;
-
     //Are the Buttons visable to the user?
     private bool minimized = false;
 
+	// A list of the Copy objects instantiated in the workspace
     public List<GameObject> currentCopies;
 
+	// List of the buttons that can be used to modify Copy objects
     private List<VRButton> copyButtons;
 
+	// Reference to the plane holding the Load, Quit and Minimize buttons
     private GameObject menuPlane;
+
+	// Position, rotation and scale of the menu plane in world space
     public Vector3 menuPlanePosition;
     public Vector3 menuPlaneRotation;
+	public Vector3 menuPlaneScale;
 
+	// Reference to the plane holding the buttons for modifying Copy objects
     private GameObject copyButtonsPlane;
-    public Vector3 copyButtonsPosition;
-    public Vector3 copyButtonsRotation;
 
-    public Vector3 copyButtonsPanelScale;
-    public Vector3 menuButtonsPanelScale;
+	// Position, rotation and scale of the copy plan in world space
+    public Vector3 copyPlanePosition;
+    public Vector3 copyPlaneRotation;
+	public Vector3 copyPlaneScale;
 
     // The current selection, defaults to none
-    private string currentSelection = "none";
+    private ButtonType currentSelection = ButtonType.NONE;
 
+	// Built-in Unity method called at the beginning of the Scene
     public void Start()
     {
-        this.myTransform = this.GetComponent<Transform>();
         display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         this.copyButtons = new List<VRButton>();
         DisplayMenu();
     }
 
+	/// <summary>
+	/// Initializes a VRButton, given attributes of a button indexed by ButtonType.
+	/// Pre:: index must be between 0 and buttonAttributes.Length - 1
+	/// Post:: A new button has been instantiated with the correct attributes
+	/// </summary>
+	/// <returns>VRButton initialized with correct attributes.</returns>
+	/// <param name="index">The type of button as an index into buttonAttributes.</param>
+	/// <param name="copyPlane">If set to <c>true</c>, use copyPlane position and rotation;
+	/// 	otherwise, use menuPlane position and rotation.</param>
+	public VRButton InitializeButton(ButtonType index, bool copyPlane=false){
+
+		Assert.IsTrue ((int)index < buttonAttributes.Length);
+		Assert.IsTrue ((int)index >= 0);
+
+		Vector3 pos = buttonAttributes [(int)index].getPosition ();
+		string newName = buttonAttributes [(int)index].getName ();
+		VRButton newButton;
+
+		if (copyPlane) {
+			newButton = Instantiate(button, pos,
+				Quaternion.Euler(copyPlaneRotation));
+			newButton.transform.parent = this.copyButtonsPlane.transform;
+		} else {
+			newButton = Instantiate(button, pos,
+				Quaternion.Euler(menuPlaneRotation));
+			newButton.transform.parent = this.menuPlane.transform;
+		}
+		newButton.type = index;
+		newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
+		newButton.name = newName;
+		newButton.buttonName = newName;
+		newButton.manager = this.gameObject;
+		newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
+		newButton.textObject.text = newName;
+		return newButton;
+	}
 
 
     /// <summary>
@@ -114,119 +153,30 @@ public class Dashboard : MonoBehaviour, IVRButton
 
         this.menuPlane = Instantiate(planePrefab, this.menuPlanePosition, Quaternion.Euler(this.menuPlaneRotation));
         this.menuPlane.transform.parent = this.gameObject.transform;
-        this.menuPlane.transform.localScale = this.menuButtonsPanelScale;
+        this.menuPlane.transform.localScale = this.menuPlaneScale;
 
-        this.copyButtonsPlane = Instantiate(planePrefab, this.copyButtonsPosition, Quaternion.Euler(this.copyButtonsRotation));
+        this.copyButtonsPlane = Instantiate(planePrefab, this.copyPlanePosition, Quaternion.Euler(this.copyPlaneRotation));
         this.copyButtonsPlane.transform.parent = this.gameObject.transform;
-        this.copyButtonsPlane.transform.localScale = this.copyButtonsPanelScale;
+        this.copyButtonsPlane.transform.localScale = this.copyPlaneScale;
 
         // Create the load button to access the filesystem
-        this.loadButton = Instantiate(button, loadButtonPosition,
-            Quaternion.Euler(loadButtonRotation));
-        loadButton.transform.parent = this.menuPlane.transform;
-        loadButton.transform.localPosition = new Vector3(loadButtonPosition.x, loadButtonPosition.y, 0.0f);
-
-        this.loadButton.name = "Load";
-        this.loadButton.manager = this.gameObject;
-
-        this.loadButton.textObject = this.loadButton.GetComponentInChildren<TextMesh>();
-        this.loadButton.textObject.text = "Load";
-
-
+		this.loadButton = InitializeButton(ButtonType.LOAD_BUTTON);
 
         // Create the Quit button 
-        this.quitButton = Instantiate(button, quitButtonPosition,
-            Quaternion.Euler(quitButtonRotation));
-        quitButton.transform.parent = this.menuPlane.transform;
-        quitButton.transform.localPosition = new Vector3(quitButtonPosition.x, quitButtonPosition.y, 0.0f);
-
-        this.quitButton.name = "Quit";
-        this.quitButton.manager = this.gameObject;
-        this.quitButton.textObject = this.quitButton.GetComponentInChildren<TextMesh>();
-        this.quitButton.textObject.text = "Quit";
+		this.quitButton = InitializeButton(ButtonType.QUIT_BUTTON);
 
         // Create the Minimize button 
-        this.minimizeButton = Instantiate(button, minimizeButtonPosition,
-            Quaternion.Euler(minimizeButtonRotation));
-        minimizeButton.transform.parent = this.menuPlane.transform;
-        minimizeButton.transform.localPosition = new Vector3(minimizeButtonPosition.x, minimizeButtonPosition.y, 0.0f);
+		this.minimizeButton = InitializeButton(ButtonType.MINIMIZE_BUTTON);
 
+        // Create the Copy modification buttons
+		copyButtons.Add(InitializeButton(ButtonType.CONTRAST_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.ROTATE_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
 
-        this.minimizeButton.name = "Minimize";
-        this.minimizeButton.manager = this.gameObject;
-        this.minimizeButton.textObject = this.minimizeButton.GetComponentInChildren<TextMesh>();
-        this.minimizeButton.textObject.text = "Minimize";
-
-        // Create the buttons
-        VRButton contrastButton = Instantiate(button, this.copyButtonsPlane.transform.position + contrastButtonPosition, Quaternion.Euler(this.contrastButtonRotation));
-        contrastButton.name = "Contrast";
-        contrastButton.manager = this.gameObject;
-        contrastButton.textObject = contrastButton.GetComponentInChildren<TextMesh>();
-        contrastButton.textObject.text = "Contrast";
-        contrastButton.transform.parent = this.copyButtonsPlane.transform;
-        contrastButton.transform.localPosition = new Vector3(contrastButtonPosition.x, contrastButtonPosition.y, 0.0f);
-
-
-        VRButton rotateButton = Instantiate(button, this.copyButtonsPlane.transform.position + rotateButtonPosition, Quaternion.Euler(this.rotateButtonRotation));
-        rotateButton.name = "Rotate";
-        rotateButton.manager = this.gameObject;
-        rotateButton.textObject = rotateButton.GetComponentInChildren<TextMesh>();
-        rotateButton.textObject.text = "Rotate";
-        rotateButton.transform.position = this.rotateButtonPosition + this.copyButtonsPlane.transform.position;
-        rotateButton.transform.parent = this.copyButtonsPlane.transform;
-        rotateButton.transform.localPosition = new Vector3(rotateButtonPosition.x, rotateButtonPosition.y, 0.0f);
-
-
-        VRButton zoomButton = Instantiate(button, this.copyButtonsPlane.transform.position + zoomButtonPosition, Quaternion.Euler(this.zoomButtonRotation));
-        zoomButton.name = "Zoom";
-        zoomButton.manager = this.gameObject;
-        zoomButton.textObject = zoomButton.GetComponentInChildren<TextMesh>();
-        zoomButton.textObject.text = "Zoom";
-        zoomButton.transform.parent = this.copyButtonsPlane.transform;
-        zoomButton.transform.localPosition = new Vector3(zoomButtonPosition.x, zoomButtonPosition.y, 0.0f);
-
-        VRButton brightnessButton = Instantiate(button, this.copyButtonsPlane.transform.position + brightnessButtonPosition, Quaternion.Euler(this.brightnessButtonRotation));
-        brightnessButton.name = "Brightness";
-        brightnessButton.manager = this.gameObject;
-        brightnessButton.textObject = brightnessButton.GetComponentInChildren<TextMesh>();
-        brightnessButton.textObject.text = "Brightness";
-        brightnessButton.transform.parent = this.copyButtonsPlane.transform;
-        brightnessButton.transform.localPosition = new Vector3(brightnessButtonPosition.x, brightnessButtonPosition.y, 0.0f);
-
-        VRButton resizeButton = Instantiate(button, this.copyButtonsPlane.transform.position + resizeButtonPosition, Quaternion.Euler(this.resizeButtonRotation));
-        resizeButton.name = "Resize";
-        resizeButton.manager = this.gameObject;
-        resizeButton.textObject = resizeButton.GetComponentInChildren<TextMesh>();
-        resizeButton.textObject.text = "Resize";
-        resizeButton.transform.parent = this.copyButtonsPlane.transform;
-        resizeButton.transform.localPosition = new Vector3(resizeButtonPosition.x, resizeButtonPosition.y, 0.0f);
-
-        VRButton filterButton = Instantiate(button, this.copyButtonsPlane.transform.position + filterButtonPosition, Quaternion.Euler(this.filterButtonRotation));
-        filterButton.name = "Filter";
-        filterButton.manager = this.gameObject;
-        filterButton.textObject = filterButton.GetComponentInChildren<TextMesh>();
-        filterButton.textObject.text = "Filter";
-        filterButton.transform.parent = this.copyButtonsPlane.transform;
-        filterButton.transform.localPosition = new Vector3(filterButtonPosition.x, filterButtonPosition.y, 0.0f);
-
-        VRButton closeButton = Instantiate(button, this.copyButtonsPlane.transform.position + closeButtonPosition, Quaternion.Euler(this.closeButtonRotation));
-        closeButton.name = "Close";
-        closeButton.manager = this.gameObject;
-        closeButton.textObject = closeButton.GetComponentInChildren<TextMesh>();
-        closeButton.textObject.text = "Close";
-        closeButton.transform.parent = this.copyButtonsPlane.transform;
-        closeButton.transform.localPosition = new Vector3(closeButtonPosition.x, closeButtonPosition.y, 0.0f);
-
-        //this.slider = Instantiate(this.sliderPrefab, this.sliderPosition, new Quaternion(0, 0, 0, 0));
-
-        // Add the buttons to the list of buttons
-        copyButtons.Add(contrastButton);
-        copyButtons.Add(rotateButton);
-        copyButtons.Add(zoomButton);
-        copyButtons.Add(brightnessButton);
-        copyButtons.Add(resizeButton);
-        copyButtons.Add(filterButton);
-        copyButtons.Add(closeButton);
     }
 
     /// <summary>
@@ -236,40 +186,40 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// Return:: nothing
     /// </summary>
     /// <param name="button">The name of the button</param>
-    public void VRButtonClicked(string button)
+    public void VRButtonClicked(ButtonType button)
     {
         switch (button)
         {
-            case "Load":
+            case ButtonType.LOAD_BUTTON:
                 // If the load button was clicked
                 Load();
                 break;
-            case "Quit":
+            case ButtonType.QUIT_BUTTON:
                 // If the quit button was clicked
                 Quit();
                 break;
-            case "Minimize":
+            case ButtonType.MINIMIZE_BUTTON:
                 // If the minimize button was clicked
                 Minimize();
                 break;
 
-            case "Brightness":
-                this.currentSelection = "Brightness";
+			case ButtonType.BRIGHTNESS_BUTTON:
+				this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
-            case "Contrast":
-                this.currentSelection = "Contrast";
+            case ButtonType.CONTRAST_BUTTON:
+                this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
-            case "Resize":
-                this.currentSelection = "Resize";
+            case ButtonType.RESIZE_BUTTON:
+                this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
-            case "Close":
-                this.currentSelection = "Close";
+            case ButtonType.CLOSE_BUTTON:
+                this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
@@ -352,37 +302,36 @@ public class Dashboard : MonoBehaviour, IVRButton
     {
         if (this.minimized)
         {
-
-            this.loadButton.gameObject.SetActive(true);
-            this.quitButton.gameObject.SetActive(true);
-            //this.display.gameObject.SetActive(true);
-            foreach (VRButton button in copyButtons)
-            {
-                button.gameObject.SetActive(true);
-            }
-
-            //this.slider.gameObject.SetActive(true);
-            this.minimized = false;
-
-
+			MaximizeButtons (true);
+			this.minimizeButton.textObject.text = "Minimize";
         }
         else
         {
-
-            this.loadButton.gameObject.SetActive(false);
-            this.quitButton.gameObject.SetActive(false);
-            //this.display.gameObject.SetActive(false);
-
-            foreach (VRButton button in copyButtons)
-            {
-                button.gameObject.SetActive(false);
-            }
-            //this.slider.gameObject.SetActive(false);
-            this.minimized = true;
+			MaximizeButtons (false);
+			this.minimizeButton.textObject.text = "Maximize";
         }
     }
 
-	//for testing purposes
+
+	/// <summary>
+	/// Helper function for Minimize(). Sets menu and buttons active or not active based on the
+	/// mode parameter.
+	/// Pre:: nothing
+	/// Post:: Buttons and menus set to either Active or not Active.
+	/// Return:: nothing
+	/// </summary>
+	/// <param name="mode">If set to <c>true</c>, enable the menu and buttons; 
+	/// otherwise disable them.</param>
+	public void MaximizeButtons(bool mode){
+		this.loadButton.gameObject.SetActive(mode);
+		this.quitButton.gameObject.SetActive(mode);
+		foreach (VRButton cButton in copyButtons)
+		{
+			cButton.gameObject.SetActive(mode);
+		}
+		this.minimized = !mode;
+	}
+
     public void SetCopyButtons(List<VRButton> theList)
     {
         this.copyButtons = theList;
@@ -394,7 +343,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	}
 
 	//for testing purposes
-	public string getCurrentSelection(){
+	public ButtonType getCurrentSelection(){
 		return this.currentSelection;
 	}
 

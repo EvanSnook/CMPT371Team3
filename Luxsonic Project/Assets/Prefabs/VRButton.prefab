@@ -178,7 +178,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1496408688627192}
-  m_Text: Hello World
+  m_Text: Close
   m_OffsetZ: 0
   m_CharacterSize: 2.41
   m_LineSpacing: 1
@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7862dd41a174a5a4b87095c6277aa83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  buttonName: 
+  type: 0
   path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}

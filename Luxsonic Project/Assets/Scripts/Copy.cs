@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using buttons;
 
 /// <summary>
 /// A script to be attached to objects that are to be displayed to the user.
@@ -13,8 +14,6 @@ using UnityEngine.Assertions;
 /// </summary>
 public class Copy : MonoBehaviour
 {
-    // The transform of the copy object in world space
-    private Transform myTransform;
     // The component to render the image on the copy object 
     private SpriteRenderer imageRenderer;
 
@@ -97,7 +96,6 @@ public class Copy : MonoBehaviour
         Assert.IsNotNull(image);
         this.imageRenderer = this.GetComponent<SpriteRenderer>();
         this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
-        this.myTransform = this.GetComponent<Transform>();
 
 
         // Get the size of the image sprite and use it to form the bounding box
@@ -161,36 +159,36 @@ public class Copy : MonoBehaviour
     /// <pre>A VR button whose manager is the copy has been pressed</pre>
     /// <post>An action is executed, depending on the selected button</post>
     /// <param name="button">The name of the button clicked</param>
-    public void NewOptions(string button)
+    public void NewOptions(ButtonType button)
     {
-        Assert.IsNotNull(button);
+        Assert.IsFalse(button == ButtonType.NONE);
         switch (button)
         {
-            case "Contrast":    // Contrast button clicked
+			case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
                 this.currentSelection = CurrentSelection.contrast;
                 break;
 
-            case "Rotate":    // Rotate button clicked
+            case ButtonType.ROTATE_BUTTON:    // Rotate button clicked
                 // TODO: Implement Rotate code
                 break;
 
-            case "Zoom":    // Zoom button clicked
+            case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
                 // TODO: Implement Zoom code
                 break;
 
-            case "Brightness":    // Brightness button clicked
+            case ButtonType.BRIGHTNESS_BUTTON:    // Brightness button clicked
                 this.currentSelection = CurrentSelection.brightness;
                 break;
 
-            case "Resize":    // Resize button clicked
+            case ButtonType.RESIZE_BUTTON:    // Resize button clicked
                 this.currentSelection = CurrentSelection.resize;
                 break;
 
-            case "Filter":    // Filter button clicked
+            case ButtonType.FILTER_BUTTON:    // Filter button clicked
                 // TODO: Implement Filter code
                 break;
 
-            case "Close":    // Close button clicked
+            case ButtonType.CLOSE_BUTTON:    // Close button clicked
                 this.currentSelection = CurrentSelection.close;
                 this.gameObject.SetActive(false);
                 //DestroyImmediate(this.gameObject);
