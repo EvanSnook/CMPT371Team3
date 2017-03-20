@@ -165,6 +165,10 @@ public class TouchAndGrab : MonoBehaviour
         {
             Grab();
         }
+        else if ((_isHolding) && ((Input.GetAxis(grabTrigger) < 1) || (Input.GetAxis(indexTrigger) < 1)))
+        {
+            Drop();
+        }
     }
 
 
@@ -180,11 +184,6 @@ public class TouchAndGrab : MonoBehaviour
         if (other.tag == "MenuButton")
         {
             other.gameObject.GetComponent<VRButton>().SetPressed(false);
-        }   
-
-        if ((!_isHolding) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
-        {
-            Drop();
         }
         else if (other.tag == "Thumbnail")
         {
