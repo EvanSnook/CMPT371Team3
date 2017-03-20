@@ -1,0 +1,8 @@
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\Debug\DICOMConverter.exe.config
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\Debug\DICOMConverter.exe
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\Debug\DICOMConverter.pdb
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\Debug\Dicom.Core.dll
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\Debug\Dicom.Core.pdb
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\Debug\DICOMConverter.csprojResolveAssemblyReference.cache
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\Debug\DICOMConverter.exe
+c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\Debug\DICOMConverter.pdb

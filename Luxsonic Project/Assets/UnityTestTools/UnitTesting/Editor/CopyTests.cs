@@ -16,86 +16,163 @@ public class CopyTests
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
 
         Copy newCopy = copyObj.GetComponent<Copy>();
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
 
-        newCopy.SetCopyMaterial(mat);
+        child.transform.SetParent(newCopy.transform);
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
+
         Texture2D tex = new Texture2D(100, 100);
 
         newCopy.NewCopy(tex);
 
         // The properties of the display should not be null
-        Assert.IsNotNull(newCopy.myTransform, "The transform on the new display is Null");
-        Assert.AreEqual(tex, newCopy.GetComponent<MeshRenderer>().sharedMaterial.GetTexture("_MainTex"),
+        Assert.IsNotNull(newCopy.transform, "The transform on the new display is Null");
+        Assert.AreEqual(tex, newCopy.GetComponent<SpriteRenderer>().sprite.texture,
                             "Image in copy does not match image assigned");
     }
 
     [Test]
-    // Test the Display and Hide buttons functions by checking
-    // the size of the display's button list.
-    public void TestDisplayAndHideButtons()
+    public void TestBrightness()
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
+
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
+
         Texture2D tex = new Texture2D(100, 100);
-
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
-
-        newCopy.SetCopyMaterial(mat);
-
-        GameObject buttonObj = new GameObject();
-        buttonObj.AddComponent<VRButton>();
-        newCopy.buttonPrefab = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 
-        newCopy.DisplayButtons();
+        // Increase the brightness
+        float originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
 
-        // The size of the button list should be greater than 0
-        Assert.Greater(newCopy.GetButtons().Count, 0, "The list of buttons for the display was empty");
-        Assert.AreEqual(newCopy.GetButtons().Count, 7, "The correct number of buttons have not been created");
-        newCopy.HideButtons();
+        newCopy.TestPrivateAttributes(1, "brightness");
 
-        // The size of the button list should be 0
-        Assert.AreEqual(newCopy.GetButtons().Count, 0, "The list of buttons was not cleared properly");
+        float newBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        Assert.AreEqual(originalBrightness + newCopy.GetBrightnessConst(), newBrightness);
+
+        // Decrease the brightness
+        originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        newCopy.TestPrivateAttributes(-1, "brightness");
+
+        newBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        Assert.AreEqual(originalBrightness - newCopy.GetBrightnessConst(), newBrightness);
     }
 
     [Test]
-    // Test the functionality button clicks and make sure the
-    // switch cases work
-    public void TestVRButtonClicks()
+    public void TestContrast()
     {
         GameObject copyObj = new GameObject();
         copyObj.AddComponent<Copy>();
-        copyObj.AddComponent<MeshRenderer>();
+        copyObj.AddComponent<SpriteRenderer>();
         copyObj.AddComponent<BoxCollider>();
+
         Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
+
         Texture2D tex = new Texture2D(100, 100);
-
-        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
-
-        newCopy.SetCopyMaterial(mat);
-
-        GameObject buttonObj = new GameObject();
-        buttonObj.AddComponent<VRButton>();
-        newCopy.buttonPrefab = buttonObj.GetComponent<VRButton>();
 
         newCopy.NewCopy(tex);
 
-        newCopy.DisplayButtons();
+        // Increase the contrast
+        float originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
 
-        Assert.AreEqual(newCopy.GetButtons().Count, 7, "The correct number of buttons do not exist");
+        newCopy.TestPrivateAttributes(1, "contrast");
 
-        newCopy.VRButtonClicked("Close");
+        float newContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
 
-        Assert.AreEqual(newCopy.GetButtons().Count, 0, "Close case in VRButtonClicks() failed");
+        Assert.AreEqual(originalContrast + newCopy.GetContrastConst(), newContrast);
+
+        // decrease the contrast
+        originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        newCopy.TestPrivateAttributes(-1, "contrast");
+
+        newContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        Assert.AreEqual(originalContrast - newCopy.GetContrastConst(), newContrast);
     }
+
+    [Test]
+    // Test the resize functionality of copy
+    public void TestResize()
+    {
+        GameObject copyObj = new GameObject();
+        copyObj.AddComponent<Copy>();
+        copyObj.AddComponent<SpriteRenderer>();
+        copyObj.AddComponent<BoxCollider>();
+
+        Copy newCopy = copyObj.GetComponent<Copy>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(newCopy.transform);
+//        Material mat = (Material)AssetDatabase.LoadAssetAtPath("Assets/Resources/Materials/Red.mat", typeof(Material));
+
+        Shader shad = (Shader)AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        newCopy.curShader = shad;
+        Assert.IsNotNull(newCopy.curShader);
+
+
+        Texture2D tex = new Texture2D(100, 100);
+
+        newCopy.NewCopy(tex);
+
+        // Increase the size
+        Vector3 originalSize = newCopy.transform.localScale;
+
+        newCopy.TestPrivateAttributes(1, "resize");
+
+        Vector3 newSize = newCopy.transform.localScale;
+
+        Assert.AreEqual(originalSize * newCopy.GetResizeScale(), newSize);
+
+        // Decrease the size
+        originalSize = newCopy.transform.localScale;
+
+        newCopy.TestPrivateAttributes(-1, "resize");
+
+        newSize = newCopy.transform.localScale;
+
+        Assert.AreEqual(originalSize / newCopy.GetResizeScale(), newSize);
+    }
+
+    
 }
    
 
