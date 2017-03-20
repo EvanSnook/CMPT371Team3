@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4808385075304406}
   - component: {fileID: 23208273623493734}
   - component: {fileID: 102128343087647346}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Button Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 23750761716645212}
   - component: {fileID: 114479172734115492}
   - component: {fileID: 54712896265217204}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: VRButton
   m_TagString: MenuButton
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1511015417420994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 442.9, y: 130.73914, z: -601.6}
-  m_LocalScale: {x: 100, y: 50, z: 10}
+  m_LocalScale: {x: 0.15, y: 0.05, z: 0.02}
   m_Children:
   - {fileID: 4808385075304406}
   m_Father: {fileID: 0}
@@ -178,7 +178,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1496408688627192}
-  m_Text: Hello World
+  m_Text: Close
   m_OffsetZ: 0
   m_CharacterSize: 2.41
   m_LineSpacing: 1
@@ -203,6 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7862dd41a174a5a4b87095c6277aa83b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  buttonName: 
+  type: 0
+  path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}

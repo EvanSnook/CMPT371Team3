@@ -4,6 +4,8 @@ using System;
 using UnityEngine;
 using NUnit.Framework;
 
+using buttons;
+
 [TestFixture]
 [Category("System Tests")]
 public class SystemTests : MonoBehaviour {
@@ -32,7 +34,7 @@ public class SystemTests : MonoBehaviour {
 		Display testDisplay = new Display ();
 
 		dashboard.display = testDisplay;
-		dashboard.VRButtonClicked ("Load"); // Load in the default images.
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON); // Load in the default images.
 		testDisplay.CreateCopy(testDisplay.GetImages()[0]); // Creating the first copy
 
 		//Ensure image is same.... && Game object is different... 
@@ -50,7 +52,7 @@ public class SystemTests : MonoBehaviour {
 		Dashboard dashboard = new Dashboard ();
 		Display testDisplay = new Display ();
 		dashboard.display = testDisplay;
-		dashboard.VRButtonClicked ("Load"); // Load in the default images.
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON); // Load in the default images.
 		testDisplay.CreateCopy(testDisplay.GetImages()[0]); 
 
 		Sprite tSprite = GameObject.FindGameObjectsWithTag("Thumbnail")[0].GetComponent<SpriteRenderer>().sprite;
@@ -69,10 +71,10 @@ public class SystemTests : MonoBehaviour {
 		Dashboard dashboard = new Dashboard ();
 		Display testDisplay = new Display ();
 		dashboard.display = testDisplay;
-		dashboard.VRButtonClicked ("Load"); // Load in the default images.
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON); // Load in the default images.
 		testDisplay.CreateCopy (testDisplay.GetImages () [0]); 
 		Copy testCopy = GameObject.FindGameObjectsWithTag("Copy")[0].GetComponent<Copy>();
-		testCopy.VRButtonClicked ("Close");
+		testCopy.NewOptions (ButtonType.CLOSE_BUTTON);
 
 		// Tests there are zero copies in workspace.
 		int copiesInWorkspace = GameObject.FindGameObjectsWithTag ("Copy").Length;
@@ -94,10 +96,10 @@ public class SystemTests : MonoBehaviour {
 		Display testDisplay = new Display ();
 		dashboard.display = testDisplay;
 		//load 4 images to active left and right buttons
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
 
 		bool leftButtonSuccess = false;
 		bool rightButtonSuccess = false;
@@ -119,7 +121,7 @@ public class SystemTests : MonoBehaviour {
 		GameObject[] displayImagesList = GameObject.FindGameObjectsWithTag ("DisplayImage");
 		GameObject firstImageInList = displayImagesList [0];
 		GameObject secondImageInList = displayImagesList [1];
-		testDisplay.VRButtonClicked ("Left");
+		testDisplay.VRButtonClicked (ButtonType.LEFT_BUTTON);
 		int size = displayImagesList.Length;
 
 		//Assert first element has moved to end and second element has taken first spot.
@@ -135,10 +137,10 @@ public class SystemTests : MonoBehaviour {
 		Display testDisplay = new Display ();
 		dashboard.display = testDisplay;
 		//load 4 images to active left and right buttons
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
-		dashboard.VRButtonClicked ("Load");
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
+		dashboard.VRButtonClicked (ButtonType.LOAD_BUTTON);
 
 		bool leftButtonSuccess = false;
 		bool rightButtonSuccess = false;
@@ -162,7 +164,7 @@ public class SystemTests : MonoBehaviour {
 
 		GameObject lastImageInList = displayImagesList [size-1];
 		GameObject firstImageInList = displayImagesList [0];
-		testDisplay.VRButtonClicked ("Right");
+		testDisplay.VRButtonClicked (ButtonType.RIGHT_BUTTON);
 
 		Assert.AreEqual(lastImageInList, displayImagesList[0]);
 		Assert.AreEqual(firstImageInList, displayImagesList[1]);
@@ -186,7 +188,7 @@ public class SystemTests : MonoBehaviour {
 		}
 */ 
 		// Assert that a NullReferenceException is thrown when button is clicked "left"
-		Assert.Throws<NullReferenceException>( () => testDisplay.VRButtonClicked ("Left"));
+		Assert.Throws<NullReferenceException>( () => testDisplay.VRButtonClicked (ButtonType.LEFT_BUTTON));
 
 		// Ensure there are no images or thumbnails in the workspace.
 		int amountOfImagesOnDisplay = GameObject.FindGameObjectsWithTag ("DisplayImage").Length;
@@ -213,7 +215,7 @@ public class SystemTests : MonoBehaviour {
 		}
 */
 		// Assert that a NullReferenceException is thrown when button is clicked "Right"
-		Assert.Throws<NullReferenceException>( () => testDisplay.VRButtonClicked ("Right"));
+		Assert.Throws<NullReferenceException>( () => testDisplay.VRButtonClicked (ButtonType.RIGHT_BUTTON));
 
 		int amountOfImagesOnDisplay = GameObject.FindGameObjectsWithTag ("DisplayImage").Length;
 		Assert.AreEqual(amountOfImagesOnDisplay, 0);

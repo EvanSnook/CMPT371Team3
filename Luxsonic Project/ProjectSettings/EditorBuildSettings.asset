@@ -6,14 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ID2_Default.unity
-  - enabled: 0
-    path: Assets/Scenes/Id2_DisplayScene.unity
-  - enabled: 0
-    path: Assets/Scenes/ID2_Grab.unity
-  - enabled: 0
-    path: Assets/Scenes/ID2_Load.unity
-  - enabled: 1
-    path: Assets/Scenes/ID3_Windows.unity
-  - enabled: 1
-    path: Assets/Scenes/ID3_Demo.unity
+    path: Assets/Scenes/ID4Scenes/ID4_demo.unity

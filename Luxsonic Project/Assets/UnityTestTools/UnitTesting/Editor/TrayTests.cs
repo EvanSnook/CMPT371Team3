@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 [TestFixture]
 [Category("Unit Tests")]
-public class TrayTests : MonoBehaviour {
+public class TrayTests : MonoBehaviour
+{
 
     [Test]
     public void TestUpdateTray()
@@ -34,7 +35,9 @@ public class TrayTests : MonoBehaviour {
         textures.Add(tex2);
         textures.Add(tex3);
 
-        trayObject.GetComponent<Tray>().UpdateTray(textures);
+        trayObject.GetComponent<Tray>().UpdateTray(tex1);
+        trayObject.GetComponent<Tray>().UpdateTray(tex2);
+        trayObject.GetComponent<Tray>().UpdateTray(tex3);
         // The tray should have 3 thumbnails in its list
         Assert.AreEqual(3, trayObject.GetComponent<Tray>().GetThumbnails().Count, "The list of thumbnails in the tray is empty.");
     }

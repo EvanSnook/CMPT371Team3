@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
 using NSubstitute;
+using System.IO;
 
 [TestFixture]
 [Category("Unit Tests")]
-public class DisplayTests{
+public class DisplayTests
+{
 
     [Test]
     public void TestAddImage()
@@ -18,7 +20,7 @@ public class DisplayTests{
 
         GameObject trayObject = new GameObject();
         trayObject.AddComponent<Tray>();
-        
+
 
 
         GameObject thumbObject = new GameObject();
@@ -59,18 +61,27 @@ public class DisplayTests{
         trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
         disp.trayPrefab = trayObject;
 
-        disp.CreateTray();
+        FileInfo file = new FileInfo(@"Assets/resources/Test.png");
+
+        byte[] dicomImage = File.ReadAllBytes(file.ToString());
+
+        Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
+        //From bytes, this is where we will call and write the code to decipher DICOMs
+        Texture2D image = new Texture2D(1000, 1000);
+
+        disp.CreateTray(image);
         Assert.IsTrue(disp.GetComponent<Display>().trayCreated, "The tray was not created.");
-        
+
     }
 
-    /*
+
     [Test]
+    [Ignore("Test has some life issues.")]
     public void TestCreateDisplay()
     {
-        GameObject mannyObj = new GameObject();
-        mannyObj.AddComponent<ImageManager>();
-        ImageManager manny = mannyObj.GetComponent<ImageManager>();
+//        GameObject mannyObj = new GameObject();
+        //mannyObj.AddComponent<ImageManager>();
+        //ImageManager manny = mannyObj.GetComponent<ImageManager>();
 
 
         GameObject thumbObject = new GameObject();
@@ -82,16 +93,16 @@ public class DisplayTests{
         dispObject.AddComponent<SpriteRenderer>();
         dispObject.AddComponent<BoxCollider>();
 
-        Texture2D tex = new Texture2D(100, 100);
+//        Texture2D tex = new Texture2D(100, 100);
 
-        manny.thumbnail = thumbObject;
-        manny.displayObj = dispObject;
+        //manny.thumbnail = thumbObject;
+        //manny.displayObj = dispObject;
         Camera cam = new Camera();
         cam = Camera.main;
-        manny.CreateDisplay(tex);
+        // manny.CreateDisplay(tex);
 
         // The list of displays should not be empty
-        Assert.Greater(manny.GetDisplays().Count, 0, "The list of displays in the Image Manager is empty.");
+        //Assert.Greater(manny.GetDisplays().Count, 0, "The list of displays in the Image Manager is empty.");
     }
-    */
+
 }
