@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 114000010372160784}
   - component: {fileID: 136243272993092920}
   - component: {fileID: 114394364977268570}
+  - component: {fileID: 136682299758940830}
   m_Layer: 0
   m_Name: hand_right
   m_TagString: Hand
@@ -301,6 +302,7 @@ GameObject:
   - component: {fileID: 114000011404857786}
   - component: {fileID: 136779445565514990}
   - component: {fileID: 114073546616330546}
+  - component: {fileID: 136459400295978916}
   m_Layer: 0
   m_Name: hand_left
   m_TagString: Hand
@@ -435,7 +437,7 @@ MonoBehaviour:
   grabTrigger: LFistTrigger
   indexTrigger: LIndexTrigger
   oppositeHandObject: {fileID: 1000010482306814}
-  _object: {fileID: 0}
+  _grabbedObject: {fileID: 0}
   _sphereRadius: 0.1
   _someMask:
     serializedVersion: 2
@@ -455,7 +457,7 @@ MonoBehaviour:
   grabTrigger: RFistTrigger
   indexTrigger: RIndexTrigger
   oppositeHandObject: {fileID: 1000011125779090}
-  _object: {fileID: 0}
+  _grabbedObject: {fileID: 0}
   _sphereRadius: 0.1
   _someMask:
     serializedVersion: 2
@@ -493,10 +495,36 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 0.22
+  m_Radius: 0.01
+  m_Height: 0.2
   m_Direction: 2
-  m_Center: {x: 0.02, y: -0.02, z: -0.02}
+  m_Center: {x: 0.037, y: -0.005, z: -0.025}
+--- !u!136 &136459400295978916
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011125779090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.16
+  m_Direction: 2
+  m_Center: {x: -0.03, y: -0.03, z: -0.05}
+--- !u!136 &136682299758940830
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010482306814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.03
+  m_Height: 0.16
+  m_Direction: 2
+  m_Center: {x: 0.03, y: -0.03, z: -0.05}
 --- !u!136 &136779445565514990
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -506,7 +534,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.06
-  m_Height: 0.22
+  m_Radius: 0.01
+  m_Height: 0.2
   m_Direction: 2
-  m_Center: {x: -0.02, y: -0.02, z: -0.02}
+  m_Center: {x: -0.037, y: -0.005, z: -0.025}
