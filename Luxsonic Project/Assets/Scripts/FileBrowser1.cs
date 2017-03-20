@@ -5,11 +5,14 @@ using UnityEngine.Assertions;
 using System.IO;
 using System;
 
-
+/// <summary>
+/// The FileBrowser1 class represents the script for generating a virtual filebrowser that the user can
+/// navigate to seach for image and dicom files for use in the program
+/// </summary>
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
-    // Position of the Camera
-    Transform cameraPosition;
+//    // Position of the Camera
+//    Transform cameraPosition;
 
     // Reference to the Display
     GameObject display;
@@ -60,7 +63,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     void Start()
     {
         // We want the file browser to eventually be fixated on the user
-        cameraPosition = GameObject.FindGameObjectWithTag("MainCamera").transform;
+//        cameraPosition = GameObject.FindGameObjectWithTag("MainCamera").transform;
         display = GameObject.FindGameObjectWithTag("Display");
         // Get the current Directory
         currentDirectory = Directory.GetCurrentDirectory().ToString();

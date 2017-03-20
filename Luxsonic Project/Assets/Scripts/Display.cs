@@ -18,6 +18,7 @@ public class Display : MonoBehaviour, IVRButton
 
     // The list of images that have been loaded 
     List<Texture2D> images = new List<Texture2D>();
+
     // The list of display images that the user will be able to scroll through
     LinkedList<GameObject> displayImages = new LinkedList<GameObject>();
 
@@ -101,7 +102,7 @@ public class Display : MonoBehaviour, IVRButton
             }
         }
 
-        CreateTray();
+        CreateTray(image);
     }
 
 
@@ -115,33 +116,33 @@ public class Display : MonoBehaviour, IVRButton
     private void createScrollButtons()
     {
         // Create the left scroll button
-        VRButton leftScrollButton = Instantiate(buttonPrefab, leftScrollPosition,
-            Quaternion.Euler(leftScrollRotation));
-        leftScrollButton.transform.parent = gameObject.transform;
-
-        this.leftScrollButton = leftScrollButton;
-
-        this.leftScrollButton.name = "Left";
-
-        this.leftScrollButton.textObject = this.leftScrollButton.GetComponentInChildren<TextMesh>();
-        this.leftScrollButton.textObject.text = "Left";
-
-        this.leftScrollButton.manager = this.gameObject;
-
+        CreateScrollButton("Left", this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
         // Create the right scroll button
-        VRButton rightScrollButton = Instantiate(buttonPrefab, rightScrollPosition,
-            Quaternion.Euler(rightScrollRotation));
-        rightScrollButton.transform.parent = gameObject.transform;
-
-        this.rightScrollButton = rightScrollButton;
-
-        this.rightScrollButton.textObject = this.rightScrollButton.GetComponentInChildren<TextMesh>();
-        this.rightScrollButton.textObject.text = "Right";
-
-        this.rightScrollButton.name = "Right";
-        this.rightScrollButton.manager = this.gameObject;
+        CreateScrollButton("Right", this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
+    }
 
 
+    /// <summary>
+    /// CreateScrollButton will create a single instance of a scroll button
+    /// Pre:: buttonPrefab must not be null
+    /// Post:: creation of a new scroll button
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="buttonName">The name of the button "Left" or "Right"</param>
+    /// <param name="button">the button attribute we are instantiating</param>
+    /// <param name="position">position of the button</param>
+    /// <param name="rotation">rotation of the button</param>
+    public void CreateScrollButton(string buttonName, VRButton button, Vector3 position, Vector3 rotation)
+    {
+        button = Instantiate(buttonPrefab, position,
+            Quaternion.Euler(rotation));
+        button.transform.parent = gameObject.transform;
+
+        button.textObject = button.GetComponentInChildren<TextMesh>();
+        button.textObject.text = buttonName;
+
+        button.name = buttonName;
+        button.manager = this.gameObject;
     }
 
     /// <summary>
@@ -151,21 +152,22 @@ public class Display : MonoBehaviour, IVRButton
     /// Post: a new Tray instantiated and added to the hierarchy
     /// Return:: nothing
     /// </summary>
-    public void CreateTray()
+    public void CreateTray(Texture2D image)
     {
         // If a Tray does not exist already, create a Tray
         if (!trayCreated)
         {
             GameObject newTray = Instantiate(trayPrefab, trayPosition, Quaternion.Euler(trayRotation));
             newTray.transform.parent = gameObject.transform;
+
             this.tray = newTray.GetComponent<Tray>();
             this.tray.manager = this;
-            this.tray.UpdateTray(this.images);
+            this.tray.Setup(image);
             this.trayCreated = true;
         }
         else
         {
-            this.tray.UpdateTray(this.images);
+            this.tray.UpdateTray(image);
         }
     }
 
@@ -242,11 +244,14 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollLeft()
     {
-        GameObject temp = displayImages.First.Value;
-        temp.SetActive(false);
-        displayImages.RemoveFirst();
-        displayImages.AddLast(temp);
-        redrawDisplayImages();
+        if (this.images.Count >= this.displayImagePositions.Length)
+        {
+            GameObject temp = displayImages.First.Value;
+            temp.SetActive(false);
+            displayImages.RemoveFirst();
+            displayImages.AddLast(temp);
+            redrawDisplayImages();
+        }
     }
 
     /// <summary>
@@ -258,17 +263,20 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollRight()
     {
-        GameObject temp = displayImages.Last.Value;
-        LinkedListNode<GameObject> t2 = displayImages.First;
-        // Start from the first image and find the last image being displayed
-        for (int i = 1; i < displayImagePositions.Length; i++)
+        if (this.images.Count >= this.displayImagePositions.Length)
         {
-            t2 = t2.Next;
+            GameObject temp = displayImages.Last.Value;
+            LinkedListNode<GameObject> t2 = displayImages.First;
+            // Start from the first image and find the last image being displayed
+            for (int i = 1; i < displayImagePositions.Length; i++)
+            {
+                t2 = t2.Next;
+            }
+            t2.Value.SetActive(false);
+            displayImages.RemoveLast();
+            displayImages.AddFirst(temp);
+            redrawDisplayImages();
         }
-        t2.Value.SetActive(false);
-        displayImages.RemoveLast();
-        displayImages.AddFirst(temp);
-        redrawDisplayImages();
     }
 
     /// <summary>

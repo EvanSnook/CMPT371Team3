@@ -3,24 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 public class TouchAndGrab : MonoBehaviour
 {
+    // the OVR controller
+    public OVRInput.Controller controller;
+
+    // name of the axis for the grab trigger
+    // Set in editor; below value is a default only
+    [SerializeField]
+    private string grabTrigger = "";
+    // name of the axis for the index trigger
+    // Set in editor; below value is a default only
+    [SerializeField]
+    private string indexTrigger = "";
+
+
+    // Reference to the user's other hand
+    private TouchAndGrab oppositeHand = null;
+
+    // GameObject for the user's other hand
+    [SerializeField]
+    private GameObject oppositeHandObject = null;
+
     // the object we are touching/grabbing
-    public GameObject _grabbedObject;
+    public GameObject _grabbedObject = null;
+
     // the radius of the sphere for the raycast
-    public float _sphereRadius;
+    // Set in editor; below value is a default only
+    [SerializeField]
+    private float _sphereRadius = 0.1f;
+
     // This variable will be updated
     public LayerMask _someMask;
     // Indicates whether an object is being grabbed or not
-    private bool _isGrabbed;
+    private bool _isHolding = false;
 
-    // name of the axis for the grab trigger
-    [SerializeField]
-    private string grabTrigger;
-    // name of the axis for the index trigger
-    [SerializeField]
-    private string indexTrigger;
-    
 
-    private Transform objectsOldParent;
+    private Transform objectsOldParent = null;
+
+    void Start()
+    {
+        oppositeHand = oppositeHandObject.GetComponent<TouchAndGrab>();
+    }
+
+    public bool IsHolding()
+    {
+        return _isHolding;
+    }
+
+    public GameObject GetHeldObject()
+    {
+        return _grabbedObject;
+    }
 
     /// <summary>
     /// Make the object being grabbed a child of the controller (hand) whenever it is within the raycast
@@ -32,13 +64,13 @@ public class TouchAndGrab : MonoBehaviour
     /// </summary>
     void Grab()
     {
-        // Check to see if the object has been grabbed
-        _isGrabbed = true;
         // Create an array for the amount of objects grabbed
         RaycastHit[] _objectHits;
+
         // Store the amount of objects that are gathered from the Sphere Cast
         _objectHits = Physics.SphereCastAll(transform.position, _sphereRadius, transform.forward, 0F, _someMask);
-        // As long as there is an object that is grabbed track the position of the object.
+
+        // Find the closes object from the SphereCast hits, if any exist
         if (_objectHits.Length > 0)
         {
             int _closestHit = 0;
@@ -48,14 +80,33 @@ public class TouchAndGrab : MonoBehaviour
                 if (_objectHits[i].distance < _objectHits[_closestHit].distance)
                     _closestHit = i;
             }
-            // make the object a child of the controller, updating the position of the object
-            _grabbedObject = _objectHits[_closestHit].transform.gameObject;
-            _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
-            this.objectsOldParent = _grabbedObject.transform.parent;
-            _grabbedObject.transform.position = transform.position;
-            _grabbedObject.transform.parent = transform;
+
+            // Check to see if the other hand is holding something
+            // If it is, and it's the same as the closest raycast object, don't grab
+            if (oppositeHand.IsHolding())
+            {
+                if (oppositeHand.GetHeldObject() != _objectHits[_closestHit].transform.gameObject)
+                {
+                    AssignGrabbedObject(_objectHits[_closestHit].transform.gameObject);
+                }
+            }
+            else
+            {
+                AssignGrabbedObject(_objectHits[_closestHit].transform.gameObject);
+            }
         }
     }
+
+    void AssignGrabbedObject(GameObject closest)
+    {
+        _isHolding = true;
+        _grabbedObject = closest;
+        _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+        this.objectsOldParent = _grabbedObject.transform.parent;
+        _grabbedObject.transform.position = transform.position;
+        _grabbedObject.transform.parent = transform;
+    }
+
     /// <summary>
     /// Remove the object as a child of the controller 
     /// Pre:: an object is being grabbed
@@ -65,7 +116,8 @@ public class TouchAndGrab : MonoBehaviour
     void Drop()
     {
         //Change the boolean so the object is not grabbed anymore
-        _isGrabbed = false;
+        _isHolding = false;
+
         //If the object is attached change the transform to null so it keeps it's position
         if (_grabbedObject != null)
         {
@@ -84,20 +136,24 @@ public class TouchAndGrab : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.tag == "MenuButton") && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
+        if ((other.tag == "MenuButton") && ((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
             if (!(other.gameObject.GetComponent<VRButton>().GetPressed()))
             {
                 other.gameObject.GetComponent<VRButton>().SetPressed(true);
             }
         }
-        else if ((other.tag == "Copy") && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
+        else if ((other.tag == "Copy") && ((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
             other.gameObject.SendMessage("Selected");
         }
         else if (other.tag == "Thumbnail")
         {
-            other.gameObject.SendMessage("Selected");
+            if (!(other.gameObject.GetComponent<Thumbnail>().GetPressed()))
+            {
+                other.gameObject.GetComponent<Thumbnail>().SetPressed(true);
+            }
+
         }
     }
 
@@ -105,7 +161,7 @@ public class TouchAndGrab : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if ((!_isGrabbed) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
+        if ((!_isHolding) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
         {
             Grab();
         }
@@ -126,9 +182,13 @@ public class TouchAndGrab : MonoBehaviour
             other.gameObject.GetComponent<VRButton>().SetPressed(false);
         }   
 
-        if ((!_isGrabbed) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
+        if ((!_isHolding) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
         {
             Drop();
+        }
+        else if (other.tag == "Thumbnail")
+        {
+            other.gameObject.GetComponent<Thumbnail>().SetPressed(false);
         }
     }
 }

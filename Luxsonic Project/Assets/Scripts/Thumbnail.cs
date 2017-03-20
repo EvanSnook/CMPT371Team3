@@ -12,6 +12,8 @@ public class Thumbnail : MonoBehaviour
     public Texture2D image;
     // The GameObject that the texture will report to
     public GameObject manager;
+    //
+    private bool pressed;
 
     /// <summary>
     /// Start this instance.
@@ -24,10 +26,7 @@ public class Thumbnail : MonoBehaviour
 
     }
 
-    /*public void OnCollisionEnter(Collision collision)
-    {
-        manager.SendMessage("CreateCopy", image);
-    }*/
+
 
     /// <summary>
     /// Raises the mouse down event. Notify the manager, that a Copy should be made
@@ -40,5 +39,27 @@ public class Thumbnail : MonoBehaviour
     public void Selected()
     {
         manager.SendMessage("CreateCopy", image);
+    }
+
+    /// <summary>
+    /// SetPressed sets the value of pressed to the value of val
+    /// Pre:: 
+    /// Post:: pressed is set to the value of val
+    /// Return:: nothing
+    /// </summary>
+    public void SetPressed(bool val)
+    {
+        pressed = val;
+        if (val) this.Selected();
+    }
+    /// <summary>
+    /// GetPressed returns the value of pressed
+    /// Pre:: 
+    /// Post:: 
+    /// Return:: value of pressed
+    /// </summary>
+    public bool GetPressed()
+    {
+        return pressed;
     }
 }

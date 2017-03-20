@@ -72,7 +72,7 @@ public class SystemTests : MonoBehaviour {
 		dashboard.VRButtonClicked ("Load"); // Load in the default images.
 		testDisplay.CreateCopy (testDisplay.GetImages () [0]); 
 		Copy testCopy = GameObject.FindGameObjectsWithTag("Copy")[0].GetComponent<Copy>();
-		testCopy.VRButtonClicked ("Close");
+		testCopy.NewOptions ("Close");
 
 		// Tests there are zero copies in workspace.
 		int copiesInWorkspace = GameObject.FindGameObjectsWithTag ("Copy").Length;
