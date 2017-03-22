@@ -138,4 +138,56 @@ public class DisplayTests
         Assert.NotNull(scrollBtns[1]);
     }
 
+    [Test]
+    public void TestCreateCopy()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
+
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
+
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
+
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
+
+        disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+
+
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+        GameObject copyPrefab = new GameObject();
+        copyPrefab.AddComponent<SpriteRenderer>();
+        copyPrefab.AddComponent<Copy>();
+        copyPrefab.AddComponent<BoxCollider>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(copyPrefab.transform);
+
+        Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        copyPrefab.GetComponent<Copy>().curShader = shad;
+        
+        disp.copyPrefab = copyPrefab;
+
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
+
+        Texture2D tex = new Texture2D(100, 100);
+
+        disp.CreateCopy(tex);
+
+        Assert.AreEqual(1, disp.GetCopies().Count);
+
+        disp.CreateCopy(tex);
+        Assert.AreEqual(2, disp.GetCopies().Count);
+    }
+
 }
