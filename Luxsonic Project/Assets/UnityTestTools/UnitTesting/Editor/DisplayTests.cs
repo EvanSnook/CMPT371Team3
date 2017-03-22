@@ -148,6 +148,11 @@ public class DisplayTests
         GameObject trayObject = new GameObject();
         trayObject.AddComponent<Tray>();
 
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
+
+        disp.displayImagePrefab = dispImgObj;
+
         GameObject buttonPrefab = new GameObject();
         buttonPrefab.AddComponent<VRButton>();
 
@@ -188,6 +193,65 @@ public class DisplayTests
 
         disp.CreateCopy(tex);
         Assert.AreEqual(2, disp.GetCopies().Count);
+    }
+
+    [Test]
+    public void TestScrollLeftAndRight()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
+
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
+
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
+
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
+
+        disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+
+
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+        GameObject copyPrefab = new GameObject();
+        copyPrefab.AddComponent<SpriteRenderer>();
+        copyPrefab.AddComponent<Copy>();
+        copyPrefab.AddComponent<BoxCollider>();
+
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
+
+        disp.displayImagePrefab = dispImgObj;
+
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
+
+        child.transform.SetParent(copyPrefab.transform);
+
+        Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+
+        copyPrefab.GetComponent<Copy>().curShader = shad;
+
+        disp.copyPrefab = copyPrefab;
+
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
+
+        Texture2D tex = new Texture2D(100, 100);
+
+        disp.AddImage(tex);
+        disp.AddImage(tex);
+        disp.AddImage(tex);
+        disp.AddImage(tex);
+
+        disp.TestScrollLeftAndRight(4);
+        
     }
 
 }

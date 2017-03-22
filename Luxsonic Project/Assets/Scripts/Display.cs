@@ -326,5 +326,38 @@ public class Display : MonoBehaviour, IVRButton
 
         return scrollBtns;
     }
+
+    /// <summary>
+    /// Test the scrolling functionality by scrolling through all images 
+    /// </summary>
+    /// <param name="numberOfImages"></param>
+  
+    public void TestScrollLeftAndRight(int numberOfImages)
+    {
+        GameObject firstElement = this.displayImages.First.Value;
+        // Scroll left until we are back at the start
+        for(int i = 0; i < numberOfImages; i++)
+        {
+            GameObject currentElement = this.displayImages.First.Value;
+            this.ScrollLeft();
+            Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
+            Assert.AreEqual(this.displayImages.Last.Value, currentElement);
+        }
+
+        Assert.AreEqual(firstElement, this.displayImages.First.Value);
+
+        firstElement = this.displayImages.First.Value;
+
+        // Scroll right until we are back at the start
+        for (int i = 0; i < numberOfImages; i++)
+        {
+            GameObject currentElement = this.displayImages.First.Value;
+            this.ScrollRight();
+            Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
+            Assert.AreEqual(this.displayImages.First.Next.Value, currentElement);
+        }
+
+ 
+    } 
 }
 
