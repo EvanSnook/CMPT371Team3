@@ -79,7 +79,7 @@ public class DisplayTests
     [Ignore("Test has some life issues.")]
     public void TestCreateDisplay()
     {
-//        GameObject mannyObj = new GameObject();
+        //        GameObject mannyObj = new GameObject();
         //mannyObj.AddComponent<ImageManager>();
         //ImageManager manny = mannyObj.GetComponent<ImageManager>();
 
@@ -93,7 +93,7 @@ public class DisplayTests
         dispObject.AddComponent<SpriteRenderer>();
         dispObject.AddComponent<BoxCollider>();
 
-//        Texture2D tex = new Texture2D(100, 100);
+        //        Texture2D tex = new Texture2D(100, 100);
 
         //manny.thumbnail = thumbObject;
         //manny.displayObj = dispObject;
@@ -103,6 +103,39 @@ public class DisplayTests
 
         // The list of displays should not be empty
         //Assert.Greater(manny.GetDisplays().Count, 0, "The list of displays in the Image Manager is empty.");
+    }
+
+    [Test]
+    public void TestCreateScrollButtons()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
+
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
+
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
+
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
+
+        disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+        
+
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
+
+        VRButton[] scrollBtns = disp.TestCreateScrollButtons();
+
+        Assert.NotNull(scrollBtns[0]);
+        Assert.NotNull(scrollBtns[1]);
     }
 
 }
