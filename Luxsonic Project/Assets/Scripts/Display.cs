@@ -70,13 +70,11 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// AddImage() will add an image to the list of loaded images.  It will also create a new
     /// displayImage and add it to the list.  It will create the Tray if it does not already exist
-    /// and create the scroll bar if it is not currently present
-    /// Pre:: image Texture2D to add
-    /// Post:: creation of Tray, adds Texture2D to images list and adds new GameObject to displayImages
-    /// list.
-    /// Return:: nothing
+    /// and create the scroll bar if it is not currently present.
     /// </summary>
     /// <param name="image">The texture for the image to add</param>
+    /// <pre>Image Texture2D to add</pre>
+    /// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
     public void AddImage(Texture2D image)
     {
         Assert.IsNotNull(image, "Image passed into Display is null");
@@ -250,6 +248,9 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollLeft()
     {
+        // If there are not enough images to scroll through
+        Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
+
         if (this.images.Count >= this.displayImagePositions.Length)
         {
             GameObject temp = displayImages.First.Value;
@@ -269,6 +270,9 @@ public class Display : MonoBehaviour, IVRButton
     /// </summary>
     private void ScrollRight()
     {
+        // If there are not enough images to scroll through
+        Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
+
         if (this.images.Count >= this.displayImagePositions.Length)
         {
             GameObject temp = displayImages.Last.Value;
