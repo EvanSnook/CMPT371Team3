@@ -249,7 +249,7 @@ public class DisplayTests
         disp.AddImage(tex);
         disp.AddImage(tex);
         disp.AddImage(tex);
-
+        
         disp.TestScrollLeftAndRight(4);
         
     }

@@ -67,6 +67,9 @@ public class Display : MonoBehaviour, IVRButton
     // Indicates whether the scroll buttons are visible to the user	
     private bool scrollButtonsVisible = false;
 
+    // Current ID for copies whose textures do not have names
+    private int copyId = 0;
+
     /// <summary>
     /// AddImage() will add an image to the list of loaded images.  It will also create a new
     /// displayImage and add it to the list.  It will create the Tray if it does not already exist
@@ -188,6 +191,16 @@ public class Display : MonoBehaviour, IVRButton
         trans.z = copyDepth;
         GameObject newCop = Instantiate(copyPrefab, trans, new Quaternion(0, 0, 0, 0));
         Copy cop = newCop.GetComponent<Copy>();
+
+        // If the image texture does not have a name, we will give it a generic name
+        if (image.name == "")
+        {
+            cop.name = "Copy " + this.copyId;
+            this.copyId++;
+        // We can use the name of the texture
+        } else {
+            cop.name = image.name;
+        }
         cop.NewCopy(image);
         copies.Add(newCop);
     }

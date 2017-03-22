@@ -312,6 +312,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         //From bytes, this is where we will call and write the code to decipher DICOMs
         Texture2D image = new Texture2D(10, 10);
         image.LoadImage(dicomImage);
+        image.name = filePath;
         display.SendMessage("AddImage", image);
     }
 
