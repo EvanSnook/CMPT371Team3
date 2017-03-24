@@ -34,7 +34,7 @@ public class Copy : MonoBehaviour
 
 
     // An enum used to determine which modification is currently being made to the image
-    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
+    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, restore, none };
 
     // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
@@ -80,6 +80,11 @@ public class Copy : MonoBehaviour
     private float maxContrast = 2;
     [SerializeField]
     private float minContrast = 0;
+
+    // Places to save the default values of the image
+    private float defaultBrightness;
+    private float defaultContrast;
+    private Vector3 defaultSize;
 
     private void Start()
     {
@@ -129,6 +134,12 @@ public class Copy : MonoBehaviour
         this.curMaterial.SetFloat("_BrightnessAmount", 1);
         this.curMaterial.SetFloat("_ContrastAmount", 1);
         this.curMaterial.SetFloat("_SaturationAmount", 1);
+
+        // Save initial values
+        this.defaultBrightness = this.curMaterial.GetFloat("_BrightnessAmount");
+        this.defaultContrast = this.curMaterial.GetFloat("_ContrastAmount");
+        this.defaultSize = this.gameObject.transform.localScale;
+
         this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
 
         this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
@@ -204,6 +215,10 @@ public class Copy : MonoBehaviour
 
             case ButtonType.FILTER_BUTTON:    // Filter button clicked
                 // TODO: Implement Filter code
+                break;
+
+            case ButtonType.RESTORE_BUTTON:     // Restore button clicked
+                this.RestoreDefaults();
                 break;
 
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
@@ -322,6 +337,21 @@ public class Copy : MonoBehaviour
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
         }
     }
+
+    /// <summary>
+    /// Restores the copy values to their original default values
+    /// </summary>
+    /// <post>The copy values will be set to what they were when the copy was first loaded</post>
+    public void RestoreDefaults()
+    {
+        this.curMaterial.SetFloat("_BrightnessAmount", this.defaultBrightness);
+        this.curMaterial.SetFloat("_ContrastAmount", this.defaultContrast);
+        this.transform.localScale = this.defaultSize;
+    }
+
+    //===================================
+    // Test hooks
+    //===================================
 
     /// <summary>
     /// Returns the material being used by the copy
