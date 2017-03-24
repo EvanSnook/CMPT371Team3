@@ -69,6 +69,18 @@ public class Copy : MonoBehaviour
     [SerializeField]
     private float minSize = 0.1f;
 
+    // Define the max and min brightness for the images
+    [SerializeField]
+    private float maxBrightness = 2;
+    [SerializeField]
+    private float minBrightness = 0;
+
+    // Define the max and min contrast for the images
+    [SerializeField]
+    private float maxContrast = 2;
+    [SerializeField]
+    private float minContrast = 0;
+
     private void Start()
     {
         // Find the dashboard
@@ -248,12 +260,12 @@ public class Copy : MonoBehaviour
     private void Brightness(float input)
     {
         // If the input is positive, we are increasing the brightness
-        if (input > 0)
+        if (input > 0 && this.curMaterial.GetFloat("_BrightnessAmount") < this.maxBrightness)
         {
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") + this.brightnessConst));
         }
         // Otherwise, decrease the brightness
-        else if (input < 0)
+        else if (input < 0 && this.curMaterial.GetFloat("_BrightnessAmount") > this.minBrightness)
         {
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") - this.brightnessConst));
         }
@@ -270,12 +282,12 @@ public class Copy : MonoBehaviour
     private void Contrast(float input)
     {
         // If the input is positive, increase the contrast
-        if (input > 0)
+        if (input > 0 && this.curMaterial.GetFloat("_ContrastAmount") < this.maxContrast)
         {
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") + this.contrastConst));
         }
         // Otherwise, decrease the contrast
-        else if (input < 0)
+        else if (input < 0 && this.curMaterial.GetFloat("_ContrastAmount") > this.minContrast)
         {
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") - this.contrastConst));
         }
@@ -292,13 +304,13 @@ public class Copy : MonoBehaviour
     public void Resize(float input)
     {
         // If the input is positive and we are not too big, increase the size
-        if (input > 0 && this.transform.localScale.x <= this.maxSize && this.transform.localScale.y <= this.maxSize)
+        if (input > 0 && this.transform.localScale.x < this.maxSize && this.transform.localScale.y < this.maxSize)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
         }
         // Otherwise if we are not too small, decrease the size
-        else if (input < 0 && this.transform.localScale.x >= this.minSize && this.transform.localScale.y >= this.minSize)
+        else if (input < 0 && this.transform.localScale.x > this.minSize && this.transform.localScale.y > this.minSize)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);

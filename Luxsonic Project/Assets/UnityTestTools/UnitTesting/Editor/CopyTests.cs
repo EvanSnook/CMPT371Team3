@@ -74,6 +74,17 @@ public class CopyTests
 
         Assert.AreEqual(originalBrightness + newCopy.GetBrightnessConst(), newBrightness);
 
+        newCopy.GetMaterial().SetFloat("_BrightnessAmount", 2);
+
+        // Increase the brightness past the max
+        originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        newCopy.TestPrivateAttributes(1, "brightness");
+
+        newBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        Assert.AreEqual(originalBrightness, newBrightness);
+
         // Decrease the brightness
         originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
 
@@ -82,6 +93,17 @@ public class CopyTests
         newBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
 
         Assert.AreEqual(originalBrightness - newCopy.GetBrightnessConst(), newBrightness);
+
+        newCopy.GetMaterial().SetFloat("_BrightnessAmount", 0);
+
+        // Decrease the brightness past the min
+        originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        newCopy.TestPrivateAttributes(-1, "brightness");
+
+        newBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
+
+        Assert.AreEqual(originalBrightness, newBrightness);
     }
 
     [Test]
@@ -117,6 +139,17 @@ public class CopyTests
 
         Assert.AreEqual(originalContrast + newCopy.GetContrastConst(), newContrast);
 
+        newCopy.GetMaterial().SetFloat("_ContrastAmount", 2);
+
+        // Increase the contrast past the max
+        originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        newCopy.TestPrivateAttributes(1, "contrast");
+
+        newContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        Assert.AreEqual(originalContrast, newContrast);
+
         // decrease the contrast
         originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
 
@@ -125,6 +158,17 @@ public class CopyTests
         newContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
 
         Assert.AreEqual(originalContrast - newCopy.GetContrastConst(), newContrast);
+
+        newCopy.GetMaterial().SetFloat("_ContrastAmount", 0);
+
+        // Decrease the contrast past the min
+        originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        newCopy.TestPrivateAttributes(-1, "contrast");
+
+        newContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
+
+        Assert.AreEqual(originalContrast, newContrast);
     }
 
     [Test]
