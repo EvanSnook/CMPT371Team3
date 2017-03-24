@@ -190,6 +190,6 @@ public class DashboardTests {
 		//Test VRButtonClicked with "Close" option
 		Assert.AreEqual(0, dash.getCurrentSelection().CompareTo(ButtonType.RESIZE_BUTTON));
 		dash.VRButtonClicked(ButtonType.CLOSE_BUTTON);
-        Assert.AreEqual(0, dash.getCurrentSelection().CompareTo(ButtonType.CLOSE_BUTTON));
+        Assert.AreEqual(0, dash.getCurrentSelection().CompareTo(ButtonType.NONE));
 	}
 }
