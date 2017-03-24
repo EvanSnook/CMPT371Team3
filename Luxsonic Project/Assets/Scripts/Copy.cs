@@ -63,6 +63,12 @@ public class Copy : MonoBehaviour
 
     private Texture2D outlineTexture;
 
+    // Define the maximum and minimum size for the copy to be resized to 
+    [SerializeField]
+    private float maxSize = 100;
+    [SerializeField]
+    private float minSize = 0.1f;
+
     private void Start()
     {
         // Find the dashboard
@@ -285,14 +291,14 @@ public class Copy : MonoBehaviour
     /// </summary>
     public void Resize(float input)
     {
-        // If the input is positive, increase the size
-        if (input > 0)
+        // If the input is positive and we are not too big, increase the size
+        if (input > 0 && this.transform.localScale.x <= this.maxSize && this.transform.localScale.y <= this.maxSize)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
         }
-        // Otherwise, decrease the size
-        else if (input < 0)
+        // Otherwise if we are not too small, decrease the size
+        else if (input < 0 && this.transform.localScale.x >= this.minSize && this.transform.localScale.y >= this.minSize)
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);

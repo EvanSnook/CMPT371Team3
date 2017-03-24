@@ -162,6 +162,18 @@ public class CopyTests
 
         Assert.AreEqual(originalSize * newCopy.GetResizeScale(), newSize);
 
+        // Set the copy to be the max scale
+        newCopy.transform.localScale = new Vector3(101, 101, 101);
+
+        // Increase the size past the limits
+        originalSize = newCopy.transform.localScale;
+
+        newCopy.TestPrivateAttributes(1, "resize");
+
+        newSize = newCopy.transform.localScale;
+
+        Assert.AreEqual(originalSize, newSize);
+
         // Decrease the size
         originalSize = newCopy.transform.localScale;
 
@@ -170,6 +182,18 @@ public class CopyTests
         newSize = newCopy.transform.localScale;
 
         Assert.AreEqual(originalSize / newCopy.GetResizeScale(), newSize);
+
+        // Set the copy to be the min scale
+        newCopy.transform.localScale = new Vector3(0.09f, 0.09f, 0.09f);
+
+        // Decreae the size past the limits
+        originalSize = newCopy.transform.localScale;
+
+        newCopy.TestPrivateAttributes(-1, "resize");
+
+        newSize = newCopy.transform.localScale;
+
+        Assert.AreEqual(originalSize, newSize);
     }
 
     
