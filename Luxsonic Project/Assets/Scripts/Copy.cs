@@ -209,6 +209,12 @@ public class Copy : MonoBehaviour
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
                 this.currentSelection = CurrentSelection.close;
                 this.gameObject.SetActive(false);
+                // If the object is being held by the hand...
+                if(this.transform.parent.gameObject.tag == "Hand")
+                {
+                    // Tell the hand to drop it like its hot
+                    this.transform.parent.gameObject.SendMessage("Drop");
+                }
                 //DestroyImmediate(this.gameObject);
                 break;
 
