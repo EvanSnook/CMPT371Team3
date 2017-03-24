@@ -249,6 +249,10 @@ public class Dashboard : MonoBehaviour, IVRButton
                 currentCopy.SendMessage("NewOptions", this.currentSelection);
             }
         }
+		//if current selection was the close, set it to none after they have been closed.
+		if (this.currentSelection == ButtonType.CLOSE_BUTTON) {
+			this.currentSelection = ButtonType.NONE;
+		}
     }
 
     public void CopySelected(GameObject copy)

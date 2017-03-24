@@ -222,8 +222,9 @@ public class Copy : MonoBehaviour
                 break;
 
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
-                this.currentSelection = CurrentSelection.close;
                 this.gameObject.SetActive(false);
+				//set current selection to none after copy has been closed
+				this.currentSelection = ButtonType.NONE;
                 // If the object is being held by the hand...
                 if(this.transform.parent.gameObject.tag == "Hand")
                 {
