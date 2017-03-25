@@ -347,6 +347,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public void MaximizeButtons(bool mode){
 		this.loadButton.gameObject.SetActive(mode);
 		this.quitButton.gameObject.SetActive(mode);
+        this.copyButtonsPlane.gameObject.SetActive(mode);
+        this.display.gameObject.SetActive(mode);
 		foreach (VRButton cButton in copyButtons)
 		{
 			cButton.gameObject.SetActive(mode);
