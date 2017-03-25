@@ -154,8 +154,8 @@ public class Copy : MonoBehaviour
     void Update()
     {
         // If we are the current image...
-        if (this.isCurrentImage && this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
-        {
+        if (this.isCurrentImage && this.transform.parent == null)
+        { 
             // Check our current selection
             switch (currentSelection)
             {
@@ -193,7 +193,7 @@ public class Copy : MonoBehaviour
         Assert.IsFalse(button == ButtonType.NONE);
         switch (button)
         {
-			case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
+            case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
                 this.currentSelection = CurrentSelection.contrast;
                 break;
 
@@ -217,21 +217,21 @@ public class Copy : MonoBehaviour
                 // TODO: Implement Filter code
                 break;
 
-            case ButtonType.RESTORE_BUTTON:     // Restore button clicked
+            case ButtonType.RESTORE_COPY_BUTTON:     // Restore button clicked
                 this.RestoreDefaults();
                 break;
 
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
-                this.gameObject.SetActive(false);
-				//set current selection to none after copy has been closed
-				this.currentSelection = CurrentSelection.none;
+                
+                //set current selection to none after copy has been closed
+                this.currentSelection = CurrentSelection.none;
                 // If the object is being held by the hand...
                 if(this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
                 {
                     // Tell the hand to drop it like its hot
                     this.transform.parent.gameObject.SendMessage("Drop");
                 }
-                //DestroyImmediate(this.gameObject);
+                SafeDelete(this.gameObject);
                 break;
 
             default:        // This happens when no options are selected
@@ -240,6 +240,17 @@ public class Copy : MonoBehaviour
 
         }
     }
+
+
+    private void SafeDelete(GameObject obj){
+        if (Application.isEditor) {
+            Destroy (obj);
+        } else {
+            DestroyImmediate(obj);
+        }
+    }
+
+
 
     /// <summary>
     /// Called when the object is interacted with in VR
@@ -325,14 +336,15 @@ public class Copy : MonoBehaviour
     /// </summary>
     public void Resize(float input)
     {
+        
         // If the input is positive and we are not too big, increase the size
-        if (input > 0 && this.transform.localScale.x < this.maxSize && this.transform.localScale.y < this.maxSize)
+        if ((input > 0) && (this.transform.localScale.x < this.maxSize) && (this.transform.localScale.y < this.maxSize))
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
         }
         // Otherwise if we are not too small, decrease the size
-        else if (input < 0 && this.transform.localScale.x > this.minSize && this.transform.localScale.y > this.minSize)
+        else if ((input < 0) && (this.transform.localScale.x > this.minSize) && (this.transform.localScale.y > this.minSize))
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);

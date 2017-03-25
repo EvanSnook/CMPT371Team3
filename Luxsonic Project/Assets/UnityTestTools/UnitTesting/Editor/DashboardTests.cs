@@ -33,7 +33,8 @@ public class DashboardTests {
 			new Dashboard.ButtonAttributes("Brightness", new Vector3(-0.3f, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Resize", new Vector3(0, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Filter", new Vector3(0.3f, -0.2f, 0)),
-			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0))
+			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0)),
+			new Dashboard.ButtonAttributes("Restore", new Vector3(-0.3f, -0.7f, 0))
 		};
 
 
@@ -144,7 +145,8 @@ public class DashboardTests {
 			new Dashboard.ButtonAttributes("Brightness", new Vector3(-0.3f, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Resize", new Vector3(0, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Filter", new Vector3(0.3f, -0.2f, 0)),
-			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0))
+			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0)),
+			new Dashboard.ButtonAttributes("Restore", new Vector3(-0.3f, -0.7f, 0))
 		};
 
 		//set up dashboard
