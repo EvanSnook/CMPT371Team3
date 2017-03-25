@@ -42,8 +42,10 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
     public Vector3 directoryPosition;
     // Inital Rotation of the file Buttons
     public Vector3 directoryRotation;
-    // Distance between each button
+    // Distance between file and directory buttons
     public float seperationBetweenButtons;
+	// Disstnce between buttons of the same type
+	public float sameButtonSeperation;
 
     // VRButton back to move back to the previous directory
     private VRButton backButton;
@@ -172,7 +174,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string directory in listOfCurrentDirectories)
         {
             Vector3 newDirectoryPosition = directoryPosition;
-            newDirectoryPosition.x = directoryPosition.x + 100f;
+			newDirectoryPosition.x = directoryPosition.x + sameButtonSeperation;
             newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtons);
             CreateVRButton(directory, "Directory", ButtonType.DIRECTORY_BUTTON, newDirectoryPosition, directoryRotation);
             count++;
@@ -182,7 +184,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         foreach (string file in listOfCurrentFiles)
         {
             Vector3 newFilePosition = filePosition;
-            newFilePosition.x = newFilePosition.x + 100f;
+			newFilePosition.x = newFilePosition.x + sameButtonSeperation;
             newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtons);
             CreateVRButton(file, "File", ButtonType.FILE_BUTTON, newFilePosition, fileRotation);
             count++;
