@@ -262,7 +262,12 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 				}
 			}
-		}
+		}   // If there are no copies selected, deselect the current button
+        else if(this.currentCopies.Count == 0)
+        {
+            this.currentSelection = ButtonType.NONE;
+        }
+            
 		//if current selection was the close, set it to none after they have been closed.
 		if (this.currentSelection == ButtonType.CLOSE_BUTTON) {
 			foreach (GameObject copy in copiesToDelete) {
