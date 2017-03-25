@@ -47,7 +47,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
 	// Holds the attributes for each button, indexed by the ButtonType
-	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[12];
+	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[13];
 
 	// The file system to load images with
 	public GameObject loadBar;  
@@ -177,17 +177,20 @@ public class Dashboard : MonoBehaviour, IVRButton
 		copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESTORE_COPY_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.SELECT_ALL_COPIES_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.DESELECT_ALL_COPIES_BUTTON, true));
 
-	}
 
-	/// <summary>
-	/// Function VRButtonClicked is called by a button object when it is interacted with.
-	/// Pre:: string representing the name of the button selected
-	/// Post:: Execution of funcion associated with string given
-	/// Return:: nothing
-	/// </summary>
-	/// <param name="button">The name of the button</param>
-	public void VRButtonClicked(ButtonType button)
+    }
+
+    /// <summary>
+    /// Function VRButtonClicked is called by a button object when it is interacted with.
+    /// Pre:: string representing the name of the button selected
+    /// Post:: Execution of funcion associated with string given
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="button">The name of the button</param>
+    public void VRButtonClicked(ButtonType button)
 	{
 		switch (button)
 		{
@@ -215,7 +218,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
-			Debug.Log ("Resize clicked");
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
@@ -229,6 +231,17 @@ public class Dashboard : MonoBehaviour, IVRButton
 			this.currentSelection = button;
 			this.UpdateCopyOptions ();
 			break;
+
+        case ButtonType.SELECT_ALL_COPIES_BUTTON:
+            this.currentSelection = button;
+            this.SelectAllCopies();
+            break;
+
+        case ButtonType.DESELECT_ALL_COPIES_BUTTON:
+            this.currentSelection = button;
+            this.DeselectAllCopies();
+            break;
+
 
 		default:    // A copy option was clicked
 
@@ -276,9 +289,10 @@ public class Dashboard : MonoBehaviour, IVRButton
 			}
 			this.currentSelection = ButtonType.NONE;
 		}
-	}
 
-	public void CopySelected(GameObject copy)
+    }
+
+    public void CopySelected(GameObject copy)
 	{
 		if (copy.GetComponent<Copy>().isCurrentImage)
 		{
@@ -366,13 +380,44 @@ public class Dashboard : MonoBehaviour, IVRButton
 		this.copyButtons = theList;
 	}
 
-	//for testing purposes
-	public bool getMinimized(){
+    /// <summary>
+    /// Add all copies in the scene to the current copies list
+    /// </summary>
+    public void SelectAllCopies()
+    {
+        foreach(GameObject copy in this.display.GetCopies())
+        {
+            if(!this.currentCopies.Contains(copy))
+            {
+                this.currentCopies.Add(copy);
+                copy.gameObject.SendMessage("Selected");
+            }
+        }
+
+        this.UpdateCopyOptions();
+    }
+
+    /// <summary>
+    /// Remove all copies in the scene from the current copies list
+    /// </summary>
+    public void DeselectAllCopies()
+    {
+        foreach (GameObject copy in this.currentCopies)
+        {
+            this.currentCopies.Remove(copy);
+            copy.gameObject.SendMessage("Selected");
+        }
+
+        this.UpdateCopyOptions();
+    }
+
+    //for testing purposes
+    public bool GetMinimized(){
 		return this.minimized;
 	}
 
 	//for testing purposes
-	public ButtonType getCurrentSelection(){
+	public ButtonType GetCurrentSelection(){
 		return this.currentSelection;
 	}
 
