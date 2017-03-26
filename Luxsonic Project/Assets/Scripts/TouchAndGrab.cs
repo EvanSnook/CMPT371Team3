@@ -145,7 +145,10 @@ public class TouchAndGrab : MonoBehaviour
         }
         else if ((other.tag == "Copy") && ((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
-            other.gameObject.SendMessage("Selected");
+			if (other.gameObject.GetComponent<Copy> ().GetPressed () != true) {
+				other.gameObject.GetComponent<Copy> ().SetPressed (true);
+			}
+			//other.gameObject.SendMessage("Selected");
         }
         else if ((other.tag == "Thumbnail") && ((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
@@ -189,5 +192,9 @@ public class TouchAndGrab : MonoBehaviour
         {
             other.gameObject.GetComponent<Thumbnail>().SetPressed(false);
         }
+		else if (other.tag == "Copy")
+		{
+			other.gameObject.GetComponent<Copy>().SetPressed(false);
+		}
     }
 }
