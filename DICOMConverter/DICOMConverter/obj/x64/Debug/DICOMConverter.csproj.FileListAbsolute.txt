@@ -6,6 +6,3 @@ c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConvert
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.pdb
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.exe
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.pdb
-E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe.config
-E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.exe
-E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.pdb
