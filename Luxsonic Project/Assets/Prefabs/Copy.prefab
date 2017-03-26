@@ -122,8 +122,8 @@ MonoBehaviour:
   rightThumbX: Oculus_GearVR_RThumbstickX
   outlineScale: 25
   outlineDepth: 0.001
-  maxSize: 100
-  minSize: 0.1
+  maxSize: 1
+  minSize: 0.01
   maxBrightness: 2
   minBrightness: 0
   maxContrast: 2
