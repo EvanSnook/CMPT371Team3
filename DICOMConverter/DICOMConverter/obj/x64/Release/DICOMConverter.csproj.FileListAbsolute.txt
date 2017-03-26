@@ -7,3 +7,11 @@ c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConvert
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\x64\Release\DICOMConverter.exe
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\x64\Release\DICOMConverter.pdb
 c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConverter\obj\x64\Release\DICOMConverter.csprojResolveAssemblyReference.cache
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\DICOMConverter.exe.config
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Release\DICOMConverter.exe
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Release\DICOMConverter.pdb
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\Dicom.Native64.dll
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\DICOMConverter.exe
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\DICOMConverter.pdb
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\Dicom.Core.dll
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Release\Dicom.Core.pdb
