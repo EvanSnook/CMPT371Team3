@@ -20,11 +20,12 @@ namespace DICOMConverter
             {
                 var mode = args[0];
                 var target = args[1];
-                var destinationPath = args[2];
+                var destinationPath = args[2] + @"\";
 
-                Directory.CreateDirectory(destinationPath);
+                var tempdir = Directory.CreateDirectory(destinationPath);
+                tempdir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
-                if (mode == "d")
+                if (mode.CompareTo("d") == 0)
                 {
                     DirectoryInfo d = new DirectoryInfo(target);
 
@@ -34,7 +35,7 @@ namespace DICOMConverter
                         {
                             Dicom.DicomFile obj = Dicom.DicomFile.Open(file.FullName);
                             var image = new DicomImage(obj.Dataset);
-                            image.RenderImage().AsBitmap().Save(destinationPath + file.Name + ".jpg");
+                            image.RenderImage().AsBitmap().Save(destinationPath + @"\" + file.Name + ".jpg");
                         }
                         catch (DicomDataException e)
                         {
@@ -42,14 +43,14 @@ namespace DICOMConverter
                         }
                     }
                 }
-                else if (mode == "f")
+                else if (mode.CompareTo("f") == 0)
                 {
                     try
                     {
                         FileInfo file = new FileInfo(target);
                         Dicom.DicomFile obj = Dicom.DicomFile.Open(file.FullName);
                         var image = new DicomImage(obj.Dataset);
-                        image.RenderImage().AsBitmap().Save(destinationPath + file.Name + ".jpg");
+                        image.RenderImage().AsBitmap().Save(destinationPath + @"\" + file.Name + ".jpg");
                     }
                     catch (DicomDataException e)
                     {

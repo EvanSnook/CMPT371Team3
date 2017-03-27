@@ -15,3 +15,12 @@ E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMCo
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.dll
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.pdb
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.csprojResolveAssemblyReference.cache
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe.config
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.exe
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Native64.dll
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.dll
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.csprojResolveAssemblyReference.cache
