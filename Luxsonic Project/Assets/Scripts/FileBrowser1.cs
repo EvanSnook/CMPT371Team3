@@ -258,7 +258,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
 		foreach (string filePath in arrayOfFiles)
 		{
-			ConvertAndSendImage(filePath);
+			yield return ConvertAndSendImage(filePath);
+			yield return None;
 		}
 
 		DeleteAllImagesInPath(destinationPath);
@@ -402,7 +403,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// Return:: nothing
 	/// </summary>
 	/// <param name="filePath">string representation of the files path</param>
-	public void ConvertAndSendImage(string filePath)
+	public IEnumerator ConvertAndSendImage(string filePath)
 	{
 		FileInfo file = new FileInfo(filePath);
 		// Can't do anything with a null file
