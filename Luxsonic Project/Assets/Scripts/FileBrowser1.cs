@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using System.IO;
 using System;
-using System.Diagnostics;
 
 using buttons;
 
@@ -242,20 +241,18 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="args"></param>
 	void LoadFiles(string []args)
 	{
+		StartCoroutine(LoadFilesC(args));
+	}
+
+	public IEnumerator LoadFilesC(string[] args)
+	{
 		var type = args[0];
 		var targetPath = args[1];
 		var destinationPath = Application.persistentDataPath + @"\.temp_images";
 
 		DeleteAllImagesInPath(destinationPath);
 
-		Process newProcess = new Process(); // uncomment using system diagnostics to fix
-		newProcess.StartInfo.FileName = Application.dataPath + @"\DICOMConverter\DICOMConverter.exe";
-		newProcess.StartInfo.Arguments = type + " \"" + targetPath + "\" " + "\"" + destinationPath + "\"";
-		newProcess.StartInfo.UseShellExecute = false;
-		newProcess.StartInfo.CreateNoWindow = true;
-		newProcess.EnableRaisingEvents = true;
-		newProcess.Start();
-		newProcess.WaitForExit();
+		yield return StartCoroutine(gameObject.GetComponent<DICOMConverter>().ExternalConverter(type, targetPath, destinationPath));
 
 		//call ConvertAndSerndImages() on everything in (Application.persistentDataPath + \tempImages)
 		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
@@ -263,7 +260,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		{
 			ConvertAndSendImage(filePath);
 		}
-
 
 		DeleteAllImagesInPath(destinationPath);
 	}
