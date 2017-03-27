@@ -67,28 +67,28 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	public Vector3 directoryLoadRotation;
 
 	// VRButton up for files
-	private VRButton upFileButton;
+	// private VRButton upFileButton;
 	// Cancel button Position
 	public Vector3 upFileButtonPosition;
 	// Cancel rotation
 	public Vector3 upFileButtonRotation;
 
 	// VRButton down for files
-	private VRButton downFileButton;
+	/// private VRButton downFileButton;
 	// Cancel button Position
 	public Vector3 downFileButtonPosition;
 	// Cancel rotation
 	public Vector3 downFileButtonRotation;
 
 	// VRButton up for directories
-	private VRButton upDirectoryButton;
+	/// private VRButton upDirectoryButton;
 	// Cancel button Position
 	public Vector3 upDirectoryButtonPosition;
 	// Cancel rotation
 	public Vector3 upDirectoryButtonRotation;
 
 	// VRButton down for directories
-	private VRButton downDirectoryButton;
+	/// private VRButton downDirectoryButton;
 	// Cancel button Position
 	public Vector3 downDirectoryButtonPosition;
 	// Cancel rotation
@@ -346,7 +346,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 			// Create file and directory buttons
 			CreateButtons();
 		}
-		catch(UnauthorizedAccessException error)
+		catch(UnauthorizedAccessException)
 		{
 			EnterDirectory(storeCurrent);
 		}
@@ -481,28 +481,28 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		{
 			newButton.textObject.text = "Up";
 			newButton.path = null;
-			this.upFileButton = newButton;
+			//this.upFileButton = newButton;
 		}
 		// File down
 		else if (buttonType == ButtonType.FILE_DOWN)
 		{
 			newButton.textObject.text = "Down";
 			newButton.path = null;
-			this.downFileButton = newButton;
+			//this.downFileButton = newButton;
 		}
 		// Directory up attributes set
 		else if (buttonType == ButtonType.DIRECTORY_UP)
 		{
 			newButton.textObject.text = "Up";
 			newButton.path = null;
-			this.upDirectoryButton = newButton;
+			//this.upDirectoryButton = newButton;
 		}
 		// Directory down attributes set
 		else if (buttonType == ButtonType.DIRECTORY_DOWN)
 		{
 			newButton.textObject.text = "Down";
 			newButton.path = null;
-			this.downDirectoryButton = newButton;
+			//this.downDirectoryButton = newButton;
 		}
 		else
 		{
@@ -689,7 +689,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	private bool FloatLessThan(float a, float b)
 	{
 		UnityEngine.Debug.Log("Compare: " + ((double)b - (double)a));
-		double eps = 0.00001;
+		//double eps = 0.00001;
 		return (((double)b - (double)a) < 0.00001d);
 	}
 
