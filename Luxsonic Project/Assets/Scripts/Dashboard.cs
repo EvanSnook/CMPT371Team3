@@ -102,6 +102,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     private ButtonType currentSelection = ButtonType.NONE;
 
     private bool deselectingAll = false;
+	private Vector3 localScaleSetting;
 
     // Built-in Unity method called at the beginning of the Scene
     public void Start()
@@ -109,6 +110,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
         this.copyButtons = new List<VRButton>();
         DisplayMenu();
+		localScaleSetting = copyButtons [0].transform.localScale;
     }
 
     public void Update()
@@ -211,9 +213,9 @@ public class Dashboard : MonoBehaviour, IVRButton
     {
         switch (button)
         {
-            case ButtonType.LOAD_BUTTON:
+		case ButtonType.LOAD_BUTTON:
                 // If the load button was clicked
-                Load();
+				Load ();
                 break;
             case ButtonType.QUIT_BUTTON:
                 // If the quit button was clicked
@@ -225,16 +227,19 @@ public class Dashboard : MonoBehaviour, IVRButton
                 break;
 
             case ButtonType.BRIGHTNESS_BUTTON:
-                this.currentSelection = button;
+				this.setButtonScale(button);
+				this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
             case ButtonType.CONTRAST_BUTTON:
+				this.setButtonScale(button);
                 this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
             case ButtonType.RESIZE_BUTTON:
+				this.setButtonScale(button);
                 this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
@@ -451,6 +456,20 @@ public class Dashboard : MonoBehaviour, IVRButton
     {
         return this.currentSelection;
     }
+
+	//find the button of button mybutton and make it appear pressed by setting z value to 0
+	//set the last button that was selected appear unselected by returning it to its orginal position
+	private void setButtonScale (ButtonType myButton){
+		foreach (VRButton cButton in copyButtons)
+		{
+			if (cButton.type == currentSelection) {
+				cButton.transform.localScale = this.localScaleSetting;
+			}
+			if (cButton.type == myButton) {
+				cButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 0.0f);
+			}
+		}
+	}
 
 }
 
