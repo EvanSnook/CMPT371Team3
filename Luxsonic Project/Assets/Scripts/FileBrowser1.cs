@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using System.IO;
 using System;
+using System.Diagnostics;
 
 using buttons;
 
@@ -27,9 +28,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	List<string> listOfCurrentFiles = new List<string>();
 
 	// List of all Directory Buttons within the current directory
-	List<VRButton> listOfCurrentDirectoryButtons = new List<VRButton>();
+	LinkedList<VRButton> listOfCurrentDirectoryButtons = new LinkedList<VRButton>();
 	// List of all File Buttons within the current directory
-	List<VRButton> listOfCurrentFileButtons = new List<VRButton>();
+	LinkedList<VRButton> listOfCurrentFileButtons = new LinkedList<VRButton>();
 
 	// VRButton prefab to create the Buttons
 	[SerializeField]
@@ -42,10 +43,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	public Vector3 directoryPosition;
 	// Inital Rotation of the file Buttons
 	public Vector3 directoryRotation;
-	// Distance between file and directory buttons
+	// Distance between file and directory buttons in the Y position
 	public float seperationBetweenButtonsY;
-	// Disstnce between buttons of the same type
-	public float sameButtonSeperation;
 
 	// VRButton back to move back to the previous directory
 	private VRButton backButton;
@@ -60,6 +59,45 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	public Vector3 cancelPosition;
 	// Cancel rotation
 	public Vector3 cancelRotation;
+
+	// VRButton cancel to exit out of the filebrowser
+	private VRButton directoryLoadButton;
+	// Cancel button Position
+	public Vector3 directoryLoadPosition;
+	// Cancel rotation
+	public Vector3 directoryLoadRotation;
+
+	// VRButton up for files
+	private VRButton upFileButton;
+	// Cancel button Position
+	public Vector3 upFileButtonPosition;
+	// Cancel rotation
+	public Vector3 upFileButtonRotation;
+
+	// VRButton down for files
+	private VRButton downFileButton;
+	// Cancel button Position
+	public Vector3 downFileButtonPosition;
+	// Cancel rotation
+	public Vector3 downFileButtonRotation;
+
+	// VRButton up for directories
+	private VRButton upDirectoryButton;
+	// Cancel button Position
+	public Vector3 upDirectoryButtonPosition;
+	// Cancel rotation
+	public Vector3 upDirectoryButtonRotation;
+
+	// VRButton down for directories
+	private VRButton downDirectoryButton;
+	// Cancel button Position
+	public Vector3 downDirectoryButtonPosition;
+	// Cancel rotation
+	public Vector3 downDirectoryButtonRotation;
+
+	// The button limit on the filebrowser
+	[SerializeField]
+	private int buttonLimit;
 
 
 
@@ -80,7 +118,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		//Create all directory and file buttons
 		CreateButtons();
 		CreateVRButton(this.currentDirectory, "Back", ButtonType.BACK_BUTTON, backPosition, backRotation);
+		CreateVRButton(this.currentDirectory, "Load Directory", ButtonType.LOAD_DIRECTORY_BUTTON, directoryLoadPosition, directoryLoadRotation);
 		CreateVRButton(this.currentDirectory, "Cancel", ButtonType.CANCEL_BUTTON, cancelPosition, cancelRotation);
+		CreateVRButton(this.currentDirectory, "File Up", ButtonType.FILE_UP, upFileButtonPosition, upFileButtonRotation);
+		CreateVRButton(this.currentDirectory, "File Down", ButtonType.FILE_DOWN, downFileButtonPosition, downFileButtonRotation);
+		CreateVRButton(this.currentDirectory, "Directory Up", ButtonType.DIRECTORY_UP, upDirectoryButtonPosition, upDirectoryButtonRotation);
+		CreateVRButton(this.currentDirectory, "Directory Down", ButtonType.DIRECTORY_DOWN, downDirectoryButtonPosition, downDirectoryButtonRotation);
+
 	}
 
 
@@ -127,7 +171,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// Return:: List of file buttons
 	/// </summary>
 	/// <returns> list of VRButtons paths</returns>
-	public List<VRButton> GetListOfFileButtons()
+	public LinkedList<VRButton> GetListOfFileButtons()
 	{
 		return this.listOfCurrentFileButtons;
 	}
@@ -141,7 +185,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// Return:: List of directory buttons
 	/// </summary>
 	/// <returns> list of VRButtons paths</returns>
-	public List<VRButton> GetListOfDirectoryButtons()
+	public LinkedList<VRButton> GetListOfDirectoryButtons()
 	{
 		return this.listOfCurrentDirectoryButtons;
 	}
@@ -173,9 +217,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		int count = 0;
 		foreach (string directory in listOfCurrentDirectories)
 		{
-			Vector3 newDirectoryPosition = directoryPosition;
-			newDirectoryPosition.x = directoryPosition.x + sameButtonSeperation;
-			newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtonsY);
+			Vector3 newDirectoryPosition = new Vector3(directoryPosition.x, directoryPosition.y - (count * seperationBetweenButtonsY), directoryPosition.z);
+			//newDirectoryPosition.y = newDirectoryPosition.y - (count * seperationBetweenButtonsY);
 			CreateVRButton(directory, "Directory", ButtonType.DIRECTORY_BUTTON, newDirectoryPosition, directoryRotation);
 			count++;
 		}
@@ -183,11 +226,62 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		count = 0;
 		foreach (string file in listOfCurrentFiles)
 		{
-			Vector3 newFilePosition = filePosition;
-			newFilePosition.x = newFilePosition.x + sameButtonSeperation;
-			newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtonsY);
+			Vector3 newFilePosition = new Vector3 (filePosition.x, filePosition.y - (count * seperationBetweenButtonsY), filePosition.z);
+			//newFilePosition.y = newFilePosition.y - (count * seperationBetweenButtonsY);
 			CreateVRButton(file, "File", ButtonType.FILE_BUTTON, newFilePosition, fileRotation);
 			count++;
+		}
+		//ShowLimitedButtons(listOfCurrentDirectoryButtons, this.directoryPosition.y);
+		//ShowLimitedButtons(listOfCurrentFileButtons, this.filePosition.y);
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="args"></param>
+	void LoadFiles(string []args)
+	{
+		var type = args[0];
+		var targetPath = args[1];
+		var destinationPath = Application.persistentDataPath + @"\.temp_images";
+
+		DeleteAllImagesInPath(destinationPath);
+
+		Process newProcess = new Process(); // uncomment using system diagnostics to fix
+		newProcess.StartInfo.FileName = Application.dataPath + @"\DICOMConverter\DICOMConverter.exe";
+		newProcess.StartInfo.Arguments = type + " \"" + targetPath + "\" " + "\"" + destinationPath + "\"";
+		newProcess.StartInfo.UseShellExecute = false;
+		newProcess.StartInfo.CreateNoWindow = true;
+		newProcess.EnableRaisingEvents = true;
+		newProcess.Start();
+		newProcess.WaitForExit();
+
+		//call ConvertAndSerndImages() on everything in (Application.persistentDataPath + \tempImages)
+		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
+		foreach (string filePath in arrayOfFiles)
+		{
+			ConvertAndSendImage(filePath);
+		}
+
+
+		DeleteAllImagesInPath(destinationPath);
+	}
+
+
+	/// <summary>
+	/// D
+	/// </summary>
+	/// <param name="path"></param>
+	void DeleteAllImagesInPath (String path)
+	{
+		if (Directory.Exists(path))
+		{
+			string[] arrayOfFiles = Directory.GetFiles(path);
+			foreach (string filePath in arrayOfFiles)
+			{
+				File.Delete(filePath);
+			}
 		}
 	}
 
@@ -198,6 +292,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// Postconditions: FileBrowser is disabled if it is not currently
 	/// Return: nothing
 	/// </summary>
+	///</summary>
 	void DisableFileBrowser()
 	{
 		this.gameObject.SetActive(false);
@@ -230,24 +325,22 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		Assert.IsNotNull(newDirectory);
 		string storeCurrent = currentDirectory;
 		currentDirectory = newDirectory;
+		directoryLoadButton.path = this.currentDirectory;
 		// Destroy all current directory buttons
 		foreach (VRButton d in listOfCurrentDirectoryButtons)
 		{
 			Destroy(d.gameObject);
 		}
-		Debug.Log("Entering Deleted directory buttons");
 		// Destroy all current File buttons
 		foreach (VRButton f in listOfCurrentFileButtons)
 		{
 			Destroy(f.gameObject);
 		}
-		Debug.Log("Entering Deleted file buttons");
 		// Empty all lists
 		listOfCurrentDirectoryButtons.Clear();
 		listOfCurrentFileButtons.Clear();
 		listOfCurrentDirectories.Clear();
 		listOfCurrentFiles.Clear();
-		Debug.Log("Cleared lists");
 		// Get the new list of directories and files
 		try {
 			GetCurrentDirectories();
@@ -259,7 +352,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		}
 		catch(UnauthorizedAccessException error)
 		{
-			Debug.Log("You have attempted to enter a restricted directory or file.  This is a no no!");
 			EnterDirectory(storeCurrent);
 		}
 	}
@@ -357,13 +449,15 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		if(buttonType == ButtonType.FILE_BUTTON)
 		{
 			newButton.textObject.text = GetLocalName(buttonPath);
-			listOfCurrentFileButtons.Add(newButton);
+			listOfCurrentFileButtons.AddLast(newButton);
+			//listOfCurrentFileButtons.Add(newButton);
 		}
 		// Directory attributes are set
 		else if(buttonType == ButtonType.DIRECTORY_BUTTON)
 		{
 			newButton.textObject.text = GetLocalName(buttonPath);
-			listOfCurrentDirectoryButtons.Add(newButton);
+			listOfCurrentDirectoryButtons.AddLast(newButton);
+			//listOfCurrentDirectoryButtons.Add(newButton);
 		}
 		// Back button attributes are set
 		else if(buttonType == ButtonType.BACK_BUTTON)
@@ -378,7 +472,41 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 			this.cancelButton = newButton;
 			this.cancelButton.textObject.text = "Cancel";
 			this.cancelButton.path = null;
-
+		}
+		// Load Directory attributes set
+		else if (buttonType == ButtonType.LOAD_DIRECTORY_BUTTON)
+		{
+			newButton.textObject.text = "Load Directory";
+			newButton.path = this.currentDirectory;
+			this.directoryLoadButton = newButton;
+		}
+		// File up attributes set
+		else if(buttonType == ButtonType.FILE_UP)
+		{
+			newButton.textObject.text = "Up";
+			newButton.path = null;
+			this.upFileButton = newButton;
+		}
+		// File down
+		else if (buttonType == ButtonType.FILE_DOWN)
+		{
+			newButton.textObject.text = "Down";
+			newButton.path = null;
+			this.downFileButton = newButton;
+		}
+		// Directory up attributes set
+		else if (buttonType == ButtonType.DIRECTORY_UP)
+		{
+			newButton.textObject.text = "Up";
+			newButton.path = null;
+			this.upDirectoryButton = newButton;
+		}
+		// Directory down attributes set
+		else if (buttonType == ButtonType.DIRECTORY_DOWN)
+		{
+			newButton.textObject.text = "Down";
+			newButton.path = null;
+			this.downDirectoryButton = newButton;
 		}
 		else
 		{
@@ -415,6 +543,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		backButton.path = GetPreviousPath(path);
 		backButton.GetComponentInChildren<TextMesh>().text = "Back";
 	}
+
 
 
 	/// <summary>
@@ -477,15 +606,96 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		return path;
 	}
 
+
 	/// <summary>
 	/// Stub function; to be implemented when scrolling is added to the file browser
 	/// </summary>
-	//    void ShowLimitedButtons()
-	//    {
-	//        foreach (VRButton dirButton in listOfCurrentDirectoryButtons){
-	//
-	//        }
-	//    }
+	public void ShowLimitedButtons(LinkedList<VRButton> buttonList, float highestYPosition)
+	{
+		foreach(VRButton button in buttonList)
+		{
+			if(button.GetComponent<Transform>().position.y > highestYPosition)
+			{
+				button.gameObject.SetActive(false);
+			}
+			else if(button.GetComponent<Transform>().position.y <= (highestYPosition - (this.buttonLimit*this.seperationBetweenButtonsY)))
+			{
+				button.gameObject.SetActive(false);
+			}
+			else
+			{
+				button.gameObject.SetActive(true);
+			}
+		}
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="list"></param>
+	private void ScrollDown(LinkedList<VRButton> list, float highestButton)
+	{
+		//Debug.Log("Highest button position is: " + highestButton);
+		//Debug.Log("Lowset allowable button position is: " + (highestButton - (seperationBetweenButtonsY * (buttonLimit - 1))));
+		//Debug.Log("Thye actual Low button position is " + (list.Last.Value.GetComponent<Transform>().position.y));
+		// We should not be able to scroll if the amount of buttons present is less than the limit
+		if (list.Count > this.buttonLimit)
+		{
+			Transform lastValue = list.Last.Value.GetComponent<Transform>();
+			// We can only scroll down if we are not at the bottom of the list
+			if (lastValue.position.y.CompareTo(highestButton - (seperationBetweenButtonsY * (buttonLimit - 1))) < 0)
+			{
+				foreach (VRButton button in list)
+				{
+					// All buttons are shifted up one position
+					Transform oldPosition = button.GetComponent<Transform>();
+					oldPosition.position = new Vector3(oldPosition.position.x,
+						oldPosition.position.y + this.seperationBetweenButtonsY, oldPosition.position.z);
+				}
+				//ShowLimitedButtons(list, highestButton);
+			}
+		}
+		//Debug.Log("Now the actual Low button position is " + (list.Last.Value.GetComponent<Transform>().position.y));
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="highestButton"></param>
+	private void ScrollUp(LinkedList<VRButton> list, float highestButton)
+	{
+		// We should not be able to scroll if the amount of buttons present is less than the limit
+		if (list.Count > this.buttonLimit)
+		{
+			// If we are not at the 'top' of the list, then we can actually scroll up
+			if (list.First.Value.GetComponent<Transform>().position.y.CompareTo(highestButton) > 0)
+			{
+				//Debug.Log(list.First.Value.GetComponent<Transform>().position.y.Equals(highestButton));
+				//Debug.Log((double)list.First.Value.GetComponent<Transform>().position.y);
+				//Debug.Log((double)highestButton);
+				UnityEngine.Debug.Log(FloatLessThan(highestButton, list.First.Value.GetComponent<Transform>().position.y));
+				foreach (VRButton button in list)
+				{
+					// All buttons are shifted down one position
+					Transform oldPosition = button.GetComponent<Transform>();
+					oldPosition.position = new Vector3(oldPosition.position.x,
+						oldPosition.position.y - this.seperationBetweenButtonsY, oldPosition.position.z);
+				}
+				//ShowLimitedButtons(list, highestButton);
+			}
+		}
+	}
+
+
+	private bool FloatLessThan(float a, float b)
+	{
+		UnityEngine.Debug.Log("Compare: " + ((double)b - (double)a));
+		double eps = 0.00001;
+		return (((double)b - (double)a) < 0.00001d);
+	}
 
 
 	/// <summary>
@@ -507,6 +717,20 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		case ButtonType.CANCEL_BUTTON:
 			DisableFileBrowser();
 			break;
+		case ButtonType.FILE_UP:
+			ScrollUp(this.listOfCurrentFileButtons, this.filePosition.y);
+			break;
+		case ButtonType.FILE_DOWN:
+			ScrollDown(this.listOfCurrentFileButtons, this.filePosition.y);
+			break;
+		case ButtonType.DIRECTORY_UP:
+			ScrollUp(this.listOfCurrentDirectoryButtons, this.directoryPosition.y);
+			break;
+		case ButtonType.DIRECTORY_DOWN:
+			ScrollDown(this.listOfCurrentDirectoryButtons, this.directoryPosition.y);
+			break;
+
+
 		}
 	}
 }
