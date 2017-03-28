@@ -259,7 +259,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		foreach (string filePath in arrayOfFiles)
 		{
 			yield return ConvertAndSendImage(filePath);
-			yield return None;
+			yield return null;
 		}
 
 		DeleteAllImagesInPath(destinationPath);
