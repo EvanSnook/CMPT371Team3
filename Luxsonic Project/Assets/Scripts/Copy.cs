@@ -31,10 +31,12 @@ public class Copy : MonoBehaviour
     // The scale increment for contrast
     [SerializeField]
     private float contrastConst;
+	[SerializeField]
+	private float saturationConst;
 
 
     // An enum used to determine which modification is currently being made to the image
-    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, restore, none };
+    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, close, restore, none };
 
     // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
@@ -82,9 +84,16 @@ public class Copy : MonoBehaviour
     [SerializeField]
     private float minContrast = 0;
 
+	// Define the max and min contrast for the images
+	[SerializeField]
+	private float maxSaturation = 2;
+	[SerializeField]
+	private float minSaturation = 0;
+
     // Places to save the default values of the image
     private float defaultBrightness;
     private float defaultContrast;
+	private float defaultSaturation;
     private Vector3 defaultSize;
 
 	//true if a copy is currently being pressed
@@ -142,6 +151,7 @@ public class Copy : MonoBehaviour
         // Save initial values
         this.defaultBrightness = this.curMaterial.GetFloat("_BrightnessAmount");
         this.defaultContrast = this.curMaterial.GetFloat("_ContrastAmount");
+		this.defaultSaturation = this.curMaterial.GetFloat ("_SaturationAmount");
         this.defaultSize = this.gameObject.transform.localScale;
 
         this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
@@ -178,6 +188,9 @@ public class Copy : MonoBehaviour
                     this.Resize(Input.GetAxis(this.rightThumbX));
                     break;
 
+			case CurrentSelection.saturation:
+				this.Saturation(Input.GetAxis(this.rightThumbX));
+				break;
                 default:
                     break;
 
@@ -217,7 +230,7 @@ public class Copy : MonoBehaviour
                 this.currentSelection = CurrentSelection.resize;
                 break;
 
-            case ButtonType.FILTER_BUTTON:    // Filter button clicked
+            case ButtonType.SATURATION_BUTTON:    // Filter button clicked
                 // TODO: Implement Filter code
                 break;
 
@@ -330,6 +343,29 @@ public class Copy : MonoBehaviour
         }
     }
 
+	/// <summary>
+	/// Adjusts the saturation of the image attached to the copy according to the input.
+	/// The input is based on the Unity input axis system.  A positive input will increase the saturation
+	/// and a negative input will decrease the saturation.  The saturationConst value is used to change the value.
+	/// 
+	/// <pre>The saturation button is seleced and this.isCurrentImage is true</pre>
+	/// <post>The saturation of the associated image has been changed </post>
+	/// </summary>
+	private void Saturation(float input)
+	{
+		// If the input is positive, we are increasing the saturation
+
+		if (input > 0 && this.curMaterial.GetFloat("_SaturationAmount") < this.maxSaturation)
+		{
+			this.curMaterial.SetFloat("_SaturationAmount", (this.curMaterial.GetFloat("_SaturationAmount") + this.saturationConst));
+		}
+		// Otherwise, decrease the brightness
+		else if (input < 0 && this.curMaterial.GetFloat("_SaturationAmount") > this.minSaturation)
+		{
+			this.curMaterial.SetFloat("_SaturationAmount", (this.curMaterial.GetFloat("_SaturationAmount") - this.saturationConst));
+		}
+	}
+
     /// <summary>
     /// Adjusts the size of the image attached to the copy according to the input.
     /// The input is based on the Unity input axis system.  A positive input will increase the size
@@ -363,6 +399,7 @@ public class Copy : MonoBehaviour
     {
         this.curMaterial.SetFloat("_BrightnessAmount", this.defaultBrightness);
         this.curMaterial.SetFloat("_ContrastAmount", this.defaultContrast);
+		this.curMaterial.SetFloat("_SaturationAmount", this.defaultSaturation);
         this.transform.localScale = this.defaultSize;
     }
 

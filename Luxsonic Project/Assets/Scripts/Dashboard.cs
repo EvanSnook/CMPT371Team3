@@ -195,7 +195,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 		copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.SATURATION_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESTORE_COPY_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.SELECT_ALL_COPIES_BUTTON, true));
