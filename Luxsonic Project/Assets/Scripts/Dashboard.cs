@@ -14,52 +14,56 @@ using buttons;
 /// </summary>
 public class Dashboard : MonoBehaviour, IVRButton
 {
-	
-
-	/// <summary>
-	/// Class defining where to instantiate buttons.
-	/// Holds the name, position and rotation of each button in the inspector.
-	/// </summary>
-	[System.Serializable]
-	public class ButtonAttributes {
-		// The name and text to appear on the button
-		public string buttonName;
-
-		// The local position of the button, relative to its parent plane
-		public Vector3 position;
-
-		public ButtonAttributes(string n, Vector3 pos){
-			buttonName = n;
-			position = pos;
-		}
 
 
-		public string getName(){
-			return this.buttonName;
-		}
+    /// <summary>
+    /// Class defining where to instantiate buttons.
+    /// Holds the name, position and rotation of each button in the inspector.
+    /// </summary>
+    [System.Serializable]
+    public class ButtonAttributes
+    {
+        // The name and text to appear on the button
+        public string buttonName;
 
-		public Vector3 getPosition(){
-			return this.position;
-		}
+        // The local position of the button, relative to its parent plane
+        public Vector3 position;
 
-	}
+        public ButtonAttributes(string n, Vector3 pos)
+        {
+            buttonName = n;
+            position = pos;
+        }
+
+
+        public string getName()
+        {
+            return this.buttonName;
+        }
+
+        public Vector3 getPosition()
+        {
+            return this.position;
+        }
+
+    }
 
 
 
-	// Holds the attributes for each button, indexed by the ButtonType
-	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[10];
+    // Holds the attributes for each button, indexed by the ButtonType
+    public ButtonAttributes[] buttonAttributes = new ButtonAttributes[13];
 
-	// The file system to load images with
-    public GameObject loadBar;  
+    // The file system to load images with
+    public GameObject loadBar;
 
-	// Creates a display object in dashboard
-    public Display display; 
+    // Creates a display object in dashboard
+    public Display display;
 
-	// Prefab for the menu planes, which hold menu buttons
+    // Prefab for the menu planes, which hold menu buttons
     public GameObject planePrefab;
 
-	// The button object to use for instantiating buttons
-    public VRButton button;       
+    // The button object to use for instantiating buttons
+    public VRButton button;
 
     //Images used to test load functionality
     public Texture2D[] dummyImages;
@@ -72,32 +76,34 @@ public class Dashboard : MonoBehaviour, IVRButton
     //Are the Buttons visable to the user?
     private bool minimized = false;
 
-	// A list of the Copy objects instantiated in the workspace
+    // A list of the Copy objects instantiated in the workspace
     public List<GameObject> currentCopies;
 
-	// List of the buttons that can be used to modify Copy objects
+    // List of the buttons that can be used to modify Copy objects
     private List<VRButton> copyButtons;
 
-	// Reference to the plane holding the Load, Quit and Minimize buttons
+    // Reference to the plane holding the Load, Quit and Minimize buttons
     private GameObject menuPlane;
 
-	// Position, rotation and scale of the menu plane in world space
+    // Position, rotation and scale of the menu plane in world space
     public Vector3 menuPlanePosition;
     public Vector3 menuPlaneRotation;
-	public Vector3 menuPlaneScale;
+    public Vector3 menuPlaneScale;
 
-	// Reference to the plane holding the buttons for modifying Copy objects
+    // Reference to the plane holding the buttons for modifying Copy objects
     private GameObject copyButtonsPlane;
 
-	// Position, rotation and scale of the copy plan in world space
+    // Position, rotation and scale of the copy plan in world space
     public Vector3 copyPlanePosition;
     public Vector3 copyPlaneRotation;
-	public Vector3 copyPlaneScale;
+    public Vector3 copyPlaneScale;
 
     // The current selection, defaults to none
     private ButtonType currentSelection = ButtonType.NONE;
 
-	// Built-in Unity method called at the beginning of the Scene
+    private bool deselectingAll = false;
+
+    // Built-in Unity method called at the beginning of the Scene
     public void Start()
     {
         display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
@@ -105,42 +111,53 @@ public class Dashboard : MonoBehaviour, IVRButton
         DisplayMenu();
     }
 
-	/// <summary>
-	/// Initializes a VRButton, given attributes of a button indexed by ButtonType.
-	/// Pre:: index must be between 0 and buttonAttributes.Length - 1
-	/// Post:: A new button has been instantiated with the correct attributes
-	/// </summary>
-	/// <returns>VRButton initialized with correct attributes.</returns>
-	/// <param name="index">The type of button as an index into buttonAttributes.</param>
-	/// <param name="copyPlane">If set to <c>true</c>, use copyPlane position and rotation;
-	/// 	otherwise, use menuPlane position and rotation.</param>
-	public VRButton InitializeButton(ButtonType index, bool copyPlane=false){
+    public void Update()
+    {
+        if (this.currentCopies.Count == 0)
+        {
+            this.currentSelection = ButtonType.NONE;
+        }
+    }
+    /// <summary>
+    /// Initializes a VRButton, given attributes of a button indexed by ButtonType.
+    /// Pre:: index must be between 0 and buttonAttributes.Length - 1
+    /// Post:: A new button has been instantiated with the correct attributes
+    /// </summary>
+    /// <returns>VRButton initialized with correct attributes.</returns>
+    /// <param name="index">The type of button as an index into buttonAttributes.</param>
+    /// <param name="copyPlane">If set to <c>true</c>, use copyPlane position and rotation;
+    /// 	otherwise, use menuPlane position and rotation.</param>
+    public VRButton InitializeButton(ButtonType index, bool copyPlane = false)
+    {
 
-		Assert.IsTrue ((int)index < buttonAttributes.Length);
-		Assert.IsTrue ((int)index >= 0);
+        Assert.IsTrue((int)index < buttonAttributes.Length);
+        Assert.IsTrue((int)index >= 0);
 
-		Vector3 pos = buttonAttributes [(int)index].getPosition ();
-		string newName = buttonAttributes [(int)index].getName ();
-		VRButton newButton;
+        Vector3 pos = buttonAttributes[(int)index].getPosition();
+        string newName = buttonAttributes[(int)index].getName();
+        VRButton newButton;
 
-		if (copyPlane) {
-			newButton = Instantiate(button, pos,
-				Quaternion.Euler(copyPlaneRotation));
-			newButton.transform.parent = this.copyButtonsPlane.transform;
-		} else {
-			newButton = Instantiate(button, pos,
-				Quaternion.Euler(menuPlaneRotation));
-			newButton.transform.parent = this.menuPlane.transform;
-		}
-		newButton.type = index;
-		newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
-		newButton.name = newName;
-		newButton.buttonName = newName;
-		newButton.manager = this.gameObject;
-		newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
-		newButton.textObject.text = newName;
-		return newButton;
-	}
+        if (copyPlane)
+        {
+            newButton = Instantiate(button, pos,
+                Quaternion.Euler(copyPlaneRotation));
+            newButton.transform.parent = this.copyButtonsPlane.transform;
+        }
+        else
+        {
+            newButton = Instantiate(button, pos,
+                Quaternion.Euler(menuPlaneRotation));
+            newButton.transform.parent = this.menuPlane.transform;
+        }
+        newButton.type = index;
+        newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
+        newButton.name = newName;
+        newButton.buttonName = newName;
+        newButton.manager = this.gameObject;
+        newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
+        newButton.textObject.text = newName;
+        return newButton;
+    }
 
 
     /// <summary>
@@ -160,22 +177,26 @@ public class Dashboard : MonoBehaviour, IVRButton
         this.copyButtonsPlane.transform.localScale = this.copyPlaneScale;
 
         // Create the load button to access the filesystem
-		this.loadButton = InitializeButton(ButtonType.LOAD_BUTTON);
+        this.loadButton = InitializeButton(ButtonType.LOAD_BUTTON);
 
         // Create the Quit button 
-		this.quitButton = InitializeButton(ButtonType.QUIT_BUTTON);
+        this.quitButton = InitializeButton(ButtonType.QUIT_BUTTON);
 
         // Create the Minimize button 
-		this.minimizeButton = InitializeButton(ButtonType.MINIMIZE_BUTTON);
+        this.minimizeButton = InitializeButton(ButtonType.MINIMIZE_BUTTON);
 
         // Create the Copy modification buttons
-		copyButtons.Add(InitializeButton(ButtonType.CONTRAST_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.ROTATE_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.CONTRAST_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.ROTATE_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.RESTORE_COPY_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.SELECT_ALL_COPIES_BUTTON, true));
+        copyButtons.Add(InitializeButton(ButtonType.DESELECT_ALL_COPIES_BUTTON, true));
+
 
     }
 
@@ -203,8 +224,8 @@ public class Dashboard : MonoBehaviour, IVRButton
                 Minimize();
                 break;
 
-			case ButtonType.BRIGHTNESS_BUTTON:
-				this.currentSelection = button;
+            case ButtonType.BRIGHTNESS_BUTTON:
+                this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
 
@@ -222,6 +243,22 @@ public class Dashboard : MonoBehaviour, IVRButton
                 this.currentSelection = button;
                 this.UpdateCopyOptions();
                 break;
+
+            case ButtonType.RESTORE_COPY_BUTTON:
+                this.currentSelection = button;
+                this.UpdateCopyOptions();
+                break;
+
+            case ButtonType.SELECT_ALL_COPIES_BUTTON:
+                this.SelectAllCopies();
+                this.UpdateCopyOptions();
+                break;
+
+            case ButtonType.DESELECT_ALL_COPIES_BUTTON:
+                this.DeselectAllCopies();
+                this.UpdateCopyOptions();
+                break;
+
 
             default:    // A copy option was clicked
 
@@ -241,14 +278,40 @@ public class Dashboard : MonoBehaviour, IVRButton
 
     private void UpdateCopyOptions()
     {
-        if (this.currentCopies.Count > 0)
+        List<GameObject> copiesToDelete = new List<GameObject>();
+
+        if (this.currentCopies.Count > 0 && this.currentSelection != ButtonType.NONE)
         {
             //this.currentCopy.SendMessage("ReceiveSlider", this.slider);
             foreach (GameObject currentCopy in this.currentCopies)
             {
-                currentCopy.SendMessage("NewOptions", this.currentSelection);
+                if (this.currentSelection == ButtonType.CLOSE_BUTTON)
+                {
+                    copiesToDelete.Add(currentCopy);
+                }
+                else
+                {
+                    currentCopy.SendMessage("NewOptions", this.currentSelection);
+
+                }
             }
+        }   // If there are no copies selected, deselect the current button
+        else if (this.currentCopies.Count == 0)
+        {
+            this.currentSelection = ButtonType.NONE;
         }
+
+        //if current selection was the close, set it to none after they have been closed.
+        if (this.currentSelection == ButtonType.CLOSE_BUTTON)
+        {
+            foreach (GameObject copy in copiesToDelete)
+            {
+                this.currentCopies.Remove(copy);
+                copy.SendMessage("NewOptions", this.currentSelection);
+            }
+            this.currentSelection = ButtonType.NONE;
+        }
+
     }
 
     public void CopySelected(GameObject copy)
@@ -260,7 +323,10 @@ public class Dashboard : MonoBehaviour, IVRButton
         }
         else
         {
-            this.currentCopies.Remove(copy);
+            if (!this.deselectingAll)
+            {
+                this.currentCopies.Remove(copy);
+            }
         }
     }
 
@@ -302,49 +368,89 @@ public class Dashboard : MonoBehaviour, IVRButton
     {
         if (this.minimized)
         {
-			MaximizeButtons (true);
-			this.minimizeButton.textObject.text = "Minimize";
+            MaximizeButtons(true);
+            this.minimizeButton.textObject.text = "Minimize";
         }
         else
         {
-			MaximizeButtons (false);
-			this.minimizeButton.textObject.text = "Maximize";
+            MaximizeButtons(false);
+            this.minimizeButton.textObject.text = "Maximize";
         }
     }
 
 
-	/// <summary>
-	/// Helper function for Minimize(). Sets menu and buttons active or not active based on the
-	/// mode parameter.
-	/// Pre:: nothing
-	/// Post:: Buttons and menus set to either Active or not Active.
-	/// Return:: nothing
-	/// </summary>
-	/// <param name="mode">If set to <c>true</c>, enable the menu and buttons; 
-	/// otherwise disable them.</param>
-	public void MaximizeButtons(bool mode){
-		this.loadButton.gameObject.SetActive(mode);
-		this.quitButton.gameObject.SetActive(mode);
-		foreach (VRButton cButton in copyButtons)
-		{
-			cButton.gameObject.SetActive(mode);
-		}
-		this.minimized = !mode;
-	}
+    /// <summary>
+    /// Helper function for Minimize(). Sets menu and buttons active or not active based on the
+    /// mode parameter.
+    /// Pre:: nothing
+    /// Post:: Buttons and menus set to either Active or not Active.
+    /// Return:: nothing
+    /// </summary>
+    /// <param name="mode">If set to <c>true</c>, enable the menu and buttons; 
+    /// otherwise disable them.</param>
+    public void MaximizeButtons(bool mode)
+    {
+        this.loadButton.gameObject.SetActive(mode);
+        this.quitButton.gameObject.SetActive(mode);
+        this.copyButtonsPlane.gameObject.SetActive(mode);
+        this.display.gameObject.SetActive(mode);
+        foreach (VRButton cButton in copyButtons)
+        {
+            cButton.gameObject.SetActive(mode);
+        }
+        this.minimized = !mode;
+    }
 
     public void SetCopyButtons(List<VRButton> theList)
     {
         this.copyButtons = theList;
     }
 
-	//for testing purposes
-	public bool getMinimized(){
-		return this.minimized;
-	}
+    /// <summary>
+    /// Add all copies in the scene to the current copies list
+    /// </summary>
+    public void SelectAllCopies()
+    {
+        List<GameObject> tempList = this.display.GetCopies();
 
-	//for testing purposes
-	public ButtonType getCurrentSelection(){
-		return this.currentSelection;
-	}
+        foreach (GameObject copy in tempList)
+        {
+            if (!copy.GetComponent<Copy>().isCurrentImage)
+            {
+                copy.gameObject.SendMessage("Selected");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove all copies in the scene from the current copies list
+    /// </summary>
+    public void DeselectAllCopies()
+    {
+        this.deselectingAll = true;
+        List<GameObject> tempList = this.currentCopies;
+        foreach (GameObject copy in tempList)
+        {
+            if (copy.gameObject.GetComponent<Copy>().isCurrentImage)
+            {
+                copy.gameObject.SendMessage("Selected");
+            }
+        }
+        this.currentCopies.Clear();
+        this.deselectingAll = false;
+    }
+
+    //for testing purposes
+    public bool GetMinimized()
+    {
+        return this.minimized;
+    }
+
+    //for testing purposes
+    public ButtonType GetCurrentSelection()
+    {
+        return this.currentSelection;
+    }
 
 }
+

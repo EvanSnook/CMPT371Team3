@@ -34,7 +34,7 @@ public class Copy : MonoBehaviour
 
 
     // An enum used to determine which modification is currently being made to the image
-    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, none };
+    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, restore, none };
 
     // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
@@ -62,6 +62,29 @@ public class Copy : MonoBehaviour
 
 
     private Texture2D outlineTexture;
+
+    // Define the maximum and minimum size for the copy to be resized to 
+    [SerializeField]
+    private float maxSize = 100;
+    [SerializeField]
+    private float minSize = 0.1f;
+
+    // Define the max and min brightness for the images
+    [SerializeField]
+    private float maxBrightness = 2;
+    [SerializeField]
+    private float minBrightness = 0;
+
+    // Define the max and min contrast for the images
+    [SerializeField]
+    private float maxContrast = 2;
+    [SerializeField]
+    private float minContrast = 0;
+
+    // Places to save the default values of the image
+    private float defaultBrightness;
+    private float defaultContrast;
+    private Vector3 defaultSize;
 
     private void Start()
     {
@@ -111,6 +134,12 @@ public class Copy : MonoBehaviour
         this.curMaterial.SetFloat("_BrightnessAmount", 1);
         this.curMaterial.SetFloat("_ContrastAmount", 1);
         this.curMaterial.SetFloat("_SaturationAmount", 1);
+
+        // Save initial values
+        this.defaultBrightness = this.curMaterial.GetFloat("_BrightnessAmount");
+        this.defaultContrast = this.curMaterial.GetFloat("_ContrastAmount");
+        this.defaultSize = this.gameObject.transform.localScale;
+
         this.outlineTexture = new Texture2D(this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.width + this.outlineScale, this.gameObject.GetComponent<SpriteRenderer>().sprite.texture.height + this.outlineScale);
 
         this.transform.GetChild(0).transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + this.outlineDepth);
@@ -125,8 +154,8 @@ public class Copy : MonoBehaviour
     void Update()
     {
         // If we are the current image...
-        if (this.isCurrentImage)
-        {
+        if (this.isCurrentImage && this.transform.parent == null)
+        { 
             // Check our current selection
             switch (currentSelection)
             {
@@ -164,7 +193,7 @@ public class Copy : MonoBehaviour
         Assert.IsFalse(button == ButtonType.NONE);
         switch (button)
         {
-			case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
+            case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
                 this.currentSelection = CurrentSelection.contrast;
                 break;
 
@@ -188,10 +217,21 @@ public class Copy : MonoBehaviour
                 // TODO: Implement Filter code
                 break;
 
+            case ButtonType.RESTORE_COPY_BUTTON:     // Restore button clicked
+                this.RestoreDefaults();
+                break;
+
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
-                this.currentSelection = CurrentSelection.close;
-                this.gameObject.SetActive(false);
-                //DestroyImmediate(this.gameObject);
+                
+                //set current selection to none after copy has been closed
+                this.currentSelection = CurrentSelection.none;
+                // If the object is being held by the hand...
+                if(this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
+                {
+                    // Tell the hand to drop it like its hot
+                    this.transform.parent.gameObject.SendMessage("Drop");
+                }
+                SafeDelete(this.gameObject);
                 break;
 
             default:        // This happens when no options are selected
@@ -200,6 +240,17 @@ public class Copy : MonoBehaviour
 
         }
     }
+
+
+    private void SafeDelete(GameObject obj){
+        if (Application.isEditor) {
+            Destroy (obj);
+        } else {
+            DestroyImmediate(obj);
+        }
+    }
+
+
 
     /// <summary>
     /// Called when the object is interacted with in VR
@@ -242,12 +293,12 @@ public class Copy : MonoBehaviour
     private void Brightness(float input)
     {
         // If the input is positive, we are increasing the brightness
-        if (input > 0)
+        if (input > 0 && this.curMaterial.GetFloat("_BrightnessAmount") < this.maxBrightness)
         {
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") + this.brightnessConst));
         }
         // Otherwise, decrease the brightness
-        else if (input < 0)
+        else if (input < 0 && this.curMaterial.GetFloat("_BrightnessAmount") > this.minBrightness)
         {
             this.curMaterial.SetFloat("_BrightnessAmount", (this.curMaterial.GetFloat("_BrightnessAmount") - this.brightnessConst));
         }
@@ -264,12 +315,12 @@ public class Copy : MonoBehaviour
     private void Contrast(float input)
     {
         // If the input is positive, increase the contrast
-        if (input > 0)
+        if (input > 0 && this.curMaterial.GetFloat("_ContrastAmount") < this.maxContrast)
         {
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") + this.contrastConst));
         }
         // Otherwise, decrease the contrast
-        else if (input < 0)
+        else if (input < 0 && this.curMaterial.GetFloat("_ContrastAmount") > this.minContrast)
         {
             this.curMaterial.SetFloat("_ContrastAmount", (this.curMaterial.GetFloat("_ContrastAmount") - this.contrastConst));
         }
@@ -285,19 +336,35 @@ public class Copy : MonoBehaviour
     /// </summary>
     public void Resize(float input)
     {
-        // If the input is positive, increase the size
-        if (input > 0)
+        
+        // If the input is positive and we are not too big, increase the size
+        if ((input > 0) && (this.transform.localScale.x < this.maxSize) && (this.transform.localScale.y < this.maxSize))
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x * resizeScale, scale.y * resizeScale, scale.z * resizeScale);
         }
-        // Otherwise, decrease the size
-        else if (input < 0)
+        // Otherwise if we are not too small, decrease the size
+        else if ((input < 0) && (this.transform.localScale.x > this.minSize) && (this.transform.localScale.y > this.minSize))
         {
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
         }
     }
+
+    /// <summary>
+    /// Restores the copy values to their original default values
+    /// </summary>
+    /// <post>The copy values will be set to what they were when the copy was first loaded</post>
+    public void RestoreDefaults()
+    {
+        this.curMaterial.SetFloat("_BrightnessAmount", this.defaultBrightness);
+        this.curMaterial.SetFloat("_ContrastAmount", this.defaultContrast);
+        this.transform.localScale = this.defaultSize;
+    }
+
+    //===================================
+    // Test hooks
+    //===================================
 
     /// <summary>
     /// Returns the material being used by the copy

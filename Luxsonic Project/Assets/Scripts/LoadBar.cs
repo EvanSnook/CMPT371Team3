@@ -6,6 +6,9 @@ using System.Security.Permissions;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Load bar. This is a temporary script for loading predetermined files into unity.
+/// </summary>
 public class LoadBar : MonoBehaviour
 {
     //skins and textures

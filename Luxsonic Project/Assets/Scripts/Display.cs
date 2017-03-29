@@ -67,16 +67,17 @@ public class Display : MonoBehaviour, IVRButton
     // Indicates whether the scroll buttons are visible to the user	
     private bool scrollButtonsVisible = false;
 
+    // Current ID for copies whose textures do not have names
+    private int copyId = 0;
+
     /// <summary>
     /// AddImage() will add an image to the list of loaded images.  It will also create a new
     /// displayImage and add it to the list.  It will create the Tray if it does not already exist
-    /// and create the scroll bar if it is not currently present
-    /// Pre:: image Texture2D to add
-    /// Post:: creation of Tray, adds Texture2D to images list and adds new GameObject to displayImages
-    /// list.
-    /// Return:: nothing
+    /// and create the scroll bar if it is not currently present.
     /// </summary>
     /// <param name="image">The texture for the image to add</param>
+    /// <pre>Image Texture2D to add</pre>
+    /// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
     public void AddImage(Texture2D image)
     {
         Assert.IsNotNull(image, "Image passed into Display is null");
@@ -101,7 +102,7 @@ public class Display : MonoBehaviour, IVRButton
         {
             if (!this.scrollButtonsVisible)
             {
-                createScrollButtons();
+                CreateScrollButtons();
                 this.scrollButtonsVisible = true;
             }
         }
@@ -113,31 +114,29 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// Function createScrollButtons() will create the left and right scroll buttons to
     /// browse through all images in the Display
-    /// Pre:: there are more display images than the length of the display image positions array
-    /// Post:: instantiation of left and right scroll buttons and added to the hierarchy
-    /// Return: nothing
     /// </summary>
-    private void createScrollButtons()
+    /// <pre>There are more display images than the length of the display image positions array</pre>
+    /// <post>Instantiation of left and right scroll buttons and added to the heirarchy</post>
+    private void CreateScrollButtons()
     {
         // Create the left scroll button
-        CreateScrollButton("Left", ButtonType.LEFT_BUTTON, this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
+        CreateScrollButton("Left", ButtonType.LEFT_BUTTON, ref this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
         // Create the right scroll button
-		CreateScrollButton("Right", ButtonType.RIGHT_BUTTON, this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
+		CreateScrollButton("Right", ButtonType.RIGHT_BUTTON, ref this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
     }
 
 
     /// <summary>
     /// CreateScrollButton will create a single instance of a scroll button
-    /// Pre:: buttonPrefab must not be null
-    /// Post:: creation of a new scroll button
-    /// Return:: nothing
     /// </summary>
     /// <param name="buttonName">The name of the button "Left" or "Right"</param>
     /// <param name="button">the button attribute we are instantiating</param>
 	/// <param name="type">Enum representing the type of button</param> 
     /// <param name="position">position of the button</param>
     /// <param name="rotation">rotation of the button</param>
-    public void CreateScrollButton(string buttonName, ButtonType type, VRButton button, Vector3 position, Vector3 rotation)
+    /// <pre>buttonPrefab must not be null</pre>
+    /// <post>creation of a new scroll button</post>
+    public void CreateScrollButton(string buttonName, ButtonType type, ref VRButton button, Vector3 position, Vector3 rotation)
     {
         button = Instantiate(buttonPrefab, position,
             Quaternion.Euler(rotation));
@@ -154,9 +153,8 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// Function CreateTray() creates and displays the tray of thumbnails
     /// The tray exhibits all images that are available to the user to cycle through in the display
-    /// Pre:: nothing
-    /// Post: a new Tray instantiated and added to the hierarchy
-    /// Return:: nothing
+    /// <pre>Nothing</pre>
+    /// <post>A new Tray instantiated and added to the hierarchy</post>
     /// </summary>
     public void CreateTray(Texture2D image)
     {
@@ -180,10 +178,9 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// Function CreateCopy will instantiate a new Copy in the space at the center of the user's view
 	/// A Copy is the object that a user can manipulate and move within the workspace
-    /// Pre:: Texture2D image
-    /// Post:: a new Copy is instantiated and added to the hierarchy
-    /// Return:: nothing
     /// </summary>
+    /// <pre>TExture2D image</pre>
+    /// <post>A new Copy is instantiated and added to the hierarchy</post>
     public void CreateCopy(Texture2D image)
     {
         Assert.IsNotNull(image, "Creating new Copy from Display image was null");
@@ -194,16 +191,25 @@ public class Display : MonoBehaviour, IVRButton
         trans.z = copyDepth;
         GameObject newCop = Instantiate(copyPrefab, trans, new Quaternion(0, 0, 0, 0));
         Copy cop = newCop.GetComponent<Copy>();
+
+        // If the image texture does not have a name, we will give it a generic name
+        if (image.name == "")
+        {
+            cop.name = "Copy " + this.copyId;
+            this.copyId++;
+        // We can use the name of the texture
+        } else {
+            cop.name = image.name;
+        }
         cop.NewCopy(image);
         copies.Add(newCop);
     }
 
     /// <summary>
     /// GetImages() will return the list of images in the manager
-    /// Pre:: nothing
-    /// Post:: nothing
-    /// Return:: List of Texture2D
     /// </summary>
+    /// <pre>nothing</pre>
+    /// <post>nothing</post>
     /// <returns>A list of Texture2D elements</returns>
     public List<Texture2D> GetImages()
     {
@@ -214,9 +220,9 @@ public class Display : MonoBehaviour, IVRButton
 
     /// <summary>
     /// GetCopies() will return the list of Copies in the manager
-    /// Pre:: nothing
-    /// Post: nothing
     /// </summary>
+    /// <pre>nothing</pre>
+    /// <post>nothing</post>
     /// <returns>A list of Display ojects</returns>
     public List<GameObject> GetCopies()
     {
@@ -244,12 +250,14 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// ScrollLeft() will shift the images displayed to the user in the displayImages
     /// list to the left.
-    /// Pre:: there are more display images than the length of display iamges positions array
-    /// Post:: positions and activation of GameObjects in displayImages is changed.
-    /// Return:: nothing
     /// </summary>
+    /// <pre>there are more display images than the length of display iamges positions array</pre>
+    /// <post>positions and activation of GameObjects in displayImages is changed.</post>
     private void ScrollLeft()
     {
+        // If there are not enough images to scroll through
+        Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
+
         if (this.images.Count >= this.displayImagePositions.Length)
         {
             GameObject temp = displayImages.First.Value;
@@ -263,12 +271,14 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// ScrollRightt() will shift the images displayed to the user in the displayImages
     /// list to the right.
-	/// Pre:: there are more display images than the length of display iamges positions array
-    /// Post:: positions and activation of GameObjects in displayImages is changed.
-    /// Return:: nothing
     /// </summary>
+    /// <pre>there are more display images than the length of display iamges positions array</pre>
+    /// <post>positions and activation of GameObjects in displayImages is changed.</post>
     private void ScrollRight()
     {
+        // If there are not enough images to scroll through
+        Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
+
         if (this.images.Count >= this.displayImagePositions.Length)
         {
             GameObject temp = displayImages.Last.Value;
@@ -289,10 +299,9 @@ public class Display : MonoBehaviour, IVRButton
     /// Draw the scrolling display images from the list of display images
 	/// The number of display images drawn is determined by the length of the display
 	/// image positions array
-	/// Pre:: there are display images to be drawn
-	/// Post:: display images are drawn in the workspace
-	/// Return:: Nothing
     /// </summary>
+    /// <pre>there are display images to be drawn</pre>
+    /// <post>display images are drawn in the workspace</post>
     private void redrawDisplayImages()
     {
         int i = 0;
@@ -313,5 +322,55 @@ public class Display : MonoBehaviour, IVRButton
             }
         }
     }
+
+    // Test hooks
+
+    /// <summary>
+    /// Test creating the scroll buttons by creating them and returning an array with reference to them
+    /// </summary>
+    /// <returns></returns>
+    public VRButton[] TestCreateScrollButtons()
+    {
+        VRButton[] scrollBtns = new VRButton[2];
+        this.CreateScrollButtons();
+
+        scrollBtns[0] = this.leftScrollButton;
+        scrollBtns[1] = this.rightScrollButton;
+
+        return scrollBtns;
+    }
+
+    /// <summary>
+    /// Test the scrolling functionality by scrolling through all images 
+    /// </summary>
+    /// <param name="numberOfImages"></param>
+  
+    public void TestScrollLeftAndRight(int numberOfImages)
+    {
+        GameObject firstElement = this.displayImages.First.Value;
+        // Scroll left until we are back at the start
+        for(int i = 0; i < numberOfImages; i++)
+        {
+            GameObject currentElement = this.displayImages.First.Value;
+            this.ScrollLeft();
+            Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
+            Assert.AreEqual(this.displayImages.Last.Value, currentElement);
+        }
+
+        Assert.AreEqual(firstElement, this.displayImages.First.Value);
+
+        firstElement = this.displayImages.First.Value;
+
+        // Scroll right until we are back at the start
+        for (int i = 0; i < numberOfImages; i++)
+        {
+            GameObject currentElement = this.displayImages.First.Value;
+            this.ScrollRight();
+            Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
+            Assert.AreEqual(this.displayImages.First.Next.Value, currentElement);
+        }
+
+ 
+    } 
 }
 

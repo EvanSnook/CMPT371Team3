@@ -147,7 +147,7 @@ public class TouchAndGrab : MonoBehaviour
         {
             other.gameObject.SendMessage("Selected");
         }
-        else if (other.tag == "Thumbnail")
+        else if ((other.tag == "Thumbnail") && ((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
         {
             if (!(other.gameObject.GetComponent<Thumbnail>().GetPressed()))
             {
