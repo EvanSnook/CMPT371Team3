@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using System.IO;
 using System;
+using System.Threading;
 
 using buttons;
 
@@ -258,7 +259,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
 		foreach (string filePath in arrayOfFiles)
 		{
-			yield return ConvertAndSendImage(filePath);
+			yield return StartCoroutine(ConvertAndSendImage(filePath));
 			yield return null;
 		}
 
@@ -409,6 +410,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// Can't do anything with a null file
 		Assert.AreNotEqual(null, file, "The file should not be null");
 		byte[] dicomImage = File.ReadAllBytes(file.ToString());
+
+		byte[] result = null;
+		Thread newThread = new Thread(() => { result = convertToBytes(file.ToString()); });
+		newThread.Start();
+
+		while (newThread.IsAlive)
+		{
+			yield return null;
+		}
+
 		//We also can't do anything with an empty file
 		Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
 		//From bytes, this is where we will call and write the code to decipher DICOMs
@@ -416,6 +427,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		image.LoadImage(dicomImage);
 		image.name = filePath;
 		display.SendMessage("AddImage", image);
+	}
+
+
+
+	public byte[] convertToBytes(String file)
+	{
+		byte[] dicomImage = File.ReadAllBytes(file);
+		return dicomImage;
 	}
 
 
