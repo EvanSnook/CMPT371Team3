@@ -36,7 +36,7 @@ public class Copy : MonoBehaviour
 
 
     // An enum used to determine which modification is currently being made to the image
-    private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, close, restore, none };
+    private enum CurrentSelection { brightness, contrast, resize, invert, saturation, zoom, close, restore, none };
 
     // The current selection, defaults to none
     private CurrentSelection currentSelection = CurrentSelection.none;
@@ -188,8 +188,12 @@ public class Copy : MonoBehaviour
                     this.Resize(Input.GetAxis(this.rightThumbX));
                     break;
 
-			case CurrentSelection.saturation:
-				this.Saturation(Input.GetAxis(this.rightThumbX));
+				case CurrentSelection.saturation:
+					this.Saturation(Input.GetAxis(this.rightThumbX));
+					break;
+			
+			case CurrentSelection.invert:
+				this.Invert();
 				break;
                 default:
                     break;
@@ -214,8 +218,8 @@ public class Copy : MonoBehaviour
                 this.currentSelection = CurrentSelection.contrast;
                 break;
 
-            case ButtonType.ROTATE_BUTTON:    // Rotate button clicked
-				this.currentSelection = CurrentSelection.rotate;
+            case ButtonType.INVERT_BUTTON:    // Rotate button clicked
+				this.currentSelection = CurrentSelection.invert;
                 break;
 
             case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
@@ -390,6 +394,16 @@ public class Copy : MonoBehaviour
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
         }
     }
+
+	public void Invert(){
+		Color[] imageColors = this.imageRenderer.sprite.texture.GetPixels();
+		for (int i = 0; i < imageColors.Length; i++) {
+			Color invertedColor = new Color(1.0f - imageColors[i].r, 1.0f - imageColors[i].g, 1.0f - imageColors[i].b);
+			imageColors [i] = invertedColor;
+		}
+		this.imageRenderer.sprite.texture.SetPixels (imageColors);
+		this.imageRenderer.sprite.texture.Apply ();
+	}
 
     /// <summary>
     /// Restores the copy values to their original default values

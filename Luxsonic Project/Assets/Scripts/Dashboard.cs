@@ -191,7 +191,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 		// Create the Copy modification buttons
 		copyButtons.Add(InitializeButton(ButtonType.CONTRAST_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.ROTATE_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.INVERT_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
@@ -239,6 +239,12 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.CONTRAST_BUTTON:
+			this.setButtonScale(button);
+			this.currentSelection = button;
+			this.UpdateCopyOptions();
+			break;
+		
+		case ButtonType.INVERT_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
