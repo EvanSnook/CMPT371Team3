@@ -54,7 +54,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[13];
 
 	// The file system to load images with
-	public GameObject loadBar;
+	public FileBrowser1 fileBrowser;
 
 	// Creates a display object in dashboard
 	public Display display;
@@ -102,8 +102,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 	private ButtonType currentSelection = ButtonType.NONE;
 
 	private bool deselectingAll = false;
-	private Vector3 localScaleSetting;
-	private VRButton pressedButton;
 
 	// Built-in Unity method called at the beginning of the Scene
 	public void Start()
@@ -111,8 +109,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 		display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
 		this.copyButtons = new List<VRButton>();
 		DisplayMenu();
-		localScaleSetting = copyButtons [0].transform.localScale;
-		this.pressedButton = null;
 	}
 
 	public void Update()
@@ -213,15 +209,11 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <param name="button">The name of the button</param>
 	public void VRButtonClicked(ButtonType button)
 	{
-		if (this.pressedButton != null)
-		{
-			this.pressedButton.transform.localScale = this.localScaleSetting;
-		}
 		switch (button)
 		{
 		case ButtonType.LOAD_BUTTON:
 			// If the load button was clicked
-			Load ();
+			Load();
 			break;
 		case ButtonType.QUIT_BUTTON:
 			// If the quit button was clicked
@@ -233,43 +225,36 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.BRIGHTNESS_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.CONTRAST_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.CLOSE_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.RESTORE_COPY_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.SELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale(button);
 			this.SelectAllCopies();
 			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.DESELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale(button);
 			this.DeselectAllCopies();
 			this.UpdateCopyOptions();
 			break;
@@ -367,8 +352,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// </summary>
 	private void Load()
 	{
-		display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
-		//Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+		fileBrowser.gameObject.SetActive(true);
+		Minimize();
 	}
 
 	/// <summary>
@@ -467,16 +452,5 @@ public class Dashboard : MonoBehaviour, IVRButton
 		return this.currentSelection;
 	}
 
-	//find the button of button mybutton and make it appear pressed by setting z value to 0
-	//set the last button that was selected appear unselected by returning it to its orginal position
-	private void setButtonScale (ButtonType myButton){
-		foreach (VRButton cButton in copyButtons)
-		{
-			if (cButton.type == myButton) {
-				cButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
-				this.pressedButton = cButton;
-			}
-		}
-	}
-
 }
+
