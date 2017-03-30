@@ -215,11 +215,11 @@ public class Copy : MonoBehaviour
                 break;
 
             case ButtonType.ROTATE_BUTTON:    // Rotate button clicked
-                // TODO: Implement Rotate code
+				this.currentSelection = CurrentSelection.rotate;
                 break;
 
             case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
-                // TODO: Implement Zoom code
+				this.currentSelection = CurrentSelection.zoom;
                 break;
 
             case ButtonType.BRIGHTNESS_BUTTON:    // Brightness button clicked
@@ -231,7 +231,7 @@ public class Copy : MonoBehaviour
                 break;
 
             case ButtonType.SATURATION_BUTTON:    // Filter button clicked
-                // TODO: Implement Filter code
+				this.currentSelection = CurrentSelection.saturation;
                 break;
 
             case ButtonType.RESTORE_COPY_BUTTON:     // Restore button clicked

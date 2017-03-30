@@ -244,6 +244,12 @@ public class Dashboard : MonoBehaviour, IVRButton
 			this.UpdateCopyOptions();
 			break;
 
+		case ButtonType.SATURATION_BUTTON:
+			this.setButtonScale(button);
+			this.currentSelection = button;
+			this.UpdateCopyOptions();
+			break;
+
 		case ButtonType.RESIZE_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
