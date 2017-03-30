@@ -192,9 +192,6 @@ public class Copy : MonoBehaviour
 					this.Saturation(Input.GetAxis(this.rightThumbX));
 					break;
 			
-			case CurrentSelection.invert:
-				this.Invert();
-				break;
                 default:
                     break;
 
@@ -219,7 +216,7 @@ public class Copy : MonoBehaviour
                 break;
 
             case ButtonType.INVERT_BUTTON:    // Rotate button clicked
-				this.currentSelection = CurrentSelection.invert;
+				this.Invert();
                 break;
 
             case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
