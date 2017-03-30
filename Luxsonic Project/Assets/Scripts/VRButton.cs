@@ -21,9 +21,16 @@ public class VRButton : MonoBehaviour
 	public TextMesh textObject;
 	// Buttons state
 	bool pressed = false;
+	// Freashly made buttons cannot be pushed
+	[SerializeField]
+	private int coolDown;
 	// Use this for initialization
-	void Start()
+	private void FixedUpdate()
 	{
+		if(coolDown > 0)
+		{
+			coolDown--;
+		}
 	}
 	// When mouve is pressed send clicked message to manager
 	void OnMouseDown()
@@ -51,7 +58,7 @@ public class VRButton : MonoBehaviour
 	public void SetPressed(bool val)
 	{
 		pressed = val;
-		if (val)
+		if (val && coolDown == 0)
 		{
 			if (type == ButtonType.FILE_BUTTON)
 			{

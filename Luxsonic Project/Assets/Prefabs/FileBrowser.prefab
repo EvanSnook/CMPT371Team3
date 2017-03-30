@@ -52,13 +52,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d530cffb673cf7649a1f55e70ac80f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VRButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+  VRFileButtonPrefab: {fileID: 114977039775717418, guid: 5b97f935ce2e36b468d93bc3fb01ee6a,
+    type: 2}
+  VRDirectoryButtonPrefab: {fileID: 114975329465292358, guid: 0a6f9071f3d9f534193d44e72743ab95,
+    type: 2}
+  VROtherButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
   filePosition: {x: 0.15, y: 0.2, z: 0.02}
   fileRotation: {x: 0, y: 0, z: 0}
   directoryPosition: {x: -0.03, y: 0.2, z: 0.02}
   directoryRotation: {x: 0, y: 0, z: 0}
-  seperationBetweenButtonsY: 0.1
+  seperationBetweenButtonsY: 0.2
   backPosition: {x: -0.2, y: 0, z: 0.02}
   backRotation: {x: 0, y: 0, z: 0}
   cancelPosition: {x: -0.2, y: 0.1, z: 0.02}

@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1470078522647934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.76, y: -1.78, z: -0.27}
+  m_LocalPosition: {x: -1.76, y: -1.24, z: -0.27}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_Children: []
   m_Father: {fileID: 4214667835481510}
@@ -169,6 +169,7 @@ MonoBehaviour:
   path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}
+  coolDown: 0
 --- !u!212 &212371471687022730
 SpriteRenderer:
   m_ObjectHideFlags: 1

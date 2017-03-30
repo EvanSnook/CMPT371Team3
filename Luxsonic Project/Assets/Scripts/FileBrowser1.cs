@@ -14,7 +14,10 @@ using buttons;
 /// </summary>
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
-	// Reference to the Display
+	// Reference to the Dashboard
+	Dashboard dashboard;
+
+	// Reference the Display
 	GameObject display;
 
 	// Path name of the current directory
@@ -31,7 +34,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 	// VRButton prefab to create the Buttons
 	[SerializeField]
-	private VRButton VRButtonPrefab;
+	private VRButton VRFileButtonPrefab;
+	[SerializeField]
+	private VRButton VRDirectoryButtonPrefab;
+	[SerializeField]
+	private VRButton VROtherButtonPrefab;
+
+
 	// Inital Position of the file Buttons
 	public Vector3 filePosition;
 	// Inital Rotation of the file Buttons
@@ -100,6 +109,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	void Start()
 	{
 		display = GameObject.FindGameObjectWithTag("Display");
+		dashboard = GameObject.FindGameObjectWithTag("Dashboard").GetComponent<Dashboard>();
 		// Get the current Directory
 		currentDirectory = Directory.GetCurrentDirectory().ToString();
 		// Get all directories in the current directory and put them into a list
@@ -111,7 +121,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// The filebrowser should not be visable initally
 		DisableFileBrowser();
 	}
-		
+
 
 
 	/// <summary>
@@ -198,7 +208,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		{
 			Vector3 newDirectoryPosition = new Vector3(directoryPosition.x, 
 				directoryPosition.y - (count * seperationBetweenButtonsY), directoryPosition.z);
-			CreateVRButton(directory, "Directory", ButtonType.DIRECTORY_BUTTON, newDirectoryPosition, directoryRotation);
+			CreateVRButton(directory, "Directory", ButtonType.DIRECTORY_BUTTON, newDirectoryPosition, directoryRotation, this.VRDirectoryButtonPrefab);
 			count++;
 		}
 		// Create a file button for each file
@@ -207,17 +217,22 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		{
 			Vector3 newFilePosition = new Vector3 (filePosition.x, 
 				filePosition.y - (count * seperationBetweenButtonsY), filePosition.z);
-			CreateVRButton(file, "File", ButtonType.FILE_BUTTON, newFilePosition, fileRotation);
+			CreateVRButton(file, "File", ButtonType.FILE_BUTTON, newFilePosition, fileRotation, this.VRFileButtonPrefab);
 			count++;
 		}
 		// Set the top and bottom directory/file buttons
-		this.topDirectoryButton = GetListOfDirectoryButtons ().First.Value;
-		this.bottomDirectoryButton = GetListOfDirectoryButtons ().Last.Value;
-		this.topFileButton = GetListOfFileButtons ().First.Value;
-		this.bottomFileButton = GetListOfFileButtons ().First.Value;
-		// We will limit the buttons that are shown
-		ShowLimitedButtons(listOfCurrentDirectoryButtons, this.directoryPosition.y);
-		ShowLimitedButtons(listOfCurrentFileButtons, this.filePosition.y);
+		if (GetListOfDirectoryButtons().Count > 0)
+		{
+			this.topDirectoryButton = GetListOfDirectoryButtons().First.Value;
+			this.bottomDirectoryButton = GetListOfDirectoryButtons().Last.Value;
+			ShowLimitedButtons(listOfCurrentDirectoryButtons, this.directoryPosition.y);
+		}
+		if (GetListOfDirectoryButtons().Count > 0)
+		{
+			this.topFileButton = GetListOfFileButtons().First.Value;
+			this.bottomFileButton = GetListOfFileButtons().First.Value;
+			ShowLimitedButtons(listOfCurrentFileButtons, this.filePosition.y);
+		}
 	}
 
 
@@ -229,13 +244,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// </summary>
 	private void CreateAllButtons(){
 		CreateFileAndDirectoryButtons();
-		CreateVRButton(this.currentDirectory, "Back", ButtonType.BACK_BUTTON, backPosition, backRotation);
-		CreateVRButton(this.currentDirectory, "Load Directory", ButtonType.LOAD_DIRECTORY_BUTTON, directoryLoadPosition, directoryLoadRotation);
-		CreateVRButton(this.currentDirectory, "Cancel", ButtonType.CANCEL_BUTTON, cancelPosition, cancelRotation);
-		CreateVRButton(this.currentDirectory, "File Up", ButtonType.FILE_UP, upFileButtonPosition, upFileButtonRotation);
-		CreateVRButton(this.currentDirectory, "File Down", ButtonType.FILE_DOWN, downFileButtonPosition, downFileButtonRotation);
-		CreateVRButton(this.currentDirectory, "Directory Up", ButtonType.DIRECTORY_UP, upDirectoryButtonPosition, upDirectoryButtonRotation);
-		CreateVRButton(this.currentDirectory, "Directory Down", ButtonType.DIRECTORY_DOWN, downDirectoryButtonPosition, downDirectoryButtonRotation);
+		CreateVRButton(this.currentDirectory, "Back", ButtonType.BACK_BUTTON, backPosition, backRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "Load Directory", ButtonType.LOAD_DIRECTORY_BUTTON, directoryLoadPosition, directoryLoadRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "Cancel", ButtonType.CANCEL_BUTTON, cancelPosition, cancelRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "File Up", ButtonType.FILE_UP, upFileButtonPosition, upFileButtonRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "File Down", ButtonType.FILE_DOWN, downFileButtonPosition, downFileButtonRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "Directory Up", ButtonType.DIRECTORY_UP, upDirectoryButtonPosition, upDirectoryButtonRotation, this.VROtherButtonPrefab);
+		CreateVRButton(this.currentDirectory, "Directory Down", ButtonType.DIRECTORY_DOWN, downDirectoryButtonPosition, downDirectoryButtonRotation, this.VROtherButtonPrefab);
 	}
 
 
@@ -245,6 +260,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="args"></param>
 	void LoadFiles(string []args)
 	{
+		dashboard.SendMessage("Minimize");
+
 		StartCoroutine(LoadFilesC(args));
 	}
 
@@ -267,6 +284,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		}
 
 		DeleteAllImagesInPath(destinationPath);
+		DisableFileBrowser();
+
 	}
 
 
@@ -454,12 +473,12 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="buttonType">enum describing the type of button</param> 
 	/// <param name="position">Vector3 of the buttons position</param>
 	/// <param name="rotation">Vector3 of the buttons Rotation</param>
-	private void CreateVRButton(string buttonPath, string buttonName, ButtonType buttonType, Vector3 position, Vector3 rotation)
+	private void CreateVRButton(string buttonPath, string buttonName, ButtonType buttonType, Vector3 position, Vector3 rotation, VRButton buttonPrefab)
 	{
 		// we should contain a prefab and viable string
-		Assert.IsNotNull(VRButtonPrefab);
+		Assert.IsNotNull(buttonPrefab);
 		// Instantiate a new button and set it as a child of the FileBrowser
-		VRButton newButton = Instantiate(VRButtonPrefab, position,
+		VRButton newButton = Instantiate(buttonPrefab, position,
 			Quaternion.Euler(rotation));
 		newButton.type = buttonType;
 		newButton.transform.parent = gameObject.transform;
@@ -640,7 +659,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	{
 		foreach(VRButton button in buttonList)
 		{
-			if(button.GetComponent<Transform>().position.y > highestYPosition)
+			if(button.GetComponent<Transform>().position.y > (highestYPosition+(0.5*this.seperationBetweenButtonsY)))
 			{
 				button.gameObject.SetActive(false);
 			}
@@ -662,13 +681,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="list"></param>
 	private void ScrollDown(LinkedList<VRButton> list, float highestButton)
 	{
+		UnityEngine.Debug.Log("Entered the function");
 		// We should not be able to scroll if the amount of buttons present is less than the limit
 		if (list.Count > this.buttonLimit)
 		{
+			UnityEngine.Debug.Log("Count is big enough");
 			Transform lastValue = list.Last.Value.GetComponent<Transform>();
 			// We can only scroll down if we are not at the bottom of the list
-			if (list.Last.Value.gameObject.active == false)
+			if (list.Last.Value.gameObject.activeSelf == false)
 			{
+				UnityEngine.Debug.Log("Last value is not active");
 				foreach (VRButton button in list)
 				{
 					// All buttons are shifted up one position
@@ -698,7 +720,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		if (list.Count > this.buttonLimit)
 		{
 			// If we are not at the 'top' of the list, then we can actually scroll up
-			if (list.First.Value.gameObject.active == false)
+			if (list.First.Value.gameObject.activeSelf == false)
 			{
 				foreach (VRButton button in list)
 				{
