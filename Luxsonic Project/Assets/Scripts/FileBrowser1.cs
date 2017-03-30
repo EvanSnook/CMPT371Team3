@@ -14,9 +14,6 @@ using buttons;
 /// </summary>
 public class FileBrowser1 : MonoBehaviour, IVRButton
 {
-	//    // Position of the Camera
-	//    Transform cameraPosition;
-
 	// Reference to the Display
 	GameObject display;
 
@@ -113,7 +110,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		CreateAllButtons();
 		// The filebrowser should not be visable initally
 		DisableFileBrowser();
-
 	}
 		
 
@@ -631,7 +627,11 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 
 	/// <summary>
-	/// Stub function; to be implemented when scrolling is added to the file browser
+	/// The function ShowLimitedButtons will diplay the file and or directory buttons within the user's view.
+	/// Buttons outside of the user's view are hidden.
+	/// Pre:: nothing
+	/// Post:: sets which buttons are active
+	/// Return:: nothing
 	/// </summary>
 	public void ShowLimitedButtons(LinkedList<VRButton> buttonList, float highestYPosition)
 	{
@@ -659,9 +659,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="list"></param>
 	private void ScrollDown(LinkedList<VRButton> list, float highestButton)
 	{
-		//Debug.Log("Highest button position is: " + highestButton);
-		//Debug.Log("Lowset allowable button position is: " + (highestButton - (seperationBetweenButtonsY * (buttonLimit - 1))));
-		//Debug.Log("Thye actual Low button position is " + (list.Last.Value.GetComponent<Transform>().position.y));
 		// We should not be able to scroll if the amount of buttons present is less than the limit
 		if (list.Count > this.buttonLimit)
 		{
@@ -683,9 +680,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 
 	/// <summary>
-	/// 
+	/// Scroll up will scroll up the list of file or directory buttons.  The position
+	/// of each button in the list will shift down one position, giving the impression of
+	/// scrolling down.
+	/// Pre:: The list of buttons are either files or directories
+	/// Post:: position of buttons shift down
+	/// Return:: nothing
 	/// </summary>
-	/// <param name="list"></param>
+	/// <param name="list">The list of buttons to be shifted</param>
 	/// <param name="highestButton"></param>
 	private void ScrollUp(LinkedList<VRButton> list, float highestButton)
 	{
@@ -695,7 +697,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 			// If we are not at the 'top' of the list, then we can actually scroll up
 			if (list.First.Value.gameObject.active == false)
 			{
-				UnityEngine.Debug.Log(FloatLessThan(highestButton, list.First.Value.GetComponent<Transform>().position.y));
 				foreach (VRButton button in list)
 				{
 					// All buttons are shifted down one position
@@ -703,7 +704,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 					oldPosition.position = new Vector3(oldPosition.position.x,
 						oldPosition.position.y - this.seperationBetweenButtonsY, oldPosition.position.z);
 				}
-				//ShowLimitedButtons(list, highestButton);
+				ShowLimitedButtons(list, highestButton);
 			}
 		}
 	}
