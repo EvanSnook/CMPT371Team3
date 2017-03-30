@@ -31,7 +31,12 @@ public class Copy : MonoBehaviour
     // The scale increment for contrast
     [SerializeField]
     private float contrastConst;
-
+    // GameObject for the leftHand to track the position
+    [SerializeField]
+    private GameObject leftHand;
+    // GameObject for the rightHand to track the position
+    [SerializeField]
+    private GameObject rightHand;
 
     // An enum used to determine which modification is currently being made to the image
     private enum CurrentSelection { brightness, contrast, resize, rotate, saturation, zoom, filter, close, restore, none };
@@ -156,6 +161,11 @@ public class Copy : MonoBehaviour
         // If we are the current image...
         if (this.isCurrentImage && this.transform.parent == null)
         { 
+            
+            while((OVRInput.Get(OVRInput.Button.One)) && (OVRInput.Get(OVRInput.Button.Three))){
+                this.Resize(this.ResizeAmount());
+            }
+
             // Check our current selection
             switch (currentSelection)
             {
@@ -349,6 +359,33 @@ public class Copy : MonoBehaviour
             Vector3 scale = this.transform.localScale;
             this.transform.localScale = new Vector3(scale.x / resizeScale, scale.y / resizeScale, scale.z / resizeScale);
         }
+    }
+
+    /// <summary>
+    /// Gets the float value of the distance between the two touch controllers
+    /// </summary>
+    public float ResizeAmount()
+    {
+
+        // Get the original transform.x values of the tranform positions
+        float Roriginal = rightHand.transform.localPosition.x;
+        float Loriginal = leftHand.transform.localPosition.x;
+
+        //Create smaller and larger variables to compare positions changing
+        float Smaller = Mathf.Abs(Roriginal - Loriginal);
+        float Larger = Mathf.Abs(Roriginal - Loriginal);
+
+        if(Mathf.Abs(rightHand.transform.localPosition.x + leftHand.transform.localPosition.x) > Larger)
+        {
+            return 1;
+        }
+
+        if(Mathf.Abs(rightHand.transform.localPosition.x - leftHand.transform.localPosition.x) < Smaller)
+        {
+            return -1;
+        }
+
+        return 0;
     }
 
     /// <summary>
