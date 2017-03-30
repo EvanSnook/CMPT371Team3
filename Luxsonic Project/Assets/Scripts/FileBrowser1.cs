@@ -413,8 +413,11 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// Can't do anything with a null file
 		Assert.AreNotEqual(null, file, "The file should not be null");
 		byte[] dicomImage = File.ReadAllBytes(file.ToString());
-
+		// We need to supress an unused variable warning. Unity views this as unused
+		// because it's not used here but in a new thread.
+		#pragma warning disable 0219
 		byte[] result = null;
+		#pragma warning restore 0219
 		Thread newThread = new Thread(() => { result = convertToBytes(file.ToString()); });
 		newThread.Start();
 
