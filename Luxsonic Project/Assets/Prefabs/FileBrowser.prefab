@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4481355533798404}
   - component: {fileID: 114180715286171086}
+  - component: {fileID: 114427719745089330}
   m_Layer: 0
   m_Name: FileBrowser
   m_TagString: FileBrowser
@@ -58,8 +59,29 @@ MonoBehaviour:
   directoryPosition: {x: -0.03, y: 0.2, z: 0.02}
   directoryRotation: {x: 0, y: 0, z: 0}
   seperationBetweenButtonsY: 0.1
-  sameButtonSeperation: 0
   backPosition: {x: -0.2, y: 0, z: 0.02}
   backRotation: {x: 0, y: 0, z: 0}
   cancelPosition: {x: -0.2, y: 0.1, z: 0.02}
   cancelRotation: {x: 0, y: 0, z: 0}
+  directoryLoadPosition: {x: -0.2, y: 0.2, z: 0.02}
+  directoryLoadRotation: {x: 0, y: 0, z: 0}
+  upFileButtonPosition: {x: 0.4, y: -0.2, z: 0.02}
+  upFileButtonRotation: {x: 0, y: 0, z: 0}
+  downFileButtonPosition: {x: 0.4, y: -0.3, z: 0.02}
+  downFileButtonRotation: {x: 0, y: 0, z: 0}
+  upDirectoryButtonPosition: {x: -0.2, y: -0.2, z: 0.02}
+  upDirectoryButtonRotation: {x: 0, y: 0, z: 0}
+  downDirectoryButtonPosition: {x: -0.2, y: -0.3, z: 0.02}
+  downDirectoryButtonRotation: {x: 0, y: 0, z: 0}
+  buttonLimit: 6
+--- !u!114 &114427719745089330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498928327668370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55dfe0794761d9c4798d054798160fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

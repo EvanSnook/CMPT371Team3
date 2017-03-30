@@ -55,12 +55,17 @@ public class VRButton : MonoBehaviour
 		{
 			if (type == ButtonType.FILE_BUTTON)
 			{
-				Debug.Log("Hitting a file");
-				manager.SendMessage("ConvertAndSendImage", path);
+				String[] arguments = new string[2] { "f", path };
+				manager.SendMessage("LoadFiles", arguments);
 			}
 			else if (type == ButtonType.DIRECTORY_BUTTON)
 			{
 				manager.SendMessage("EnterDirectory", path);
+			}
+			else if (type == ButtonType.LOAD_DIRECTORY_BUTTON)
+			{
+				String[] arguments = new string[2] { "d", path };
+				manager.SendMessage("LoadFiles", arguments);
 			}
 			else
 			{
