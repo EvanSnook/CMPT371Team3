@@ -54,6 +54,8 @@ public class Tray : MonoBehaviour, IVRButton
     private Texture2D firstPosition;
     private Texture2D lastPosition;
     private int imageID = 0;
+    private int numAfterTray;
+    private int numBeforeTray;
 
     // Use this for initialization
     void Start()
@@ -73,6 +75,9 @@ public class Tray : MonoBehaviour, IVRButton
         if(this.thumbnails.Count < this.trayNumColumns * this.trayNumRows)
         {
             this.lastPosition = image;
+        }else
+        {
+            this.numAfterTray++;
         }
 
         // Get the last position we used
@@ -172,6 +177,8 @@ public class Tray : MonoBehaviour, IVRButton
         this.firstPosition = image;
         this.lastPosition = image;
         images = new LinkedList<Texture2D>();
+        this.numAfterTray = 0;
+        this.numBeforeTray = 0;
         this.UpdateTray(image);
     }
 
@@ -189,16 +196,20 @@ public class Tray : MonoBehaviour, IVRButton
         }
     }
 
+    /// <summary>
+    /// Moves the images in the tray up to allow the user to see images below the boundaries of the tray.
+    /// Each image is shuffled to the left in its row.  If an image is at the far left of its row, it will move to the 
+    /// farthest right position of the row above.  
+    /// </summary>
+    /// <pre>There are images after the bottom of the tray</pre>
+    /// <post>The images in the tray have different positions</post>
     private void ScrollUp()
     {
         Assert.IsTrue(this.images.Count > this.thumbnails.Count, "There are no more images in the tray to scroll through.");
+        Assert.IsTrue(this.numAfterTray > 0, "There are no images after the tray to scroll through.");
 
-        Debug.Log("LAst before : " + this.lastPosition.name);
-        // THIS IF STATEMENT DOES NOT WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (!this.images.Find(this.lastPosition).ToString().Equals(this.images.Last.ToString()))
+        if (this.numAfterTray > 0)
         {
-
-
             // For each item, add the item's position to the list
             LinkedList<Vector3> positions = new LinkedList<Vector3>();
 
@@ -217,10 +228,11 @@ public class Tray : MonoBehaviour, IVRButton
             while (i < this.trayNumColumns)
             {
                 this.thumbnails.RemoveFirst();
-                //thumbToRemove.Value.SetActive(false);
                 this.SafeDelete(thumbToRemove.Value);
                 thumbToRemove = this.thumbnails.First;
+                this.numBeforeTray++;
 
+                // add the this.images at first item + (this.numCOls + numRows) to the list of thumbs by instantiating them
                 int j = 0;
                 LinkedListNode<Texture2D> temp = current;
 
@@ -246,9 +258,11 @@ public class Tray : MonoBehaviour, IVRButton
 
                 this.thumbnails.AddLast(newThumb);
                 i++;
+                this.numAfterTray--;
                 current = current.Next;
             }
 
+            // for each thumbnail, set its position to the next position in the position list
             foreach (GameObject thumb in this.thumbnails)
             {
                 if (positions.Count > 0)
@@ -264,14 +278,9 @@ public class Tray : MonoBehaviour, IVRButton
 
             this.firstPosition = this.thumbnails.First.Value.GetComponent<Thumbnail>().image;
             this.lastPosition = this.thumbnails.Last.Value.GetComponent<Thumbnail>().image;
-            // add the this.images at first item + (this.numCOls + numRows) to the list of thumbs by instantiating them
-            // for each thumbnail, set its position to the next position in the position list
-        }else
-        {
-            Debug.Log("No more images to scroll");
+           
+            
         }
-
-        Debug.Log("Last after: " + this.lastPosition.name);
     }
 
     private void ScrollDown()
