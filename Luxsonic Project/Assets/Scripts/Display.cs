@@ -372,5 +372,14 @@ public class Display : MonoBehaviour, IVRButton
 
  
     } 
+
+    /// <summary>
+    /// Used to remove copies from the display when they are removed from the workspace
+    /// </summary>
+    /// <param name="copy">The copy object to remove</param>
+    public void RemoveCopy(GameObject copy)
+    {
+        this.copies.Remove(copy);
+    }
 }
 
