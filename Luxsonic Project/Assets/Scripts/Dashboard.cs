@@ -220,70 +220,108 @@ public class Dashboard : MonoBehaviour, IVRButton
 		switch (button)
 		{
 		case ButtonType.LOAD_BUTTON:
-			// If the load button was clicked
+			this.loadButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
 			Load ();
+			Invoke ("UnpressButton", 1.0f);
 			break;
 		case ButtonType.QUIT_BUTTON:
 			// If the quit button was clicked
+			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
 			Quit();
+			Invoke ("UnpressButton", 1.0f);
 			break;
 		case ButtonType.MINIMIZE_BUTTON:
 			// If the minimize button was clicked
+			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
 			Minimize();
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 		case ButtonType.BRIGHTNESS_BUTTON:
-			this.setButtonScale(button);
+			this.setButtonScale (button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			else {
+				Invoke ("UnpressButton", 1.0f);
+			}
+				
 			break;
 
 		case ButtonType.CONTRAST_BUTTON:
-			this.setButtonScale(button);
+			this.setButtonScale (button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			else {
+				Invoke ("UnpressButton", 1.0f);
+			}
 			break;
 		
 		case ButtonType.INVERT_BUTTON:
-			this.setButtonScale(button);
+			this.setButtonScale (button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 		case ButtonType.SATURATION_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			else {
+				Invoke ("UnpressButton", 1.0f);
+			}
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			else {
+				Invoke ("UnpressButton", 1.0f);
+			}
 			break;
 
 		case ButtonType.CLOSE_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 		case ButtonType.RESTORE_COPY_BUTTON:
 			this.setButtonScale(button);
 			this.currentSelection = button;
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 		case ButtonType.SELECT_ALL_COPIES_BUTTON:
 			this.setButtonScale(button);
 			this.SelectAllCopies();
-			this.UpdateCopyOptions();
+			if (this.currentCopies.Count != 0) {
+				this.UpdateCopyOptions ();
+			}
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 		case ButtonType.DESELECT_ALL_COPIES_BUTTON:
 			this.setButtonScale(button);
 			this.DeselectAllCopies();
-			this.UpdateCopyOptions();
+			Invoke ("UnpressButton", 1.0f);
 			break;
 
 
@@ -307,7 +345,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
 		List<GameObject> copiesToDelete = new List<GameObject>();
 
-		if (this.currentCopies.Count > 0 && this.currentSelection != ButtonType.NONE)
+		if (this.currentCopies.Count > 0)
 		{
 			//this.currentCopy.SendMessage("ReceiveSlider", this.slider);
 			foreach (GameObject currentCopy in this.currentCopies)
@@ -489,6 +527,12 @@ public class Dashboard : MonoBehaviour, IVRButton
 				this.pressedButton = cButton;
 			}
 		}
+	}
+	public void UnpressButton(){
+		this.pressedButton.transform.localScale = this.localScaleSetting;
+		this.pressedButton = null;
+		this.currentSelection = ButtonType.NONE;
+		UpdateCopyOptions ();
 	}
 
 }

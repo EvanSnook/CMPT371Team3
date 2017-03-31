@@ -208,14 +208,18 @@ public class Copy : MonoBehaviour
     /// <param name="button">The name of the button clicked</param>
     public void NewOptions(ButtonType button)
     {
-        Assert.IsFalse(button == ButtonType.NONE);
         switch (button)
         {
+			case ButtonType.NONE:
+				this.currentSelection = CurrentSelection.none;
+				break;
+
             case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
                 this.currentSelection = CurrentSelection.contrast;
                 break;
 
             case ButtonType.INVERT_BUTTON:    // Rotate button clicked
+				this.currentSelection = CurrentSelection.none;
 				this.Invert();
                 break;
 

@@ -143,6 +143,8 @@ public class TouchAndGrab : MonoBehaviour
 				if (!(other.gameObject.GetComponent<VRButton>().GetPressed()))
 				{
 					other.gameObject.GetComponent<VRButton>().SetPressed(true);
+				} else {
+					other.gameObject.GetComponent<VRButton>().SetPressed(false);
 				}
 			}
 			else if ((other.tag == "Copy"))

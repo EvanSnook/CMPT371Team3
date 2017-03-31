@@ -20,10 +20,11 @@ public class VRButton : MonoBehaviour
 	// Text on button
 	public TextMesh textObject;
 	// Buttons state
-	bool pressed = false;
+	private bool pressed;
 	// Use this for initialization
 	void Start()
 	{
+		this.pressed = false;
 	}
 	// When mouve is pressed send clicked message to manager
 	void OnMouseDown()
@@ -66,6 +67,10 @@ public class VRButton : MonoBehaviour
 			{
 				manager.SendMessage("VRButtonClicked", type);
 			}
+		} 
+		else
+		{
+			manager.SendMessage("UnpressButton");
 		}
 	}
 	/// <summary>
