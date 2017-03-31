@@ -285,7 +285,80 @@ public class Tray : MonoBehaviour, IVRButton
 
     private void ScrollDown()
     {
+        Assert.IsTrue(this.numBeforeTray > 0, "There are no images after the tray to scroll through.");
 
+        if (this.numBeforeTray > 0)
+        {
+            // For each item, add the item's position to the list
+            LinkedList<Vector3> positions = new LinkedList<Vector3>();
+
+            foreach (GameObject thumb in this.thumbnails)
+            {
+                LinkedListNode<GameObject> next = this.thumbnails.Find(thumb);
+
+                positions.AddLast(next.Value.transform.position);
+            }
+
+            // remove the last numberOfColumns items from the list of thumbs
+            int i = 0;
+            LinkedListNode<GameObject> thumbToRemove = this.thumbnails.Last;
+            LinkedListNode<Texture2D> current = this.images.Find(this.lastPosition);
+
+            while (i < this.trayNumColumns)
+            {
+                this.thumbnails.RemoveLast();
+                this.SafeDelete(thumbToRemove.Value);
+                thumbToRemove = this.thumbnails.Last;
+                this.numAfterTray++;
+
+                // add the this.images at first item + (this.numCOls + numRows) to the list of thumbs by instantiating them
+                int j = 0;
+                LinkedListNode<Texture2D> temp = current;
+
+                while (j < (this.trayNumColumns * this.trayNumRows))
+                {
+                    temp = temp.Previous;
+                    if (temp.Value.Equals(this.images.First.Value))
+                    {
+                        j = this.trayNumColumns * this.trayNumRows;
+                        i = this.trayNumColumns;
+                    }
+                    j++;
+                }
+
+
+                GameObject newThumb = Instantiate(this.thumbnailPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
+                newThumb.transform.parent = gameObject.transform;
+
+                newThumb.GetComponent<SpriteRenderer>().sprite = Sprite.Create(temp.Value, new Rect(0, 0, temp.Value.width, temp.Value.height), new Vector2(0.5f, 0.5f));
+                newThumb.transform.localScale = new Vector3(trayThumbnailScale, trayThumbnailScale, 0);
+                newThumb.GetComponent<Thumbnail>().manager = this.manager.gameObject;
+                newThumb.GetComponent<Thumbnail>().image = temp.Value;
+
+                this.thumbnails.AddFirst(newThumb);
+                i++;
+                this.numBeforeTray--;
+                current = current.Previous;
+            }
+
+            // for each thumbnail, set its position to the next position in the position list
+            foreach (GameObject thumb in this.thumbnails)
+            {
+                if (positions.Count > 0)
+                {
+                    thumb.transform.position = positions.First.Value;
+                    positions.RemoveFirst();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            this.firstPosition = this.thumbnails.First.Value.GetComponent<Thumbnail>().image;
+            this.lastPosition = this.thumbnails.Last.Value.GetComponent<Thumbnail>().image;
+
+        }
     }
 
     private void SafeDelete(GameObject obj)
