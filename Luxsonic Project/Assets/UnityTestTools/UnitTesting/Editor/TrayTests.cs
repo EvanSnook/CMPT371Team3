@@ -21,7 +21,15 @@ public class TrayTests : MonoBehaviour
         thumbObject.AddComponent<Thumbnail>();
         thumbObject.AddComponent<SpriteRenderer>();
 
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
+
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
+
         trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab.GetComponent<VRButton>();
         trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
         trayObject.GetComponent<Tray>().trayNumColumns = 3;
 
@@ -35,6 +43,7 @@ public class TrayTests : MonoBehaviour
         textures.Add(tex2);
         textures.Add(tex3);
 
+        trayObject.GetComponent<Tray>().Setup(tex1);
         trayObject.GetComponent<Tray>().UpdateTray(tex1);
         trayObject.GetComponent<Tray>().UpdateTray(tex2);
         trayObject.GetComponent<Tray>().UpdateTray(tex3);

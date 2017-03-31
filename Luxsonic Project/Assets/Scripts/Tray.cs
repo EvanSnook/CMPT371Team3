@@ -36,25 +36,36 @@ public class Tray : MonoBehaviour, IVRButton
     // The list of thumbnails being displayed in the tray
     LinkedList<GameObject> thumbnails = new LinkedList<GameObject>();
 
+    // The current positions to put the next thumbnail
     private float currentTrayX;
     private float currentTrayZ;
 
-    [SerializeField]
-    private VRButton buttonPrefab;
+    // The prefab used to create a new button
+    public VRButton buttonPrefab;
 
+    // References to buttons to scroll the tray
     private VRButton scrollUpButton;
     private VRButton scrollDownButton;
 
+    // The positions of the scroll buttons
     [SerializeField]
     private Vector3 scrollUpButtonPosition;
     [SerializeField]
     private Vector3 scrollDownButtonPosition;
 
+    // The list of images in the scene
     private LinkedList<Texture2D> images;
+
+    // The texture in the images list that marks the first item in the tray
     private Texture2D firstPosition;
+    // The texture in the images list that marks the first item in the tray
     private Texture2D lastPosition;
+
     private int imageID = 0;
+    
+    // The number of images after the tray 
     private int numAfterTray;
+    // The number of images before the tray
     private int numBeforeTray;
 
     // Use this for initialization
@@ -283,6 +294,14 @@ public class Tray : MonoBehaviour, IVRButton
         }
     }
 
+
+    /// <summary>
+    /// Moves the images in the tray down to allow the user to see images above the boundaries of the tray.
+    /// Each image is shuffled to the right in its row.  If an image is at the far right of its row, it will move to the 
+    /// farthest left position of the row below.  
+    /// </summary>
+    /// <pre>There are images before the top of the tray</pre>
+    /// <post>The images in the tray have different positions</post>
     private void ScrollDown()
     {
         Assert.IsTrue(this.numBeforeTray > 0, "There are no images after the tray to scroll through.");
