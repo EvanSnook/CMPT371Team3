@@ -336,9 +336,10 @@ public class Tray : MonoBehaviour, IVRButton
 
                 while (j < (this.trayNumColumns * this.trayNumRows))
                 {
-                    temp = temp.Previous;
-                    if (temp.Value.Equals(this.images.First.Value))
+                    if (temp.Previous != null)
                     {
+                        temp = temp.Previous;
+                    }else { 
                         j = this.trayNumColumns * this.trayNumRows;
                         i = this.trayNumColumns;
                     }
@@ -384,12 +385,44 @@ public class Tray : MonoBehaviour, IVRButton
     {
         if (Application.isEditor)
         {
-            Destroy(obj);
+            DestroyImmediate(obj);
         }
         else
         {
-            DestroyImmediate(obj);
+            Destroy(obj);
         }
     }
+
+    //========================================
+    // TEST HOOKS
+    //========================================
+
+    /// <summary>
+    /// Used to test the scrolling up functionality of the tray
+    /// </summary>
+    /// <param name="direction">"up" to test scroll up. "down" to test scroll down</param>
+    public void TestScroll(string direction)
+    {
+        Texture2D originalLast = this.lastPosition;
+        Texture2D originalFirst = this.firstPosition;
+        int originalThumbnailCount = this.thumbnails.Count;
+
+        if (direction.ToLower() == "up") {
+            this.ScrollUp();
+        }else if(direction.ToLower() == "down")
+        {
+            this.ScrollDown();
+        }else
+        {
+            Assert.IsTrue(true, "Invalid parameter to TestScroll()");
+        }
+
+        Assert.IsNotNull(this.lastPosition);
+        Assert.IsNotNull(this.firstPosition);
+        Assert.AreNotEqual(originalLast, this.lastPosition);
+        Assert.AreNotEqual(originalFirst, this.firstPosition);
+        Assert.AreEqual(originalThumbnailCount, this.thumbnails.Count);
+    }
+
 }
 
