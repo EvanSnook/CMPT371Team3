@@ -91,10 +91,26 @@ public class Copy : MonoBehaviour
     private float defaultContrast;
     private Vector3 defaultSize;
 
+    //Initializations for the controller transform positions
+    private Vector3 leftValue;
+    private Vector3 rightValue;
+
+    //Minimum amount of distance for the resize gesture to change from minimize and maximize
+    private float minimum = 0.00001f;
+
     private void Start()
     {
         // Find the dashboard
         this.dashboard = GameObject.FindGameObjectWithTag("Dashboard");
+        // Find the Right Controller
+        this.rightHand = GameObject.FindGameObjectWithTag("RightController");
+        // Find the Left Controller
+        this.leftHand = GameObject.FindGameObjectWithTag("LeftController");
+        // Initialize the lefthand position
+        this.leftValue = leftHand.transform.position;
+        // Initialize the righthand position
+        this.rightValue = rightHand.transform.position;
+
         //while (CollideCheck()) ;
 
     }
@@ -160,12 +176,12 @@ public class Copy : MonoBehaviour
     {
         // If we are the current image...
         if (this.isCurrentImage && this.transform.parent == null)
-        { 
-            
-            while((OVRInput.Get(OVRInput.Button.One)) && (OVRInput.Get(OVRInput.Button.Three))){
-                this.Resize(this.ResizeAmount());
+        {
+            //Check for the 'A' button and 'X' button input on both touch controllers
+            if ((OVRInput.Get(OVRInput.Button.One)) && (OVRInput.Get(OVRInput.Button.Three)))
+            {
+                this.Resize(this.ResizeAmount(this.leftValue, this.rightValue));
             }
-
             // Check our current selection
             switch (currentSelection)
             {
@@ -232,11 +248,11 @@ public class Copy : MonoBehaviour
                 break;
 
             case ButtonType.CLOSE_BUTTON:    // Close button clicked
-                
+
                 //set current selection to none after copy has been closed
                 this.currentSelection = CurrentSelection.none;
                 // If the object is being held by the hand...
-                if(this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
+                if (this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
                 {
                     // Tell the hand to drop it like its hot
                     this.transform.parent.gameObject.SendMessage("Drop");
@@ -252,10 +268,14 @@ public class Copy : MonoBehaviour
     }
 
 
-    private void SafeDelete(GameObject obj){
-        if (Application.isEditor) {
-            Destroy (obj);
-        } else {
+    private void SafeDelete(GameObject obj)
+    {
+        if (Application.isEditor)
+        {
+            Destroy(obj);
+        }
+        else
+        {
             DestroyImmediate(obj);
         }
     }
@@ -346,7 +366,7 @@ public class Copy : MonoBehaviour
     /// </summary>
     public void Resize(float input)
     {
-        
+
         // If the input is positive and we are not too big, increase the size
         if ((input > 0) && (this.transform.localScale.x < this.maxSize) && (this.transform.localScale.y < this.maxSize))
         {
@@ -362,29 +382,34 @@ public class Copy : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the float value of the distance between the two touch controllers
+    /// Returns a float value that looks like an axis value based off of the distance between 
+    /// the two touch controllers
     /// </summary>
-    public float ResizeAmount()
+    /// <param Transform position of left controller="leftValue"></param>
+    /// <param Transform position of right controller="rightValue"></param>
+    /// <returns></returns>
+    public float ResizeAmount(Vector3 leftValue, Vector3 rightValue)
     {
-
         // Get the original transform.x values of the tranform positions
-        float Roriginal = rightHand.transform.localPosition.x;
-        float Loriginal = leftHand.transform.localPosition.x;
+        Vector3 leftDifference = leftHand.transform.position - leftValue;
+        Vector3 rightDifference = rightHand.transform.position - rightValue;
 
-        //Create smaller and larger variables to compare positions changing
-        float Smaller = Mathf.Abs(Roriginal - Loriginal);
-        float Larger = Mathf.Abs(Roriginal - Loriginal);
-
-        if(Mathf.Abs(rightHand.transform.localPosition.x + leftHand.transform.localPosition.x) > Larger)
+        //Check that the left hand is smaller then the minimum distance and the max is larger then the minimum distance
+        if (leftDifference.x < minimum && rightDifference.x > minimum)
         {
+            leftValue = leftHand.transform.position;
+            rightValue = rightHand.transform.position;
             return 1;
         }
-
-        if(Mathf.Abs(rightHand.transform.localPosition.x - leftHand.transform.localPosition.x) < Smaller)
+        //Check that the left hand is larger then the minimum distance and the max is smaller then the minimum distance
+        else if (leftDifference.x > minimum && rightDifference.x < minimum)
         {
+            leftValue = leftHand.transform.position;
+            rightValue = rightHand.transform.position;
             return -1;
         }
 
+        //If no change then return nuetral
         return 0;
     }
 
