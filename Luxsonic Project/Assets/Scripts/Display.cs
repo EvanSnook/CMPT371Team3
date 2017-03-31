@@ -70,6 +70,47 @@ public class Display : MonoBehaviour, IVRButton
     // Current ID for copies whose textures do not have names
     private int copyId = 0;
 
+    // GameObject for the leftHand to track the position
+    [SerializeField]
+    private GameObject leftHand;
+    // GameObject for the rightHand to track the position
+    [SerializeField]
+    private GameObject rightHand;
+
+    //Initializations for the controller transform positions
+    private Vector3 leftValue;
+    private Vector3 rightValue;
+
+    //Minimum amount that you have to move a positive direction
+    private float posMinimum = 1.0f;
+
+    //Minimum amount that you have to move a negative direction
+    private float negMinimum = -1.0f;
+
+    private void Start()
+    {
+        // Find the Right Controller
+        this.rightHand = GameObject.FindGameObjectWithTag("RightController");
+        // Find the Left Controller
+        this.leftHand = GameObject.FindGameObjectWithTag("LeftController");
+        // Initialize the lefthand position
+        this.leftValue = leftHand.transform.position;
+        // Initialize the righthand position
+        this.rightValue = rightHand.transform.position;
+    }
+
+    void Update()
+    {
+        if ((OVRInput.Get(OVRInput.Button.Two)))
+        {
+            SwipeGesture(this.leftValue, this.rightValue);
+        }
+        else if (OVRInput.Get(OVRInput.Button.Four))
+        {
+
+        }
+    }
+
     /// <summary>
     /// AddImage() will add an image to the list of loaded images.  It will also create a new
     /// displayImage and add it to the list.  It will create the Tray if it does not already exist
@@ -247,6 +288,28 @@ public class Display : MonoBehaviour, IVRButton
         }
     }
 
+    public void SwipeGesture(Vector3 leftValue, Vector3 rightValue)
+    {
+        // Get the original transform.x values of the tranform positions
+        Vector3 leftDifference = leftHand.transform.position - leftValue;
+        Vector3 rightDifference = rightHand.transform.position - rightValue;
+
+        //Check for right swipe minimum movement
+        if (leftDifference.x > this.negMinimum || rightDifference.x > this.posMinimum)
+        {
+            leftValue = leftHand.transform.position;
+            rightValue = rightHand.transform.position;
+            ScrollRight();   
+        }
+        //Check for left swipe movement
+        else if (leftDifference.x < this.negMinimum || rightDifference.x < this.posMinimum)
+        {
+            leftValue = leftHand.transform.position;
+            rightValue = rightHand.transform.position;
+            ScrollLeft();
+        }
+    }
+
     /// <summary>
     /// ScrollLeft() will shift the images displayed to the user in the displayImages
     /// list to the left.
@@ -294,6 +357,8 @@ public class Display : MonoBehaviour, IVRButton
             redrawDisplayImages();
         }
     }
+
+
 
     /// <summary>
     /// Draw the scrolling display images from the list of display images
