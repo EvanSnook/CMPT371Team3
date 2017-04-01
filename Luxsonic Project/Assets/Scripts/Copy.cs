@@ -397,13 +397,7 @@ public class Copy : MonoBehaviour
     }
 
 	public void Invert(){
-		Color[] imageColors = this.imageRenderer.sprite.texture.GetPixels();
-		for (int i = 0; i < imageColors.Length; i++) {
-			Color invertedColor = new Color(1.0f - imageColors[i].r, 1.0f - imageColors[i].g, 1.0f - imageColors[i].b);
-			imageColors [i] = invertedColor;
-		}
-		this.imageRenderer.sprite.texture.SetPixels (imageColors);
-		this.imageRenderer.sprite.texture.Apply ();
+		this.curMaterial.SetInt ("_Invert", 1);
 	}
 
     /// <summary>
