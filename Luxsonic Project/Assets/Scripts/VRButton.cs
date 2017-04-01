@@ -21,9 +21,16 @@ public class VRButton : MonoBehaviour
 	public TextMesh textObject;
 	// Buttons state
 	bool pressed = false;
+	// Freashly made buttons cannot be pushed
+	[SerializeField]
+	private int coolDown;
 	// Use this for initialization
-	void Start()
+	private void FixedUpdate()
 	{
+		if(coolDown > 0)
+		{
+			coolDown--;
+		}
 	}
 	// When mouve is pressed send clicked message to manager
 	void OnMouseDown()
@@ -51,16 +58,21 @@ public class VRButton : MonoBehaviour
 	public void SetPressed(bool val)
 	{
 		pressed = val;
-		if (val)
+		if (val && coolDown == 0)
 		{
 			if (type == ButtonType.FILE_BUTTON)
 			{
-				Debug.Log("Hitting a file");
-				manager.SendMessage("ConvertAndSendImage", path);
+				String[] arguments = new string[2] { "f", path };
+				manager.SendMessage("LoadFiles", arguments);
 			}
 			else if (type == ButtonType.DIRECTORY_BUTTON)
 			{
 				manager.SendMessage("EnterDirectory", path);
+			}
+			else if (type == ButtonType.LOAD_DIRECTORY_BUTTON)
+			{
+				String[] arguments = new string[2] { "d", path };
+				manager.SendMessage("LoadFiles", arguments);
 			}
 			else
 			{

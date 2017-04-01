@@ -61,6 +61,7 @@ public class Copy : MonoBehaviour
     private float outlineDepth;
 
 
+
     private Texture2D outlineTexture;
 
     // Define the maximum and minimum size for the copy to be resized to 
@@ -85,6 +86,9 @@ public class Copy : MonoBehaviour
     private float defaultBrightness;
     private float defaultContrast;
     private Vector3 defaultSize;
+
+	//true if a copy is currently being pressed
+	private bool pressed;
 
     private void Start()
     {
@@ -428,4 +432,26 @@ public class Copy : MonoBehaviour
 
         }
     }
+
+	/// <summary>
+	/// SetPressed sets the value of pressed to the value of val
+	/// Pre:: 
+	/// Post:: pressed is set to the value of val
+	/// Return:: nothing
+	/// </summary>
+	public void SetPressed(bool val)
+	{
+		pressed = val;
+		if (val) this.Selected();
+	}
+	/// <summary>
+	/// GetPressed returns the value of pressed
+	/// Pre:: 
+	/// Post:: 
+	/// Return:: value of pressed
+	/// </summary>
+	public bool GetPressed()
+	{
+		return pressed;
+	}
 }
