@@ -158,7 +158,7 @@ public class Tray : MonoBehaviour, IVRButton
         newButton.transform.parent = this.transform;
 
         newButton.type = index;
-        newButton.transform.localPosition = new Vector3(pos.x, pos.y, 0.0f);
+        newButton.transform.position = new Vector3(pos.x, pos.y, pos.z);
         newButton.name = newName;
         newButton.buttonName = newName;
         newButton.manager = this.gameObject;
