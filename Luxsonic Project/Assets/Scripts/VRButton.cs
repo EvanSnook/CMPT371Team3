@@ -54,25 +54,20 @@ public class VRButton : MonoBehaviour
 	public void SetPressed(bool val)
 	{
 		pressed = val;
-		if (val)
-		{
-			if (type == ButtonType.FILE_BUTTON)
-			{
-				Debug.Log("Hitting a file");
-				manager.SendMessage("ConvertAndSendImage", path);
+		if (val) {
+			if (type == ButtonType.FILE_BUTTON) {
+				Debug.Log ("Hitting a file");
+				manager.SendMessage ("ConvertAndSendImage", path);
+			} else if (type == ButtonType.DIRECTORY_BUTTON) {
+				manager.SendMessage ("EnterDirectory", path);
+			} else {
+				manager.SendMessage ("VRButtonClicked", type);
 			}
-			else if (type == ButtonType.DIRECTORY_BUTTON)
-			{
-				manager.SendMessage("EnterDirectory", path);
-			}
-			else
-			{
-				manager.SendMessage("VRButtonClicked", type);
-			}
-		} 
-		else
-		{
-			manager.SendMessage("UnpressButton");
+		} else if (this.type != ButtonType.QUIT_BUTTON && this.type != ButtonType.LOAD_BUTTON && this.type != ButtonType.MINIMIZE_BUTTON) {
+			Debug.Log ("VR BUTTON unpress");
+			manager.SendMessage ("UnpressButton");
+		} else {
+			manager.SendMessage ("UnpressMenuButton");
 		}
 	}
 	/// <summary>
@@ -84,5 +79,9 @@ public class VRButton : MonoBehaviour
 	public bool GetPressed()
 	{
 		return pressed;
+	}
+
+	public void UnpressButton(){
+		this.pressed = false;
 	}
 }

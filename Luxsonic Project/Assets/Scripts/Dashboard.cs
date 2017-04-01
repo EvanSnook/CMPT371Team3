@@ -103,6 +103,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 	private bool deselectingAll = false;
 	private Vector3 localScaleSetting;
+	private Vector3 menuLocalScaleSetting;
 	private VRButton pressedButton;
 
 	// Built-in Unity method called at the beginning of the Scene
@@ -112,6 +113,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 		this.copyButtons = new List<VRButton>();
 		DisplayMenu();
 		localScaleSetting = copyButtons [0].transform.localScale;
+		this.menuLocalScaleSetting = this.loadButton.transform.localScale;
 		this.pressedButton = null;
 	}
 
@@ -216,25 +218,26 @@ public class Dashboard : MonoBehaviour, IVRButton
 		if (this.pressedButton != null)
 		{
 			this.pressedButton.transform.localScale = this.localScaleSetting;
+			this.pressedButton.transform.gameObject.SendMessage ("UnpressButton");
 		}
 		switch (button)
 		{
 		case ButtonType.LOAD_BUTTON:
-			this.loadButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.loadButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
 			this.pressedButton = this.loadButton;
 			Load ();
 			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 		case ButtonType.QUIT_BUTTON:
 			// If the quit button was clicked
-			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.quitButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
 			this.pressedButton = this.quitButton;
 			Quit();
 			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 		case ButtonType.MINIMIZE_BUTTON:
 			// If the minimize button was clicked
-			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.quitButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
 			this.pressedButton = this.minimizeButton;
 			Minimize();
 			Invoke ("UnpressMenuButton", 1.0f);
@@ -249,7 +252,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			else {
 				Invoke ("UnpressButton", 1.0f);
 			}
-				
+
 			break;
 
 		case ButtonType.CONTRAST_BUTTON:
@@ -262,7 +265,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 				Invoke ("UnpressButton", 1.0f);
 			}
 			break;
-		
+
 		case ButtonType.INVERT_BUTTON:
 			this.setButtonScale (button);
 			this.currentSelection = button;
@@ -532,16 +535,25 @@ public class Dashboard : MonoBehaviour, IVRButton
 		}
 	}
 	public void UnpressButton(){
-		this.pressedButton.transform.localScale = this.localScaleSetting;
+		Debug.Log (this.pressedButton);
+		if (this.pressedButton != null) {
+			this.pressedButton.transform.localScale = this.localScaleSetting;
+			this.pressedButton.gameObject.SendMessage ("UnpressButton");
+		}
+
 		this.pressedButton = null;
 		this.currentSelection = ButtonType.NONE;
+
 		UpdateCopyOptions ();
 	}
 	public void UnpressMenuButton(){
-		this.pressedButton.transform.localScale = this.localScaleSetting;
+		if (this.pressedButton != null) {
+			this.pressedButton.transform.localScale = this.menuLocalScaleSetting;
+			this.pressedButton.gameObject.SendMessage ("UnpressButton");
+		}
+
 		this.pressedButton = null;
 		this.currentSelection = ButtonType.NONE;
 	}
 
 }
-	

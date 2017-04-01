@@ -60,7 +60,6 @@
 				renderTex.rgb = ContrastSaturationBrightness(renderTex.rgb, _BrightnessAmount, _SaturationAmount, _ContrastAmount); 
 				if(_Invert == 1){
 					renderTex.rgb = float3(1.0f - renderTex.r, 1.0f - renderTex.g, 1.0f - renderTex.b);
-					_Invert = 0;
 				}
 				
 				return renderTex;
