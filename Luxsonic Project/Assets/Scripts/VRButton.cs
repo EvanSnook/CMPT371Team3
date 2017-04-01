@@ -22,9 +22,11 @@ public class VRButton : MonoBehaviour
 	// Buttons state
 	private bool pressed;
 	// Use this for initialization
+	public bool allowPress;
 	void Start()
 	{
 		this.pressed = false;
+		allowPress = true;
 	}
 	// When mouve is pressed send clicked message to manager
 	void OnMouseDown()

@@ -5,6 +5,7 @@
 		_SaturationAmount ("Saturation Amount", Range(0.0, 2.0)) = 1.0
 		_BrightnessAmount ("Brightness Amount", Range(0.0, 2.0)) = 1.0
 		_ContrastAmount ("Contrast Amount", Range(0.0,2.0)) = 1.0
+		_Invert("Invert", int) = 0
 	}
 	SubShader 
 	{
@@ -22,6 +23,7 @@
 			uniform float _SaturationAmount;
 			uniform float _BrightnessAmount;
 			uniform float _ContrastAmount;
+			uniform int _Invert;
 			
 			float3 ContrastSaturationBrightness( float3 color, float brt, float sat, float con)
 			{
@@ -56,6 +58,7 @@
 				
 				
 				renderTex.rgb = ContrastSaturationBrightness(renderTex.rgb, _BrightnessAmount, _SaturationAmount, _ContrastAmount); 
+				renderTex.rgb = float3(1.0f - renderTex.r, 1.0f - renderTex.g, 1.0f - renderTex.b);
 				
 				return renderTex;
 			

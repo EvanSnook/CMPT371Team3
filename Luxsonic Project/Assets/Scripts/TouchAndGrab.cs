@@ -140,11 +140,13 @@ public class TouchAndGrab : MonoBehaviour
 		{
 			if ((other.tag == "MenuButton"))
 			{
-				if (!(other.gameObject.GetComponent<VRButton>().GetPressed()))
-				{
-					other.gameObject.GetComponent<VRButton>().SetPressed(true);
-				} else {
-					other.gameObject.GetComponent<VRButton>().SetPressed(false);
+				if (other.gameObject.GetComponent<VRButton> ().allowPress) {
+					other.gameObject.GetComponent<VRButton> ().allowPress = false;
+					if (!(other.gameObject.GetComponent<VRButton> ().GetPressed ())) {
+						other.gameObject.GetComponent<VRButton> ().SetPressed (true);
+					} else {
+						other.gameObject.GetComponent<VRButton> ().SetPressed (false);
+					}
 				}
 			}
 			else if ((other.tag == "Copy"))
@@ -191,7 +193,7 @@ public class TouchAndGrab : MonoBehaviour
 	{
 		if (other.tag == "MenuButton")
 		{
-			other.gameObject.GetComponent<VRButton>().SetPressed(false);
+			other.gameObject.GetComponent<VRButton> ().allowPress = true;
 		}
 		else if (other.tag == "Thumbnail")
 		{

@@ -221,20 +221,23 @@ public class Dashboard : MonoBehaviour, IVRButton
 		{
 		case ButtonType.LOAD_BUTTON:
 			this.loadButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.pressedButton = this.loadButton;
 			Load ();
-			Invoke ("UnpressButton", 1.0f);
+			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 		case ButtonType.QUIT_BUTTON:
 			// If the quit button was clicked
 			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.pressedButton = this.quitButton;
 			Quit();
-			Invoke ("UnpressButton", 1.0f);
+			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 		case ButtonType.MINIMIZE_BUTTON:
 			// If the minimize button was clicked
 			this.quitButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
+			this.pressedButton = this.minimizeButton;
 			Minimize();
-			Invoke ("UnpressButton", 1.0f);
+			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 
 		case ButtonType.BRIGHTNESS_BUTTON:
@@ -533,6 +536,11 @@ public class Dashboard : MonoBehaviour, IVRButton
 		this.pressedButton = null;
 		this.currentSelection = ButtonType.NONE;
 		UpdateCopyOptions ();
+	}
+	public void UnpressMenuButton(){
+		this.pressedButton.transform.localScale = this.localScaleSetting;
+		this.pressedButton = null;
+		this.currentSelection = ButtonType.NONE;
 	}
 
 }
