@@ -289,6 +289,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
+			this.setButtonScale (button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -299,6 +300,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.CLOSE_BUTTON:
+			this.setButtonScale (button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -307,6 +309,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.RESTORE_COPY_BUTTON:
+			this.setButtonScale (button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -315,6 +318,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.SELECT_ALL_COPIES_BUTTON:
+			this.setButtonScale (button);
 			this.SelectAllCopies();
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -323,6 +327,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.DESELECT_ALL_COPIES_BUTTON:
+			this.setButtonScale (button);
 			this.DeselectAllCopies();
 			Invoke ("UnpressButton", 1.0f);
 			break;
