@@ -20,11 +20,19 @@ public class VRButton : MonoBehaviour
 	// Text on button
 	public TextMesh textObject;
 	// Buttons state
-	bool pressed = false;
-	// Freashly made buttons cannot be pushed
+	private bool pressed;
+	// Use this for initialization
+	public bool allowPress;
 	[SerializeField]
 	private int coolDown;
+
 	// Use this for initialization
+	void Start()
+	{
+		this.pressed = false;
+		allowPress = true;
+	}
+		
 	private void FixedUpdate()
 	{
 		if(coolDown > 0)
@@ -60,24 +68,22 @@ public class VRButton : MonoBehaviour
 		pressed = val;
 		if (val && coolDown == 0)
 		{
-			if (type == ButtonType.FILE_BUTTON)
-			{
+			if (type == ButtonType.FILE_BUTTON) {
 				String[] arguments = new string[2] { "f", path };
-				manager.SendMessage("LoadFiles", arguments);
-			}
-			else if (type == ButtonType.DIRECTORY_BUTTON)
-			{
-				manager.SendMessage("EnterDirectory", path);
-			}
-			else if (type == ButtonType.LOAD_DIRECTORY_BUTTON)
-			{
+				manager.SendMessage ("LoadFiles", arguments);
+			} else if (type == ButtonType.DIRECTORY_BUTTON) {
+				manager.SendMessage ("EnterDirectory", path);
+			} else if (type == ButtonType.LOAD_DIRECTORY_BUTTON) {
 				String[] arguments = new string[2] { "d", path };
-				manager.SendMessage("LoadFiles", arguments);
+				manager.SendMessage ("LoadFiles", arguments);
+			} else {
+				manager.SendMessage ("VRButtonClicked", type);
 			}
-			else
-			{
-				manager.SendMessage("VRButtonClicked", type);
-			}
+		} else if (this.type != ButtonType.QUIT_BUTTON && this.type != ButtonType.LOAD_BUTTON && this.type != ButtonType.MINIMIZE_BUTTON) {
+			Debug.Log ("VR BUTTON unpress");
+			manager.SendMessage ("UnpressButton");
+		} else {
+			manager.SendMessage ("UnpressMenuButton");
 		}
 	}
 	/// <summary>
@@ -89,5 +95,9 @@ public class VRButton : MonoBehaviour
 	public bool GetPressed()
 	{
 		return pressed;
+	}
+
+	public void UnpressButton(){
+		this.pressed = false;
 	}
 }

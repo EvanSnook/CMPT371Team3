@@ -32,7 +32,7 @@ public class DashboardTests {
 			new Dashboard.ButtonAttributes("Zoom", new Vector3(0.3f, 0.2f, 0)),
 			new Dashboard.ButtonAttributes("Brightness", new Vector3(-0.3f, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Resize", new Vector3(0, -0.2f, 0)),
-			new Dashboard.ButtonAttributes("Filter", new Vector3(0.3f, -0.2f, 0)),
+			new Dashboard.ButtonAttributes("Saturation", new Vector3(0.3f, -0.2f, 0)),
 			new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0)),
 			new Dashboard.ButtonAttributes("Restore", new Vector3(-0.3f, -0.7f, 0)),
             new Dashboard.ButtonAttributes("Select All", new Vector3(-0.3f, -0.11f, 0)),
@@ -50,7 +50,7 @@ public class DashboardTests {
 		bool rotateIn = false;
 		bool brightnessIn = false;
 		bool resizeIn = false;
-		bool filterIn = false;
+		bool saturationIn = false;
 		bool closeIn = false;
 
 		for (int i = 0; i < myButtons.Length; i= i + 1){
@@ -84,9 +84,9 @@ public class DashboardTests {
 				// If the quit button was clicked
 				resizeIn = true;
 				break;
-			case "Filter":
+			case "Saturation":
 				// If the quit button was clicked
-				filterIn = true;
+				saturationIn = true;
 				break;
 			case "Close":
 				// If the quit button was clicked
@@ -101,7 +101,7 @@ public class DashboardTests {
 		Assert.AreEqual (rotateIn, true);
 		Assert.AreEqual (brightnessIn, true);
 		Assert.AreEqual (resizeIn, true);
-		Assert.AreEqual (filterIn, true);
+		Assert.AreEqual (saturationIn, true);
 		Assert.AreEqual (closeIn, true);
 	}
 
@@ -153,7 +153,7 @@ public class DashboardTests {
             new Dashboard.ButtonAttributes("Zoom", new Vector3(0.3f, 0.2f, 0)),
             new Dashboard.ButtonAttributes("Brightness", new Vector3(-0.3f, -0.2f, 0)),
             new Dashboard.ButtonAttributes("Resize", new Vector3(0, -0.2f, 0)),
-            new Dashboard.ButtonAttributes("Filter", new Vector3(0.3f, -0.2f, 0)),
+            new Dashboard.ButtonAttributes("Saturation", new Vector3(0.3f, -0.2f, 0)),
             new Dashboard.ButtonAttributes("Close", new Vector3(0, -0.7f, 0)),
             new Dashboard.ButtonAttributes("Restore", new Vector3(-0.3f, -0.7f, 0)),
             new Dashboard.ButtonAttributes("Select All", new Vector3(-0.3f, -0.11f, 0)),
