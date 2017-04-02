@@ -20,7 +20,7 @@ public class SystemTests : MonoBehaviour {
 
 		//dashboard.dissplay = GameObject.FindGameObjectWithTag("DisplayImage").GetComponent<Display>();
 
-		testDisplay.AddImage(dashboard.dummyImages[0]); // Load in the default image.
+		//testDisplay.AddImage(dashboard.dummyImages[0]); // Load in the default image.
 		testDisplay.CreateCopy(testDisplay.GetImages()[0]);								// Creating the first copy
 
 		Assert.AreEqual(GameObject.FindGameObjectsWithTag ("Copy").Length, 1);		//Check that there is a copy created. */

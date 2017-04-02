@@ -19,6 +19,9 @@ public class Display : MonoBehaviour, IVRButton
     // The depth at which the copy will be placed in front of the user
     public float copyDepth;
 
+	// The patient Info prefab
+	public GameObject patientInfoPrefab;
+
     // The list of images that have been loaded 
     List<Texture2D> images = new List<Texture2D>();
 
@@ -78,7 +81,7 @@ public class Display : MonoBehaviour, IVRButton
     /// <param name="image">The texture for the image to add</param>
     /// <pre>Image Texture2D to add</pre>
     /// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
-    public void AddImage(Texture2D image)
+	public void AddImage(Texture2D image, Dictionary<string,string> patientInfo)
     {
         Assert.IsNotNull(image, "Image passed into Display is null");
         images.Add(image);
@@ -89,6 +92,12 @@ public class Display : MonoBehaviour, IVRButton
         displayImage.SetActive(false);
         displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
             new Vector2(0.5f, 0.5f));
+
+		displayImage.gameObject.GetChildWithTag("PatientName").textMesh.text = patientInfo ["PatientName"];
+		displayImage.gameObject.GetChildWithTag("PatientId").textMesh.text = patientInfo ["PatientId"];
+		displayImage.gameObject.GetChildWithTag("PatientBirthDate").textMesh.text = patientInfo ["PatientBirthDate"];
+		displayImage.gameObject.GetChildWithTag("PatientSex").textMesh.text = patientInfo ["PatientSex"];
+
 
         displayImages.AddLast(displayImage);
 
@@ -108,6 +117,11 @@ public class Display : MonoBehaviour, IVRButton
         }
 
         CreateTray(image);
+
+		// now deal with the patientInfo
+
+
+
     }
 
 
