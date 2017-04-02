@@ -54,7 +54,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public ButtonAttributes[] buttonAttributes = new ButtonAttributes[13];
 
 	// The file system to load images with
-	public GameObject loadBar;
+	public FileBrowser1 fileBrowser;
 
 	// Creates a display object in dashboard
 	public Display display;
@@ -106,6 +106,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	private Vector3 menuLocalScaleSetting;
 	private VRButton pressedButton;
 
+
 	// Built-in Unity method called at the beginning of the Scene
 	public void Start()
 	{
@@ -115,6 +116,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 		localScaleSetting = copyButtons [0].transform.localScale;
 		this.menuLocalScaleSetting = this.loadButton.transform.localScale;
 		this.pressedButton = null;
+
 	}
 
 	public void Update()
@@ -287,7 +289,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -298,7 +299,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.CLOSE_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -307,7 +307,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.RESTORE_COPY_BUTTON:
-			this.setButtonScale(button);
 			this.currentSelection = button;
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -316,7 +315,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.SELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale(button);
 			this.SelectAllCopies();
 			if (this.currentCopies.Count != 0) {
 				this.UpdateCopyOptions ();
@@ -325,7 +323,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 			break;
 
 		case ButtonType.DESELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale(button);
 			this.DeselectAllCopies();
 			Invoke ("UnpressButton", 1.0f);
 			break;
@@ -378,6 +375,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			foreach (GameObject copy in copiesToDelete)
 			{
 				this.currentCopies.Remove(copy);
+                this.display.gameObject.SendMessage("RemoveCopy", copy);
 				copy.SendMessage("NewOptions", this.currentSelection);
 			}
 			this.currentSelection = ButtonType.NONE;
@@ -423,8 +421,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// </summary>
 	private void Load()
 	{
-		display.AddImage(dummyImages[Random.Range(0, dummyImages.Length)]);
-		//Instantiate(loadBar, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+		fileBrowser.gameObject.SetActive(true);
+		Minimize();
 	}
 
 	/// <summary>
@@ -557,3 +555,4 @@ public class Dashboard : MonoBehaviour, IVRButton
 	}
 
 }
+

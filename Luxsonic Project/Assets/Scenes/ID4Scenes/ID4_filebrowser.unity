@@ -556,6 +556,102 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: directoryLoadPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: directoryLoadPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: directoryLoadPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upFileButtonPosition.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upFileButtonPosition.y
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upFileButtonPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downFileButtonPosition.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downFileButtonPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downFileButtonPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upDirectoryButtonPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upDirectoryButtonPosition.y
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: upDirectoryButtonPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downDirectoryButtonPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downDirectoryButtonPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: downDirectoryButtonPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonLimit
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0f54ed08691759e46bd837dde9f342da, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2083461408 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1498928327668370, guid: 0f54ed08691759e46bd837dde9f342da,
+    type: 2}
+  m_PrefabInternal: {fileID: 2083461407}
+--- !u!114 &2083461409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2083461408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55dfe0794761d9c4798d054798160fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
