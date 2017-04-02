@@ -56,8 +56,14 @@ MonoBehaviour:
   trayDepth: -0.5
   trayNumColumns: 3
   trayNumRows: 3
-  trayIncrementor: 0.1
+  trayIncrementor: 0.25
   trayThumbnailScale: 2.5
   thumbnailPrefab: {fileID: 1328449969215324, guid: ec64dadee99018142abfe2909a5180f0,
     type: 2}
   manager: {fileID: 0}
+  buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+    type: 2}
+  scrollUpButtonPosition: {x: 0, y: 0, z: 0}
+  scrollDownButtonPosition: {x: 0, y: 0, z: 0}
+  outlineScale: 100
+  outlineDepth: 0.1
