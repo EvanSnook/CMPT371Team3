@@ -63,7 +63,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  scrollUpButtonPosition: {x: 0, y: 0, z: 0}
-  scrollDownButtonPosition: {x: 0, y: 0, z: 0}
+  scrollUpButtonPosition: {x: 0.7, y: -0.5, z: 0}
+  scrollDownButtonPosition: {x: 0.7, y: -0.6, z: 0}
   outlineScale: 100
   outlineDepth: 0.1
