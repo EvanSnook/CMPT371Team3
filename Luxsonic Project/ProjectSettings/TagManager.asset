@@ -13,8 +13,8 @@ TagManager:
   - Thumbnail
   - FileBrowser
   - Environment
-  - ControllerLeft
-  - ControllerRight
+  - LeftController
+  - RightController
   layers:
   - Default
   - TransparentFX
