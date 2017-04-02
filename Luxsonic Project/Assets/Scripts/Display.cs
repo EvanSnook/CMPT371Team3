@@ -93,10 +93,36 @@ public class Display : MonoBehaviour, IVRButton
         displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
             new Vector2(0.5f, 0.5f));
 
-		displayImage.gameObject.GetChildWithTag("PatientName").textMesh.text = patientInfo ["PatientName"];
-		displayImage.gameObject.GetChildWithTag("PatientId").textMesh.text = patientInfo ["PatientId"];
-		displayImage.gameObject.GetChildWithTag("PatientBirthDate").textMesh.text = patientInfo ["PatientBirthDate"];
-		displayImage.gameObject.GetChildWithTag("PatientSex").textMesh.text = patientInfo ["PatientSex"];
+        foreach (Transform t in displayImage.gameObject.transform.GetChild(0))
+        {
+            if (t.tag == "PatientName")
+            {
+                t.GetComponent<TextMesh>().text = patientInfo["PatientName"];
+            }
+            else if (t.tag == "PatientId")
+            {
+                t.GetComponent<TextMesh>().text = patientInfo["PatientID"];
+            }
+            else if (t.tag == "PatientDateOfBirth")
+            {
+                string text =  patientInfo["PatientBirthDate"];
+                text = text.Insert(4, "/");
+                text = text.Insert(7, "/");
+                t.GetComponent<TextMesh>().text = text;
+            }
+            else if (t.tag == "PatientSex")
+            {
+                t.GetComponent<TextMesh>().text = patientInfo["PatientSex"];
+            }
+            else if (t.tag == "StudyDescription")
+            {
+                t.GetComponent<TextMesh>().text = patientInfo["StudyDescription"];
+            }
+            else
+            {
+                // Unsupported Key
+            }
+        }
 
 
         displayImages.AddLast(displayImage);
@@ -117,11 +143,7 @@ public class Display : MonoBehaviour, IVRButton
         }
 
         CreateTray(image);
-
 		// now deal with the patientInfo
-
-
-
     }
 
 

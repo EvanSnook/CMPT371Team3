@@ -17,6 +17,8 @@ TagManager:
   - PatientId
   - PatientDateOfBirth
   - PatientSex
+  - PatientAdditionalHistory
+  - StudyDescription
   layers:
   - Default
   - TransparentFX

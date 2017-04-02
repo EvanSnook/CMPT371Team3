@@ -305,6 +305,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		patientInfo.Add("PatientID", (obj.Dataset.Get< string>(Dicom.DicomTag.PatientID, null )));
 		patientInfo.Add("PatientBirthDate", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientBirthDate, null)));
 		patientInfo.Add("PatientSex", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientSex, null)));
+        patientInfo.Add("StudyDescription", (obj.Dataset.Get<string>(Dicom.DicomTag.StudyDescription, null)));
 
 		return patientInfo;
 
@@ -473,7 +474,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		Texture2D image = new Texture2D(10, 10);
 		image.LoadImage(dicomImage);
 		image.name = filePath;
-		display.SendMessage("AddImage", image);
+
+		display.AddImage(image, patientInfo);
 	}
 
 
