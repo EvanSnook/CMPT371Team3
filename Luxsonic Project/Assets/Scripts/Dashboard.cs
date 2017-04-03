@@ -102,10 +102,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 	private ButtonType currentSelection = ButtonType.NONE;
 
 	private bool deselectingAll = false;
-	private Vector3 localScaleSetting;
-	private Vector3 menuLocalScaleSetting;
-	private VRButton pressedButton;
-
 
 	// Built-in Unity method called at the beginning of the Scene
 	public void Start()
@@ -113,10 +109,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 		display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
 		this.copyButtons = new List<VRButton>();
 		DisplayMenu();
-		localScaleSetting = copyButtons [0].transform.localScale;
-		this.menuLocalScaleSetting = this.loadButton.transform.localScale;
-		this.pressedButton = null;
-
 	}
 
 	public void Update()
@@ -195,11 +187,11 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 		// Create the Copy modification buttons
 		copyButtons.Add(InitializeButton(ButtonType.CONTRAST_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.INVERT_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.ROTATE_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.ZOOM_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.BRIGHTNESS_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESIZE_BUTTON, true));
-		copyButtons.Add(InitializeButton(ButtonType.SATURATION_BUTTON, true));
+		copyButtons.Add(InitializeButton(ButtonType.FILTER_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.CLOSE_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.RESTORE_COPY_BUTTON, true));
 		copyButtons.Add(InitializeButton(ButtonType.SELECT_ALL_COPIES_BUTTON, true));
@@ -217,119 +209,54 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <param name="button">The name of the button</param>
 	public void VRButtonClicked(ButtonType button)
 	{
-		if (this.pressedButton != null)
-		{
-			this.pressedButton.transform.localScale = this.localScaleSetting;
-			this.pressedButton.transform.gameObject.SendMessage ("UnpressButton");
-		}
 		switch (button)
 		{
 		case ButtonType.LOAD_BUTTON:
-			this.loadButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
-			this.pressedButton = this.loadButton;
-			Load ();
-			Invoke ("UnpressMenuButton", 1.0f);
+			// If the load button was clicked
+			Load();
 			break;
 		case ButtonType.QUIT_BUTTON:
 			// If the quit button was clicked
-			this.quitButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
-			this.pressedButton = this.quitButton;
 			Quit();
-			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 		case ButtonType.MINIMIZE_BUTTON:
 			// If the minimize button was clicked
-			this.quitButton.transform.localScale = new Vector3 (this.menuLocalScaleSetting.x, this.menuLocalScaleSetting.y, 50f);
-			this.pressedButton = this.minimizeButton;
 			Minimize();
-			Invoke ("UnpressMenuButton", 1.0f);
 			break;
 
 		case ButtonType.BRIGHTNESS_BUTTON:
-			this.setButtonScale (button);
 			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			else {
-				Invoke ("UnpressButton", 1.0f);
-			}
-
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.CONTRAST_BUTTON:
-			this.setButtonScale (button);
 			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			else {
-				Invoke ("UnpressButton", 1.0f);
-			}
-			break;
-
-		case ButtonType.INVERT_BUTTON:
-			this.setButtonScale (button);
-			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			Invoke ("UnpressButton", 1.0f);
-			break;
-
-		case ButtonType.SATURATION_BUTTON:
-			this.setButtonScale(button);
-			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			else {
-				Invoke ("UnpressButton", 1.0f);
-			}
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.RESIZE_BUTTON:
-			this.setButtonScale (button);
 			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			else {
-				Invoke ("UnpressButton", 1.0f);
-			}
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.CLOSE_BUTTON:
-			this.setButtonScale (button);
 			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			Invoke ("UnpressButton", 1.0f);
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.RESTORE_COPY_BUTTON:
-			this.setButtonScale (button);
 			this.currentSelection = button;
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			Invoke ("UnpressButton", 1.0f);
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.SELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale (button);
 			this.SelectAllCopies();
-			if (this.currentCopies.Count != 0) {
-				this.UpdateCopyOptions ();
-			}
-			Invoke ("UnpressButton", 1.0f);
+			this.UpdateCopyOptions();
 			break;
 
 		case ButtonType.DESELECT_ALL_COPIES_BUTTON:
-			this.setButtonScale (button);
 			this.DeselectAllCopies();
-			Invoke ("UnpressButton", 1.0f);
+			this.UpdateCopyOptions();
 			break;
 
 
@@ -353,7 +280,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
 		List<GameObject> copiesToDelete = new List<GameObject>();
 
-		if (this.currentCopies.Count > 0)
+		if (this.currentCopies.Count > 0 && this.currentSelection != ButtonType.NONE)
 		{
 			//this.currentCopy.SendMessage("ReceiveSlider", this.slider);
 			foreach (GameObject currentCopy in this.currentCopies)
@@ -524,39 +451,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public ButtonType GetCurrentSelection()
 	{
 		return this.currentSelection;
-	}
-
-	//find the button of button mybutton and make it appear pressed by setting z value to 0
-	//set the last button that was selected appear unselected by returning it to its orginal position
-	private void setButtonScale (ButtonType myButton){
-		foreach (VRButton cButton in copyButtons)
-		{
-			if (cButton.type == myButton) {
-				cButton.transform.localScale = new Vector3 (this.localScaleSetting.x, this.localScaleSetting.y, 50f);
-				this.pressedButton = cButton;
-			}
-		}
-	}
-	public void UnpressButton(){
-		Debug.Log (this.pressedButton);
-		if (this.pressedButton != null) {
-			this.pressedButton.transform.localScale = this.localScaleSetting;
-			this.pressedButton.gameObject.SendMessage ("UnpressButton");
-		}
-
-		this.pressedButton = null;
-		this.currentSelection = ButtonType.NONE;
-
-		UpdateCopyOptions ();
-	}
-	public void UnpressMenuButton(){
-		if (this.pressedButton != null) {
-			this.pressedButton.transform.localScale = this.menuLocalScaleSetting;
-			this.pressedButton.gameObject.SendMessage ("UnpressButton");
-		}
-
-		this.pressedButton = null;
-		this.currentSelection = ButtonType.NONE;
 	}
 
 }

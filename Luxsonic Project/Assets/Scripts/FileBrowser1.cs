@@ -8,6 +8,9 @@ using System.Threading;
 
 using buttons;
 
+using Dicom;
+using Dicom.Imaging;
+using Dicom.Log;
 /// <summary>
 /// The FileBrowser1 class represents the script for generating a virtual filebrowser that the user can
 /// navigate to seach for image and dicom files for use in the program
@@ -18,7 +21,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	Dashboard dashboard;
 
 	// Reference the Display
-	GameObject display;
+	Display display;
 
 	// Path name of the current directory
 	string currentDirectory;
@@ -74,8 +77,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	public Vector3 directoryLoadRotation;
 
 	// VRButtons up for files
-	private VRButton topFileButton;
-	private VRButton bottomFileButton;
 	// up file button Position
 	public Vector3 upFileButtonPosition;
 	// up file rotation
@@ -108,7 +109,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	// Use this for initialization
 	void Start()
 	{
-		display = GameObject.FindGameObjectWithTag("Display");
+		display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
 		dashboard = GameObject.FindGameObjectWithTag("Dashboard").GetComponent<Dashboard>();
 		// Get the current Directory
 		currentDirectory = Directory.GetCurrentDirectory().ToString();
@@ -223,14 +224,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// Set the top and bottom directory/file buttons
 		if (GetListOfDirectoryButtons().Count > 0)
 		{
-			this.topDirectoryButton = GetListOfDirectoryButtons().First.Value;
-			this.bottomDirectoryButton = GetListOfDirectoryButtons().Last.Value;
+			//this.topDirectoryButton = GetListOfDirectoryButtons().First.Value;
+			//this.bottomDirectoryButton = GetListOfDirectoryButtons().Last.Value;
 			ShowLimitedButtons(listOfCurrentDirectoryButtons, this.directoryPosition.y);
 		}
 		if (GetListOfDirectoryButtons().Count > 0)
 		{
-			this.topFileButton = GetListOfFileButtons().First.Value;
-			this.bottomFileButton = GetListOfFileButtons().First.Value;
+			//this.topFileButton = GetListOfFileButtons().First.Value;
+			//this.bottomFileButton = GetListOfFileButtons().First.Value;
 			ShowLimitedButtons(listOfCurrentFileButtons, this.filePosition.y);
 		}
 	}
@@ -277,9 +278,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 		//call ConvertAndSerndImages() on everything in (Application.persistentDataPath + \tempImages)
 		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
+
+		Debug.Log(targetPath);
+		Dictionary<string, string> patientInfo = GetPatientInfo(targetPath);
+
 		foreach (string filePath in arrayOfFiles)
 		{
-			yield return StartCoroutine(ConvertAndSendImage(filePath));
+			yield return StartCoroutine(ConvertAndSendImage(filePath, patientInfo));
 			yield return null;
 		}
 
@@ -288,6 +293,21 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 	}
 
+	public Dictionary<string, string> GetPatientInfo(string path)
+	{
+
+		//Debug.Log(path);
+		Dicom.DicomFile obj = Dicom.DicomFile.Open(path);
+		Dictionary<string, string> patientInfo = new Dictionary<string, string>();
+		patientInfo.Add("PatientName", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientName, null)));
+		patientInfo.Add("PatientID", (obj.Dataset.Get< string>(Dicom.DicomTag.PatientID, null )));
+		patientInfo.Add("PatientBirthDate", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientBirthDate, null)));
+		patientInfo.Add("PatientSex", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientSex, null)));
+        patientInfo.Add("StudyDescription", (obj.Dataset.Get<string>(Dicom.DicomTag.StudyDescription, null)));
+
+		return patientInfo;
+
+	}
 
 	/// <summary>
 	/// D
@@ -426,12 +446,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// Return:: nothing
 	/// </summary>
 	/// <param name="filePath">string representation of the files path</param>
-	public IEnumerator ConvertAndSendImage(string filePath)
+	public IEnumerator ConvertAndSendImage(string filePath, Dictionary<string,string> patientInfo)
 	{
 		FileInfo file = new FileInfo(filePath);
 		// Can't do anything with a null file
 		Assert.AreNotEqual(null, file, "The file should not be null");
 		byte[] dicomImage = File.ReadAllBytes(file.ToString());
+
 		// We need to supress an unused variable warning. Unity views this as unused
 		// because it's not used here but in a new thread.
 		#pragma warning disable 0219
@@ -451,7 +472,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		Texture2D image = new Texture2D(10, 10);
 		image.LoadImage(dicomImage);
 		image.name = filePath;
-		display.SendMessage("AddImage", image);
+
+		display.AddImage(image, patientInfo);
 	}
 
 
@@ -681,16 +703,13 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// <param name="list"></param>
 	private void ScrollDown(LinkedList<VRButton> list, float highestButton)
 	{
-		UnityEngine.Debug.Log("Entered the function");
 		// We should not be able to scroll if the amount of buttons present is less than the limit
 		if (list.Count > this.buttonLimit)
 		{
-			UnityEngine.Debug.Log("Count is big enough");
-			Transform lastValue = list.Last.Value.GetComponent<Transform>();
+			//Transform lastValue = list.Last.Value.GetComponent<Transform>();
 			// We can only scroll down if we are not at the bottom of the list
 			if (list.Last.Value.gameObject.activeSelf == false)
 			{
-				UnityEngine.Debug.Log("Last value is not active");
 				foreach (VRButton button in list)
 				{
 					// All buttons are shifted up one position
