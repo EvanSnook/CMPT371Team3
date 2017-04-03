@@ -35,7 +35,7 @@ public class DisplayTests
         trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
         disp.trayPrefab = trayObject;
 
-        disp.AddImage(tex);
+        //disp.AddImage(tex);
 
         // The manager should have a non-empty list and should contain the texture we created.
         Assert.Greater(disp.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
@@ -247,10 +247,10 @@ public class DisplayTests
 
         Texture2D tex = new Texture2D(100, 100);
 
-        disp.AddImage(tex);
-        disp.AddImage(tex);
-        disp.AddImage(tex);
-        disp.AddImage(tex);
+        //disp.AddImage(tex);
+        //disp.AddImage(tex);
+        //disp.AddImage(tex);
+        //disp.AddImage(tex);
         
         disp.TestScrollLeftAndRight(4);
         

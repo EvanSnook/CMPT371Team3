@@ -7,6 +7,7 @@ using System;
 using System.Threading;
 
 using buttons;
+using AssemblyCSharp;
 
 using Dicom;
 using Dicom.Imaging;
@@ -104,6 +105,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	[SerializeField]
 	private int buttonLimit;
 
+	[SerializeField]
+	private GameObject copy3DPrefab;
 
 
 	// Use this for initialization
@@ -274,6 +277,29 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 
 		DeleteAllImagesInPath(destinationPath);
 
+		if ((type.CompareTo ("f") == 0) && (Path.GetExtension (targetPath).CompareTo (".obj") == 0)) {
+			ConvertObjFile (targetPath);
+			yield return null;
+		} else {
+			StartConversion (type, targetPath, destinationPath);
+		}
+
+		DisableFileBrowser();
+
+	}
+
+	void ConvertObjFile(String targetPath){
+		Debug.Log ("Reached converting obj file");
+		ObjImporter importer = new ObjImporter ();
+		Mesh importedMesh = importer.ImportFile (targetPath);
+		GameObject new3DCopy = Instantiate (copy3DPrefab);
+		new3DCopy.GetComponent<MeshFilter> ().mesh = importedMesh;
+		new3DCopy.GetComponent<MeshCollider> ().sharedMesh = importedMesh;
+		Debug.Log ("Instantiated 3d copy.");
+	}
+
+	// Change name later?
+	IEnumerator StartConversion(String type, String targetPath, String destinationPath){
 		yield return StartCoroutine(gameObject.GetComponent<DICOMConverter>().ExternalConverter(type, targetPath, destinationPath));
 
 		//call ConvertAndSerndImages() on everything in (Application.persistentDataPath + \tempImages)
@@ -289,8 +315,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		}
 
 		DeleteAllImagesInPath(destinationPath);
-		DisableFileBrowser();
-
 	}
 
 	public Dictionary<string, string> GetPatientInfo(string path)
