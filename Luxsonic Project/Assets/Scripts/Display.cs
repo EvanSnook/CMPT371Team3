@@ -19,9 +19,6 @@ public class Display : MonoBehaviour, IVRButton
     // The depth at which the copy will be placed in front of the user
     public float copyDepth;
 
-	// The patient Info prefab
-	public GameObject patientInfoPrefab;
-
     // The list of images that have been loaded 
     List<Texture2D> images = new List<Texture2D>();
 
@@ -81,7 +78,7 @@ public class Display : MonoBehaviour, IVRButton
     /// <param name="image">The texture for the image to add</param>
     /// <pre>Image Texture2D to add</pre>
     /// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
-	public void AddImage(Texture2D image, Dictionary<string,string> patientInfo)
+    public void AddImage(Texture2D image)
     {
         Assert.IsNotNull(image, "Image passed into Display is null");
         images.Add(image);
@@ -92,38 +89,6 @@ public class Display : MonoBehaviour, IVRButton
         displayImage.SetActive(false);
         displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
             new Vector2(0.5f, 0.5f));
-
-        foreach (Transform t in displayImage.gameObject.transform.GetChild(0))
-        {
-            if (t.tag == "PatientName")
-            {
-                t.GetComponent<TextMesh>().text = patientInfo["PatientName"];
-            }
-            else if (t.tag == "PatientId")
-            {
-                t.GetComponent<TextMesh>().text = patientInfo["PatientID"];
-            }
-            else if (t.tag == "PatientDateOfBirth")
-            {
-                string text =  patientInfo["PatientBirthDate"];
-                text = text.Insert(4, "/");
-                text = text.Insert(7, "/");
-                t.GetComponent<TextMesh>().text = text;
-            }
-            else if (t.tag == "PatientSex")
-            {
-                t.GetComponent<TextMesh>().text = patientInfo["PatientSex"];
-            }
-            else if (t.tag == "StudyDescription")
-            {
-                t.GetComponent<TextMesh>().text = patientInfo["StudyDescription"];
-            }
-            else
-            {
-                // Unsupported Key
-            }
-        }
-
 
         displayImages.AddLast(displayImage);
 
@@ -143,7 +108,6 @@ public class Display : MonoBehaviour, IVRButton
         }
 
         CreateTray(image);
-		// now deal with the patientInfo
     }
 
 
@@ -408,5 +372,14 @@ public class Display : MonoBehaviour, IVRButton
 
  
     } 
+
+    /// <summary>
+    /// Used to remove copies from the display when they are removed from the workspace
+    /// </summary>
+    /// <param name="copy">The copy object to remove</param>
+    public void RemoveCopy(GameObject copy)
+    {
+        this.copies.Remove(copy);
+    }
 }
-// end of file
+

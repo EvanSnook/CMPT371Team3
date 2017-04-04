@@ -13,12 +13,6 @@ TagManager:
   - Thumbnail
   - FileBrowser
   - Environment
-  - PatientName
-  - PatientId
-  - PatientDateOfBirth
-  - PatientSex
-  - PatientAdditionalHistory
-  - StudyDescription
   layers:
   - Default
   - TransparentFX

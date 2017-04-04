@@ -107,7 +107,7 @@ public class LoadBar : MonoBehaviour
         Texture2D image = new Texture2D(1000, 1000);
         image.LoadImage(dicomImage);
         //imageManager.SendMessage("AddImage", image);//Since Unit Tests dont like this
-        //display.AddImage(image);
+        display.AddImage(image);
     }    
 
 }

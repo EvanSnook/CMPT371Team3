@@ -307,6 +307,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 			foreach (GameObject copy in copiesToDelete)
 			{
 				this.currentCopies.Remove(copy);
+                this.display.gameObject.SendMessage("RemoveCopy", copy);
 				copy.SendMessage("NewOptions", this.currentSelection);
 			}
 			this.currentSelection = ButtonType.NONE;
