@@ -12,6 +12,12 @@ using System;
 /// </summary>
 public class Tray : MonoBehaviour, IVRButton
 {
+    // Holds the attributes for each button to be instantiated
+    [SerializeField]
+    private List<ButtonAttributes> buttonList = new List<ButtonAttributes>();
+
+    // Holds references to the instantiated buttons
+    private List<GameObject> buttonObjects = new List<GameObject>();
 
 	// The top left x coordinate for the tray to display
 	public float trayStartX;
@@ -41,17 +47,7 @@ public class Tray : MonoBehaviour, IVRButton
 	private float currentTrayZ;
 
 	// The prefab used to create a new button
-	public VRButton buttonPrefab;
-
-	// References to buttons to scroll the tray
-	private VRButton scrollUpButton;
-	private VRButton scrollDownButton;
-
-	// The positions of the scroll buttons
-	[SerializeField]
-	private Vector3 scrollUpButtonPosition;
-	[SerializeField]
-	private Vector3 scrollDownButtonPosition;
+	public GameObject buttonPrefab;
 
 	// The list of images in the scene
 	private LinkedList<Texture2D> images;
@@ -76,11 +72,55 @@ public class Tray : MonoBehaviour, IVRButton
 	[SerializeField]
 	private float outlineDepth;
 
-	// Use this for initialization
-	void Start()
-	{
 
-	}
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Start()
+    {
+        foreach (ButtonAttributes attributes in buttonList)
+        {
+            buttonObjects.Add(CreateButton(attributes, buttonPrefab));
+        }
+        ToggleScrollButtons();
+    }
+
+
+    /// <summary>
+    /// Creates new button, and applies passed in attributes. 
+    /// </summary>
+    /// <param name="attributes">Attributes to be applied to the new button</param>
+    /// <param name="buttonPrefab">Prefab to instantiate as a button</param>
+    /// <returns>Newly created button GameObject</returns>
+    public GameObject CreateButton(ButtonAttributes attributes, GameObject buttonPrefab)
+    {
+        GameObject newButton;
+
+        newButton = Instantiate(buttonPrefab, attributes.position,
+        Quaternion.Euler(attributes.rotation));
+
+        newButton.GetComponent<VRButton>().Initialise(attributes, this.gameObject);
+        newButton.name = attributes.buttonName;
+
+        return newButton;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    void ToggleScrollButtons()
+    {
+        foreach (GameObject button in buttonObjects)
+        {
+            string name = button.GetComponent<VRButton>().GetName();
+            if (name == "Left" || name == "Right") // Change to be name of scroll buttons
+            {
+                button.SetActive(!button.activeSelf);
+            }
+        }
+    }
+
 
 	/// <summary>
 	/// Update the tray to display the thumbnails
@@ -115,12 +155,7 @@ public class Tray : MonoBehaviour, IVRButton
 
 		if (Mathf.Abs(z - trayStartZ) >= trayNumRows * trayIncrementor)// && x >= trayNumColumns * trayIncrementor)
 		{	
-			Debug.Log ("Creating Tray Buttons");
-			if (this.scrollDownButton == null || this.scrollUpButton == null)
-			{
-				this.scrollUpButton = this.InitializeButton(ButtonType.TRAY_SCROLL_UP_BUTTON);
-				this.scrollDownButton = this.InitializeButton(ButtonType.TRAY_SCROLL_DOWN_BUTTON);
-			}
+            ToggleScrollButtons();
 		}
 		else
 		{
@@ -149,42 +184,6 @@ public class Tray : MonoBehaviour, IVRButton
 		}
 	}
 
-	/// <summary>
-	/// Initializes the scrolling buttons for the tray.
-	/// </summary>
-	/// <returns>VRButton initialized with correct attributes.</returns>
-	/// <param name="index">The type of button</param>
-	public VRButton InitializeButton(ButtonType index)
-	{
-		Vector3 pos = Vector3.zero;
-		string newName = "";
-
-		if (index == ButtonType.TRAY_SCROLL_UP_BUTTON)
-		{
-			pos = this.scrollUpButtonPosition;
-			newName = "Scroll Up";
-		}
-		else if (index == ButtonType.TRAY_SCROLL_DOWN_BUTTON)
-		{
-			pos = this.scrollDownButtonPosition;
-			newName = "Scroll Down";
-		}
-
-
-		VRButton newButton;
-
-		newButton = Instantiate(buttonPrefab, pos, this.transform.rotation);
-		newButton.transform.parent = this.transform;
-
-		newButton.type = index;
-		newButton.transform.position = new Vector3(pos.x, pos.y, pos.z);
-		newButton.name = newName;
-		newButton.buttonName = newName;
-		newButton.manager = this.gameObject;
-		newButton.textObject = newButton.GetComponentInChildren<TextMesh>();
-		newButton.textObject.text = newName;
-		return newButton;
-	}
 
 	/// <summary>
 	/// Return the list of thumbnails in the manager
@@ -194,6 +193,7 @@ public class Tray : MonoBehaviour, IVRButton
 	{
 		return this.thumbnails;
 	}
+
 
 	/// <summary>
 	/// Called to initialize the tray for the first time
@@ -212,19 +212,6 @@ public class Tray : MonoBehaviour, IVRButton
 		this.UpdateTray(image);
 	}
 
-	public void VRButtonClicked(ButtonType button)
-	{
-		switch (button)
-		{
-		case ButtonType.TRAY_SCROLL_UP_BUTTON:
-			this.ScrollUp();
-			break;
-
-		case ButtonType.TRAY_SCROLL_DOWN_BUTTON:
-			this.ScrollDown();
-			break;
-		}
-	}
 
 	/// <summary>
 	/// Moves the images in the tray up to allow the user to see images below the boundaries of the tray.
@@ -411,6 +398,7 @@ public class Tray : MonoBehaviour, IVRButton
 			Destroy(obj);
 		}
 	}
+
 
 	/// <summary>
 	/// Highlight the given images in the tray

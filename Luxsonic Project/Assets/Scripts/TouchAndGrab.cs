@@ -237,7 +237,7 @@ public class TouchAndGrab : MonoBehaviour
     private void ButtonPressCooldown()
     {
         onCooldown = true;
-        Invoke("ResetButtonPressCooldown", 0.5f);
+        Invoke("ResetButtonPressCooldown", cooldownDuration);
     }
 
     private void ResetButtonPressCooldown()

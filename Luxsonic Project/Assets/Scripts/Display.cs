@@ -15,6 +15,12 @@ using buttons;
 /// </summary>
 public class Display : MonoBehaviour, IVRButton
 {
+    // Holds the attributes for each button to be instantiated
+    [SerializeField]
+    private List<ButtonAttributes> buttonList = new List<ButtonAttributes>();
+
+    // Holds references to the instantiated buttons
+    private List<GameObject> buttonObjects = new List<GameObject>();
 
 	// The depth at which the copy will be placed in front of the user
 	public float copyDepth;
@@ -51,24 +57,27 @@ public class Display : MonoBehaviour, IVRButton
 	public Vector3[] displayImageRotations = new Vector3[1];
 
 	// The button prefab that will be used for all buttons
-	public VRButton buttonPrefab;
-
-	//Left and right buttons to scroll through the images in Display
-
-	private VRButton leftScrollButton = null;
-	private VRButton rightScrollButton = null;
-
-	// Define positions for the scroll buttons
-	public Vector3 leftScrollPosition;
-	public Vector3 leftScrollRotation;
-	public Vector3 rightScrollPosition;
-	public Vector3 rightScrollRotation;
+	public GameObject buttonPrefab;
 
 	// Indicates whether the scroll buttons are visible to the user	
 	private bool scrollButtonsVisible = false;
 
 	// Current ID for copies whose textures do not have names
 	private int copyId = 0;
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void Start()
+    {
+        foreach (ButtonAttributes attributes in buttonList)
+        {
+            buttonObjects.Add(CreateButton(attributes, buttonPrefab));
+        }
+        ToggleScrollButtons();
+    }
+
 
 	/// <summary>
 	/// AddImage() will add an image to the list of loaded images.  It will also create a new
@@ -134,7 +143,7 @@ public class Display : MonoBehaviour, IVRButton
 		{
 			if (!this.scrollButtonsVisible)
 			{
-				CreateScrollButtons();
+                ToggleScrollButtons();
 				this.scrollButtonsVisible = true;
 			}
 		}
@@ -143,44 +152,41 @@ public class Display : MonoBehaviour, IVRButton
 	}
 
 
-	/// <summary>
-	/// Function createScrollButtons() will create the left and right scroll buttons to
-	/// browse through all images in the Display
-	/// </summary>
-	/// <pre>There are more display images than the length of the display image positions array</pre>
-	/// <post>Instantiation of left and right scroll buttons and added to the heirarchy</post>
-	private void CreateScrollButtons()
-	{
-		// Create the left scroll button
-		CreateScrollButton("Left", ButtonType.LEFT_BUTTON, ref this.leftScrollButton, this.leftScrollPosition, this.leftScrollRotation);
-		// Create the right scroll button
-		CreateScrollButton("Right", ButtonType.RIGHT_BUTTON, ref this.rightScrollButton, this.rightScrollPosition, this.rightScrollRotation);
-	}
+    /// <summary>
+    /// Creates new button, and applies passed in attributes. 
+    /// </summary>
+    /// <param name="attributes">Attributes to be applied to the new button</param>
+    /// <param name="prefab">Prefab to instantiate as a button</param>
+    /// <returns>Newly created button GameObject</returns>
+    public GameObject CreateButton(ButtonAttributes attributes, GameObject buttonPrefab)
+    {
+        GameObject newButton = Instantiate(buttonPrefab, attributes.position,
+            Quaternion.Euler(attributes.rotation));
+
+        newButton.transform.parent = gameObject.transform;
+
+        newButton.GetComponent<VRButton>().Initialise(attributes, this.gameObject);
+        newButton.name = attributes.buttonName;
+
+        return newButton;
+    }
 
 
-	/// <summary>
-	/// CreateScrollButton will create a single instance of a scroll button
-	/// </summary>
-	/// <param name="buttonName">The name of the button "Left" or "Right"</param>
-	/// <param name="button">the button attribute we are instantiating</param>
-	/// <param name="type">Enum representing the type of button</param> 
-	/// <param name="position">position of the button</param>
-	/// <param name="rotation">rotation of the button</param>
-	/// <pre>buttonPrefab must not be null</pre>
-	/// <post>creation of a new scroll button</post>
-	public void CreateScrollButton(string buttonName, ButtonType type, ref VRButton button, Vector3 position, Vector3 rotation)
-	{
-		button = Instantiate(buttonPrefab, position,
-			Quaternion.Euler(rotation));
-		button.transform.parent = gameObject.transform;
-		button.type = type;
-		button.textObject = button.GetComponentInChildren<TextMesh>();
-		button.textObject.text = buttonName;
+    /// <summary>
+    /// 
+    /// </summary>
+    void ToggleScrollButtons()
+    {
+        foreach (GameObject button in buttonObjects)
+        {
+            string name = button.GetComponent<VRButton>().GetName();
+            if (name == "Left" || name == "Right")
+            {
+                button.SetActive(!button.activeSelf);
+            }
+        }
+    }
 
-		button.name = buttonName;
-		button.buttonName = buttonName;
-		button.manager = this.gameObject;
-	}
 
 	/// <summary>
 	/// Function CreateTray() creates and displays the tray of thumbnails
@@ -219,6 +225,7 @@ public class Display : MonoBehaviour, IVRButton
 		}
 	}
 
+
 	/// <summary>
 	/// Function CreateCopy will instantiate a new Copy in the space at the center of the user's view
 	/// A Copy is the object that a user can manipulate and move within the workspace
@@ -249,6 +256,7 @@ public class Display : MonoBehaviour, IVRButton
 		copies.Add(newCop);
 	}
 
+
 	/// <summary>
 	/// GetImages() will return the list of images in the manager
 	/// </summary>
@@ -259,7 +267,6 @@ public class Display : MonoBehaviour, IVRButton
 	{
 		return this.images;
 	}
-
 
 
 	/// <summary>
@@ -273,23 +280,6 @@ public class Display : MonoBehaviour, IVRButton
 		return this.copies;
 	}
 
-	/// <summary>
-	/// Function VRButtonClicked() will take in a string and perform and action
-	/// based on the string given to it.
-	/// </summary>
-	/// <param name="button"></param>
-	public void VRButtonClicked(ButtonType button)
-	{
-		switch (button)
-		{
-		case ButtonType.LEFT_BUTTON:
-			ScrollLeft();
-			break;
-		case ButtonType.RIGHT_BUTTON:
-			ScrollRight();
-			break;
-		}
-	}
 
 	/// <summary>
 	/// ScrollLeft() will shift the images displayed to the user in the displayImages
@@ -311,6 +301,7 @@ public class Display : MonoBehaviour, IVRButton
 			redrawDisplayImages();
 		}
 	}
+
 
 	/// <summary>
 	/// ScrollRightt() will shift the images displayed to the user in the displayImages
@@ -338,6 +329,7 @@ public class Display : MonoBehaviour, IVRButton
 			redrawDisplayImages();
 		}
 	}
+
 
 	/// <summary>
 	/// Draw the scrolling display images from the list of display images
@@ -375,7 +367,7 @@ public class Display : MonoBehaviour, IVRButton
 	}
 
 	// Test hooks
-
+    /*
 	/// <summary>
 	/// Test creating the scroll buttons by creating them and returning an array with reference to them
 	/// </summary>
@@ -391,11 +383,11 @@ public class Display : MonoBehaviour, IVRButton
 		return scrollBtns;
 	}
 
+
 	/// <summary>
 	/// Test the scrolling functionality by scrolling through all images 
 	/// </summary>
 	/// <param name="numberOfImages"></param>
-
 	public void TestScrollLeftAndRight(int numberOfImages)
 	{
 		GameObject firstElement = this.displayImages.First.Value;
@@ -432,5 +424,6 @@ public class Display : MonoBehaviour, IVRButton
 	{
 		this.copies.Remove(copy);
 	}
+     */
 }
 

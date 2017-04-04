@@ -42,15 +42,14 @@ public class VRButton : MonoBehaviour
     {
         transform.localPosition = new Vector3(attributes.position.x, attributes.position.y, 0.0f);
         gameObject.GetComponent<TextMesh>().text = attributes.buttonName;
+        defaultLocalScale = gameObject.transform.localScale;
     }
 
 
     /// <summary>
-    /// SetPressed sets the value of pressed to the value of val
-    /// Pre:: 
-    /// Post:: pressed is set to the value of val
-    /// Return:: nothing
+    /// 
     /// </summary>
+    /// <param name="val"></param>
     public void ButtonClicked(bool val)
     {
         this.pressed = val;
