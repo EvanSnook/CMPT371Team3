@@ -1,0 +1,12 @@
+# Blender MTL File: 'buttonMesh.blend'
+# Material Count: 1
+
+newmtl Material
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.541667 0.541667 0.541667
+Ks 0.239583 0.239583 0.239583
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.160417
+illum 0
