@@ -129,12 +129,14 @@ public class Dashboard : MonoBehaviour, IVRButton
                 attributes.rotation = menuPlaneRotation;
                 newButton = CreateButton(attributes, buttonPrefab);
                 newButton.transform.parent = this.menuPlane.transform;
+                newButton.GetComponent<VRButton>().ResetPosition();
             }
             else // else tie it to the copy plane
             {
                 attributes.rotation = copyPlaneRotation;
                 newButton = CreateButton(attributes, buttonPrefab);
                 newButton.transform.parent = this.copyButtonsPlane.transform;
+                newButton.GetComponent<VRButton>().ResetPosition();
             }
             // add to the list of all buttons
             buttonObjects.Add(newButton);
@@ -223,12 +225,12 @@ public class Dashboard : MonoBehaviour, IVRButton
         if (this.minimized)
         {
             ToggleButtons(true);
-            this.buttonObjects.Find(button => button.name == "Minimize").GetComponent<TextMesh>().text = "Minimize";
+            this.buttonObjects.Find(button => button.name == "Minimize").transform.GetChild(0).GetComponent<TextMesh>().text = "Minimize";
         }
         else
         {
             ToggleButtons(false);
-            this.buttonObjects.Find(button => button.name == "Minimize").GetComponent<TextMesh>().text = "Maximize";
+            this.buttonObjects.Find(button => button.name == "Minimize").transform.GetChild(0).GetComponent<TextMesh>().text = "Maximize";
         }
 	}
 

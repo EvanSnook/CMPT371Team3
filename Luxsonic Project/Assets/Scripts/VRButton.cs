@@ -40,9 +40,20 @@ public class VRButton : MonoBehaviour
     /// <param name="manager"></param>
     public void Initialise(ButtonAttributes attributes, GameObject manager)
     {
-        transform.localPosition = new Vector3(attributes.position.x, attributes.position.y, 0.0f);
-        gameObject.GetComponent<TextMesh>().text = attributes.buttonName;
+        this.manager = manager;
+        this.attributes = attributes;
+        transform.localPosition = attributes.position;
+        gameObject.transform.GetChild(0).GetComponent<TextMesh>().text = attributes.buttonName;
         defaultLocalScale = gameObject.transform.localScale;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void ResetPosition()
+    {
+        transform.localPosition = attributes.position;
     }
 
 
@@ -55,28 +66,26 @@ public class VRButton : MonoBehaviour
         this.pressed = val;
         if (val)
         {
-            if (this.attributes.buttonParameters != null)
+            if (!(String.IsNullOrEmpty(attributes.buttonFunction)))
             {
-                this.manager.SendMessage(attributes.buttonFunction, attributes.buttonParameters);
-            }
-            else
-            {
-                this.manager.SendMessage(attributes.buttonFunction);
-            }
+                if (this.attributes.buttonParameters != null)
+                {
+                    this.manager.SendMessage(attributes.buttonFunction, attributes.buttonParameters);
+                }
+                else
+                {
+                    this.manager.SendMessage(attributes.buttonFunction);
+                }
 
-            if (this.attributes.type == ButtonType.COPY_MODIFIER)
-            {
-                this.manager.SendMessage("UpdateCopyOptions");
-            }
+                if (this.attributes.depressable)
+                {
+                    DepressButton();
+                }
 
-            if (this.attributes.depressable)
-            {
-                DepressButton();
-            }
-
-            if (this.attributes.autoPushOut)
-            {
-                Invoke("UnpressButton", 1f);
+                if (this.attributes.autoPushOut)
+                {
+                    Invoke("UnpressButton", 1f);
+                }
             }
         }
     }
