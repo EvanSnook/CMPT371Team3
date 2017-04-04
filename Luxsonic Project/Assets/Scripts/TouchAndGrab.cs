@@ -10,14 +10,16 @@ public class TouchAndGrab : MonoBehaviour
 	// Set in editor; below value is a default only
 	[SerializeField]
 	private string grabTrigger = "";
+
 	// name of the axis for the index trigger
 	// Set in editor; below value is a default only
 	[SerializeField]
 	private string indexTrigger = "";
 
-
-	// Reference to the user's other hand
-	private TouchAndGrab oppositeHand = null;
+    // the radius of the sphere for the raycast
+    // Set in editor; below value is a default only
+    [SerializeField]
+    private float _sphereRadius = 0.1f;
 
 	// GameObject for the user's other hand
 	[SerializeField]
@@ -26,52 +28,53 @@ public class TouchAndGrab : MonoBehaviour
 	// the object we are touching/grabbing
 	public GameObject _grabbedObject = null;
 
-	// the radius of the sphere for the raycast
-	// Set in editor; below value is a default only
-	[SerializeField]
-	private float _sphereRadius = 0.1f;
-
 	// This variable will be updated
 	public LayerMask _someMask;
+
 	// Indicates whether an object is being grabbed or not
 	private bool _isHolding = false;
 
-	private bool timerOn;
+    // Reference to the user's other hand
+    private TouchAndGrab oppositeHand = null;
+
+    // whether buttons can be pressed again or not
+    private bool onCooldown = false;
 
 	[SerializeField]
-	private int timerDuration = 0;
+	private float cooldownDuration = 0.5f;
 
-	private int currentTimer;
-	private Collider buttonTimerCollider;
-
+    // previous parent of grabbed object
 	private Transform objectsOldParent = null;
 
+
+    /// <summary>
+    /// 
+    /// </summary>
 	void Start()
 	{
 		oppositeHand = oppositeHandObject.GetComponent<TouchAndGrab>();
 	}
 
-	public void FixedUpdate(){
-		if (this.timerOn) {
-			if (this.currentTimer <= 0) {
-				this.currentTimer = this.timerDuration;
-				this.timerOn = false;
-				this.TimerAction (this.buttonTimerCollider);
-			} else {
-				this.currentTimer -= 1;
-			}
-		}
-	}
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
 	public bool IsHolding()
 	{
 		return _isHolding;
 	}
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
 	public GameObject GetHeldObject()
 	{
 		return _grabbedObject;
 	}
+
 
 	/// <summary>
 	/// Make the object being grabbed a child of the controller (hand) whenever it is within the raycast
@@ -116,6 +119,11 @@ public class TouchAndGrab : MonoBehaviour
 		}
 	}
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="closest"></param>
 	void AssignGrabbedObject(GameObject closest)
 	{
 		_isHolding = true;
@@ -125,6 +133,7 @@ public class TouchAndGrab : MonoBehaviour
 		_grabbedObject.transform.position = transform.position;
 		_grabbedObject.transform.parent = transform;
 	}
+
 
 	/// <summary>
 	/// Remove the object as a child of the controller 
@@ -145,6 +154,8 @@ public class TouchAndGrab : MonoBehaviour
 			_grabbedObject = null;
 		}
 	}
+
+
 	/// <summary>
 	/// OnTriggerEnter is called once an object enters the collision box
 	/// If OnTriggerExit() on a menu button and corresponding input is 
@@ -159,14 +170,9 @@ public class TouchAndGrab : MonoBehaviour
 		{
 			if ((other.tag == "MenuButton"))
 			{
-				if (other.gameObject.GetComponent<VRButton> ().allowPress) {
-					other.gameObject.GetComponent<VRButton> ().allowPress = false;
-					Debug.Log ("BUTTON SETTING: " + other.gameObject.GetComponent<VRButton>().GetPressed ());
-					if (!(other.gameObject.GetComponent<VRButton> ().GetPressed ())) {
-						other.gameObject.GetComponent<VRButton> ().SetPressed (true);
-					} else {
-						other.gameObject.GetComponent<VRButton> ().SetPressed (false);
-					}
+                if (!onCooldown)
+                {
+                    other.gameObject.GetComponent<VRButton>().ButtonClicked(true);
 				}
 			}
 			else if ((other.tag == "Copy"))
@@ -175,7 +181,6 @@ public class TouchAndGrab : MonoBehaviour
 				{
 					other.gameObject.GetComponent<Copy>().SetPressed(true);
 				}
-				//other.gameObject.SendMessage("Selected");
 			}
 			else if ((other.tag == "Thumbnail"))
 			{
@@ -188,7 +193,10 @@ public class TouchAndGrab : MonoBehaviour
 	}
 
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="other"></param>
 	private void OnTriggerStay(Collider other)
 	{
 		if ((!_isHolding) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
@@ -213,9 +221,7 @@ public class TouchAndGrab : MonoBehaviour
 	{
 		if (other.tag == "MenuButton")
 		{
-			this.timerOn = true;
-			this.buttonTimerCollider = other;
-			//other.gameObject.GetComponent<VRButton> ().allowPress = true; 
+            other.gameObject.GetComponent<VRButton>().ButtonClicked(false);
 		}
 		else if (other.tag == "Thumbnail")
 		{
@@ -227,11 +233,15 @@ public class TouchAndGrab : MonoBehaviour
 		}
 	}
 
-	private void TimerAction(Collider other){
-		while (this.timerOn) {
 
-		}
-		other.gameObject.GetComponent<VRButton> ().allowPress = true;
-	}
+    private void ButtonPressCooldown()
+    {
+        onCooldown = true;
+        Invoke("ResetButtonPressCooldown", 0.5f);
+    }
 
+    private void ResetButtonPressCooldown()
+    {
+        onCooldown = false;
+    }
 }
