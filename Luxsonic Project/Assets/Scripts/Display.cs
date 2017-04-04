@@ -19,12 +19,6 @@ public class Display : MonoBehaviour, IVRButton
 	// The depth at which the copy will be placed in front of the user
 	public float copyDepth;
 
-<<<<<<< HEAD
-	// The patient Info prefab
-	public GameObject patientInfoPrefab;
-
-=======
->>>>>>> origin/ID5_fixes
 	// The list of images that have been loaded 
 	List<Texture2D> images = new List<Texture2D>();
 
@@ -84,11 +78,7 @@ public class Display : MonoBehaviour, IVRButton
 	/// <param name="image">The texture for the image to add</param>
 	/// <pre>Image Texture2D to add</pre>
 	/// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
-<<<<<<< HEAD
 	public void AddImage(Texture2D image, Dictionary<string,string> patientInfo)
-=======
-	public void AddImage(Texture2D image)
->>>>>>> origin/ID5_fixes
 	{
 		Assert.IsNotNull(image, "Image passed into Display is null");
 		images.Add(image);
@@ -97,7 +87,7 @@ public class Display : MonoBehaviour, IVRButton
 		GameObject displayImage = Instantiate(displayImagePrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
 		displayImage.transform.parent = gameObject.transform;
 		displayImage.SetActive(false);
-<<<<<<< HEAD
+		displayImage.GetComponent<DisplayImage>().image = image;
 		displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
 			new Vector2(0.5f, 0.5f));
 
@@ -132,13 +122,6 @@ public class Display : MonoBehaviour, IVRButton
 			}
 		}
 
-
-=======
-		displayImage.GetComponent<DisplayImage>().image = image;
-		displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
-			new Vector2(0.5f, 0.5f));
-
->>>>>>> origin/ID5_fixes
 		displayImages.AddLast(displayImage);
 
 		// If the number of display images is less or equal to the length of the display image positions array
@@ -157,10 +140,6 @@ public class Display : MonoBehaviour, IVRButton
 		}
 
 		CreateTray(image);
-<<<<<<< HEAD
-		// now deal with the patientInfo
-=======
->>>>>>> origin/ID5_fixes
 	}
 
 
@@ -221,18 +200,13 @@ public class Display : MonoBehaviour, IVRButton
 			this.tray.manager = this;
 			this.tray.Setup(image);
 			this.trayCreated = true;
-<<<<<<< HEAD
-=======
 			Texture2D[] textureToSend = new Texture2D[1];
 			textureToSend [0] = image;
 			this.tray.gameObject.SendMessage ("HighlightTray", textureToSend);
->>>>>>> origin/ID5_fixes
 		}
 		else
 		{
 			this.tray.UpdateTray(image);
-<<<<<<< HEAD
-=======
 			if (this.images.Count <= this.displayImagePositions.Length) {
 				Texture2D[] textureToSend = new Texture2D[this.displayImagePositions.Length];
 				int i = 0;
@@ -242,7 +216,6 @@ public class Display : MonoBehaviour, IVRButton
 				}
 				this.tray.gameObject.SendMessage ("HighlightTray", textureToSend);
 			}
->>>>>>> origin/ID5_fixes
 		}
 	}
 
@@ -378,10 +351,7 @@ public class Display : MonoBehaviour, IVRButton
 		int i = 0;
 		// for each display image, if there are less than the display image positions array length
 		// draw the image in the specified position and set it active
-<<<<<<< HEAD
-=======
 		Texture2D[] texturesToSend = new Texture2D[displayImagePositions.Length];
->>>>>>> origin/ID5_fixes
 		foreach (GameObject img in displayImages)
 		{
 			if (i < displayImagePositions.Length)
@@ -389,26 +359,19 @@ public class Display : MonoBehaviour, IVRButton
 				img.gameObject.GetComponent<Transform>().position = displayImagePositions[i];
 				img.gameObject.GetComponent<Transform>().rotation = Quaternion.Euler(displayImageRotations[i]);
 				img.SetActive(true);
-<<<<<<< HEAD
-				i++;
-=======
 				texturesToSend[i] = img.GetComponent<DisplayImage>().image;
 				i++;
 
 
->>>>>>> origin/ID5_fixes
 			}
 			else
 			{
 				break;
 			}
 		}
-<<<<<<< HEAD
-=======
 		if (this.tray != null) {
 			this.tray.gameObject.SendMessage ("HighlightTray", texturesToSend);
 		}
->>>>>>> origin/ID5_fixes
 	}
 
 	// Test hooks
@@ -470,4 +433,4 @@ public class Display : MonoBehaviour, IVRButton
 		this.copies.Remove(copy);
 	}
 }
-// end of file
+
