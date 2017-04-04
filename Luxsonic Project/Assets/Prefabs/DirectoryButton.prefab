@@ -169,7 +169,7 @@ MonoBehaviour:
   path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}
-  coolDown: 0
+  coolDown: 60
 --- !u!212 &212371471687022730
 SpriteRenderer:
   m_ObjectHideFlags: 1
