@@ -169,7 +169,11 @@ MonoBehaviour:
   path: 
   manager: {fileID: 0}
   textObject: {fileID: 0}
+<<<<<<< HEAD
   coolDown: 60
+=======
+  coolDown: 70
+>>>>>>> origin/ID5_fixes
 --- !u!212 &212365698423964728
 SpriteRenderer:
   m_ObjectHideFlags: 1

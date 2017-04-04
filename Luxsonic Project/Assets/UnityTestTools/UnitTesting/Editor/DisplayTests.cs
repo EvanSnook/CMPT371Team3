@@ -217,6 +217,7 @@ public class DisplayTests
 
         disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
 
+        trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab.GetComponent<VRButton>();
 
         GameObject thumbObject = new GameObject();
         thumbObject.AddComponent<Thumbnail>();

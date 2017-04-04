@@ -36,12 +36,31 @@ public class TouchAndGrab : MonoBehaviour
 	// Indicates whether an object is being grabbed or not
 	private bool _isHolding = false;
 
+	private bool timerOn;
+
+	[SerializeField]
+	private int timerDuration = 0;
+
+	private int currentTimer;
+	private Collider buttonTimerCollider;
 
 	private Transform objectsOldParent = null;
 
 	void Start()
 	{
 		oppositeHand = oppositeHandObject.GetComponent<TouchAndGrab>();
+	}
+
+	public void FixedUpdate(){
+		if (this.timerOn) {
+			if (this.currentTimer <= 0) {
+				this.currentTimer = this.timerDuration;
+				this.timerOn = false;
+				this.TimerAction (this.buttonTimerCollider);
+			} else {
+				this.currentTimer -= 1;
+			}
+		}
 	}
 
 	public bool IsHolding()
@@ -140,9 +159,14 @@ public class TouchAndGrab : MonoBehaviour
 		{
 			if ((other.tag == "MenuButton"))
 			{
-				if (!(other.gameObject.GetComponent<VRButton>().GetPressed()))
-				{
-					other.gameObject.GetComponent<VRButton>().SetPressed(true);
+				if (other.gameObject.GetComponent<VRButton> ().allowPress) {
+					other.gameObject.GetComponent<VRButton> ().allowPress = false;
+					Debug.Log ("BUTTON SETTING: " + other.gameObject.GetComponent<VRButton>().GetPressed ());
+					if (!(other.gameObject.GetComponent<VRButton> ().GetPressed ())) {
+						other.gameObject.GetComponent<VRButton> ().SetPressed (true);
+					} else {
+						other.gameObject.GetComponent<VRButton> ().SetPressed (false);
+					}
 				}
 			}
 			else if ((other.tag == "Copy"))
@@ -189,7 +213,9 @@ public class TouchAndGrab : MonoBehaviour
 	{
 		if (other.tag == "MenuButton")
 		{
-			other.gameObject.GetComponent<VRButton>().SetPressed(false);
+			this.timerOn = true;
+			this.buttonTimerCollider = other;
+			//other.gameObject.GetComponent<VRButton> ().allowPress = true; 
 		}
 		else if (other.tag == "Thumbnail")
 		{
@@ -200,4 +226,12 @@ public class TouchAndGrab : MonoBehaviour
 			other.gameObject.GetComponent<Copy>().SetPressed(false);
 		}
 	}
+
+	private void TimerAction(Collider other){
+		while (this.timerOn) {
+
+		}
+		other.gameObject.GetComponent<VRButton> ().allowPress = true;
+	}
+
 }

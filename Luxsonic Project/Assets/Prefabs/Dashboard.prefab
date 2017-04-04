@@ -60,7 +60,7 @@ MonoBehaviour:
     position: {x: 0, y: -0.3, z: 0}
   - buttonName: Contrast
     position: {x: -0.3, y: 0.2, z: 0}
-  - buttonName: Rotate
+  - buttonName: Invert
     position: {x: 0, y: 0.2, z: 0}
   - buttonName: Zoom
     position: {x: 0.3, y: 0.2, z: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
     position: {x: -0.3, y: -0.2, z: 0}
   - buttonName: Resize
     position: {x: 0, y: -0.2, z: 0}
-  - buttonName: Filter
+  - buttonName: Saturation
     position: {x: 0.3, y: -0.2, z: 0}
   - buttonName: Close
     position: {x: 0, y: -0.7, z: 0}
