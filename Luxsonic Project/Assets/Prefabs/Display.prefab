@@ -52,9 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copyDepth: 0.1
+  patientInfoPrefab: {fileID: 0}
   copyPrefab: {fileID: 1135505955537766, guid: 8775f4e8ebf594bf1ac0312ff2685a55, type: 2}
   trayPrefab: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1, type: 2}
-  displayImagePrefab: {fileID: 1832455083841280, guid: 86e27a9c478d56042a4adae5a869b636,
+  displayImagePrefab: {fileID: 1715338728738238, guid: a1acfec511fc91e459ea49a960bcb9ba,
     type: 2}
   trayCreated: 0
   trayPosition: {x: 0.56, y: -0.945, z: -0.086}

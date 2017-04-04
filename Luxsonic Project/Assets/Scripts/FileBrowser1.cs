@@ -77,8 +77,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	public Vector3 directoryLoadRotation;
 
 	// VRButtons up for files
-	private VRButton topFileButton;
-	private VRButton bottomFileButton;
 	// up file button Position
 	public Vector3 upFileButtonPosition;
 	// up file rotation
@@ -226,14 +224,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// Set the top and bottom directory/file buttons
 		if (GetListOfDirectoryButtons().Count > 0)
 		{
-			this.topDirectoryButton = GetListOfDirectoryButtons().First.Value;
-			this.bottomDirectoryButton = GetListOfDirectoryButtons().Last.Value;
+			//this.topDirectoryButton = GetListOfDirectoryButtons().First.Value;
+			//this.bottomDirectoryButton = GetListOfDirectoryButtons().Last.Value;
 			ShowLimitedButtons(listOfCurrentDirectoryButtons, this.directoryPosition.y);
 		}
 		if (GetListOfDirectoryButtons().Count > 0)
 		{
-			this.topFileButton = GetListOfFileButtons().First.Value;
-			this.bottomFileButton = GetListOfFileButtons().First.Value;
+			//this.topFileButton = GetListOfFileButtons().First.Value;
+			//this.bottomFileButton = GetListOfFileButtons().First.Value;
 			ShowLimitedButtons(listOfCurrentFileButtons, this.filePosition.y);
 		}
 	}
@@ -305,6 +303,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		patientInfo.Add("PatientID", (obj.Dataset.Get< string>(Dicom.DicomTag.PatientID, null )));
 		patientInfo.Add("PatientBirthDate", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientBirthDate, null)));
 		patientInfo.Add("PatientSex", (obj.Dataset.Get<string>(Dicom.DicomTag.PatientSex, null)));
+		patientInfo.Add("StudyDescription", (obj.Dataset.Get<string>(Dicom.DicomTag.StudyDescription, null)));
 
 		return patientInfo;
 
@@ -473,7 +472,8 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		Texture2D image = new Texture2D(10, 10);
 		image.LoadImage(dicomImage);
 		image.name = filePath;
-		display.SendMessage("AddImage", image);
+
+		display.AddImage(image, patientInfo);
 	}
 
 
@@ -706,7 +706,7 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// We should not be able to scroll if the amount of buttons present is less than the limit
 		if (list.Count > this.buttonLimit)
 		{
-			Transform lastValue = list.Last.Value.GetComponent<Transform>();
+			//Transform lastValue = list.Last.Value.GetComponent<Transform>();
 			// We can only scroll down if we are not at the bottom of the list
 			if (list.Last.Value.gameObject.activeSelf == false)
 			{
