@@ -650,21 +650,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	string GetPreviousPath(string path)
 	{
 		Assert.IsNotNull(path, "The path must not be null");
-		// Get the index in the string where the last '\' is present
-		int index = path.LastIndexOf("\\");
-		// We can get the previous path if the index is greater than 0
-		if(index > 0)
+		DirectoryInfo parent = Directory.GetParent(path);
+		if (parent == null)
 		{
-			// An exception is thrown if we are at the root directory
-			try{
-				string newPath = path.Substring(0, index);
-				return newPath;
-			}
-			catch(Exception x){
-				x = null;
-				return path;
+			return path;
 		}
-		return path;
+		else
+		{
+			return parent.ToString();
+		}
+
 	}
 
 
