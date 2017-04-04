@@ -7,13 +7,11 @@ namespace buttons
 {
     public enum ButtonType
     {
-        LOAD_BUTTON, QUIT_BUTTON, MINIMIZE_BUTTON, CONTRAST_BUTTON,
-		INVERT_BUTTON, ZOOM_BUTTON, BRIGHTNESS_BUTTON,
-		RESIZE_BUTTON, SATURATION_BUTTON, CLOSE_BUTTON, RESTORE_COPY_BUTTON, SELECT_ALL_COPIES_BUTTON,
-        DESELECT_ALL_COPIES_BUTTON, TRAY_SCROLL_UP_BUTTON, TRAY_SCROLL_DOWN_BUTTON, NONE, DIRECTORY_BUTTON, FILE_BUTTON,
-		BACK_BUTTON, CANCEL_BUTTON, LEFT_BUTTON, RIGHT_BUTTON, FILE_DOWN, FILE_UP, DIRECTORY_DOWN, DIRECTORY_UP,LOAD_DIRECTORY_BUTTON,
+        MENU_BUTTON, COPY_MODIFIER, FILE_BUTTON, DIRECTORY_BUTTON,
     };
 }
+
+
 /// <summary>
 /// The IVRButton interface is an interface to be used with the IVRButton class.  It contains
 /// the methods required to use a VRButton
@@ -21,12 +19,10 @@ namespace buttons
 public interface IVRButton
 {
     /// <summary>
-    /// This method is called by the VRButton when it is interacted with.
-    /// The button sends its name as a parameter to this function using unity's
-    /// built in message passing system.  The buttons name can then be used in a
-    /// switch-case statement in the desired class to determine the functionality 
-    /// it should carry out.
+    /// Creates new button, and applies passed in attributes. 
     /// </summary>
-    /// <param name="button"></param>
-    void VRButtonClicked(ButtonType button);
+    /// <param name="attributes">Attributes to be applied to the new button</param>
+    /// <param name="prefab">Prefab to instantiate as a button</param>
+    /// <returns>Newly created button GameObject</returns>
+    GameObject CreateButton(ButtonAttributes attributes, GameObject prefab);
 }
