@@ -655,16 +655,14 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		// We can get the previous path if the index is greater than 0
 		if(index > 0)
 		{
-			string newPath = path.Substring(0, index);
-			// If we are already at the end of the file we cant get a previous path
-			if (newPath == "C::")
-			{
-				return path;
-			}
-			else
-			{
+			// An exception is thrown if we are at the root directory
+			try{
+				string newPath = path.Substring(0, index);
 				return newPath;
 			}
+			catch(Exception x){
+				x = null;
+				return path;
 		}
 		return path;
 	}
