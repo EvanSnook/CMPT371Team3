@@ -87,7 +87,6 @@ public class Display : MonoBehaviour, IVRButton
 		GameObject displayImage = Instantiate(displayImagePrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
 		displayImage.transform.parent = gameObject.transform;
 		displayImage.SetActive(false);
-		displayImage.GetComponent<DisplayImage>().image = image;
 		displayImage.GetComponent<SpriteRenderer>().sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height),
 			new Vector2(0.5f, 0.5f));
 
