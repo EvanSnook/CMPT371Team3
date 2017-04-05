@@ -114,7 +114,7 @@ public class Tray : MonoBehaviour, IVRButton
         foreach (GameObject button in buttonObjects)
         {
             string name = button.GetComponent<VRButton>().GetName();
-            if (name == "Left" || name == "Right") // Change to be name of scroll buttons
+            if (name == "Up" || name == "Down")
             {
                 button.SetActive(!button.activeSelf);
             }
