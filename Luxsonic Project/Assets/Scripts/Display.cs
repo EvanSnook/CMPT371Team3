@@ -367,7 +367,7 @@ public class Display : MonoBehaviour, IVRButton
 	}
 
 	// Test hooks
-    /*
+    /* TODO tests are broken
 	/// <summary>
 	/// Test creating the scroll buttons by creating them and returning an array with reference to them
 	/// </summary>

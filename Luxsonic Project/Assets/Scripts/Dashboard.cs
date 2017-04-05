@@ -234,6 +234,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         }
 	}
 
+
     /// <summary>
     /// Helper function for Minimize(). Sets menu and buttons active or not active based on the
     /// mode parameter.

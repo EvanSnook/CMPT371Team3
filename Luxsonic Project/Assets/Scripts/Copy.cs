@@ -197,6 +197,19 @@ public class Copy : MonoBehaviour
     public void ChangeSelection(string newSelection)
     {
         this.currentSelection = (CurrentSelection)Enum.Parse(typeof(CurrentSelection), newSelection);
+
+        switch (currentSelection)
+        {
+            case CurrentSelection.close:
+                Close();
+                break;
+            case CurrentSelection.restore:
+                RestoreDefaults();
+                break;
+            case CurrentSelection.invert:
+                Invert();
+                break;
+        }
     }
 
 
