@@ -65,17 +65,20 @@ public class Tray : MonoBehaviour, IVRButton
 	// The number of images before the tray
 	private int numBeforeTray;
 
+    // The texture to use for outlining objects in the tray
 	private Texture2D outlineTexture;
 
+    // The scale of the outline for the thumbnails
 	[SerializeField]
 	private int outlineScale;
 
+    // The distance fromt the thumbnail that the outline should be
 	[SerializeField]
 	private float outlineDepth;
 
 
     /// <summary>
-    /// 
+    /// Called when the object is created
     /// </summary>
     private void Start()
     {
@@ -108,8 +111,10 @@ public class Tray : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// 
+    /// Display the scrolling buttons for the tray
     /// </summary>
+    /// <pre>The current number of images in the tray is equal to the max</pre>
+    /// <post>The buttons to allow the user to scroll through the tray are displayed</post>
     void ToggleScrollButtons()
     {
         foreach (GameObject button in buttonObjects)
@@ -127,6 +132,8 @@ public class Tray : MonoBehaviour, IVRButton
 	/// Update the tray to display the thumbnails
 	/// </summary>
 	/// <param name="image">The new image to add to the tray</param>
+    /// <pre>The tray has been initialized via the Setup() method</pre>
+    /// <post>The tray will be updated to contain the given image</post>
 	public void UpdateTray(Texture2D image)
 	{
 		this.images.AddLast(image);
@@ -200,6 +207,8 @@ public class Tray : MonoBehaviour, IVRButton
 	/// Called to initialize the tray for the first time
 	/// </summary>
 	/// <param name="image">The first image to add to the tray</param>
+    /// <post>The tray will be initialized with the correct starting positions 
+    /// and the given image will be added to the tray</post>
 	public void Setup(Texture2D image)
 	{
 		this.currentTrayX = this.trayStartX;
@@ -388,6 +397,12 @@ public class Tray : MonoBehaviour, IVRButton
 		}
 	}
 
+    /// <summary>
+    /// Safely remove an object from the scene using the appropriate method
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <pre>The given object exists</pre>
+    /// <post>The given object has been deleted from the scene</post>
 	private void SafeDelete(GameObject obj)
 	{
 		if (Application.isEditor)
@@ -405,6 +420,8 @@ public class Tray : MonoBehaviour, IVRButton
 	/// Highlight the given images in the tray
 	/// </summary>
 	/// <param name="textures">The list of images to highlight</param>
+    /// <pre>The tray has been created</pre>
+    /// <post>The given images have been highlighted in the tray</post>
 	public void HighlightTray(Texture2D[] textures)
 	{
 		// Turn off all highlights
