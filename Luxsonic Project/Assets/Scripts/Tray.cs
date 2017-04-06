@@ -10,6 +10,7 @@ using System;
 /// The Tray class represents a tray of thumbnails in the workspace that is used to
 /// keep track of all loaded images
 /// </summary>
+[ExecuteInEditMode]
 public class Tray : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated

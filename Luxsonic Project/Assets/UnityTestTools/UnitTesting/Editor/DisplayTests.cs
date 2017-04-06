@@ -10,254 +10,238 @@ using System.IO;
 public class DisplayTests
 {
 
-    //[Test]
-    //[Ignore("Needs to be fixed")]
-    //public void TestAddImage()
-    //{
-    //    GameObject mannyObj = new GameObject();
-    //    mannyObj.AddComponent<Display>();
-    //    Display disp = mannyObj.GetComponent<Display>();
-    //    Texture2D tex = new Texture2D(100, 100);
+    [Test]
+    public void TestAddImage()
+    {
+        GameObject mannyObj = new GameObject();
+        mannyObj.AddComponent<Display>();
+        Display disp = mannyObj.GetComponent<Display>();
+        Texture2D tex = new Texture2D(100, 100);
 
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
-
-
-
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
-
-    //    GameObject dispImgObj = new GameObject();
-    //    dispImgObj.AddComponent<SpriteRenderer>();
-
-    //    disp.displayImagePrefab = dispImgObj;
-
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    disp.trayPrefab = trayObject;
-
-    //    //disp.AddImage(tex);
-
-    //    // The manager should have a non-empty list and should contain the texture we created.
-    //    Assert.Greater(disp.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
-    //    Assert.True(disp.GetImages().Contains(tex), "The list of images in the Image Manager does not contain the requested texture.");
-    //}
-
-    //[Test]
-    //[Ignore("Needs to be fixed, gives transform child out of bounds")]
-    //public void TestCreateTray()
-    //{
-    //    GameObject dispObj = new GameObject();
-    //    dispObj.AddComponent<Display>();
-    //    Display disp = dispObj.GetComponent<Display>();
-
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
 
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
 
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    disp.trayPrefab = trayObject;
+        GameObject thumbOutline = new GameObject();
+        thumbOutline.AddComponent<SpriteRenderer>();
+        thumbOutline.transform.SetParent(thumbObject.transform);
 
-    //    FileInfo file = new FileInfo(@"Assets/resources/Test.png");
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
+        dispImgObj.AddComponent<DisplayImage>();
 
-    //    byte[] dicomImage = File.ReadAllBytes(file.ToString());
+        disp.displayImagePrefab = dispImgObj;
 
-    //    Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
-    //    //From bytes, this is where we will call and write the code to decipher DICOMs
-    //    Texture2D image = new Texture2D(1000, 1000);
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
 
-    //    disp.CreateTray(image);
-    //    Assert.IsTrue(disp.GetComponent<Display>().trayCreated, "The tray was not created.");
+        GameObject infoObj = new GameObject();
+        infoObj.AddComponent<TextMesh>();
+        infoObj.transform.SetParent(dispImgObj.transform);
 
-    //}
+        disp.displayImagePrefab = dispImgObj;
+
+        Dictionary<string, string> patientInfo = new Dictionary<string, string>();
+        patientInfo.Add("PatientName", "Steve");
+
+        disp.AddImage(tex, patientInfo);
+
+        // The manager should have a non-empty list and should contain the texture we created.
+        Assert.Greater(disp.GetImages().Count, 0, "The list of images in the Image Manager is empty.");
+        Assert.True(disp.GetImages().Contains(tex), "The list of images in the Image Manager does not contain the requested texture.");
+
+    }
+
+    [Test]
+    public void TestCreateButton()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
+
+        GameObject buttonObj = new GameObject();
+        buttonObj.AddComponent<VRButton>();
+
+        GameObject textObj = new GameObject();
+        textObj.AddComponent<TextMesh>();
+        textObj.transform.SetParent(buttonObj.transform);
+
+        disp.buttonPrefab = buttonObj;
+
+        ButtonAttributes attributes = new ButtonAttributes();
+        GameObject button = disp.CreateButton(attributes, disp.buttonPrefab);
+
+        Assert.IsNotNull(button);
+
+    }
+
+    [Test]
+    public void TestCreateTray()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
+
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
 
-    //[Test]
-    //[Ignore("Test has some life issues.")]
-    //public void TestCreateDisplay()
-    //{
-    //    //        GameObject mannyObj = new GameObject();
-    //    //mannyObj.AddComponent<ImageManager>();
-    //    //ImageManager manny = mannyObj.GetComponent<ImageManager>();
+
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
+
+        GameObject thumbOutline = new GameObject();
+        thumbOutline.AddComponent<SpriteRenderer>();
+        thumbOutline.transform.SetParent(thumbObject.transform);
+
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
+
+        FileInfo file = new FileInfo(@"Assets/resources/Disgruntled_Walrus_Logo.png");
+
+        byte[] dicomImage = File.ReadAllBytes(file.ToString());
+
+        Assert.AreNotEqual(0, dicomImage.Length, "The array of bytes from the File should not be empty");
+        //From bytes, this is where we will call and write the code to decipher DICOMs
+        Texture2D image = new Texture2D(1000, 1000);
+
+        disp.CreateTray(image);
+        Assert.IsTrue(disp.GetComponent<Display>().trayCreated, "The tray was not created.");
+
+    }
 
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
-
-    //    GameObject dispObject = new GameObject();
-    //    dispObject.AddComponent<Display>();
-    //    dispObject.AddComponent<SpriteRenderer>();
-    //    dispObject.AddComponent<BoxCollider>();
-
-    //    //        Texture2D tex = new Texture2D(100, 100);
-
-    //    //manny.thumbnail = thumbObject;
-    //    //manny.displayObj = dispObject;
-    //    Camera cam = new Camera();
-    //    cam = Camera.main;
-    //    // manny.CreateDisplay(tex);
-
-    //    // The list of displays should not be empty
-    //    //Assert.Greater(manny.GetDisplays().Count, 0, "The list of displays in the Image Manager is empty.");
-    //}
-
-    //[Test]
-    //public void TestCreateScrollButtons()
-    //{
-    //    GameObject dispObj = new GameObject();
-    //    dispObj.AddComponent<Display>();
-    //    Display disp = dispObj.GetComponent<Display>();
-
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
-
-    //    GameObject buttonPrefab = new GameObject();
-    //    buttonPrefab.AddComponent<VRButton>();
-
-    //    GameObject textObject = new GameObject();
-    //    textObject.AddComponent<TextMesh>();
-    //    textObject.transform.SetParent(buttonPrefab.transform);
-
-    //    disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
-        
-
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
-
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    disp.trayPrefab = trayObject;
-
-    //    VRButton[] scrollBtns = disp.TestCreateScrollButtons();
-
-    //    Assert.NotNull(scrollBtns[0]);
-    //    Assert.NotNull(scrollBtns[1]);
-    //}
-
-    //[Test]
+    [Test]
     //[Ignore("Test does not work with the camera.")]
-    //public void TestCreateCopy()
-    //{
-    //    GameObject dispObj = new GameObject();
-    //    dispObj.AddComponent<Display>();
-    //    Display disp = dispObj.GetComponent<Display>();
+    public void TestCreateCopy()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
 
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
-    //    GameObject dispImgObj = new GameObject();
-    //    dispImgObj.AddComponent<SpriteRenderer>();
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
 
-    //    disp.displayImagePrefab = dispImgObj;
+        disp.displayImagePrefab = dispImgObj;
 
-    //    GameObject buttonPrefab = new GameObject();
-    //    buttonPrefab.AddComponent<VRButton>();
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
 
-    //    GameObject textObject = new GameObject();
-    //    textObject.AddComponent<TextMesh>();
-    //    textObject.transform.SetParent(buttonPrefab.transform);
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
 
-    //    disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+        disp.buttonPrefab = buttonPrefab;
 
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
 
-    //    GameObject copyPrefab = new GameObject();
-    //    copyPrefab.AddComponent<SpriteRenderer>();
-    //    copyPrefab.AddComponent<Copy>();
-    //    copyPrefab.AddComponent<BoxCollider>();
-    //    GameObject child = new GameObject();
-    //    child.AddComponent<SpriteRenderer>();
+        GameObject copyPrefab = new GameObject();
+        copyPrefab.AddComponent<SpriteRenderer>();
+        copyPrefab.AddComponent<Copy>();
+        copyPrefab.AddComponent<BoxCollider>();
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
 
-    //    child.transform.SetParent(copyPrefab.transform);
+        child.transform.SetParent(copyPrefab.transform);
 
-    //    Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+        Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
-    //    copyPrefab.GetComponent<Copy>().curShader = shad;
-        
-    //    disp.copyPrefab = copyPrefab;
+        copyPrefab.GetComponent<Copy>().curShader = shad;
 
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    disp.trayPrefab = trayObject;
+        disp.copyPrefab = copyPrefab;
 
-    //    Texture2D tex = new Texture2D(100, 100);
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
 
-    //    disp.CreateCopy(tex);
+        Texture2D tex = new Texture2D(100, 100);
 
-    //    Assert.AreEqual(1, disp.GetCopies().Count);
+        disp.CreateCopy(tex);
 
-    //    disp.CreateCopy(tex);
-    //    Assert.AreEqual(2, disp.GetCopies().Count);
-    //}
+        Assert.AreEqual(1, disp.GetCopies().Count);
 
-    //[Test]
-    //[Ignore("Test has some life issues.")]
-    //public void TestScrollLeftAndRight()
-    //{
-    //    GameObject dispObj = new GameObject();
-    //    dispObj.AddComponent<Display>();
-    //    Display disp = dispObj.GetComponent<Display>();
+        disp.CreateCopy(tex);
+        Assert.AreEqual(2, disp.GetCopies().Count);
+    }
 
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
+    [Test]
+    public void TestScrollLeftAndRight()
+    {
+        GameObject dispObj = new GameObject();
+        dispObj.AddComponent<Display>();
+        Display disp = dispObj.GetComponent<Display>();
 
-    //    GameObject buttonPrefab = new GameObject();
-    //    buttonPrefab.AddComponent<VRButton>();
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
-    //    GameObject textObject = new GameObject();
-    //    textObject.AddComponent<TextMesh>();
-    //    textObject.transform.SetParent(buttonPrefab.transform);
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
 
-    //    disp.buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
 
-    //    trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab.GetComponent<VRButton>();
+        disp.buttonPrefab = buttonPrefab;
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
+        trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab;
 
-    //    GameObject copyPrefab = new GameObject();
-    //    copyPrefab.AddComponent<SpriteRenderer>();
-    //    copyPrefab.AddComponent<Copy>();
-    //    copyPrefab.AddComponent<BoxCollider>();
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
 
-    //    GameObject dispImgObj = new GameObject();
-    //    dispImgObj.AddComponent<SpriteRenderer>();
+        GameObject thumbOutline = new GameObject();
+        thumbOutline.AddComponent<SpriteRenderer>();
+        thumbOutline.transform.SetParent(thumbObject.transform);
 
-    //    disp.displayImagePrefab = dispImgObj;
+        GameObject copyPrefab = new GameObject();
+        copyPrefab.AddComponent<SpriteRenderer>();
+        copyPrefab.AddComponent<Copy>();
+        copyPrefab.AddComponent<BoxCollider>();
 
-    //    GameObject child = new GameObject();
-    //    child.AddComponent<SpriteRenderer>();
+        GameObject dispImgObj = new GameObject();
+        dispImgObj.AddComponent<SpriteRenderer>();
+        dispImgObj.AddComponent<DisplayImage>();
+        GameObject dispImgChild = new GameObject();
+        dispImgChild.transform.SetParent(dispImgObj.transform);
 
-    //    child.transform.SetParent(copyPrefab.transform);
+        disp.displayImagePrefab = dispImgObj;
 
-    //    Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
+        GameObject child = new GameObject();
+        child.AddComponent<SpriteRenderer>();
 
-    //    copyPrefab.GetComponent<Copy>().curShader = shad;
+        child.transform.SetParent(copyPrefab.transform);
 
-    //    disp.copyPrefab = copyPrefab;
+        Shader shad = (Shader)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Shaders/ImageEffects.shader", typeof(Shader));
 
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    disp.trayPrefab = trayObject;
+        copyPrefab.GetComponent<Copy>().curShader = shad;
 
-    //    Texture2D tex = new Texture2D(100, 100);
+        disp.copyPrefab = copyPrefab;
 
-    //    // This function takes in a dictionary as well
-    //    /*disp.AddImage(tex);
-    //    disp.AddImage(tex);
-    //    disp.AddImage(tex);
-    //    disp.AddImage(tex);*/
-        
-    //    disp.TestScrollLeftAndRight(4);
-        
-    //}
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        disp.trayPrefab = trayObject;
+
+        Texture2D tex = new Texture2D(100, 100);
+        Dictionary<string, string> patientInfo = new Dictionary<string, string>();
+        patientInfo.Add("PatientName", "Steve");
+        // This function takes in a dictionary as well
+        disp.AddImage(tex, patientInfo);
+        disp.AddImage(tex, patientInfo);
+        disp.AddImage(tex, patientInfo);
+        disp.AddImage(tex, patientInfo);
+
+        disp.TestScrollLeftAndRight(4);
+
+    }
 
 }

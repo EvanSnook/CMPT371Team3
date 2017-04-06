@@ -12,6 +12,7 @@ using buttons;
 /// and will contain options to control properties of the image through related scripts, as well as being able to
 /// control the position and size of the copy.
 /// </summary>
+[ExecuteInEditMode]
 public class Copy : MonoBehaviour
 {
 	// The component to render the image on the copy object 
@@ -481,4 +482,9 @@ public class Copy : MonoBehaviour
 	{
 		return pressed;
 	}
+
+    public void SetDashboard(GameObject dashboard)
+    {
+        this.dashboard = dashboard;
+    }
 }

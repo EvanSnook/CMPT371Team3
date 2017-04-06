@@ -13,6 +13,7 @@ using buttons;
 /// It contains functions to add textures to the texture list, and create Copies.
 /// This class also displays an 'image tray' of images to select from.
 /// </summary>
+[ExecuteInEditMode]
 public class Display : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated
@@ -365,22 +366,7 @@ public class Display : MonoBehaviour, IVRButton
 		}
 	}
 
-	// Test hooks
-    /* TODO tests are broken
-	/// <summary>
-	/// Test creating the scroll buttons by creating them and returning an array with reference to them
-	/// </summary>
-	/// <returns></returns>
-	public VRButton[] TestCreateScrollButtons()
-	{
-		VRButton[] scrollBtns = new VRButton[2];
-		this.CreateScrollButtons();
-
-		scrollBtns[0] = this.leftScrollButton;
-		scrollBtns[1] = this.rightScrollButton;
-
-		return scrollBtns;
-	}
+	// Test hooks   
 
 
 	/// <summary>
@@ -414,7 +400,7 @@ public class Display : MonoBehaviour, IVRButton
 
 
 	} 
-    */
+    
 
 
 	/// <summary>

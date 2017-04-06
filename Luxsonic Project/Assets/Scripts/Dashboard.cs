@@ -10,6 +10,7 @@ using buttons;
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
+[ExecuteInEditMode]
 public class Dashboard : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated
