@@ -27,6 +27,11 @@ public class VRButton : MonoBehaviour
     // Buttons state
     private bool pressed = false;
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attributes"></param>
     public VRButton(ButtonAttributes attributes)
     {
         this.attributes = attributes;
@@ -54,6 +59,7 @@ public class VRButton : MonoBehaviour
     public void ResetPosition()
     {
         transform.localPosition = attributes.position;
+        defaultLocalScale = gameObject.transform.localScale;
     }
 
 
@@ -171,7 +177,7 @@ public class VRButton : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    private void UnpressButton()
+    public void UnpressButton()
     {
         gameObject.transform.localScale = this.defaultLocalScale;
     }

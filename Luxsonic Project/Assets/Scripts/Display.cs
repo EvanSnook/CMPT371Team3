@@ -415,6 +415,8 @@ public class Display : MonoBehaviour, IVRButton
 
 
 	} 
+    */
+
 
 	/// <summary>
 	/// Used to remove copies from the display when they are removed from the workspace
@@ -424,6 +426,6 @@ public class Display : MonoBehaviour, IVRButton
 	{
 		this.copies.Remove(copy);
 	}
-     */
+     
 }
 

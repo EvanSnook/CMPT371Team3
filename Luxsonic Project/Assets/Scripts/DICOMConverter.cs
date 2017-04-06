@@ -16,7 +16,6 @@ public class DICOMConverter : MonoBehaviour {
 		newProcess.StartInfo.UseShellExecute = false;
 		newProcess.StartInfo.CreateNoWindow = true;
 		newProcess.EnableRaisingEvents = true;
-		UnityEngine.Debug.Log("Test2");
 		waitingForConversion = true;
 		newProcess.Exited += new EventHandler(ProcessExited);
 

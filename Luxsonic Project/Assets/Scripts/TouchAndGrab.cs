@@ -41,7 +41,7 @@ public class TouchAndGrab : MonoBehaviour
     private bool onCooldown = false;
 
 	[SerializeField]
-	private float cooldownDuration = 0.5f;
+	private float cooldownDuration = 1f;
 
     // previous parent of grabbed object
 	private Transform objectsOldParent = null;
@@ -173,7 +173,8 @@ public class TouchAndGrab : MonoBehaviour
                 if (!onCooldown)
                 {
                     other.gameObject.GetComponent<VRButton>().ButtonClicked(true);
-				}
+                    ButtonPressCooldown();
+                }
 			}
 			else if ((other.tag == "Copy"))
 			{

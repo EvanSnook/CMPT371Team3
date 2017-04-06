@@ -221,11 +221,12 @@ public class Copy : MonoBehaviour
         //set current selection to none after copy has been closed
         this.currentSelection = CurrentSelection.none;
         // If the object is being held by the hand...
-        if (this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
+        if ((this.transform.parent != null) && (this.transform.parent.gameObject.tag == "Hand"))
         {
             // Tell the hand to drop it like its hot
             this.transform.parent.gameObject.SendMessage("Drop");
         }
+        this.dashboard.SendMessage("DeleteCopy", this.gameObject);
         SafeDelete(this.gameObject);
     }
 

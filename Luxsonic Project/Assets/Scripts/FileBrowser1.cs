@@ -217,15 +217,16 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             Vector3 newDirectoryPosition = new Vector3(directoryPosition.x, 
 				directoryPosition.y - (count * seperationBetweenButtonsY), directoryPosition.z);
 
-            string[] path = new string[1];
-            path[0] = directory;
+            string[] arguments = new string[1];
+            arguments[0] = directory;
 
             ButtonAttributes currentButtonAttributes = new ButtonAttributes();
             currentButtonAttributes.buttonName = GetLocalName(directory);
             currentButtonAttributes.type = ButtonType.DIRECTORY_BUTTON;
             currentButtonAttributes.position = newDirectoryPosition;
             currentButtonAttributes.rotation = directoryRotation;
-            currentButtonAttributes.buttonParameters = path;
+            currentButtonAttributes.buttonParameters = arguments;
+            currentButtonAttributes.buttonFunction = "EnterDirectory";
             currentButtonAttributes.depressable = false;
             currentButtonAttributes.autoPushOut = false;
 
@@ -240,15 +241,17 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
             Vector3 newFilePosition = new Vector3(filePosition.x,
                 filePosition.y - (count * seperationBetweenButtonsY), filePosition.z);
 
-            string[] path = new string[1];
-            path[0] = file;
+            string[] arguments = new string[2];
+            arguments[0] = "f";
+            arguments[1] = file;
 
             ButtonAttributes currentButtonAttributes = new ButtonAttributes();
             currentButtonAttributes.buttonName = GetLocalName(file);
             currentButtonAttributes.type = ButtonType.DIRECTORY_BUTTON;
             currentButtonAttributes.position = newFilePosition;
             currentButtonAttributes.rotation = fileRotation;
-            currentButtonAttributes.buttonParameters = path;
+            currentButtonAttributes.buttonParameters = arguments;
+            currentButtonAttributes.buttonFunction = "LoadFiles";
             currentButtonAttributes.depressable = false;
             currentButtonAttributes.autoPushOut = false;
 
@@ -258,6 +261,18 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
         }
 	}
 	
+
+    /// <summary>
+    /// 
+    /// </summary>
+    void LoadCurrentDirectory()
+    {
+        string[] args = new string[3];
+        args[0] = "d";
+        args[1] = this.currentDirectory;
+        LoadFiles(args);
+    }
+
 
 	/// <summary>
 	/// 
@@ -289,7 +304,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		//call ConvertAndSerndImages() on everything in (Application.persistentDataPath + \tempImages)
 		string[] arrayOfFiles = Directory.GetFiles(destinationPath);
 
-		Debug.Log(targetPath);
 		Dictionary<string, string> patientInfo = GetPatientInfo(targetPath);
 
 		foreach (string filePath in arrayOfFiles)
@@ -368,15 +382,6 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	}
 
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void LoadCurrentDirectory()//TODO
-    {
-
-    }
-
-
 	/// <summary>
 	/// Function EnterDirectory() will send the user to the specified directory and bring up the 
 	/// all the buttons withing that directory
@@ -386,9 +391,11 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// </summary>
 	/// <param name="newDirectory">string of the path representing the directory
 	/// we are entering</param>
-	void EnterDirectory(string newDirectory)
+	void EnterDirectory(string[] arguments)
 	{
-		Assert.IsNotNull(newDirectory);
+        string newDirectory = arguments[0];
+
+        Assert.IsNotNull(newDirectory);
 		string storeCurrent = currentDirectory;
 		currentDirectory = newDirectory;
 		// Destroy all current directory buttons
@@ -417,8 +424,12 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 		}
 		catch(UnauthorizedAccessException)
 		{
-			EnterDirectory(storeCurrent);
+            string[] args = new string[1];
+            args[0] = storeCurrent;
+            EnterDirectory(args);
 		}
+        ShowLimitedButtons(this.listOfCurrentDirectoryButtons, this.directoryPosition.y);
+        ShowLimitedButtons(this.listOfCurrentFileButtons, this.filePosition.y);
 	}
 
 
@@ -524,7 +535,9 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	void GoBack()
 	{
 		Assert.IsNotNull(currentDirectory);
-		EnterDirectory(GetPreviousPath(currentDirectory));
+        string[] arguments = new string[1];
+        arguments[0] = GetPreviousPath(currentDirectory);
+        EnterDirectory(arguments);
 	}
 
 
@@ -609,17 +622,17 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	{
         foreach (GameObject button in buttonList)
 		{
-			if(button.GetComponent<Transform>().position.y > (highestYPosition+(0.5*this.seperationBetweenButtonsY)))
+            if (button.transform.position.y > (highestYPosition+(0.5*this.seperationBetweenButtonsY)))
 			{
-				button.gameObject.SetActive(false);
+                button.SetActive(false);
 			}
-			else if(button.GetComponent<Transform>().position.y <= (highestYPosition - (this.buttonLimit*this.seperationBetweenButtonsY)))
+			else if(button.transform.position.y <= (highestYPosition - (this.buttonLimit*this.seperationBetweenButtonsY)))
 			{
-				button.gameObject.SetActive(false);
+                button.SetActive(false);
 			}
 			else
 			{
-				button.gameObject.SetActive(true);
+				button.SetActive(true);
 			}
 		}
 	}
@@ -629,8 +642,21 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// 
 	/// </summary>
 	/// <param name="list"></param>
-    private void ScrollDown(LinkedList<GameObject> list, float highestButton)
+    private void ScrollDown(string[] target)
 	{
+        LinkedList<GameObject> list = null;
+        float highestButton = 0f;
+        if (target[0] == "files")
+        {
+            list = this.listOfCurrentFileButtons;
+            highestButton = filePosition.y;
+        }
+        else if (target[0] == "directories")
+        {
+            list = this.listOfCurrentDirectoryButtons;
+            highestButton = directoryPosition.y;
+        }
+
 		// We should not be able to scroll if the amount of buttons present is less than the limit
 		if (list.Count > this.buttonLimit)
 		{
@@ -661,10 +687,23 @@ public class FileBrowser1 : MonoBehaviour, IVRButton
 	/// </summary>
 	/// <param name="list">The list of buttons to be shifted</param>
 	/// <param name="highestButton"></param>
-    private void ScrollUp(LinkedList<GameObject> list, float highestButton)
+    private void ScrollUp(string[] target)
 	{
-		// We should not be able to scroll if the amount of buttons present is less than the limit
-		if (list.Count > this.buttonLimit)
+        LinkedList<GameObject> list = null;
+        float highestButton = 0f;
+        if (target[0] == "files")
+        {
+            list = this.listOfCurrentFileButtons;
+            highestButton = filePosition.y;
+        }
+        else if (target[0] == "directories")
+        {
+            list = this.listOfCurrentDirectoryButtons;
+            highestButton = directoryPosition.y;
+        }
+
+        // We should not be able to scroll if the amount of buttons present is less than the limit
+        if (list.Count > this.buttonLimit)
 		{
 			// If we are not at the 'top' of the list, then we can actually scroll up
 			if (list.First.Value.gameObject.activeSelf == false)

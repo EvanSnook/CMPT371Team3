@@ -103,6 +103,31 @@ Prefab:
       propertyPath: buttonList.Array.size
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[0].buttonParameters.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[2].buttonParameters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[3].buttonParameters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[4].buttonParameters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[5].buttonParameters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4481355533798404, guid: 0f54ed08691759e46bd837dde9f342da, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -176,7 +201,7 @@ Prefab:
     - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
         type: 2}
       propertyPath: buttonList.Array.data[4].buttonName
-      value: File up
+      value: File Up
       objectReference: {fileID: 0}
     - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
         type: 2}
@@ -291,7 +316,32 @@ Prefab:
     - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
         type: 2}
       propertyPath: buttonList.Array.data[6].buttonFunction
-      value: LoadFiles
+      value: LoadCurrentDirectory
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[2].buttonParameters.Array.data[0]
+      value: directories
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[3].buttonParameters.Array.data[0]
+      value: directories
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[4].buttonParameters.Array.data[0]
+      value: files
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonList.Array.data[5].buttonParameters.Array.data[0]
+      value: files
+      objectReference: {fileID: 0}
+    - target: {fileID: 114180715286171086, guid: 0f54ed08691759e46bd837dde9f342da,
+        type: 2}
+      propertyPath: buttonLimit
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0f54ed08691759e46bd837dde9f342da, type: 2}
@@ -459,6 +509,41 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[3].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[4].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[5].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[6].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[7].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[8].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[9].buttonParameters.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4524941836498680, guid: 0c62a3c417de7a4488d3677094d0e737, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -496,6 +581,41 @@ Prefab:
       propertyPath: fileBrowser
       value: 
       objectReference: {fileID: 94301205}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[3].buttonParameters.Array.data[1]
+      value: Brightness
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[4].buttonParameters.Array.data[1]
+      value: Contrast
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[5].buttonParameters.Array.data[1]
+      value: Invert
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[6].buttonParameters.Array.data[1]
+      value: Resize
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[7].buttonParameters.Array.data[1]
+      value: Saturation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[8].buttonParameters.Array.data[1]
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
+        type: 2}
+      propertyPath: buttonList.Array.data[9].buttonParameters.Array.data[1]
+      value: Restore
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c62a3c417de7a4488d3677094d0e737, type: 2}
   m_IsPrefabParent: 0
@@ -681,6 +801,16 @@ Prefab:
     - target: {fileID: 463470, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114073546616330546, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+        type: 2}
+      propertyPath: cooldownDuration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394364977268570, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+        type: 2}
+      propertyPath: cooldownDuration
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 2}

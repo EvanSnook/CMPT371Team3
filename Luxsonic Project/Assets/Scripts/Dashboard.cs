@@ -19,6 +19,8 @@ public class Dashboard : MonoBehaviour, IVRButton
     // Holds references to the instantiated buttons
     private List<GameObject> buttonObjects = new List<GameObject>();
 
+    private List<GameObject> pendingDeletion = new List<GameObject>();
+
 	// The file system to load images with
 	public FileBrowser1 fileBrowser;
 
@@ -57,12 +59,9 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public Vector3 copyPlaneScale;
 
 	// The current selection, defaults to null
-	private GameObject currentSelection = null;
+	private GameObject currentButtonSelection = null;
 
 	private bool deselectingAll = false;
-
-    // Reference to currently pressed button
-	private GameObject pressedButton;
 
 
 	// Built-in Unity method called at the beginning of the Scene
@@ -70,15 +69,15 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
 		display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
 		DisplayMenu();
-		this.pressedButton = null;
 	}
 
 
 	public void Update()
 	{
-		if (this.currentCopies.Count == 0)
+		if ((this.currentCopies.Count == 0) && (this.currentButtonSelection != null))
 		{
-			this.currentSelection = null;
+            this.currentButtonSelection.GetComponent<VRButton>().UnpressButton();
+            this.currentButtonSelection = null;
 		}
 	}
 
@@ -147,9 +146,13 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <summary>
     /// 
     /// </summary>
-    private void UpdateCopyOptions(string newOption)
+    private void UpdateCopyOptions(string[] arguments)
 	{
-        if (this.currentCopies.Count > 0 && this.currentSelection != null)
+        string newOption = arguments[0];
+        string buttonName = arguments[1];
+
+        UpdateCurrentSelection(buttonName);
+        if (this.currentCopies.Count > 0 && this.currentButtonSelection != null)
         {
             foreach (GameObject currentCopy in this.currentCopies)
             {
@@ -158,9 +161,53 @@ public class Dashboard : MonoBehaviour, IVRButton
         }   // If there are no copies selected, deselect the current button
         else if (this.currentCopies.Count == 0)
         {
-            this.currentSelection = null;
+            this.currentButtonSelection.GetComponent<VRButton>().UnpressButton();
+            this.currentButtonSelection = null;
         }
+        CleanUpCopies();
 	}
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void CleanUpCopies()
+    {
+        foreach (GameObject copy in this.pendingDeletion)
+        {
+            this.currentCopies.Remove(copy);
+        }
+        pendingDeletion.Clear();
+    }
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void DeleteCopy(GameObject target)
+    {
+        this.display.RemoveCopy(target);
+        this.pendingDeletion.Add(target);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="newButton"></param>
+    private void UpdateCurrentSelection(string newButton)
+    {
+        // make sure not null
+        if (this.currentButtonSelection != null)
+        {
+            // unpress current button
+            this.currentButtonSelection.GetComponent<VRButton>().UnpressButton();
+        }
+        
+        // update current button to new button
+        this.currentButtonSelection = this.buttonObjects.Find(button => button.name == newButton);
+    }
 
 
     /// <summary>
@@ -172,7 +219,10 @@ public class Dashboard : MonoBehaviour, IVRButton
         if (copy.GetComponent<Copy>().isCurrentImage)
         {
             this.currentCopies.Add(copy);
-            this.UpdateCopyOptions(pressedButton.GetComponent<VRButton>().attributes.buttonParameters[0]);
+            if (currentButtonSelection != null)
+            {
+                this.UpdateCopyOptions(currentButtonSelection.GetComponent<VRButton>().attributes.buttonParameters);
+            }
         }
         else
         {
@@ -262,7 +312,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// </summary>
 	public void SelectAllCopies()
 	{
-		List<GameObject> tempList = this.display.GetCopies();
+        List<GameObject> tempList = this.display.GetCopies();
 
 		foreach (GameObject copy in tempList)
 		{
@@ -280,7 +330,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public void DeselectAllCopies()
 	{
 		this.deselectingAll = true;
-		List<GameObject> tempList = this.currentCopies;
+        List<GameObject> tempList = this.currentCopies;
+
 		foreach (GameObject copy in tempList)
 		{
 			if (copy.gameObject.GetComponent<Copy>().isCurrentImage)
@@ -301,9 +352,9 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
 	//for testing purposes
-	public GameObject GetCurrentSelection()
+	public GameObject GetCurrentButtonSelection()
 	{
-		return this.currentSelection;
+		return this.currentButtonSelection;
 	}
 }
 
