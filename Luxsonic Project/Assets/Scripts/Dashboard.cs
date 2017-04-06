@@ -77,7 +77,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
 		if ((this.currentCopies.Count == 0) && (this.currentButtonSelection != null))
 		{
-            this.currentButtonSelection.GetComponent<VRButton>().UnpressButton();
+            this.currentButtonSelection.GetComponent<VRButton>().TimedUnpress();
             this.currentButtonSelection = null;
 		}
 	}
@@ -165,7 +165,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         }   // If there are no copies selected, deselect the current button
         else if (this.currentCopies.Count == 0)
         {
-            this.currentButtonSelection.GetComponent<VRButton>().UnpressButton();
+            this.currentButtonSelection.GetComponent<VRButton>().TimedUnpress();
             this.currentButtonSelection = null;
         }
         CleanUpCopies();
