@@ -425,6 +425,16 @@ public class Display : MonoBehaviour, IVRButton
 	{
 		this.copies.Remove(copy);
 	}
+
+    //=================================
+    // TEST HOOKS
+    //================================
+
+    public void SetCopies(List<GameObject> copies)
+    {
+        this.copies = copies;
+    }
+
      
 }
 

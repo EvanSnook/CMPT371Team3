@@ -68,6 +68,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public void Start()
 	{
 		display = GameObject.FindGameObjectWithTag("Display").GetComponent<Display>();
+        this.currentCopies = new List<GameObject>();
 		DisplayMenu();
 	}
 
@@ -107,6 +108,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// Pre:: nothing
 	/// Post:: Creation of the load, quit and minimize buttons
 	/// </summary>
+    /// <pre>nothing</pre>
+    /// <post>Creatopm of the load, quit, and minimize buttons for the menu</post>
 	public void DisplayMenu()
 	{
 
@@ -144,8 +147,9 @@ public class Dashboard : MonoBehaviour, IVRButton
 	
 
     /// <summary>
-    /// 
+    /// Tell each copy that is selected that a new modifier has been selected
     /// </summary>
+    /// <param name="arguments">A string array containing the new option and the button name</param>
     private void UpdateCopyOptions(string[] arguments)
 	{
         string newOption = arguments[0];
@@ -169,7 +173,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// 
+    /// Remove all copies in the pendingDeletion list
     /// </summary>
     private void CleanUpCopies()
     {
@@ -183,7 +187,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// 
+    /// Delete the given copy
     /// </summary>
     private void DeleteCopy(GameObject target)
     {
@@ -193,9 +197,9 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// 
+    /// Unpress the current selected button and set the current selected button to the new button.
     /// </summary>
-    /// <param name="newButton"></param>
+    /// <param name="newButton">The new button to set as the current</param>
     private void UpdateCurrentSelection(string newButton)
     {
         // make sure not null
@@ -344,6 +348,10 @@ public class Dashboard : MonoBehaviour, IVRButton
 	}
 
 
+    //========================================================
+    // TEST HOOKS
+    //=====================================================
+
 	//for testing purposes
 	public bool GetMinimized()
 	{
@@ -356,5 +364,43 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
 		return this.currentButtonSelection;
 	}
+
+    /// <summary>
+    /// Sets the button list to the list provided
+    /// </summary>
+    /// <param name="attributes">The list of attributes to create</param>
+    public void SetButtonList(List<ButtonAttributes> attributes) {
+        this.buttonList = attributes;
+    }
+
+    /// <summary>
+    /// Returns the button list
+    /// </summary>
+    /// <returns>The button list</returns>
+    public List<ButtonAttributes> GetButtonList()
+    {
+        return this.buttonList;
+    }
+
+    /// <summary>
+    /// Test the update copy options function with the given arguments
+    /// </summary>
+    /// <param name="args">The arguments to pass to UpdateCopyOptions()</param>
+    public void TestUpdateCopyOptions(string[] args)
+    {
+        this.UpdateCopyOptions(args);
+    }
+
+    /// <summary>
+    /// Test the update current selcetion button with the new button
+    /// </summary>
+    /// <param name="button">The button to test with</param>
+    /// <returns>True if the current selection is set to button, false otherwise</returns>
+    public bool TestUpdateCurrentSelection(string button)
+    {
+
+        this.UpdateCurrentSelection(button);
+        return this.currentButtonSelection.gameObject.name == button;
+    }
 }
 
