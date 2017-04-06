@@ -93,6 +93,9 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <returns>Newly created button GameObject</returns>
     public GameObject CreateButton(ButtonAttributes attributes, GameObject buttonPrefab)
     {
+        Assert.IsNotNull(attributes);
+        Assert.IsNotNull(buttonPrefab);
+
         GameObject newButton;
 
         newButton = Instantiate(buttonPrefab, attributes.position,
@@ -100,6 +103,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 
         newButton.GetComponent<VRButton>().Initialise(attributes, this.gameObject);
         newButton.name = attributes.buttonName;
+
+        Assert.IsNotNull(newButton);
 
         return newButton;
     }
@@ -109,9 +114,11 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// Function DisplayMenu() Creates the load, quit and minimize buttons for the menu
 	/// </summary>
     /// <pre>nothing</pre>
-    /// <post>Creatopm of the load, quit, and minimize buttons for the menu</post>
+    /// <post>Creation of the load, quit, and minimize buttons for the menu</post>
 	public void DisplayMenu()
 	{
+
+        Assert.IsNotNull(planePrefab);
 
 		this.menuPlane = Instantiate(planePrefab, this.menuPlanePosition, Quaternion.Euler(this.menuPlaneRotation));
 		this.menuPlane.transform.parent = this.gameObject.transform;
@@ -143,6 +150,9 @@ public class Dashboard : MonoBehaviour, IVRButton
             // add to the list of all buttons
             buttonObjects.Add(newButton);
         }
+
+        Assert.IsNotNull(this.buttonObjects);
+        Assert.IsTrue(this.buttonObjects.Count > 0);
 	}
 	
 
@@ -152,6 +162,8 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <param name="arguments">A string array containing the new option and the button name</param>
     private void UpdateCopyOptions(string[] arguments)
 	{
+        Assert.IsTrue(arguments.Length >= 2);
+
         string newOption = arguments[0];
         string buttonName = arguments[1];
 
@@ -183,6 +195,7 @@ public class Dashboard : MonoBehaviour, IVRButton
             this.currentCopies.Remove(copy);
         }
         pendingDeletion.Clear();
+        Assert.IsTrue(this.pendingDeletion.Count == 0);
     }
 
 
@@ -193,8 +206,10 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <post>The given object has been deleted</post>
     private void DeleteCopy(GameObject target)
     {
+        Assert.IsNotNull(target);
         this.display.RemoveCopy(target);
         this.pendingDeletion.Add(target);
+        Assert.IsTrue(this.pendingDeletion.Contains(target));
     }
 
 
@@ -204,7 +219,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <param name="newButton">The new button to set as the current</param>
     /// <post>The current selection is set to the option corresponding to the given button</post>
     private void UpdateCurrentSelection(string newButton)
-    {
+    {   
         // make sure not null
         if (this.currentButtonSelection != null)
         {
@@ -224,6 +239,8 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <param name="copy"></param>
 	public void CopySelected(GameObject copy)
 	{
+        Assert.IsNotNull(copy);
+        
         if (copy.GetComponent<Copy>().isCurrentImage)
         {
             this.currentCopies.Add(copy);
@@ -249,7 +266,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <post>Program Terminiation</post>
 	private void Quit()
 	{
-		print("Quit Button clicked");
+		Debug.Log("Quit Button clicked");
 		Application.Quit();
 	}
 
@@ -261,6 +278,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <post>New Texture2D given and added to the Display class</post>
 	private void Load()
 	{
+        Debug.Log("Load Button clicked");
 		fileBrowser.gameObject.SetActive(true);
 		Minimize();
 	}
