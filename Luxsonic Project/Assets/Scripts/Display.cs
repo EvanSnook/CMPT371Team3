@@ -66,10 +66,6 @@ public class Display : MonoBehaviour, IVRButton
 	// Current ID for copies whose textures do not have names
 	private int copyId = 0;
 
-
-    /// <summary>
-    /// 
-    /// </summary>
     private void Start()
     {
         foreach (ButtonAttributes attributes in buttonList)
@@ -86,6 +82,7 @@ public class Display : MonoBehaviour, IVRButton
 	/// and create the scroll bar if it is not currently present.
 	/// </summary>
 	/// <param name="image">The texture for the image to add</param>
+    /// <param name="patientInfo">A dictionary of patient info keyed by field</param>
 	/// <pre>Image Texture2D to add</pre>
 	/// <post> Creation of tray, adds Texture2D to images list and adds new GameObject to displayImages</post>
 	public void AddImage(Texture2D image, Dictionary<string,string> patientInfo)
@@ -172,9 +169,12 @@ public class Display : MonoBehaviour, IVRButton
     }
 
 
+
     /// <summary>
-    /// 
+    /// Display the scrolling buttons for the tray
     /// </summary>
+    /// <pre>The current number of images in the tray is equal to the max</pre>
+    /// <post>The buttons to allow the user to scroll through the tray are displayed</post>
     void ToggleScrollButtons()
     {
         foreach (GameObject button in buttonObjects)
@@ -230,7 +230,7 @@ public class Display : MonoBehaviour, IVRButton
 	/// Function CreateCopy will instantiate a new Copy in the space at the center of the user's view
 	/// A Copy is the object that a user can manipulate and move within the workspace
 	/// </summary>
-	/// <pre>TExture2D image</pre>
+	/// <pre>Texture2D image</pre>
 	/// <post>A new Copy is instantiated and added to the hierarchy</post>
 	public void CreateCopy(Texture2D image)
 	{
@@ -366,14 +366,16 @@ public class Display : MonoBehaviour, IVRButton
 		}
 	}
 
-	// Test hooks   
+    //=================================
+    // TEST HOOKS
+    //================================  
 
 
-	/// <summary>
-	/// Test the scrolling functionality by scrolling through all images 
-	/// </summary>
-	/// <param name="numberOfImages"></param>
-	public void TestScrollLeftAndRight(int numberOfImages)
+    /// <summary>
+    /// Test the scrolling functionality by scrolling through all images 
+    /// </summary>
+    /// <param name="numberOfImages"></param>
+    public void TestScrollLeftAndRight(int numberOfImages)
 	{
 		GameObject firstElement = this.displayImages.First.Value;
 		// Scroll left until we are back at the start
@@ -412,10 +414,13 @@ public class Display : MonoBehaviour, IVRButton
 		this.copies.Remove(copy);
 	}
 
-    //=================================
-    // TEST HOOKS
-    //================================
-
+   
+    /// <summary>
+    /// Set the copy list to the given list.
+    /// 
+    /// Used for testing purposes
+    /// </summary>
+    /// <param name="copies"></param>
     public void SetCopies(List<GameObject> copies)
     {
         this.copies = copies;
