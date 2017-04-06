@@ -167,6 +167,8 @@ public class Dashboard : MonoBehaviour, IVRButton
         string newOption = arguments[0];
         string buttonName = arguments[1];
 
+        Debug.Log("User pressed " + buttonName + " button.");
+
         UpdateCurrentSelection(buttonName);
         if (this.currentCopies.Count > 0 && this.currentButtonSelection != null)
         {
@@ -294,11 +296,13 @@ public class Dashboard : MonoBehaviour, IVRButton
 	{
         if (this.minimized)
         {
+            Debug.Log("User has maximized the dashboard.");
             ToggleButtons(true);
             this.buttonObjects.Find(button => button.name == "Minimize").transform.GetChild(0).GetComponent<TextMesh>().text = "Minimize";
         }
         else
         {
+            Debug.Log("User has minimized the dashboard.");
             ToggleButtons(false);
             this.buttonObjects.Find(button => button.name == "Minimize").transform.GetChild(0).GetComponent<TextMesh>().text = "Maximize";
         }
@@ -332,7 +336,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public void SelectAllCopies()
 	{
         List<GameObject> tempList = this.display.GetCopies();
-
+        Debug.Log("User has selected all copies.");
 		foreach (GameObject copy in tempList)
 		{
 			if (!copy.GetComponent<Copy>().isCurrentImage)
@@ -349,6 +353,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <post>All copies in the scene have been removed from the current copies list</post>
 	public void DeselectAllCopies()
 	{
+        Debug.Log("User has deselected all copies.");
 		this.deselectingAll = true;
         List<GameObject> tempList = this.currentCopies;
 

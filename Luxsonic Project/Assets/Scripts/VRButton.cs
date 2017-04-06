@@ -29,9 +29,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Constructor for the button
     /// </summary>
-    /// <param name="attributes"></param>
+    /// <param name="attributes">The attributes to create the button with</param>
     public VRButton(ButtonAttributes attributes)
     {
         this.attributes = attributes;
@@ -39,10 +39,10 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Initialize the button with its attributes
     /// </summary>
-    /// <param name="attributes"></param>
-    /// <param name="manager"></param>
+    /// <param name="attributes">The attributes to create the button with</param>
+    /// <param name="manager">The manager object that the button reports to</param>
     public void Initialise(ButtonAttributes attributes, GameObject manager)
     {
         this.manager = manager;
@@ -54,8 +54,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Reset the position of the button
     /// </summary>
+    /// <post>The button's position has been reset</post>
     public void ResetPosition()
     {
         transform.localPosition = attributes.position;
@@ -64,9 +65,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Called when the button has been clicked.
     /// </summary>
-    /// <param name="val"></param>
+    /// <param name="val">Whether the button can be activated yet</param>
     public void ButtonClicked(bool val)
     {
         this.pressed = val;
@@ -99,10 +100,9 @@ public class VRButton : MonoBehaviour
 
     /// <summary>
     /// GetPressed returns the value of pressed
-    /// Pre:: 
-    /// Post:: 
-    /// Return:: value of pressed
+    //
     /// </summary>
+    /// <returns>value of pressed</returns>
     public bool GetPressed()
     {
         return this.pressed;
@@ -110,9 +110,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Get the name of the button
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The name of the button</returns>
     public string GetName()
     {
         return this.attributes.buttonName;
@@ -120,9 +120,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Get the position of the button
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The position of the button</returns>
     public Vector3 GetPosition()
     {
         return this.attributes.position;
@@ -130,9 +130,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    ///  Get the path associated with the button
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The path associated with the button</returns>
     public string GetPath()
     {
 
@@ -148,9 +148,9 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Sets the path associated with the button
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">The path to associate with the button</param>
     public void SetPath(string path)
     {
         if (path == null)
@@ -166,7 +166,7 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Depress the button for visual clicking effect
     /// </summary>
     private void DepressButton()
     {
@@ -175,7 +175,7 @@ public class VRButton : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Un-depress the button for visual clicking effect
     /// </summary>
     public void UnpressButton()
     {
@@ -183,6 +183,9 @@ public class VRButton : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Unpress the button after 0.5 seconds
+    /// </summary>
     public void TimedUnpress()
     {
         Invoke("UnpressButton", 0.5f);

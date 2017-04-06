@@ -64,6 +64,7 @@ public class CopyTests
         Texture2D tex = new Texture2D(100, 100);
 
         newCopy.NewCopy(tex);
+        newCopy.isCurrentImage = true;
 
         // Increase the brightness
         float originalBrightness = newCopy.GetMaterial().GetFloat("_BrightnessAmount");
@@ -129,7 +130,7 @@ public class CopyTests
         Texture2D tex = new Texture2D(100, 100);
 
         newCopy.NewCopy(tex);
-
+        newCopy.isCurrentImage = true;
         // Increase the contrast
         float originalContrast = newCopy.GetMaterial().GetFloat("_ContrastAmount");
 
@@ -196,7 +197,7 @@ public class CopyTests
         Texture2D tex = new Texture2D(100, 100);
 
         newCopy.NewCopy(tex);
-
+        newCopy.isCurrentImage = true;
         // Increase the size
         Vector3 originalSize = newCopy.transform.localScale;
 

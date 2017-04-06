@@ -177,6 +177,7 @@ public class Display : MonoBehaviour, IVRButton
     /// <post>The buttons to allow the user to scroll through the tray are displayed</post>
     void ToggleScrollButtons()
     {
+        Assert.IsTrue(this.images.Count >= (this.tray.trayNumColumns * this.tray.trayNumRows));
         foreach (GameObject button in buttonObjects)
         {
             string name = button.GetComponent<VRButton>().GetName();
@@ -223,6 +224,9 @@ public class Display : MonoBehaviour, IVRButton
 				this.tray.gameObject.SendMessage ("HighlightTray", textureToSend);
 			}
 		}
+
+        Assert.IsNotNull(this.tray);
+        Assert.IsTrue(this.tray.GetImages().Contains(image));
 	}
 
 
@@ -289,6 +293,7 @@ public class Display : MonoBehaviour, IVRButton
 	/// <post>positions and activation of GameObjects in displayImages is changed.</post>
 	private void ScrollLeft()
 	{
+        Debug.Log("User has scrolled the display left.");
 		// If there are not enough images to scroll through
 		Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
 
@@ -311,6 +316,7 @@ public class Display : MonoBehaviour, IVRButton
 	/// <post>positions and activation of GameObjects in displayImages is changed.</post>
 	private void ScrollRight()
 	{
+        Debug.Log("User has scrolled the display right.");
 		// If there are not enough images to scroll through
 		Assert.IsTrue(this.images.Count >= this.displayImagePositions.Length, "There are no more images to scroll through.");
 

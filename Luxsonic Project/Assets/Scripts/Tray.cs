@@ -58,8 +58,6 @@ public class Tray : MonoBehaviour, IVRButton
 	// The texture in the images list that marks the first item in the tray
 	private Texture2D lastPosition;
 
-	private int imageID = 0;
-
 	// The number of images after the tray 
 	private int numAfterTray;
 	// The number of images before the tray
@@ -211,6 +209,7 @@ public class Tray : MonoBehaviour, IVRButton
     /// and the given image will be added to the tray</post>
 	public void Setup(Texture2D image)
 	{
+        Assert.IsNotNull(image);
 		this.currentTrayX = this.trayStartX;
 		this.currentTrayZ = this.trayStartZ;
 
@@ -232,6 +231,7 @@ public class Tray : MonoBehaviour, IVRButton
 	/// <post>The images in the tray have different positions</post>
 	private void ScrollUp()
 	{
+        Debug.Log("The user has scrolled the tray up.");
 		Assert.IsTrue(this.images.Count > this.thumbnails.Count, "There are no more images in the tray to scroll through.");
 		Assert.IsTrue(this.numAfterTray > 0, "There are no images after the tray to scroll through.");
 
@@ -320,6 +320,7 @@ public class Tray : MonoBehaviour, IVRButton
 	/// <post>The images in the tray have different positions</post>
 	private void ScrollDown()
 	{
+        Debug.Log("The user has scrolled the tray down.");
 		Assert.IsTrue(this.numBeforeTray > 0, "There are no images after the tray to scroll through.");
 
 		if (this.numBeforeTray > 0)
@@ -405,6 +406,7 @@ public class Tray : MonoBehaviour, IVRButton
     /// <post>The given object has been deleted from the scene</post>
 	private void SafeDelete(GameObject obj)
 	{
+        Assert.IsNotNull(obj);
 		if (Application.isEditor)
 		{
 			DestroyImmediate(obj);
@@ -473,6 +475,15 @@ public class Tray : MonoBehaviour, IVRButton
 		Assert.AreNotEqual(originalFirst, this.firstPosition);
 		Assert.AreEqual(originalThumbnailCount, this.thumbnails.Count);
 	}
+
+    /// <summary>
+    /// Return the list of images in the tray
+    /// </summary>
+    /// <returns>The list of images in the tray</returns>
+    public LinkedList<Texture2D> GetImages()
+    {
+        return this.images;
+    }
 
 }
 

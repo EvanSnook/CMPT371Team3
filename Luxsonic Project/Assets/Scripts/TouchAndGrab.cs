@@ -47,9 +47,6 @@ public class TouchAndGrab : MonoBehaviour
 	private Transform objectsOldParent = null;
 
 
-    /// <summary>
-    /// 
-    /// </summary>
 	void Start()
 	{
 		oppositeHand = oppositeHandObject.GetComponent<TouchAndGrab>();
@@ -57,9 +54,9 @@ public class TouchAndGrab : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Returns whether the hand is holding an object.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>True if the hand is holding an object, false otherwise</returns>
 	public bool IsHolding()
 	{
 		return _isHolding;
@@ -67,24 +64,23 @@ public class TouchAndGrab : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Return the object being held by the hand
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The object currently being held by the hand.</returns>
 	public GameObject GetHeldObject()
 	{
 		return _grabbedObject;
 	}
 
 
-	/// <summary>
-	/// Make the object being grabbed a child of the controller (hand) whenever it is within the raycast
-	/// of the controller
-	/// Pre:: nothing
-	/// Post:: The object is now a child of the controller and moves to the same position
-	/// of the controller
-	/// Return:: nothing
-	/// </summary>
-	void Grab()
+    /// <summary>
+    /// Make the object being grabbed a child of the controller (hand) whenever it is within the raycast
+    /// of the controller
+    ///
+    /// </summary>
+    /// <post>The object is now a child of the controller and moves to the same position
+    /// of the controller</post>
+    void Grab()
 	{
 		// Create an array for the amount of objects grabbed
 		RaycastHit[] _objectHits;
@@ -121,9 +117,9 @@ public class TouchAndGrab : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Assign the grabbed object to the hand
     /// </summary>
-    /// <param name="closest"></param>
+    /// <param name="closest">The object that is closest</param>
 	void AssignGrabbedObject(GameObject closest)
 	{
 		_isHolding = true;
@@ -135,13 +131,12 @@ public class TouchAndGrab : MonoBehaviour
 	}
 
 
-	/// <summary>
-	/// Remove the object as a child of the controller 
-	/// Pre:: an object is being grabbed
-	/// Post:: The object is no longer a child of the controller
-	/// Return:: nothing
-	/// </summary>
-	void Drop()
+    /// <summary>
+    /// Remove the object as a child of the controller 
+    /// </summary>
+    /// <pre>An object is being grabbed</pre>
+    /// <post>The object is no longer a child of the controller</post>
+    void Drop()
 	{
 		//Change the boolean so the object is not grabbed anymore
 		_isHolding = false;
@@ -156,15 +151,14 @@ public class TouchAndGrab : MonoBehaviour
 	}
 
 
-	/// <summary>
-	/// OnTriggerEnter is called once an object enters the collision box
-	/// If OnTriggerExit() on a menu button and corresponding input is 
-	/// detected, set button's pressed flag to true
-	/// Pre:: 
-	/// Post:: button's pressed flag is set to true
-	/// Return:: 
-	/// </summary>
-	private void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// OnTriggerEnter is called once an object enters the collision box
+    /// If OnTriggerExit() on a menu button and corresponding input is 
+    /// detected, set button's pressed flag to true
+    ///
+    /// </summary>
+    /// <post>button's pressed flag is set to true</post>
+    private void OnTriggerEnter(Collider other)
 	{
 		if (((int)Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) < 1))
 		{
@@ -195,9 +189,9 @@ public class TouchAndGrab : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Called when a trigger stays inside another trigger
     /// </summary>
-    /// <param name="other"></param>
+    /// <param name="other">The object being collided with</param>
 	private void OnTriggerStay(Collider other)
 	{
 		if ((!_isHolding) && (Input.GetAxis(grabTrigger) == 1) && (Input.GetAxis(indexTrigger) == 1))
@@ -211,14 +205,12 @@ public class TouchAndGrab : MonoBehaviour
 	}
 
 
-	/// <summary>
-	/// OnTriggerExit is called once an object exits the collision box
-	/// If OnTriggerExit() on a menu button, reset button's pressed flag
-	/// Pre:: 
-	/// Post:: button's pressed flag is set to false
-	/// Return:: 
-	/// </summary>
-	private void OnTriggerExit(Collider other)
+    /// <summary>
+    /// OnTriggerExit is called once an object exits the collision box
+    /// If OnTriggerExit() on a menu button, reset button's pressed flag
+    /// </summary>
+    /// <post>button's pressed flag is set to false</post>
+    private void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "MenuButton")
 		{
@@ -235,12 +227,18 @@ public class TouchAndGrab : MonoBehaviour
 	}
 
 
+    /// <summary>
+    /// Prevents the user from selecting a button multiple times rapidly
+    /// </summary>
     private void ButtonPressCooldown()
     {
         onCooldown = true;
         Invoke("ResetButtonPressCooldown", cooldownDuration);
     }
 
+    /// <summary>
+    /// Reset the button cooldown
+    /// </summary>
     private void ResetButtonPressCooldown()
     {
         onCooldown = false;

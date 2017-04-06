@@ -57,9 +57,11 @@ public class Copy : MonoBehaviour
 	// The dashboard to for the copy to talk to
 	private GameObject dashboard;
 
+    // Scale for the copy outline
 	[SerializeField]
 	private int outlineScale;
 
+    // Scale for the outline depth
 	[SerializeField]
 	private float outlineDepth;
 
@@ -122,6 +124,7 @@ public class Copy : MonoBehaviour
 	public void NewCopy(Texture2D image)
 	{
 		Assert.IsNotNull(image);
+        Debug.Log("User created a new copy.");
 		this.imageRenderer = this.GetComponent<SpriteRenderer>();
 		this.imageRenderer.sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
 
@@ -200,17 +203,22 @@ public class Copy : MonoBehaviour
     /// <post>The current selection is changed to newSelection and the appropriate method is called</post>
     public void ChangeSelection(string newSelection)
     {
+        Assert.IsNotNull(newSelection);
+
         this.currentSelection = (CurrentSelection)Enum.Parse(typeof(CurrentSelection), newSelection);
 
         switch (currentSelection)
         {
             case CurrentSelection.close:
+                Debug.Log("User closed copy: " + this.name);
                 Close();
                 break;
             case CurrentSelection.restore:
+                Debug.Log("User restored copy: " + this.name);
                 RestoreDefaults();
                 break;
             case CurrentSelection.invert:
+                Debug.Log("User inverted copy: " + this.name);
                 Invert();
                 break;
         }
@@ -224,6 +232,8 @@ public class Copy : MonoBehaviour
     /// <post>The selected copy is removed from the workspace</post>
     public void Close()
     {
+        Assert.IsTrue(this.isCurrentImage);
+
         //set current selection to none after copy has been closed
         this.currentSelection = CurrentSelection.none;
         // If the object is being held by the hand...
@@ -245,6 +255,7 @@ public class Copy : MonoBehaviour
     /// <post>The object has been deleted from the scene</post>
 	private void SafeDelete(GameObject obj)
     {
+        Assert.IsNotNull(obj);
 		if (Application.isEditor) 
         {
 			Destroy (obj);
@@ -264,6 +275,8 @@ public class Copy : MonoBehaviour
     /// <post>isCurrentImage is true if it was initially false, and false if it was initially true</post>
 	private void Selected()
 	{
+        Assert.IsNotNull(this.transform.GetChild(0).gameObject);
+
 		// Toggle isCurrent image and notify the dashboard that this copy has been interacted with
 		this.isCurrentImage = !this.isCurrentImage;
 		if (isCurrentImage)
@@ -276,6 +289,15 @@ public class Copy : MonoBehaviour
 			this.currentSelection = CurrentSelection.none;
 		}
 		this.dashboard.SendMessage("CopySelected", this.gameObject);
+
+        // If isCurrent image was false to begin, it is now true
+        if(this.isCurrentImage == true)
+        {
+            Assert.IsTrue(this.transform.GetChild(0).gameObject.activeSelf);
+        }else
+        {
+            Assert.IsFalse(this.transform.GetChild(0).gameObject.activeSelf);
+        }
 	}
 
 
@@ -299,6 +321,7 @@ public class Copy : MonoBehaviour
 	/// </summary>
 	private void Brightness(float input)
 	{
+        Assert.IsTrue(this.isCurrentImage);
 		// If the input is positive, we are increasing the brightness
 		if (input > 0 && this.curMaterial.GetFloat("_BrightnessAmount") < this.maxBrightness)
 		{
@@ -321,6 +344,7 @@ public class Copy : MonoBehaviour
 	/// </summary>
 	private void Contrast(float input)
 	{
+        Assert.IsTrue(this.isCurrentImage);
 		// If the input is positive, increase the contrast
 		if (input > 0 && this.curMaterial.GetFloat("_ContrastAmount") < this.maxContrast)
 		{
@@ -343,8 +367,8 @@ public class Copy : MonoBehaviour
 	/// </summary>
 	private void Saturation(float input)
 	{
+        Assert.IsTrue(this.isCurrentImage);
 		// If the input is positive, we are increasing the saturation
-
 		if (input > 0 && this.curMaterial.GetFloat("_SaturationAmount") < this.maxSaturation)
 		{
 			this.curMaterial.SetFloat("_SaturationAmount", (this.curMaterial.GetFloat("_SaturationAmount") + this.saturationConst));
@@ -366,7 +390,7 @@ public class Copy : MonoBehaviour
 	/// </summary>
 	public void Resize(float input)
 	{
-
+        Assert.IsTrue(this.isCurrentImage);
 		// If the input is positive and we are not too big, increase the size
 		if ((input > 0) && (this.transform.localScale.x < this.maxSize) && (this.transform.localScale.y < this.maxSize))
 		{
@@ -387,6 +411,7 @@ public class Copy : MonoBehaviour
     /// <pre>The image is attached to the copy along with the curMaterial containing the ImageEffects Shader</pre>
     /// <post>The colours of the image attached to the copy has been inverted</post>
 	public void Invert(){
+        Assert.IsTrue(this.isCurrentImage);
         this.invert = !this.invert;
 		if (this.invert) {
 			this.curMaterial.SetInt ("_Invert", 1);
@@ -401,13 +426,19 @@ public class Copy : MonoBehaviour
 	/// <post>The copy values will be set to what they were when the copy was first loaded</post>
 	public void RestoreDefaults()
 	{
+        Assert.IsTrue(this.isCurrentImage);
 		this.curMaterial.SetFloat("_BrightnessAmount", this.defaultBrightness);
 		this.curMaterial.SetFloat("_ContrastAmount", this.defaultContrast);
 		this.curMaterial.SetFloat("_SaturationAmount", this.defaultSaturation);
 		this.transform.localScale = this.defaultSize;
 		this.invert = false;
 		this.Invert ();
-	}
+
+        Assert.AreEqual(this.curMaterial.GetFloat("_BrightnessAmount"), this.defaultBrightness);
+        Assert.AreEqual(this.curMaterial.GetFloat("_ContrastAmount"), this.defaultContrast);
+        Assert.AreEqual(this.curMaterial.GetFloat("_SaturationAmount"), this.defaultSaturation);
+        Assert.AreEqual(this.transform.localScale, this.defaultSize);
+    }
 
 	//===================================
 	// Test hooks
