@@ -62,6 +62,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	// The current selection, defaults to null
 	private GameObject currentButtonSelection = null;
 
+    // True if deselect all is selected
 	private bool deselectingAll = false;
 
 
@@ -106,8 +107,6 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 	/// <summary>
 	/// Function DisplayMenu() Creates the load, quit and minimize buttons for the menu
-	/// Pre:: nothing
-	/// Post:: Creation of the load, quit and minimize buttons
 	/// </summary>
     /// <pre>nothing</pre>
     /// <post>Creatopm of the load, quit, and minimize buttons for the menu</post>
@@ -176,6 +175,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <summary>
     /// Remove all copies in the pendingDeletion list
     /// </summary>
+    /// <post>All copies in the pending deletion list have been deleted</post>
     private void CleanUpCopies()
     {
         foreach (GameObject copy in this.pendingDeletion)
@@ -190,6 +190,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <summary>
     /// Delete the given copy
     /// </summary>
+    /// <post>The given object has been deleted</post>
     private void DeleteCopy(GameObject target)
     {
         this.display.RemoveCopy(target);
@@ -201,6 +202,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// Unpress the current selected button and set the current selected button to the new button.
     /// </summary>
     /// <param name="newButton">The new button to set as the current</param>
+    /// <post>The current selection is set to the option corresponding to the given button</post>
     private void UpdateCurrentSelection(string newButton)
     {
         // make sure not null
@@ -216,7 +218,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 
 
     /// <summary>
-    /// 
+    /// Detemines whether to add or remove the given copy in the list 
+    /// of current copies.
     /// </summary>
     /// <param name="copy"></param>
 	public void CopySelected(GameObject copy)
@@ -242,10 +245,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <summary>
 	/// Function Quit() adds functionality for the quit button. When called, the program
 	/// will terminate
-	/// Pre:: nothing
-	/// Post:: program termination
-	/// Return:: nothing
 	/// </summary>
+    /// <post>Program Terminiation</post>
 	private void Quit()
 	{
 		print("Quit Button clicked");
@@ -256,10 +257,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <summary>
 	/// Function Load() adds functionality for when the load button is clicked.  Currently
 	/// it will select a random image stored in the Assets and add it to the Display
-	/// Pre:: nothing
-	/// Post:: New Texture2D given and added to the Display class
-	/// Return:: nothing
 	/// </summary>
+    /// <post>New Texture2D given and added to the Display class</post>
 	private void Load()
 	{
 		fileBrowser.gameObject.SetActive(true);
@@ -271,10 +270,8 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// Function Minimize() adds functionality for the minimize button.  It will minimize disable
 	/// the other buttons if they are currently visable or make them enabled if they are currently 
 	/// disabled
-	/// Pre:: nothing
-	/// Post:: Buttons set to either Active or Not Active, minimized attribute changed
-	/// Return:: nothing
 	/// </summary>
+    /// <post>Buttons set to either Active or Not Active, minimized attribut changed</post>
 	private void Minimize()
 	{
         if (this.minimized)
@@ -293,12 +290,10 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <summary>
     /// Helper function for Minimize(). Sets menu and buttons active or not active based on the
     /// mode parameter.
-    /// Pre:: nothing
-    /// Post:: Buttons and menus set to either Active or not Active.
-    /// Return:: nothing
     /// </summary>
     /// <param name="mode">If set to <c>true</c>, enable the menu and buttons; 
     /// otherwise disable them.</param>
+    /// <post>Buttons and menus set to either Active or not Active</post>
     public void ToggleButtons(bool mode)
     {
         foreach (GameObject button in this.buttonObjects)
@@ -315,6 +310,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <summary>
 	/// Add all copies in the scene to the current copies list
 	/// </summary>
+    /// <post>All copies in the scene are in the current copies list</post>
 	public void SelectAllCopies()
 	{
         List<GameObject> tempList = this.display.GetCopies();
@@ -332,6 +328,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	/// <summary>
 	/// Remove all copies in the scene from the current copies list
 	/// </summary>
+    /// <post>All copies in the scene have been removed from the current copies list</post>
 	public void DeselectAllCopies()
 	{
 		this.deselectingAll = true;
@@ -353,14 +350,20 @@ public class Dashboard : MonoBehaviour, IVRButton
     // TEST HOOKS
     //=====================================================
 
-	//for testing purposes
+	/// <summary>
+    /// Return the value of the minimized variable.
+    /// </summary>
+    /// <returns>Boolean representing whether the dashboard is minimized</returns>
 	public bool GetMinimized()
 	{
 		return this.minimized;
 	}
 
 
-	//for testing purposes
+	/// <summary>
+    /// Returns the current button selection of the Dashboard
+    /// </summary>
+    /// <returns>The current selected button in the Dashboard</returns>
 	public GameObject GetCurrentButtonSelection()
 	{
 		return this.currentButtonSelection;
