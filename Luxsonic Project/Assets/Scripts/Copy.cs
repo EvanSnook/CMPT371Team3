@@ -100,6 +100,7 @@ public class Copy : MonoBehaviour
 	//true if a copy is currently being pressed
 	private bool pressed;
 
+    // True if the color of the image is currently being inverted
 	private bool invert = false;
 
 	private void Start()
@@ -195,6 +196,8 @@ public class Copy : MonoBehaviour
     /// Changes the modifier selection to tbe the newSelection
     /// </summary>
     /// <param name="newSelection">String name of new selection to be used.</param>
+    /// <pre>None</pre>
+    /// <post>The current selection is changed to newSelection and the appropriate method is called</post>
     public void ChangeSelection(string newSelection)
     {
         this.currentSelection = (CurrentSelection)Enum.Parse(typeof(CurrentSelection), newSelection);
@@ -217,6 +220,8 @@ public class Copy : MonoBehaviour
     /// <summary>
     /// Deselects copy, disconnects object from hand, and deletes copy from workspace.
     /// </summary>
+    /// <pre>A copy is selected to close</pre>
+    /// <post>The selected copy is removed from the workspace</post>
     public void Close()
     {
         //set current selection to none after copy has been closed
@@ -236,6 +241,8 @@ public class Copy : MonoBehaviour
     /// Safely Destroys object based on whether program is running in editor or in build.
     /// </summary>
     /// <param name="obj">GameObject to be destroyed.</param>
+    /// <pre>The object exists in the scene</pre>
+    /// <post>The object has been deleted from the scene</post>
 	private void SafeDelete(GameObject obj)
     {
 		if (Application.isEditor) 
@@ -253,6 +260,8 @@ public class Copy : MonoBehaviour
 	/// <summary>
 	/// Called when the object is interacted with in VR
 	/// </summary>
+    /// <pre>The copy exists and has been interacted with by the user</pre>
+    /// <post>isCurrentImage is true if it was initially false, and false if it was initially true</post>
 	private void Selected()
 	{
 		// Toggle isCurrent image and notify the dashboard that this copy has been interacted with
@@ -372,6 +381,11 @@ public class Copy : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Invert the colours of the attached image
+    /// </summary>
+    /// <pre>The image is attached to the copy along with the curMaterial containing the ImageEffects Shader</pre>
+    /// <post>The colours of the image attached to the copy has been inverted</post>
 	public void Invert(){
 		if (this.invert) {
 			this.curMaterial.SetInt ("_Invert", 1);

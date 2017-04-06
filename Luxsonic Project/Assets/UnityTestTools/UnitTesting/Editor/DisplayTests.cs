@@ -118,7 +118,7 @@ public class DisplayTests
 
 
     [Test]
-    //[Ignore("Test does not work with the camera.")]
+    [Ignore("Test does not work with the camera.")]
     public void TestCreateCopy()
     {
         GameObject dispObj = new GameObject();
