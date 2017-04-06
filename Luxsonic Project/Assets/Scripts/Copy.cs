@@ -387,6 +387,7 @@ public class Copy : MonoBehaviour
     /// <pre>The image is attached to the copy along with the curMaterial containing the ImageEffects Shader</pre>
     /// <post>The colours of the image attached to the copy has been inverted</post>
 	public void Invert(){
+        this.invert = !this.invert;
 		if (this.invert) {
 			this.curMaterial.SetInt ("_Invert", 1);
 		} else {
