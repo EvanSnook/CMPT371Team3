@@ -51,8 +51,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42b176b16bfd8a4b89a31d7e1071e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonList:
+  - buttonName: Right
+    type: 0
+    position: {x: 0.395, y: -0.75, z: -0.02}
+    rotation: {x: 0, y: 9, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollRight
+    buttonParameters: []
+  - buttonName: Left
+    type: 0
+    position: {x: 0.007, y: -0.75, z: 0.044}
+    rotation: {x: 0, y: 9, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollLeft
+    buttonParameters: []
   copyDepth: 0.1
-  patientInfoPrefab: {fileID: 0}
   copyPrefab: {fileID: 1135505955537766, guid: 8775f4e8ebf594bf1ac0312ff2685a55, type: 2}
   trayPrefab: {fileID: 1887084793788914, guid: 20ed09404416d7e45afdc79a9a2305d1, type: 2}
   displayImagePrefab: {fileID: 1715338728738238, guid: a1acfec511fc91e459ea49a960bcb9ba,
@@ -68,9 +84,5 @@ MonoBehaviour:
   - {x: 0, y: -30, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 30, z: 0}
-  buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+  buttonPrefab: {fileID: 1511015417420994, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  leftScrollPosition: {x: 0.007, y: -0.75, z: 0.044}
-  leftScrollRotation: {x: 0, y: 9, z: 0}
-  rightScrollPosition: {x: 0.395, y: -0.75, z: -0.02}
-  rightScrollRotation: {x: 0, y: 9, z: 0}

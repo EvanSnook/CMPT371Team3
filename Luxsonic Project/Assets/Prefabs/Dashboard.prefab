@@ -85,6 +85,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - brightness
+    - Brightness
   - buttonName: Contrast
     type: 1
     position: {x: -0.3, y: 0.2, z: 0}
@@ -94,6 +95,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - contrast
+    - Contrast
   - buttonName: Invert
     type: 1
     position: {x: 0, y: 0.2, z: 0}
@@ -103,6 +105,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - invert
+    - Invert
   - buttonName: Resize
     type: 1
     position: {x: 0, y: -0.2, z: 0}
@@ -112,6 +115,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - resize
+    - Resize
   - buttonName: Saturation
     type: 1
     position: {x: 0.3, y: -0.2, z: 0}
@@ -121,6 +125,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - saturation
+    - Saturation
   - buttonName: Close
     type: 1
     position: {x: 0, y: 0.7, z: 0}
@@ -130,6 +135,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - close
+    - Close
   - buttonName: Restore
     type: 1
     position: {x: -0.3, y: 0.7, z: 0}
@@ -139,6 +145,7 @@ MonoBehaviour:
     buttonFunction: UpdateCopyOptions
     buttonParameters:
     - restore
+    - Restore
   - buttonName: Select All
     type: 1
     position: {x: 0.3, y: -1.1, z: 0}

@@ -52,32 +52,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d530cffb673cf7649a1f55e70ac80f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VRFileButtonPrefab: {fileID: 114977039775717418, guid: 5b97f935ce2e36b468d93bc3fb01ee6a,
+  buttonList:
+  - buttonName: Back
+    type: 0
+    position: {x: -0.2, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: GoBack
+    buttonParameters: []
+  - buttonName: Cancel
+    type: 0
+    position: {x: -0.2, y: 0.1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: DisableFileBrowser
+    buttonParameters: []
+  - buttonName: Dir Up
+    type: 0
+    position: {x: -0.2, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: ScrollUp
+    buttonParameters:
+    - directories
+  - buttonName: Dir Down
+    type: 0
+    position: {x: -0.2, y: -0.3, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: ScrollDown
+    buttonParameters:
+    - directories
+  - buttonName: File Up
+    type: 0
+    position: {x: 0.4, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: ScrollUp
+    buttonParameters:
+    - files
+  - buttonName: File Down
+    type: 0
+    position: {x: 0.4, y: -0.3, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: ScrollDown
+    buttonParameters:
+    - files
+  - buttonName: Load Directory
+    type: 0
+    position: {x: -0.2, y: 0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: LoadCurrentDirectory
+    buttonParameters: []
+  VRFileButtonPrefab: {fileID: 1302595486946174, guid: 5b97f935ce2e36b468d93bc3fb01ee6a,
     type: 2}
-  VRDirectoryButtonPrefab: {fileID: 114975329465292358, guid: 0a6f9071f3d9f534193d44e72743ab95,
+  VRDirectoryButtonPrefab: {fileID: 1242962608197158, guid: 0a6f9071f3d9f534193d44e72743ab95,
     type: 2}
-  VROtherButtonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+  VROtherButtonPrefab: {fileID: 1511015417420994, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
   filePosition: {x: 0.15, y: 0.2, z: 0.02}
   fileRotation: {x: 0, y: 0, z: 0}
   directoryPosition: {x: -0.03, y: 0.2, z: 0.02}
   directoryRotation: {x: 0, y: 0, z: 0}
   seperationBetweenButtonsY: 0.2
-  backPosition: {x: -0.2, y: 0, z: 0.02}
-  backRotation: {x: 0, y: 0, z: 0}
-  cancelPosition: {x: -0.2, y: 0.1, z: 0.02}
-  cancelRotation: {x: 0, y: 0, z: 0}
-  directoryLoadPosition: {x: -0.2, y: 0.2, z: 0.02}
-  directoryLoadRotation: {x: 0, y: 0, z: 0}
-  upFileButtonPosition: {x: 0.4, y: -0.2, z: 0.02}
-  upFileButtonRotation: {x: 0, y: 0, z: 0}
-  downFileButtonPosition: {x: 0.4, y: -0.3, z: 0.02}
-  downFileButtonRotation: {x: 0, y: 0, z: 0}
-  upDirectoryButtonPosition: {x: -0.2, y: -0.2, z: 0.02}
-  upDirectoryButtonRotation: {x: 0, y: 0, z: 0}
-  downDirectoryButtonPosition: {x: -0.2, y: -0.3, z: 0.02}
-  downDirectoryButtonRotation: {x: 0, y: 0, z: 0}
-  buttonLimit: 6
+  buttonLimit: 5
 --- !u!114 &114427719745089330
 MonoBehaviour:
   m_ObjectHideFlags: 1
