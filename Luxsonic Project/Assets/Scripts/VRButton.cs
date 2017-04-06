@@ -90,7 +90,7 @@ public class VRButton : MonoBehaviour
 
                 if (this.attributes.autoPushOut)
                 {
-                    Invoke("UnpressButton", 0.6f);
+                    TimedUnpress();
                 }
             }
         }
@@ -180,5 +180,11 @@ public class VRButton : MonoBehaviour
     public void UnpressButton()
     {
         gameObject.transform.localScale = this.defaultLocalScale;
+    }
+
+
+    public void TimedUnpress()
+    {
+        Invoke("UnpressButton", 0.5f);
     }
 }

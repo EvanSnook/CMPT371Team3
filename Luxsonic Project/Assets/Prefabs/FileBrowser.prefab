@@ -57,8 +57,8 @@ MonoBehaviour:
     type: 0
     position: {x: -0.2, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: GoBack
     buttonParameters: []
   - buttonName: Cancel
@@ -73,8 +73,8 @@ MonoBehaviour:
     type: 0
     position: {x: -0.2, y: -0.2, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: ScrollUp
     buttonParameters:
     - directories
@@ -82,8 +82,8 @@ MonoBehaviour:
     type: 0
     position: {x: -0.2, y: -0.3, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: ScrollDown
     buttonParameters:
     - directories
@@ -91,8 +91,8 @@ MonoBehaviour:
     type: 0
     position: {x: 0.4, y: -0.2, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: ScrollUp
     buttonParameters:
     - files
@@ -100,8 +100,8 @@ MonoBehaviour:
     type: 0
     position: {x: 0.4, y: -0.3, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: ScrollDown
     buttonParameters:
     - files
@@ -109,8 +109,8 @@ MonoBehaviour:
     type: 0
     position: {x: -0.2, y: 0.2, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    depressable: 0
-    autoPushOut: 0
+    depressable: 1
+    autoPushOut: 1
     buttonFunction: LoadCurrentDirectory
     buttonParameters: []
   VRFileButtonPrefab: {fileID: 1302595486946174, guid: 5b97f935ce2e36b468d93bc3fb01ee6a,
