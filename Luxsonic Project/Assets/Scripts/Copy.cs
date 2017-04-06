@@ -109,18 +109,6 @@ public class Copy : MonoBehaviour
 
 	}
 
-	//public bool CollideCheck()
-	//{
-	//    foreach(GameObject obj in GameObject.FindGameObjectsWithTag("grabbable")){
-	//        if (this.gameObject.GetComponent<Collider>().bounds.Intersects(obj.GetComponent<Collider>().bounds))
-	//        {
-	//            //this.transform.position = 
-	//            return true;
-	//        }
-	//    }
-	//    return false;
-
-	//}
 
 	/// <summary>
 	/// Creates a new Copy object with the Texture2D converted to a sprite stored
@@ -202,75 +190,59 @@ public class Copy : MonoBehaviour
 	}
 
 
-	/// <summary>
-	/// When a button is clicked, execute the code associated with that button
-	/// </summary>
-	/// <pre>A VR button whose manager is the copy has been pressed</pre>
-	/// <post>An action is executed, depending on the selected button</post>
-	/// <param name="button">The name of the button clicked</param>
-	public void NewOptions(ButtonType button)
-	{
-		switch (button)
-		{
-		case ButtonType.NONE:
-			this.currentSelection = CurrentSelection.none;
-			break;
+    /// <summary>
+    /// Changes the modifier selection to tbe the newSelection
+    /// </summary>
+    /// <param name="newSelection">String name of new selection to be used.</param>
+    public void ChangeSelection(string newSelection)
+    {
+        this.currentSelection = (CurrentSelection)Enum.Parse(typeof(CurrentSelection), newSelection);
 
-		case ButtonType.CONTRAST_BUTTON:    // Contrast button clicked
-			this.currentSelection = CurrentSelection.contrast;
-			break;
-
-		case ButtonType.INVERT_BUTTON:    // Rotate button clicked
-			this.currentSelection = CurrentSelection.none;
-			this.invert = !this.invert;
-			this.Invert();
-			break;
-
-		case ButtonType.ZOOM_BUTTON:    // Zoom button clicked
-			this.currentSelection = CurrentSelection.zoom;
-			break;
-
-		case ButtonType.BRIGHTNESS_BUTTON:    // Brightness button clicked
-			this.currentSelection = CurrentSelection.brightness;
-			break;
-
-		case ButtonType.RESIZE_BUTTON:    // Resize button clicked
-			this.currentSelection = CurrentSelection.resize;
-			break;
-
-		case ButtonType.SATURATION_BUTTON:    // Filter button clicked
-			this.currentSelection = CurrentSelection.saturation;
-			break;
-
-		case ButtonType.RESTORE_COPY_BUTTON:     // Restore button clicked
-			this.RestoreDefaults();
-			break;
-
-		case ButtonType.CLOSE_BUTTON:    // Close button clicked
-
-			//set current selection to none after copy has been closed
-			this.currentSelection = CurrentSelection.none;
-			// If the object is being held by the hand...
-			if(this.transform.parent != null && this.transform.parent.gameObject.tag == "Hand")
-			{
-				// Tell the hand to drop it like its hot
-				this.transform.parent.gameObject.SendMessage("Drop");
-			}
-			SafeDelete(this.gameObject);
-			break;
-
-		default:        // This happens when no options are selected
-
-			break;
-
-		}
-	}
+        switch (currentSelection)
+        {
+            case CurrentSelection.close:
+                Close();
+                break;
+            case CurrentSelection.restore:
+                RestoreDefaults();
+                break;
+            case CurrentSelection.invert:
+                Invert();
+                break;
+        }
+    }
 
 
-	private void SafeDelete(GameObject obj){
-		if (Application.isEditor) {
+    /// <summary>
+    /// Deselects copy, disconnects object from hand, and deletes copy from workspace.
+    /// </summary>
+    public void Close()
+    {
+        //set current selection to none after copy has been closed
+        this.currentSelection = CurrentSelection.none;
+        // If the object is being held by the hand...
+        if ((this.transform.parent != null) && (this.transform.parent.gameObject.tag == "Hand"))
+        {
+            // Tell the hand to drop it like its hot
+            this.transform.parent.gameObject.SendMessage("Drop");
+        }
+        this.dashboard.SendMessage("DeleteCopy", this.gameObject);
+        SafeDelete(this.gameObject);
+    }
+
+
+    /// <summary>
+    /// Safely Destroys object based on whether program is running in editor or in build.
+    /// </summary>
+    /// <param name="obj">GameObject to be destroyed.</param>
+	private void SafeDelete(GameObject obj)
+    {
+		if (Application.isEditor) 
+        {
 			Destroy (obj);
-		} else {
+		} 
+        else 
+        {
 			DestroyImmediate(obj);
 		}
 	}

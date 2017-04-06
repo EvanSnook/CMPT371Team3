@@ -3,101 +3,182 @@ using System.Collections.Generic;
 using UnityEngine;
 using buttons;
 using System;
+
+
 /// <summary>
 /// This class defines an interactable 3D button for use with VR
 /// A class using this button must implement the IVRButton interface
 /// </summary>
+[System.Serializable]
 public class VRButton : MonoBehaviour
 {
-	// Button name
-	public string buttonName;
-	// Button Type
-	public ButtonType type;
-	// string to store a potental path
-	public string path;
-	// The object that creates and contains the functionality for this button.
-	public GameObject manager;
-	// Text on button
-	public TextMesh textObject;
-	// Buttons state
-	private bool pressed;
-	// Use this for initialization
-	public bool allowPress;
-	[SerializeField]
-	private int coolDown;
+    // holds generic information about the button
+    public ButtonAttributes attributes;
 
-	// Use this for initialization
-	void Start()
-	{
-		this.pressed = false;
-		allowPress = true;
-	}
-		
-	private void FixedUpdate()
-	{
-		if(coolDown > 0)
-		{
-			coolDown--;
-		}
-	}
-	// When mouve is pressed send clicked message to manager
-	void OnMouseDown()
-	{
-		if (type == ButtonType.DIRECTORY_BUTTON)
-		{
-			Debug.Log("Directory button pushed");
-			manager.SendMessage("EnterDirectory", path);
-		}
-		else if (type == ButtonType.FILE_BUTTON)
-		{
-			manager.SendMessage("ConvertAndSendImage", path);
-		}
-		else
-		{
-			manager.SendMessage("VRButtonClicked", type);
-		}
-	}
-	/// <summary>
-	/// SetPressed sets the value of pressed to the value of val
-	/// Pre:: 
-	/// Post:: pressed is set to the value of val
-	/// Return:: nothing
-	/// </summary>
-	public void SetPressed(bool val)
-	{
-		pressed = val;
-		if (val && coolDown == 0)
-		{
-			if (type == ButtonType.FILE_BUTTON) {
-				String[] arguments = new string[2] { "f", path };
-				manager.SendMessage ("LoadFiles", arguments);
-			} else if (type == ButtonType.DIRECTORY_BUTTON) {
-				manager.SendMessage ("EnterDirectory", path);
-			} else if (type == ButtonType.LOAD_DIRECTORY_BUTTON) {
-				String[] arguments = new string[2] { "d", path };
-				manager.SendMessage ("LoadFiles", arguments);
-			} else {
-				manager.SendMessage ("VRButtonClicked", type);
-			}
-		} else if (this.type != ButtonType.QUIT_BUTTON && this.type != ButtonType.LOAD_BUTTON && this.type != ButtonType.MINIMIZE_BUTTON) {
-			Debug.Log ("VR BUTTON unpress");
-			manager.SendMessage ("UnpressButton");
-		} else {
-			manager.SendMessage ("UnpressMenuButton");
-		}
-	}
-	/// <summary>
-	/// GetPressed returns the value of pressed
-	/// Pre:: 
-	/// Post:: 
-	/// Return:: value of pressed
-	/// </summary>
-	public bool GetPressed()
-	{
-		return pressed;
-	}
+    // The local rotation of the button, relative to its parent plane
+    private Vector3 defaultLocalScale;
 
-	public void UnpressButton(){
-		this.pressed = false;
-	}
+    // The object that creates and contains the functionality for this button.
+    public GameObject manager;
+
+    // Text on button
+    public TextMesh textObject;
+
+    // Buttons state
+    private bool pressed = false;
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attributes"></param>
+    public VRButton(ButtonAttributes attributes)
+    {
+        this.attributes = attributes;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attributes"></param>
+    /// <param name="manager"></param>
+    public void Initialise(ButtonAttributes attributes, GameObject manager)
+    {
+        this.manager = manager;
+        this.attributes = attributes;
+        transform.localPosition = attributes.position;
+        gameObject.transform.GetChild(0).GetComponent<TextMesh>().text = attributes.buttonName;
+        defaultLocalScale = gameObject.transform.localScale;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void ResetPosition()
+    {
+        transform.localPosition = attributes.position;
+        defaultLocalScale = gameObject.transform.localScale;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="val"></param>
+    public void ButtonClicked(bool val)
+    {
+        this.pressed = val;
+        if (val)
+        {
+            if (!(String.IsNullOrEmpty(attributes.buttonFunction)))
+            {
+                if (this.attributes.buttonParameters != null)
+                {
+                    this.manager.SendMessage(attributes.buttonFunction, attributes.buttonParameters);
+                }
+                else
+                {
+                    this.manager.SendMessage(attributes.buttonFunction);
+                }
+
+                if (this.attributes.depressable)
+                {
+                    DepressButton();
+                }
+
+                if (this.attributes.autoPushOut)
+                {
+                    Invoke("UnpressButton", 1f);
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// GetPressed returns the value of pressed
+    /// Pre:: 
+    /// Post:: 
+    /// Return:: value of pressed
+    /// </summary>
+    public bool GetPressed()
+    {
+        return this.pressed;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public string GetName()
+    {
+        return this.attributes.buttonName;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetPosition()
+    {
+        return this.attributes.position;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public string GetPath()
+    {
+
+        if (this.attributes.type == ButtonType.FILE_BUTTON)
+        {
+            return this.attributes.buttonParameters[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="path"></param>
+    public void SetPath(string path)
+    {
+        if (path == null)
+        {
+            this.attributes.buttonParameters = null;
+        }
+        else
+        {
+            this.attributes.buttonParameters = new string[1];
+            this.attributes.buttonParameters[0] = path;
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void DepressButton()
+    {
+        gameObject.transform.localScale = new Vector3(this.defaultLocalScale.x, this.defaultLocalScale.y, 50f);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void UnpressButton()
+    {
+        gameObject.transform.localScale = this.defaultLocalScale;
+    }
 }

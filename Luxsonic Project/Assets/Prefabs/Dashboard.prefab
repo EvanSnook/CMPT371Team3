@@ -51,38 +51,123 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01512cc8c361584e9608db3850da30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonAttributes:
+  buttonList:
   - buttonName: Load
+    type: 0
     position: {x: 0, y: 0.3, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: Load
+    buttonParameters: []
   - buttonName: Quit
+    type: 0
     position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: Quit
+    buttonParameters: []
   - buttonName: Minimize
+    type: 0
     position: {x: 0, y: -0.3, z: 0}
-  - buttonName: Contrast
-    position: {x: -0.3, y: 0.2, z: 0}
-  - buttonName: Invert
-    position: {x: 0, y: 0.2, z: 0}
-  - buttonName: Zoom
-    position: {x: 0.3, y: 0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: Minimize
+    buttonParameters: []
   - buttonName: Brightness
+    type: 1
     position: {x: -0.3, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 0
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - brightness
+    - Brightness
+  - buttonName: Contrast
+    type: 1
+    position: {x: -0.3, y: 0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 0
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - contrast
+    - Contrast
+  - buttonName: Invert
+    type: 1
+    position: {x: 0, y: 0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - invert
+    - Invert
   - buttonName: Resize
+    type: 1
     position: {x: 0, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 0
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - resize
+    - Resize
   - buttonName: Saturation
+    type: 1
     position: {x: 0.3, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 0
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - saturation
+    - Saturation
   - buttonName: Close
-    position: {x: 0, y: -0.7, z: 0}
+    type: 1
+    position: {x: 0, y: 0.7, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - close
+    - Close
   - buttonName: Restore
-    position: {x: -0.3, y: -0.7, z: 0}
+    type: 1
+    position: {x: -0.3, y: 0.7, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: UpdateCopyOptions
+    buttonParameters:
+    - restore
+    - Restore
   - buttonName: Select All
-    position: {x: 0.3, y: -0.11, z: 0}
+    type: 1
+    position: {x: 0.3, y: -1.1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: SelectAllCopies
+    buttonParameters: []
   - buttonName: Deselect All
-    position: {x: -0.3, y: -0.11, z: 0}
-  loadBar: {fileID: 1655026037850320, guid: 139463bce3b2f934ebc38edf16c9b906, type: 2}
+    type: 1
+    position: {x: -0.3, y: -1.1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: DeselectAllCopies
+    buttonParameters: []
+  fileBrowser: {fileID: 0}
   display: {fileID: 114934910713979544, guid: d079ecddfb80b2943b1d48fe3d704379, type: 2}
   planePrefab: {fileID: 1703045788074334, guid: b3fe6927375275b4c92f34839b5accf4,
     type: 2}
-  button: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c, type: 2}
+  buttonPrefab: {fileID: 1511015417420994, guid: b814fbffc6fe28b45b06afadc320065c,
+    type: 2}
   dummyImages:
   - {fileID: 2800000, guid: 180025c968546a64c904a7e54d8bc78f, type: 3}
   - {fileID: 2800000, guid: 89ed09b34f6cbcf4087020ea44a4fa96, type: 3}
@@ -90,7 +175,7 @@ MonoBehaviour:
   currentCopies: []
   menuPlanePosition: {x: -0.3, y: -0.99, z: -0.09}
   menuPlaneRotation: {x: 30.25, y: -15.5, z: 0}
-  menuPlaneScale: {x: 0.25, y: 0.26, z: 0.1}
+  menuPlaneScale: {x: 0.25, y: 0.26, z: 0.0001}
   copyPlanePosition: {x: 0.18402, y: -1.00372, z: -0.072259}
   copyPlaneRotation: {x: 30.25, y: 8.985, z: 0}
-  copyPlaneScale: {x: 0.56, y: 0.26, z: 0.1}
+  copyPlaneScale: {x: 0.56, y: 0.26, z: 0.0001}

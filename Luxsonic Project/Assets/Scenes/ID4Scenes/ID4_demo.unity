@@ -330,26 +330,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
         type: 2}
-      propertyPath: copyPlaneScale.z
-      value: 0.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: menuPlaneScale.z
-      value: 0.0001
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: buttonAttributes.Array.data[12].position.y
-      value: -1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
-      propertyPath: buttonAttributes.Array.data[11].position.y
-      value: -1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114013271753999478, guid: 0c62a3c417de7a4488d3677094d0e737,
-        type: 2}
       propertyPath: fileBrowser
       value: 
       objectReference: {fileID: 94301205}
@@ -436,6 +416,16 @@ Prefab:
     - target: {fileID: 463470, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114073546616330546, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+        type: 2}
+      propertyPath: cooldownDuration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394364977268570, guid: 84c8b8609f9bb434eaf5248f17ff1293,
+        type: 2}
+      propertyPath: cooldownDuration
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 2}

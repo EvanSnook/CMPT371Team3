@@ -51,6 +51,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d103b545e47d6e4083b5f18614dd385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonList:
+  - buttonName: Up
+    type: 0
+    position: {x: 0.7, y: -0.5, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollDown
+    buttonParameters: []
+  - buttonName: Down
+    type: 0
+    position: {x: 0.7, y: -0.6, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollUp
+    buttonParameters: []
   trayStartX: 0.4
   trayStartZ: -0.5
   trayDepth: -0.5
@@ -61,9 +78,7 @@ MonoBehaviour:
   thumbnailPrefab: {fileID: 1328449969215324, guid: ec64dadee99018142abfe2909a5180f0,
     type: 2}
   manager: {fileID: 0}
-  buttonPrefab: {fileID: 114479172734115492, guid: b814fbffc6fe28b45b06afadc320065c,
+  buttonPrefab: {fileID: 1511015417420994, guid: b814fbffc6fe28b45b06afadc320065c,
     type: 2}
-  scrollUpButtonPosition: {x: 0.7, y: -0.5, z: 0}
-  scrollDownButtonPosition: {x: 0.7, y: -0.6, z: 0}
   outlineScale: 100
   outlineDepth: 0.1
