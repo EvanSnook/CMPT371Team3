@@ -22,7 +22,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     private List<GameObject> pendingDeletion = new List<GameObject>();
 
 	// The file system to load images with
-	public FileBrowser1 fileBrowser;
+	public FileBrowser fileBrowser;
 
 	// Creates a display object in dashboard
 	public Display display;
