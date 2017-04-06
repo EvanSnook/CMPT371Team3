@@ -8,115 +8,127 @@ using NUnit.Framework;
 public class TrayTests : MonoBehaviour
 {
 
-    //[Test]
-    //[Ignore("Needs to be fixed")]
-    //public void TestUpdateTray()
-    //{
-    //    GameObject trayManager = new GameObject();
-    //    trayManager.AddComponent<Display>();
+    [Test]
+    public void TestUpdateTray()
+    {
+        GameObject trayManager = new GameObject();
+        trayManager.AddComponent<Display>();
 
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
 
-    //    GameObject buttonPrefab = new GameObject();
-    //    buttonPrefab.AddComponent<VRButton>();
+        GameObject thumbOutline = new GameObject();
+        thumbOutline.AddComponent<SpriteRenderer>();
+        thumbOutline.transform.SetParent(thumbObject.transform);
 
-    //    GameObject textObject = new GameObject();
-    //    textObject.AddComponent<TextMesh>();
-    //    textObject.transform.SetParent(buttonPrefab.transform);
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
 
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab.GetComponent<VRButton>();
-    //    trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
-    //    trayObject.GetComponent<Tray>().trayNumColumns = 3;
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
 
-    //    Texture2D tex1 = new Texture2D(100, 100);
-    //    Texture2D tex2 = new Texture2D(100, 100);
-    //    Texture2D tex3 = new Texture2D(100, 100);
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab;
+        trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
+        trayObject.GetComponent<Tray>().trayNumColumns = 3;
 
-    //    List<Texture2D> textures = new List<Texture2D>();
+        Texture2D tex1 = new Texture2D(100, 100);
+        Texture2D tex2 = new Texture2D(100, 100);
+        Texture2D tex3 = new Texture2D(100, 100);
 
-    //    textures.Add(tex1);
-    //    textures.Add(tex2);
-    //    textures.Add(tex3);
+        List<Texture2D> textures = new List<Texture2D>();
 
-    //    trayObject.GetComponent<Tray>().Setup(tex1);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex1);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex2);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex3);
-    //    // The tray should have 3 thumbnails in its list
-    //    Assert.AreEqual(3, trayObject.GetComponent<Tray>().GetThumbnails().Count, "The list of thumbnails in the tray is empty.");
-    //}
+        textures.Add(tex1);
+        textures.Add(tex2);
+        textures.Add(tex3);
 
-    //[Test]
-    //[Ignore("Needs to be fixed")]
-    //public void TestScrolling()
-    //{
-    //    GameObject trayManager = new GameObject();
-    //    trayManager.AddComponent<Display>();
+        trayObject.GetComponent<Tray>().Setup(tex1);
+        trayObject.GetComponent<Tray>().UpdateTray(tex1);
+        trayObject.GetComponent<Tray>().UpdateTray(tex2);
+        trayObject.GetComponent<Tray>().UpdateTray(tex3);
+        // The tray should have 3 thumbnails in its list
+        Assert.AreEqual(3, trayObject.GetComponent<Tray>().GetThumbnails().Count, "The list of thumbnails in the tray is empty.");
+    }
 
-    //    GameObject trayObject = new GameObject();
-    //    trayObject.AddComponent<Tray>();
+    [Test]
+    public void TestScrolling()
+    {
+        GameObject trayManager = new GameObject();
+        trayManager.AddComponent<Display>();
 
-    //    GameObject thumbObject = new GameObject();
-    //    thumbObject.AddComponent<Thumbnail>();
-    //    thumbObject.AddComponent<SpriteRenderer>();
+        GameObject trayObject = new GameObject();
+        trayObject.AddComponent<Tray>();
 
-    //    GameObject buttonPrefab = new GameObject();
-    //    buttonPrefab.AddComponent<VRButton>();
+        GameObject thumbObject = new GameObject();
+        thumbObject.AddComponent<Thumbnail>();
+        thumbObject.AddComponent<SpriteRenderer>();
 
-    //    GameObject textObject = new GameObject();
-    //    textObject.AddComponent<TextMesh>();
-    //    textObject.transform.SetParent(buttonPrefab.transform);
+        GameObject thumbOutline = new GameObject();
+        thumbOutline.AddComponent<SpriteRenderer>();
+        thumbOutline.transform.SetParent(thumbObject.transform);
 
-    //    trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
-    //    trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab.GetComponent<VRButton>();
-    //    trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
-    //    trayObject.GetComponent<Tray>().trayNumColumns = 3;
+        GameObject buttonPrefab = new GameObject();
+        buttonPrefab.AddComponent<VRButton>();
 
-    //    Texture2D tex1 = new Texture2D(100, 100);
-    //    Texture2D tex2 = new Texture2D(100, 100);
-    //    Texture2D tex3 = new Texture2D(100, 100);
-    //    Texture2D tex4 = new Texture2D(100, 100);
-    //    Texture2D tex5 = new Texture2D(100, 100);
-    //    Texture2D tex6 = new Texture2D(100, 100);
-    //    Texture2D tex7 = new Texture2D(100, 100);
-    //    Texture2D tex8 = new Texture2D(100, 100);
-    //    Texture2D tex9 = new Texture2D(100, 100);
-    //    Texture2D tex10 = new Texture2D(100, 100);
+        GameObject textObject = new GameObject();
+        textObject.AddComponent<TextMesh>();
+        textObject.transform.SetParent(buttonPrefab.transform);
 
-    //    List<Texture2D> textures = new List<Texture2D>();
+        trayObject.GetComponent<Tray>().thumbnailPrefab = thumbObject;
+        trayObject.GetComponent<Tray>().buttonPrefab = buttonPrefab;
+        trayObject.GetComponent<Tray>().manager = trayManager.GetComponent<Display>();
+        trayObject.GetComponent<Tray>().trayNumColumns = 3;
 
-    //    textures.Add(tex1);
-    //    textures.Add(tex2);
-    //    textures.Add(tex3);
-    //    textures.Add(tex4);
-    //    textures.Add(tex5);
-    //    textures.Add(tex6);
-    //    textures.Add(tex7);
-    //    textures.Add(tex8);
-    //    textures.Add(tex9);
-    //    textures.Add(tex10);
+        Texture2D tex1 = new Texture2D(100, 100);
+        Texture2D tex2 = new Texture2D(100, 100);
+        Texture2D tex3 = new Texture2D(100, 100);
+        Texture2D tex4 = new Texture2D(100, 100);
+        Texture2D tex5 = new Texture2D(100, 100);
+        Texture2D tex6 = new Texture2D(100, 100);
+        Texture2D tex7 = new Texture2D(100, 100);
+        Texture2D tex8 = new Texture2D(100, 100);
+        Texture2D tex9 = new Texture2D(100, 100);
+        Texture2D tex10 = new Texture2D(100, 100);
 
-    //    trayObject.GetComponent<Tray>().Setup(tex1);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex1);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex2);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex3);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex4);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex5);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex6);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex7);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex8);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex9);
-    //    trayObject.GetComponent<Tray>().UpdateTray(tex10);
+        List<Texture2D> textures = new List<Texture2D>();
+
+        textures.Add(tex1);
+        textures.Add(tex2);
+        textures.Add(tex3);
+        textures.Add(tex4);
+        textures.Add(tex5);
+        textures.Add(tex6);
+        textures.Add(tex7);
+        textures.Add(tex8);
+        textures.Add(tex9);
+        textures.Add(tex10);
+
+        trayObject.GetComponent<Tray>().Setup(tex1);
+        trayObject.GetComponent<Tray>().UpdateTray(tex1);
+        trayObject.GetComponent<Tray>().UpdateTray(tex2);
+        trayObject.GetComponent<Tray>().UpdateTray(tex3);
+        trayObject.GetComponent<Tray>().UpdateTray(tex4);
+        trayObject.GetComponent<Tray>().UpdateTray(tex5);
+        trayObject.GetComponent<Tray>().UpdateTray(tex6);
+        trayObject.GetComponent<Tray>().UpdateTray(tex7);
+        trayObject.GetComponent<Tray>().UpdateTray(tex8);
+        trayObject.GetComponent<Tray>().UpdateTray(tex9);
+        trayObject.GetComponent<Tray>().UpdateTray(tex10);
 
 
-    //    trayObject.GetComponent<Tray>().TestScroll("up");
-    //    trayObject.GetComponent<Tray>().TestScroll("down");
+        trayObject.GetComponent<Tray>().TestScroll("up");
+        trayObject.GetComponent<Tray>().TestScroll("down");
 
-    //}
+    }
+
+    [Test]
+    public void TestHighlightTray()
+    {
+        Assert.Fail();
+    }
 }
