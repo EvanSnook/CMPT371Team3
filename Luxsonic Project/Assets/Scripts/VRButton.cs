@@ -90,7 +90,7 @@ public class VRButton : MonoBehaviour
 
                 if (this.attributes.autoPushOut)
                 {
-                    Invoke("UnpressButton", 1f);
+                    Invoke("UnpressButton", 0.6f);
                 }
             }
         }
