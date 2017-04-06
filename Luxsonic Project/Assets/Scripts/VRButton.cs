@@ -170,7 +170,7 @@ public class VRButton : MonoBehaviour
     /// </summary>
     private void DepressButton()
     {
-        gameObject.transform.localScale = new Vector3(this.defaultLocalScale.x, this.defaultLocalScale.y, 50f);
+        gameObject.transform.localScale = new Vector3(this.defaultLocalScale.x, this.defaultLocalScale.y, (this.defaultLocalScale.z/2f));
     }
 
 
