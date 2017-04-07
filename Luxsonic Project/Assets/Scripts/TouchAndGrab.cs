@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+/// <summary>
+/// This script handles all of the Oculus Touch controller code
+/// </summary>
 public class TouchAndGrab : MonoBehaviour
 {
 	// the OVR controller
