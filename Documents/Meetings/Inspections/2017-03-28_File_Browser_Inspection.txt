@@ -1,0 +1,57 @@
+Code Review
+March 28, 2017
+Atendees:
+	Janelle, Brianne, Heramb, Brady, Sylvia, Mackenzie, Ix, Jack, Evan, Kevin
+
+DICOMconverter review
+- imports are not all being used
+- severe lack of comments
+- camel case tempdir and other code refactoring (d for directory)
+- test with series DICOM files 
+
+filebrowser1.cs
+- rename to filebrowser.cs
+- capitalize DICOM instances
+- remove ln 16 and 17 (commented out code)
+- serialize variables in lines 35 through 46
+- refactor button variables 35-96
+- 99 make button limit more clear with better comment
+- remove 106-107
+- comment after 118 CreateButtons()
+- renave CreateButtons() to CreateDirectoryAndFileButtons()
+- make functions to CreateNAvigationButtons to clean up code
+- Update is deprecated and can be deleted
+- 195 "directoy"
+- 220 and 229 can be deleted
+- seperation variable should be renamed to separation
+- refactor createButtons() to call a function for less repeated code
+- need comments in LoadFiles() and LoadFilesC
+- 242 string []args should be string[] args
+- 247 LoadFilesC should be LoadFilesCoroutine() and needs comments
+- DeleteAllImagesInPath needs comments
+- 291 delete a summary close tag
+- 312 "withing"
+- 313 preconditions should include "not null" and is a valid path
+- 322 assert that the path is valid
+- 351 look into checking to see if the directory is restricted before we try to get into it
+- disable functionality while things are being loaded
+- give user a message when things are being loaded
+- 407 needs to be in a try{}catch{} block and then the assert is no longer needed
+- in ConvertAndSendImage check to see if we can just check the string for empty instead of converting it back and forth to a fileInfo
+- add to precondition in convertandsendimage that the path exists
+- 414 comment that the 10,10 is completely arbitrary
+- put 410 in a try block
+- 431 consider creating a structure for  parameters
+- CreateVRButton should have a switch statement instead of a bunch of if's
+ -532 thr
+- 548 fix precondition
+- 563 check for arguments that are out of range
+- 577 precondition
+- 593 find the root directory instead ofhardcoding it as the C drive
+- 607 - fix the function in general and add comments
+- UpdateBackButton needs an assert
+- 670 don't compare tansforms 
+
+DICOMConverter
+- needs comments
+- remove debug.log
