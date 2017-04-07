@@ -99,6 +99,19 @@ public class FileBrowser : MonoBehaviour, IVRButton
 
 
 	/// <summary>
+	/// Function GetCurrentDirectory will return the current directory
+	/// Pre:: nothing
+	/// Post:: nothing
+	/// Return:: string of directory
+	/// </summary>
+	/// <returns> string of current directory</returns>
+	public string GetCurrentDirectory()
+	{
+		return this.currentDirectory;
+	}
+
+
+	/// <summary>
 	/// Function GetListOfDirectory Paths will return the list of directory paths currently stored
 	/// in the FileBrowser
 	/// Pre:: nothing
@@ -532,7 +545,7 @@ public class FileBrowser : MonoBehaviour, IVRButton
 	/// Post:: current directory is switched to that of the previous directory
 	/// Return:: nothing
 	/// </summary>
-	void GoBack()
+	public void GoBack()
 	{
 		Assert.IsNotNull(currentDirectory);
         string[] arguments = new string[1];
