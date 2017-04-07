@@ -1,67 +1,192 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using buttons;
+using System;
+
 
 /// <summary>
 /// This class defines an interactable 3D button for use with VR
 /// A class using this button must implement the IVRButton interface
 /// </summary>
+[System.Serializable]
 public class VRButton : MonoBehaviour
 {
-    // Button name
-    public string buttonName;
-	// Button Type
-	public ButtonType type;
-    // string to store a potental path
-    public string path;
+    // holds generic information about the button
+    public ButtonAttributes attributes;
+
+    // The local rotation of the button, relative to its parent plane
+    private Vector3 defaultLocalScale;
+
     // The object that creates and contains the functionality for this button.
     public GameObject manager;
+
     // Text on button
     public TextMesh textObject;
-    // Buttons state
-    bool pressed = false;
 
-    // Use this for initialization
-    void Start()
+    // Buttons state
+    private bool pressed = false;
+
+
+    /// <summary>
+    /// Constructor for the button
+    /// </summary>
+    /// <param name="attributes">The attributes to create the button with</param>
+    public VRButton(ButtonAttributes attributes)
     {
+        this.attributes = attributes;
     }
-    // When mouve is pressed send clicked message to manager
-    void OnMouseDown()
+
+
+    /// <summary>
+    /// Initialize the button with its attributes
+    /// </summary>
+    /// <param name="attributes">The attributes to create the button with</param>
+    /// <param name="manager">The manager object that the button reports to</param>
+    public void Initialise(ButtonAttributes attributes, GameObject manager)
     {
-		if (type == ButtonType.DIRECTORY_BUTTON)
+        this.manager = manager;
+        this.attributes = attributes;
+        transform.localPosition = attributes.position;
+        gameObject.transform.GetChild(0).GetComponent<TextMesh>().text = attributes.buttonName;
+        defaultLocalScale = gameObject.transform.localScale;
+    }
+
+
+    /// <summary>
+    /// Reset the position of the button
+    /// </summary>
+    /// <post>The button's position has been reset</post>
+    public void ResetPosition()
+    {
+        transform.localPosition = attributes.position;
+        defaultLocalScale = gameObject.transform.localScale;
+    }
+
+
+    /// <summary>
+    /// Called when the button has been clicked.
+    /// </summary>
+    /// <param name="val">Whether the button can be activated yet</param>
+    public void ButtonClicked(bool val)
+    {
+        this.pressed = val;
+        if (val)
         {
-            manager.SendMessage("EnterDirectory", path);
+            if (!(String.IsNullOrEmpty(attributes.buttonFunction)))
+            {
+                if (this.attributes.buttonParameters != null)
+                {
+                    this.manager.SendMessage(attributes.buttonFunction, attributes.buttonParameters);
+                }
+                else
+                {
+                    this.manager.SendMessage(attributes.buttonFunction);
+                }
+
+                if (this.attributes.depressable)
+                {
+                    DepressButton();
+                }
+
+                if (this.attributes.autoPushOut)
+                {
+                    TimedUnpress();
+                }
+            }
         }
-		else if (type == ButtonType.FILE_BUTTON)
+    }
+
+
+    /// <summary>
+    /// GetPressed returns the value of pressed
+    /// </summary>
+    /// <returns>value of pressed</returns>
+    public bool GetPressed()
+    {
+        return this.pressed;
+    }
+
+
+    /// <summary>
+    /// Get the name of the button
+    /// </summary>
+    /// <returns>The name of the button</returns>
+    public string GetName()
+    {
+        return this.attributes.buttonName;
+    }
+
+
+    /// <summary>
+    /// Get the position of the button
+    /// </summary>
+    /// <returns>The position of the button</returns>
+    public Vector3 GetPosition()
+    {
+        return this.attributes.position;
+    }
+
+
+    /// <summary>
+    ///  Get the path associated with the button
+    /// </summary>
+    /// <returns>The path associated with the button</returns>
+    public string GetPath()
+    {
+
+        if (this.attributes.type == ButtonType.FILE_BUTTON)
         {
-            manager.SendMessage("ConvertAndSendImage", path);
+            return this.attributes.buttonParameters[0];
         }
         else
         {
-			manager.SendMessage("VRButtonClicked", type);
+            return null;
         }
     }
+
+
     /// <summary>
-    /// SetPressed sets the value of pressed to the value of val
-    /// Pre:: 
-    /// Post:: pressed is set to the value of val
-    /// Return:: nothing
+    /// Sets the path associated with the button
     /// </summary>
-    public void SetPressed(bool val)
+    /// <param name="path">The path to associate with the button</param>
+    public void SetPath(string path)
     {
-        pressed = val;
-		if (val) manager.SendMessage("VRButtonClicked", type);
+        if (path == null)
+        {
+            this.attributes.buttonParameters = null;
+        }
+        else
+        {
+            this.attributes.buttonParameters = new string[1];
+            this.attributes.buttonParameters[0] = path;
+        }
     }
+
+
     /// <summary>
-    /// GetPressed returns the value of pressed
-    /// Pre:: 
-    /// Post:: 
-    /// Return:: value of pressed
+    /// Depress the button for visual clicking effect
     /// </summary>
-    public bool GetPressed()
+    private void DepressButton()
     {
-        return pressed;
+        gameObject.transform.localScale = new Vector3(this.defaultLocalScale.x, this.defaultLocalScale.y, (this.defaultLocalScale.z/2f));
+    }
+
+
+    /// <summary>
+    /// Un-depress the button for visual clicking effect
+    /// </summary>
+    public void UnpressButton()
+    {
+        gameObject.transform.localScale = this.defaultLocalScale;
+    }
+
+
+    /// <summary>
+    /// Unpress the button after 0.5 seconds
+    /// </summary>
+    public void TimedUnpress()
+    {
+        Invoke("UnpressButton", 0.5f);
     }
 }

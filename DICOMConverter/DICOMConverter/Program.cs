@@ -16,30 +16,48 @@ namespace DICOMConverter
         static void Main(string[] args)
         {
 
-            if (args.Length > 0)
+            if (args.Length == 3)
             {
-                var path = args[0];
+                var mode = args[0];
+                var target = args[1];
+                var destinationPath = args[2] + @"\";
 
-                DirectoryInfo d = new DirectoryInfo(path);
+                var tempdir = Directory.CreateDirectory(destinationPath);
+                tempdir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
 
-                var targetPath = path + @"\temp\";
-                Directory.CreateDirectory(targetPath);
+                if (mode.CompareTo("d") == 0)
+                {
+                    DirectoryInfo d = new DirectoryInfo(target);
 
-                foreach (FileInfo file in d.EnumerateFiles())
+                    foreach (FileInfo file in d.EnumerateFiles())
+                    {
+                        try
+                        {
+                            Dicom.DicomFile obj = Dicom.DicomFile.Open(file.FullName);
+                            var image = new DicomImage(obj.Dataset);
+                            image.RenderImage().AsBitmap().Save(destinationPath + @"\" + file.Name + ".jpg");
+                        }
+                        catch (DicomDataException e)
+                        {
+
+                        }
+                    }
+                }
+                else if (mode.CompareTo("f") == 0)
                 {
                     try
                     {
-                        Debug.Print(file.Name);
+                        FileInfo file = new FileInfo(target);
                         Dicom.DicomFile obj = Dicom.DicomFile.Open(file.FullName);
-                        var PatientName = obj.Dataset.Get<string>(Dicom.DicomTag.PatientName, null);
                         var image = new DicomImage(obj.Dataset);
-                        image.RenderImage().AsBitmap().Save(targetPath + file.Name + ".jpg");
+                        image.RenderImage().AsBitmap().Save(destinationPath + @"\" + file.Name + ".jpg");
                     }
                     catch (DicomDataException e)
                     {
 
                     }
                 }
+
             }
         }
     }

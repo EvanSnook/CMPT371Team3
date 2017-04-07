@@ -9,3 +9,18 @@ c:\users\ixaba\documents\visual studio 2015\Projects\DICOMConverter\DICOMConvert
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe.config
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.exe
 E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.pdb
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Native64.dll
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.pdb
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.dll
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.pdb
+E:\Git Projects\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.csprojResolveAssemblyReference.cache
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe.config
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.exe
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Native64.dll
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.exe
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\DICOMConverter.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.dll
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\bin\x64\Debug\Dicom.Core.pdb
+\\cabinet\work$\mkp003\cmpt\cswin\Desktop\GitHub\CMPT371Team3\DICOMConverter\DICOMConverter\obj\x64\Debug\DICOMConverter.csprojResolveAssemblyReference.cache

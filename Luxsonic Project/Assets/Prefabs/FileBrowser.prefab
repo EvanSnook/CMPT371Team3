@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1498928327668370}
+  m_IsPrefabParent: 1
+--- !u!1 &1498928327668370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4481355533798404}
+  - component: {fileID: 114180715286171086}
+  - component: {fileID: 114427719745089330}
+  m_Layer: 0
+  m_Name: FileBrowser
+  m_TagString: FileBrowser
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4481355533798404
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498928327668370}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114180715286171086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498928327668370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d530cffb673cf7649a1f55e70ac80f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonList:
+  - buttonName: Back
+    type: 0
+    position: {x: -0.2, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: GoBack
+    buttonParameters: []
+  - buttonName: Cancel
+    type: 0
+    position: {x: -0.2, y: 0.1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 0
+    autoPushOut: 0
+    buttonFunction: DisableFileBrowser
+    buttonParameters: []
+  - buttonName: Dir Up
+    type: 0
+    position: {x: -0.2, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollUp
+    buttonParameters:
+    - directories
+  - buttonName: Dir Down
+    type: 0
+    position: {x: -0.2, y: -0.3, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollDown
+    buttonParameters:
+    - directories
+  - buttonName: File Up
+    type: 0
+    position: {x: 0.4, y: -0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollUp
+    buttonParameters:
+    - files
+  - buttonName: File Down
+    type: 0
+    position: {x: 0.4, y: -0.3, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: ScrollDown
+    buttonParameters:
+    - files
+  - buttonName: Load Directory
+    type: 0
+    position: {x: -0.2, y: 0.2, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    depressable: 1
+    autoPushOut: 1
+    buttonFunction: LoadCurrentDirectory
+    buttonParameters: []
+  VRFileButtonPrefab: {fileID: 1302595486946174, guid: 5b97f935ce2e36b468d93bc3fb01ee6a,
+    type: 2}
+  VRDirectoryButtonPrefab: {fileID: 1242962608197158, guid: 0a6f9071f3d9f534193d44e72743ab95,
+    type: 2}
+  VROtherButtonPrefab: {fileID: 1511015417420994, guid: b814fbffc6fe28b45b06afadc320065c,
+    type: 2}
+  filePosition: {x: 0.15, y: 0.2, z: 0.02}
+  fileRotation: {x: 0, y: 0, z: 0}
+  directoryPosition: {x: -0.03, y: 0.2, z: 0.02}
+  directoryRotation: {x: 0, y: 0, z: 0}
+  seperationBetweenButtonsY: 0.2
+  buttonLimit: 5
+--- !u!114 &114427719745089330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498928327668370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55dfe0794761d9c4798d054798160fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
