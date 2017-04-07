@@ -100,7 +100,6 @@ public class VRButton : MonoBehaviour
 
     /// <summary>
     /// GetPressed returns the value of pressed
-    //
     /// </summary>
     /// <returns>value of pressed</returns>
     public bool GetPressed()
