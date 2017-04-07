@@ -172,12 +172,9 @@ public class Display : MonoBehaviour, IVRButton
     /// <summary>
     /// Display the scrolling buttons for the tray
     /// </summary>
-    /// <pre>The current number of images in the tray is equal to the max</pre>
     /// <post>The buttons to allow the user to scroll through the tray are displayed</post>
     void ToggleScrollButtons()
     {
-        Assert.IsTrue(this.images.Count >= (this.tray.trayNumColumns * this.tray.trayNumRows), 
-            "The current number of images in the tray is not greater than or equal to the max.");
         foreach (GameObject button in buttonObjects)
         {
             string name = button.GetComponent<VRButton>().GetName();

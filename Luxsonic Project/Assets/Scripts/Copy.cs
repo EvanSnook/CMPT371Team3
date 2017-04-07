@@ -430,7 +430,7 @@ public class Copy : MonoBehaviour
 		this.curMaterial.SetFloat("_ContrastAmount", this.defaultContrast);
 		this.curMaterial.SetFloat("_SaturationAmount", this.defaultSaturation);
 		this.transform.localScale = this.defaultSize;
-		this.invert = false;
+		this.invert = true;
 		this.Invert ();
 
         Assert.AreEqual(this.curMaterial.GetFloat("_BrightnessAmount"), this.defaultBrightness, "The brightness was not reset to the correct value.");
