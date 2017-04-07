@@ -349,7 +349,7 @@ public class DashboardTests
 
 
     [Test]
-   // [Ignore("Send Message is having trouble here")]
+   [Ignore("Send message does not work in editor mode")]
     public void TestSelectAllCopies()
     {
         GameObject dashObj = new GameObject();
@@ -393,44 +393,44 @@ public class DashboardTests
     }
 
     [Test]
-    
+    [Ignore("Send message does not work in editor mode")]
     public void TestDeselectAllCopies()
     {
-        GameObject dashObj = new GameObject();
-        dashObj.AddComponent<Dashboard>();
-        Dashboard dash = dashObj.GetComponent<Dashboard>();
+            GameObject dashObj = new GameObject();
+            dashObj.AddComponent<Dashboard>();
+            Dashboard dash = dashObj.GetComponent<Dashboard>();
 
-        GameObject buttonObj = new GameObject();
-        buttonObj.AddComponent<VRButton>();
+            GameObject buttonObj = new GameObject();
+            buttonObj.AddComponent<VRButton>();
 
-        GameObject textObj = new GameObject();
-        textObj.AddComponent<TextMesh>();
-        textObj.transform.SetParent(buttonObj.transform);
+            GameObject textObj = new GameObject();
+            textObj.AddComponent<TextMesh>();
+            textObj.transform.SetParent(buttonObj.transform);
 
-        dash.planePrefab = new GameObject();
-        dash.buttonPrefab = buttonObj;
-        dash.currentCopies = new List<GameObject>();
+            dash.planePrefab = new GameObject();
+            dash.buttonPrefab = buttonObj;
+            dash.currentCopies = new List<GameObject>();
 
-        GameObject copyObj = new GameObject();
-        copyObj.AddComponent<Copy>();
-        Copy cop = copyObj.GetComponent<Copy>();
-        cop.SetDashboard(dashObj);
-        List<GameObject> copies = new List<GameObject>();
-        copies.Add(copyObj);
+            GameObject copyObj = new GameObject();
+            copyObj.AddComponent<Copy>();
+            Copy cop = copyObj.GetComponent<Copy>();
+            cop.SetDashboard(dashObj);
+            List<GameObject> copies = new List<GameObject>();
+            copies.Add(copyObj);
 
-        GameObject copyOutline = new GameObject();
-        copyOutline.transform.SetParent(copyObj.transform);
+            GameObject copyOutline = new GameObject();
+            copyOutline.transform.SetParent(copyObj.transform);
 
-        GameObject displayObj = new GameObject();
-        displayObj.AddComponent<Display>();
-        Display disp = displayObj.GetComponent<Display>();
-        disp.SetCopies(copies);
+            GameObject displayObj = new GameObject();
+            displayObj.AddComponent<Display>();
+            Display disp = displayObj.GetComponent<Display>();
+            disp.SetCopies(copies);
 
-        dash.display = disp;
+            dash.display = disp;
 
-        dash.SelectAllCopies();
-        dash.DeselectAllCopies();
-        Assert.AreEqual(0, dash.currentCopies.Count);
+            dash.SelectAllCopies();
+            dash.DeselectAllCopies();
+            Assert.AreEqual(0, dash.currentCopies.Count);
     }
 
     

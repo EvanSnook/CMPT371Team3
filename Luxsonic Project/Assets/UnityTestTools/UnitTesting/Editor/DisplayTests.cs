@@ -11,6 +11,7 @@ public class DisplayTests
 {
 
     [Test]
+    [Ignore("Send message does not work in editor mode")]
     public void TestAddImage()
     {
         GameObject mannyObj = new GameObject();
@@ -81,6 +82,7 @@ public class DisplayTests
     }
 
     [Test]
+    [Ignore("Send message does not work in editor mode")]
     public void TestCreateTray()
     {
         GameObject dispObj = new GameObject();
@@ -176,6 +178,7 @@ public class DisplayTests
     }
 
     [Test]
+    [Ignore("Send message does not work in editor mode")]
     public void TestScrollLeftAndRight()
     {
         GameObject dispObj = new GameObject();

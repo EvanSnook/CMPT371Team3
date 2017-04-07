@@ -10,7 +10,6 @@ using System;
 /// The Tray class represents a tray of thumbnails in the workspace that is used to
 /// keep track of all loaded images
 /// </summary>
-[ExecuteInEditMode]
 public class Tray : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated
@@ -209,7 +208,7 @@ public class Tray : MonoBehaviour, IVRButton
     /// and the given image will be added to the tray</post>
 	public void Setup(Texture2D image)
 	{
-        Assert.IsNotNull(image);
+        Assert.IsNotNull(image, "The given image was null.");
 		this.currentTrayX = this.trayStartX;
 		this.currentTrayZ = this.trayStartZ;
 
@@ -406,7 +405,7 @@ public class Tray : MonoBehaviour, IVRButton
     /// <post>The given object has been deleted from the scene</post>
 	private void SafeDelete(GameObject obj)
 	{
-        Assert.IsNotNull(obj);
+        Assert.IsNotNull(obj, "The object to delete was null.");
 		if (Application.isEditor)
 		{
 			DestroyImmediate(obj);
@@ -469,11 +468,11 @@ public class Tray : MonoBehaviour, IVRButton
 			Assert.IsTrue(true, "Invalid parameter to TestScroll()");
 		}
 
-		Assert.IsNotNull(this.lastPosition);
-		Assert.IsNotNull(this.firstPosition);
-		Assert.AreNotEqual(originalLast, this.lastPosition);
-		Assert.AreNotEqual(originalFirst, this.firstPosition);
-		Assert.AreEqual(originalThumbnailCount, this.thumbnails.Count);
+		Assert.IsNotNull(this.lastPosition, "The last tray position was null.");
+		Assert.IsNotNull(this.firstPosition, "The first tray position was null.");
+		Assert.AreNotEqual(originalLast, this.lastPosition, "The original last position is the same as the new last position.");
+		Assert.AreNotEqual(originalFirst, this.firstPosition, "The original first position is the same as the new first position.");
+		Assert.AreEqual(originalThumbnailCount, this.thumbnails.Count, "We lost some thumbnails.");
 	}
 
     /// <summary>

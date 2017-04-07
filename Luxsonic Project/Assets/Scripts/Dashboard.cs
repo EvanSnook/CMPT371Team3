@@ -10,7 +10,6 @@ using buttons;
 /// A script to control the Workspace Manager menu system. 
 /// This script creates and defines the funcionality for the menu buttons.
 /// </summary>
-[ExecuteInEditMode]
 public class Dashboard : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated
@@ -93,8 +92,8 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <returns>Newly created button GameObject</returns>
     public GameObject CreateButton(ButtonAttributes attributes, GameObject buttonPrefab)
     {
-        Assert.IsNotNull(attributes);
-        Assert.IsNotNull(buttonPrefab);
+        Assert.IsNotNull(attributes, "The attributes passed to the button are null.");
+        Assert.IsNotNull(buttonPrefab, "The button prefab is null.");
 
         GameObject newButton;
 
@@ -104,7 +103,7 @@ public class Dashboard : MonoBehaviour, IVRButton
         newButton.GetComponent<VRButton>().Initialise(attributes, this.gameObject);
         newButton.name = attributes.buttonName;
 
-        Assert.IsNotNull(newButton);
+        Assert.IsNotNull(newButton, "The new button was not created successfully.");
 
         return newButton;
     }
@@ -118,7 +117,7 @@ public class Dashboard : MonoBehaviour, IVRButton
 	public void DisplayMenu()
 	{
 
-        Assert.IsNotNull(planePrefab);
+        Assert.IsNotNull(planePrefab, "The plane prefab is null.");
 
 		this.menuPlane = Instantiate(planePrefab, this.menuPlanePosition, Quaternion.Euler(this.menuPlaneRotation));
 		this.menuPlane.transform.parent = this.gameObject.transform;
@@ -151,8 +150,8 @@ public class Dashboard : MonoBehaviour, IVRButton
             buttonObjects.Add(newButton);
         }
 
-        Assert.IsNotNull(this.buttonObjects);
-        Assert.IsTrue(this.buttonObjects.Count > 0);
+        Assert.IsNotNull(this.buttonObjects, "The button objects are null.");
+        Assert.IsTrue(this.buttonObjects.Count > 0, "The button objects list is empty.");
 	}
 	
 
@@ -162,7 +161,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <param name="arguments">A string array containing the new option and the button name</param>
     private void UpdateCopyOptions(string[] arguments)
 	{
-        Assert.IsTrue(arguments.Length >= 2);
+        Assert.IsTrue(arguments.Length >= 2, "There are not enough arguments to update the copy options.");
 
         string newOption = arguments[0];
         string buttonName = arguments[1];
@@ -197,7 +196,7 @@ public class Dashboard : MonoBehaviour, IVRButton
             this.currentCopies.Remove(copy);
         }
         pendingDeletion.Clear();
-        Assert.IsTrue(this.pendingDeletion.Count == 0);
+        Assert.IsTrue(this.pendingDeletion.Count == 0, "The pending deletion list was not properly cleared.");
     }
 
 
@@ -208,10 +207,10 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <post>The given object has been deleted</post>
     private void DeleteCopy(GameObject target)
     {
-        Assert.IsNotNull(target);
+        Assert.IsNotNull(target, "The object to delete was null.");
         this.display.RemoveCopy(target);
         this.pendingDeletion.Add(target);
-        Assert.IsTrue(this.pendingDeletion.Contains(target));
+        Assert.IsTrue(this.pendingDeletion.Contains(target), "The object to delete was not added to the pending deletion list.");
     }
 
 
@@ -241,7 +240,7 @@ public class Dashboard : MonoBehaviour, IVRButton
     /// <param name="copy"></param>
 	public void CopySelected(GameObject copy)
 	{
-        Assert.IsNotNull(copy);
+        Assert.IsNotNull(copy, "The copy selected was null.");
         
         if (copy.GetComponent<Copy>().isCurrentImage)
         {

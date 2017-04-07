@@ -13,7 +13,6 @@ using buttons;
 /// It contains functions to add textures to the texture list, and create Copies.
 /// This class also displays an 'image tray' of images to select from.
 /// </summary>
-[ExecuteInEditMode]
 public class Display : MonoBehaviour, IVRButton
 {
     // Holds the attributes for each button to be instantiated
@@ -177,7 +176,8 @@ public class Display : MonoBehaviour, IVRButton
     /// <post>The buttons to allow the user to scroll through the tray are displayed</post>
     void ToggleScrollButtons()
     {
-        Assert.IsTrue(this.images.Count >= (this.tray.trayNumColumns * this.tray.trayNumRows));
+        Assert.IsTrue(this.images.Count >= (this.tray.trayNumColumns * this.tray.trayNumRows), 
+            "The current number of images in the tray is not greater than or equal to the max.");
         foreach (GameObject button in buttonObjects)
         {
             string name = button.GetComponent<VRButton>().GetName();
@@ -225,8 +225,8 @@ public class Display : MonoBehaviour, IVRButton
 			}
 		}
 
-        Assert.IsNotNull(this.tray);
-        Assert.IsTrue(this.tray.GetImages().Contains(image));
+        Assert.IsNotNull(this.tray, "The tray is null.");
+        Assert.IsTrue(this.tray.GetImages().Contains(image), "The tray does not contain the new image.");
 	}
 
 
@@ -389,11 +389,11 @@ public class Display : MonoBehaviour, IVRButton
 		{
 			GameObject currentElement = this.displayImages.First.Value;
 			this.ScrollLeft();
-			Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
-			Assert.AreEqual(this.displayImages.Last.Value, currentElement);
+			Assert.AreNotEqual(this.displayImages.First.Value, currentElement, "The first image of the display is equal to the current element.");
+			Assert.AreEqual(this.displayImages.Last.Value, currentElement, "The last image of the display is not equal to the current element.");
 		}
 
-		Assert.AreEqual(firstElement, this.displayImages.First.Value);
+		Assert.AreEqual(firstElement, this.displayImages.First.Value, "The first element is not equal to the first element of the display.");
 
 		firstElement = this.displayImages.First.Value;
 
@@ -402,8 +402,8 @@ public class Display : MonoBehaviour, IVRButton
 		{
 			GameObject currentElement = this.displayImages.First.Value;
 			this.ScrollRight();
-			Assert.AreNotEqual(this.displayImages.First.Value, currentElement);
-			Assert.AreEqual(this.displayImages.First.Next.Value, currentElement);
+			Assert.AreNotEqual(this.displayImages.First.Value, currentElement, "The first value of displayImages is the current element.");
+			Assert.AreEqual(this.displayImages.First.Next.Value, currentElement, "The next value in the list is not the current element.");
 		}
 
 
