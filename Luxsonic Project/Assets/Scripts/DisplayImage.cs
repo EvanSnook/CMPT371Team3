@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class holds the texture of a 2D image
+/// </summary>
 public class DisplayImage : MonoBehaviour {
 
 	public Texture2D image;

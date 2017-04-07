@@ -720,12 +720,4 @@ public class FileBrowser : MonoBehaviour, IVRButton
 		}
 	}
 
-
-	private bool FloatLessThan(float a, float b)
-	{
-		UnityEngine.Debug.Log("Compare: " + ((double)b - (double)a));
-		//double eps = 0.00001;
-		return (((double)b - (double)a) < 0.00001d);
-	}
-
 }

@@ -528,6 +528,13 @@ public class Copy : MonoBehaviour
 		return pressed;
 	}
 
+    /// <summary>
+    /// SetDashboard sets the current dashboard to the parameter
+    /// Pre:: dashboard exists
+    /// Post:: dashboard = dashboard parameter
+    /// Return:: void
+    /// </summary>
+    /// <param name="dashboard"></param>
     public void SetDashboard(GameObject dashboard)
     {
         this.dashboard = dashboard;
