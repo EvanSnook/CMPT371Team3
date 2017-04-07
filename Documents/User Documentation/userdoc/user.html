@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/user.css" type='text/css'>
+    <!-- FOnts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300|Ubuntu+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
+    
+</head>
+<body>
+    <div id="page-wrap">
+
+        <header class="header-content user-header-bg text-center">
+            <h1 class="header-content-title">USER</h1>
+            <p class="header-content-subtitle">VR Handling, Health and Safety, Instructions, and Controls.</p>
+            <p> <i>*All of the following images, animations and videos have been produced by team 3 of Dr.Osgood's CMPT 371 class</i></p>
+        </header>
+        <section class="container-fluid" id="VRHS">
+            <div id="handling">
+                <h2>VR Handling and Health & Safety</h2>
+                <p>The Oculus Rift takes control over both your visual and audio senses. This may
+                result in multiple health risks and issues. It is important to take care of yourself
+                and always be aware of your surroundings to avoid any potential injuries.</p>
+                <p>The Oculus Rift is also a very expensive piece of equipment which can easily be damaged
+                if misused. It is important to go through the documentation and make sure you take care of your 
+                Rift to ensure its longevity. The two following links contain detailed documentation
+                regarding the health risks associated with the Oculus as well as maintenance and handling instructions.</p>
+                <ul>
+                    <li><a href="Health_Risk_Report.pdf" class="user-link">Health & Safety</a></li>
+                    <li><a href="https://support.oculus.com/help/oculus/483957785140290/" class="user-link">Oculus Handling & Care</a></li>
+                </ul>
+            </div>
+        </section>
+        <div>
+            <img src="images/header.gif" class="user-img">
+        </div>
+        <div class="container-fluid user-border-black" id="VRHS">
+            <div id="handling">
+                <h2>Controls</h2>
+                <p>The Oculus Rift uses touch controllers to interact with the application. 
+                In addition to basic buttons similar to any other controller, the touch cotrollers 
+                allow for different motions and gestures. Outlined below are the different buttons on the touch 
+                controllers, as well as the two motions/gestures used within the application.<br><br>These
+                gestures are used to interact with the interface and copies in the workspace.</p>
+            </div>
+        </div>
+        <div>
+            <img src="images/control.gif" class="user-img">
+        </div>
+        <div id="handling" class="container-fluid user-border-white bg-1" id="VRHS">
+            <h2>Dashboard</h2>
+            <p>The dashboard contains buttons that allow the user to load images, quit the application,
+            minimize the dashboard, scroll through the display, create copies, and manipulate copies. All of
+            the buttons are interacted with using the Point guesture.
+            <br><br>
+            The left panel contains the main system options: load, quit, and minimize. 
+            Load allows the user to navigate through their file system in order to load DICOM 
+            files for viewing and manipulating. The user may load one file or a directory of files.
+            The user can also quit the application by choosing the quit option. Lastly, the minimize button 
+            will remove the dashboard from the user's view. If the minimize button is clicked, it will become 
+            a maximize button, allowing the user to reveal the buttons once again.
+            <br><br>
+            The right panel is the tray. The tray contains all images loaded into the workspace. The user can 
+            use the Point gesture to select a file. Once they do, a copy will be created and placed into the workspace.
+            The copy can be manipulated for easier viewing. 
+            </p>
+        </div>
+        
+        <div>
+            <img src="images/panel.png" class="user-img">
+            <img src="images/tray.gif" class="user-img">
+        </div>
+        <div id="handling" class="container-fluid user-border-white bg-1" id="VRHS">
+            <h2>Manipulating Images</h2>
+            To manipulate a copy, the user must select the copy or copies of choice with the Point gesture. Once
+            the user does so, the copy is highlighted with a blue border indicating that the copy is currently
+            selected. The user can then press a button using the Point gesture and adjust values using the 
+            right stick.
+            <br><br>
+            If the user would like to adjust all copies at once, the user can either
+            select all copies with the Point gesture to select individually or by clicking the 
+            select all button. There is also an option to deselect all.
+            <br><br>
+            If the user is unhappy with the adjustments, they can either select the copy and click restore
+            or even close the copy using the restore or close buttons.
+            </p>
+            <video width="640" height="480" controls loop>
+              <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+            </video>
+        </div>
+        <div>
+            <img src="images/buttons.gif" class="user-img">
+        </div>
+    </div>
+</body>
+</html>
